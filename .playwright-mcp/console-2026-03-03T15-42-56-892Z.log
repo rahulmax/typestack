@@ -1,0 +1,45 @@
+[   14841ms] [ERROR] In HTML, %s cannot be a descendant of <%s>.
+This will cause a hydration error.%s <button> button 
+
+  ...
+    <ErrorBoundary errorComponent={undefined} errorStyles={undefined} errorScripts={undefined}>
+      <LoadingBoundary name="stacks/" loading={null}>
+        <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
+          <RedirectBoundary>
+            <RedirectErrorBoundary router={{...}}>
+              <InnerLayoutRouter url="/stacks" tree={[...]} params={{}} cacheNode={{rsc:<Fragment>, ...}} ...>
+                <SegmentViewNode type="page" pagePath="/typestack...">
+                  <SegmentTrieNode>
+                  <ClientPageRoot Component={function StacksPage} serverProvidedParams={{...}}>
+                    <StacksPage params={Promise} searchParams={Promise}>
+                      <div className="min-h-scre...">
+                        <header>
+                        <div className="mx-auto ma...">
+                          <div>
+                          <div className="grid grid-...">
+                            <StackCard stack={{id:"preset...", ...}} onSelect={function handleSelect} ...>
+>                             <button
+>                               type="button"
+>                               onClick={function onClick}
+>                               className="group relative flex flex-col overflow-hidden rounded-xl border text-left sh..."
+>                             >
+                                <div>
+                                <div className="flex items...">
+                                  <div>
+                                  <div className="flex items...">
+                                    <Button variant="ghost" size="sm" className="h-7 w-7 p-0" onClick={function onClick}>
+>                                     <button
+>                                       data-slot="button"
+>                                       data-variant="ghost"
+>                                       data-size="sm"
+>                                       className={"inline-flex shrink-0 items-center justify-center text-sm font-med..."}
+>                                       onClick={function onClick}
+>                                     >
+                                    ...
+                                ...
+                            ...
+                ...
+              ...
+ @ http://localhost:3001/_next/static/chunks/85266_next_dist_bd8a26ec._.js:3127
+[   14850ms] [ERROR] <%s> cannot contain a nested %s.
+See this log for the ancestor stack trace. button <button> @ http://localhost:3001/_next/static/chunks/85266_next_dist_bd8a26ec._.js:3127

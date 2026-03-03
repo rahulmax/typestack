@@ -1,0 +1,77 @@
+[    5315ms] [ERROR] The result of getServerSnapshot should be cached to avoid an infinite loop @ http://localhost:3001/_next/static/chunks/85266_next_dist_bd8a26ec._.js:3127
+[   20815ms] [ERROR] Maximum update depth exceeded. This can happen when a component calls setState inside useEffect, but useEffect either doesn't have a dependency array, or one of the dependencies changes on every render. @ http://localhost:3001/_next/static/chunks/85266_next_dist_bd8a26ec._.js:3127
+[   25206ms] Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.
+    at getRootForUpdatedFiber (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:2997:171)
+    at enqueueConcurrentRenderForLane (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:2985:16)
+    at forceStoreRerender (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:5041:20)
+    at updateStoreInstance (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:5023:41)
+    at Object.react_stack_bottom_frame (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:14876:22)
+    at runWithFiberInDEV (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:965:74)
+    at commitHookEffectListMount (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:7266:167)
+    at commitHookPassiveMountEffects (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:7301:60)
+    at commitPassiveMountOnFiber (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8696:33)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8683:316)
+    at commitPassiveMountOnFiber (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8757:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8683:316)
+    at commitPassiveMountOnFiber (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8757:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8683:316)
+    at commitPassiveMountOnFiber (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8695:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8683:316)
+    at commitPassiveMountOnFiber (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8757:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8683:316)
+    at commitPassiveMountOnFiber (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8757:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8683:316)
+    at commitPassiveMountOnFiber (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8695:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8683:316)
+    at commitPassiveMountOnFiber (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8695:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8683:316)
+    at commitPassiveMountOnFiber (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8695:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8683:316)
+    at commitPassiveMountOnFiber (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8695:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8683:316)
+    at commitPassiveMountOnFiber (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8757:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8683:316)
+    at commitPassiveMountOnFiber (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8757:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8683:316)
+    at commitPassiveMountOnFiber (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8695:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8683:316)
+    at commitPassiveMountOnFiber (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8700:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8683:316)
+    at commitPassiveMountOnFiber (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8695:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8683:316)
+    at commitPassiveMountOnFiber (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8700:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8683:316)
+    at commitPassiveMountOnFiber (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8695:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8683:316)
+    at commitPassiveMountOnFiber (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8695:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8683:316)
+    at commitPassiveMountOnFiber (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8695:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8683:316)
+    at commitPassiveMountOnFiber (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8700:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8683:316)
+    at commitPassiveMountOnFiber (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8695:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3001/_next/static/chunks/85266_next_dist_compiled_react-dom_8869eee0._.js:8683:316)
+[   26944ms] [WARNING] [Fast Refresh] performing full reload because your application had an unrecoverable error @ http://localhost:3001/_next/static/chunks/85266_next_dist_bd8a26ec._.js:2297
+[   27850ms] [ERROR] ./typestack/src/components/stacks/stack-card.tsx:112:7
+Parsing ecmascript source code failed
+  110 |         </div>
+  111 |       )}
+> 112 |     </button>
+      |       ^^^^^^
+  113 |   );
+  114 | }
+  115 |
+
+Expected corresponding JSX closing tag for <div>
+
+Import traces:
+  Client Component Browser:
+    ./typestack/src/components/stacks/stack-card.tsx [Client Component Browser]
+    ./typestack/src/app/stacks/page.tsx [Client Component Browser]
+    ./typestack/src/app/stacks/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./typestack/src/components/stacks/stack-card.tsx [Client Component SSR]
+    ./typestack/src/app/stacks/page.tsx [Client Component SSR]
+    ./typestack/src/app/stacks/page.tsx [Server Component] @ http://localhost:3001/_next/static/chunks/85266_next_dist_bd8a26ec._.js:3127
+[   30495ms] [ERROR] The result of getServerSnapshot should be cached to avoid an infinite loop @ http://localhost:3001/_next/static/chunks/85266_next_dist_bd8a26ec._.js:3127
