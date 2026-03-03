@@ -7,10 +7,84 @@ export const websiteTemplate: PreviewTemplate = {
   id: "website",
   name: "Website",
   html: `
+<style>
+  @media (max-width: 768px) {
+    nav, section, footer {
+      padding-left: 1rem !important;
+      padding-right: 1rem !important;
+    }
+    #hero {
+      grid-template-columns: 1fr !important;
+      padding-top: 2.5rem !important;
+      padding-bottom: 3rem !important;
+    }
+    #ill-hero {
+      min-height: 220px !important;
+    }
+    #features-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+    #split-1, #split-2 {
+      grid-template-columns: 1fr !important;
+      gap: 2rem !important;
+    }
+    #split-1 > :first-child {
+      order: 2 !important;
+    }
+    #stats-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+    #hiw-grid {
+      grid-template-columns: 1fr !important;
+    }
+    footer > div:first-child {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+    }
+  }
+  @media (max-width: 480px) {
+    #nav-links small:not(:last-child) {
+      display: none !important;
+    }
+    #nav-links {
+      gap: 0.75rem !important;
+    }
+    #ill-hero {
+      min-height: 160px !important;
+    }
+    #features-grid {
+      grid-template-columns: 1fr !important;
+      gap: 1rem !important;
+    }
+    #stats-grid {
+      grid-template-columns: 1fr !important;
+      gap: 1.5rem !important;
+    }
+    #split-1, #split-2 {
+      gap: 1.5rem !important;
+      padding-bottom: 3rem !important;
+    }
+    #hiw-grid {
+      gap: 1.5rem !important;
+    }
+    nav, section, footer {
+      padding-left: 0.75rem !important;
+      padding-right: 0.75rem !important;
+    }
+    footer > div:first-child {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+    }
+    footer > div:last-child {
+      flex-direction: column !important;
+    }
+  }
+</style>
+
 <!-- NAV -->
 <nav style="max-width: 960px; margin: 0 auto; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
   <h6 style="margin: 0; letter-spacing: -0.02em;">TypeStack</h6>
-  <div style="display: flex; gap: 2rem; align-items: center;">
+  <div id="nav-links" style="display: flex; gap: 2rem; align-items: center;">
     <small style="opacity: 0.7; cursor: pointer;">Features</small>
     <small style="opacity: 0.7; cursor: pointer;">Pricing</small>
     <small style="opacity: 0.7; cursor: pointer;">Docs</small>
@@ -19,18 +93,19 @@ export const websiteTemplate: PreviewTemplate = {
 </nav>
 
 <!-- HERO -->
-<section style="max-width: 960px; margin: 0 auto; padding: 4rem 1.5rem 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
+<section id="hero" style="max-width: 960px; margin: 0 auto; padding: 4rem 1.5rem 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
   <div>
-    <h1 style="margin: 0 0 1rem; line-height: 1.1; letter-spacing: -0.02em;">Build beautiful typography for every screen</h1>
-    <p style="margin: 0 0 2rem; opacity: 0.7; max-width: 440px;">Create harmonious type scales with granular control over every element. Preview your choices in real-world layouts and export production-ready code.</p>
+    <small style="opacity: 0.4; text-transform: uppercase; letter-spacing: 0.1em; display: block; margin-bottom: 1rem;">Typography toolkit for modern teams</small>
+    <h2 style="margin: 0 0 1.25rem; line-height: 1.15; letter-spacing: -0.02em;">Your type system, from first sketch to shipped code</h2>
+    <p style="margin: 0 0 2rem; opacity: 0.65; max-width: 440px;">Create harmonious type scales, preview them in real layouts, and export production-ready CSS &mdash; all in one place.</p>
     <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
       <div style="display: inline-block; padding: 0.65em 1.75em; background: currentColor; border-radius: 8px; cursor: pointer;">
-        <small style="color: var(--bg-color, #fff); font-weight: 600; mix-blend-mode: difference;">Get started free</small>
+        <small style="color: var(--bg-color, #fff); font-weight: 600;">Get started free</small>
       </div>
       <small style="opacity: 0.5;">No account required</small>
     </div>
   </div>
-  <div class="ill" id="ill-hero" style="display: flex; align-items: center; justify-content: center; min-height: 280px;"></div>
+  <div class="ill" id="ill-hero" style="display: flex; align-items: center; justify-content: center; min-height: 320px;"></div>
 </section>
 
 <!-- LOGOS / TRUST BAR -->
@@ -51,7 +126,7 @@ export const websiteTemplate: PreviewTemplate = {
     <h2 style="margin: 0 0 0.75rem;">Everything you need</h2>
     <p style="opacity: 0.6; max-width: 520px; margin: 0 auto;">A complete toolkit for typographic precision, from choosing scales to exporting production-ready tokens.</p>
   </div>
-  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
+  <div id="features-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
     <div style="border: ${border}; border-radius: 12px; padding: 1.75rem;">
       <div style="width: 40px; height: 40px; border-radius: 10px; background: color-mix(in srgb, currentColor 8%, transparent); margin-bottom: 1rem; display: flex; align-items: center; justify-content: center;">
         <small style="font-weight: 700; opacity: 0.6;">Aa</small>
@@ -98,7 +173,7 @@ export const websiteTemplate: PreviewTemplate = {
 </section>
 
 <!-- SPLIT SECTION: ILLUSTRATION LEFT, TEXT RIGHT -->
-<section style="max-width: 960px; margin: 0 auto; padding: 0 1.5rem 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
+<section id="split-1" style="max-width: 960px; margin: 0 auto; padding: 0 1.5rem 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
   <div class="ill" id="ill-split-1" style="display: flex; align-items: center; justify-content: center; min-height: 240px; border: ${borderLight}; border-radius: 16px; padding: 2rem; background: color-mix(in srgb, currentColor 3%, transparent);"></div>
   <div>
     <small style="opacity: 0.4; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.75rem; display: block;">Precision</small>
@@ -122,7 +197,7 @@ export const websiteTemplate: PreviewTemplate = {
 </section>
 
 <!-- SPLIT SECTION: TEXT LEFT, ILLUSTRATION RIGHT -->
-<section style="max-width: 960px; margin: 0 auto; padding: 0 1.5rem 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
+<section id="split-2" style="max-width: 960px; margin: 0 auto; padding: 0 1.5rem 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
   <div>
     <small style="opacity: 0.4; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.75rem; display: block;">Responsive</small>
     <h3 style="margin: 0 0 1rem; line-height: 1.2;">Mobile-first responsive scales</h3>
@@ -144,7 +219,7 @@ export const websiteTemplate: PreviewTemplate = {
 
 <!-- STATS ROW -->
 <section style="max-width: 960px; margin: 0 auto; padding: 3rem 1.5rem 4rem; border-top: ${borderLight}; border-bottom: ${borderLight};">
-  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center;">
+  <div id="stats-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center;">
     <div>
       <h2 style="margin: 0 0 0.25rem;">50+</h2>
       <small style="opacity: 0.5;">Scale Ratios</small>
@@ -181,7 +256,7 @@ export const websiteTemplate: PreviewTemplate = {
     <h2 style="margin: 0 0 0.75rem;">How it works</h2>
     <p style="opacity: 0.6; max-width: 460px; margin: 0 auto;">Three steps to typographic harmony.</p>
   </div>
-  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;">
+  <div id="hiw-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;">
     <div style="text-align: center; padding: 0 1rem;">
       <div style="width: 48px; height: 48px; border-radius: 50%; border: ${border}; margin: 0 auto 1.25rem; display: flex; align-items: center; justify-content: center;">
         <h5 style="margin: 0;">1</h5>
@@ -211,7 +286,7 @@ export const websiteTemplate: PreviewTemplate = {
   <h3 style="margin: 0 0 1rem;">Ready to build your type scale?</h3>
   <p style="opacity: 0.6; max-width: 480px; margin: 0 auto 2rem;">Join thousands of designers and developers who use TypeStack to create beautiful, consistent typography.</p>
   <div style="display: inline-block; padding: 0.7em 2.5em; background: currentColor; border-radius: 8px; cursor: pointer;">
-    <small style="color: var(--bg-color, #fff); font-weight: 600; mix-blend-mode: difference;">Get started for free</small>
+    <small style="color: var(--bg-color, #fff); font-weight: 600;">Get started for free</small>
   </div>
 </section>
 
@@ -247,27 +322,19 @@ export const websiteTemplate: PreviewTemplate = {
     if (nums.indexOf(n) === -1) nums.push(n);
   }
 
-  var h1 = document.querySelector('h1');
-  var color = h1 ? getComputedStyle(h1).color : 'rgb(0,0,0)';
-  var m = color.match(/\\d+/g);
-  var r = parseInt(m[0]), g = parseInt(m[1]), b = parseInt(m[2]);
-  var tone1 = 'rgb(' + r + ',' + g + ',' + b + ')';
-  var tone2 = 'rgb(' + Math.round(r * 0.6 + 102) + ',' + Math.round(g * 0.6 + 102) + ',' + Math.round(b * 0.6 + 102) + ')';
-
   var slots = document.querySelectorAll('.ill');
   slots.forEach(function(slot, i) {
     if (i >= nums.length) return;
     fetch('/ill/ill-' + nums[i] + '.svg')
       .then(function(r) { return r.text(); })
       .then(function(svg) {
-        svg = svg.replace(/var\\(--tone-1,\\s*#ff6b6b\\)/g, tone1);
-        svg = svg.replace(/var\\(--tone-2,\\s*#00b3b3\\)/g, tone2);
         slot.innerHTML = svg;
         var svgEl = slot.querySelector('svg');
         if (svgEl) {
           svgEl.style.width = '100%';
           svgEl.style.height = 'auto';
           svgEl.style.maxHeight = '320px';
+          svgEl.style.fill = 'var(--tone-base)';
         }
       });
   });

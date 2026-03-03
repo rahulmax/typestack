@@ -14,17 +14,20 @@ import { generateRandomColorPair } from "@/lib/color-utils";
 interface HeaderProps {
   onExportClick: () => void;
   onShareClick: () => void;
-  onForegroundColorClick: () => void;
+  onHeadingColorClick: () => void;
+  onBodyColorClick: () => void;
   onBackgroundColorClick: () => void;
 }
 
 export function Header({
   onExportClick,
   onShareClick,
-  onForegroundColorClick,
+  onHeadingColorClick,
+  onBodyColorClick,
   onBackgroundColorClick,
 }: HeaderProps) {
   const headingColor = useTypographyStore((s) => s.headingsGroup.color);
+  const bodyColor = useTypographyStore((s) => s.bodyGroup.color);
   const backgroundColor = useTypographyStore((s) => s.backgroundColor);
   const updateHeadingsGroup = useTypographyStore((s) => s.updateHeadingsGroup);
   const updateBodyGroup = useTypographyStore((s) => s.updateBodyGroup);
@@ -52,23 +55,38 @@ export function Header({
         <span className="text-xs text-muted-foreground">Type Scale Generator</span>
       </div>
 
-      {/* Color toolbar */}
       <div className="flex items-center gap-1.5">
         <Tooltip>
           <TooltipTrigger asChild>
             <button
               type="button"
-              onClick={onForegroundColorClick}
+              onClick={onHeadingColorClick}
               className="flex h-8 items-center gap-1.5 rounded-md border bg-background px-2 text-xs hover:bg-accent"
             >
               <span
                 className="h-4 w-4 rounded-sm border"
                 style={{ backgroundColor: headingColor }}
               />
-              <span className="text-muted-foreground">FG</span>
+              <span className="text-muted-foreground">H</span>
             </button>
           </TooltipTrigger>
-          <TooltipContent>Foreground color</TooltipContent>
+          <TooltipContent>Heading color</TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button
+              type="button"
+              onClick={onBodyColorClick}
+              className="flex h-8 items-center gap-1.5 rounded-md border bg-background px-2 text-xs hover:bg-accent"
+            >
+              <span
+                className="h-4 w-4 rounded-sm border"
+                style={{ backgroundColor: bodyColor }}
+              />
+              <span className="text-muted-foreground">B</span>
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>Body color</TooltipContent>
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>

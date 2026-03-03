@@ -95,10 +95,10 @@ export default function StacksPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen" style={{ backgroundColor: "#f7f7f7" }}>
       {/* Header */}
       <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+          <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-3">
             <Button
               variant="ghost"
@@ -122,7 +122,7 @@ export default function StacksPage() {
         </div>
       </header>
 
-      <div className="mx-auto max-w-6xl px-6 py-6">
+      <div className="mx-auto max-w-7xl px-6 py-6">
         {/* Filters */}
         <div className="mb-6 flex gap-1">
           {FILTER_LABELS.map(({ value, label }) => (
@@ -148,7 +148,7 @@ export default function StacksPage() {
             No stacks found.
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {stacks.map((stack) => (
               <StackCard
                 key={stack.id}

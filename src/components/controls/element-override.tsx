@@ -7,13 +7,13 @@ import { useTypographyStore, isHeadingElement } from "@/store/typography-store";
 import { useUIStore } from "@/store/ui-store";
 import { resolveElementStyles } from "@/lib/scale";
 import type { TypographyElement, GroupProperties } from "@/types/typography";
-import { ALL_ELEMENTS, HEADING_ELEMENTS } from "@/types/typography";
+import { HEADING_ELEMENTS, DISPLAY_ELEMENTS } from "@/types/typography";
 
 function ElementRow({ element }: { element: TypographyElement }) {
   const store = useTypographyStore();
   const expandedElement = useUIStore((s) => s.expandedElement);
   const setExpandedElement = useUIStore((s) => s.setExpandedElement);
-  const override = store.overrides[element];
+  const override = store.overrides[element] ?? { isOverridden: false };
   const isExpanded = expandedElement === element;
 
   const resolved = resolveElementStyles(element, store);
@@ -90,7 +90,7 @@ function ElementRow({ element }: { element: TypographyElement }) {
             />
           </div>
 
-          {HEADING_ELEMENTS.includes(element) && (
+          {(HEADING_ELEMENTS.includes(element) || DISPLAY_ELEMENTS.includes(element)) && (
             <div className="flex items-center justify-between">
               <Label className="text-xs text-muted-foreground">All Caps</Label>
               <button
@@ -140,7 +140,7 @@ export function ElementOverridePanel() {
     <div className="flex flex-col gap-3">
       <h3 className="text-sm font-semibold">Per-Element Overrides</h3>
       <div className="flex flex-col gap-2">
-        {ALL_ELEMENTS.map((el) => (
+        {[...DISPLAY_ELEMENTS, ...HEADING_ELEMENTS].map((el) => (
           <ElementRow key={el} element={el} />
         ))}
       </div>

@@ -10,7 +10,6 @@ interface GroupControlsProps {
   group: GroupProperties;
   onUpdate: (props: Partial<GroupProperties>) => void;
   onFontClick: () => void;
-  onColorClick: () => void;
 }
 
 export function GroupControls({
@@ -18,7 +17,6 @@ export function GroupControls({
   group,
   onUpdate,
   onFontClick,
-  onColorClick,
 }: GroupControlsProps) {
   return (
     <div className="flex flex-col gap-4">
@@ -86,21 +84,6 @@ export function GroupControls({
           max={0.5}
           step={0.01}
         />
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <Label className="text-xs text-muted-foreground">Color</Label>
-        <button
-          type="button"
-          onClick={onColorClick}
-          className="flex h-7 w-full items-center gap-2 rounded-md border bg-background px-2 text-xs hover:bg-accent"
-        >
-          <span
-            className="h-3.5 w-3.5 rounded-sm border"
-            style={{ backgroundColor: group.color }}
-          />
-          {group.color}
-        </button>
       </div>
 
     </div>

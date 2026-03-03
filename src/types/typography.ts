@@ -1,10 +1,14 @@
-export type TypographyElement = "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "small";
+export type TypographyElement = "display-1" | "display-2" | "display-3" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "small";
 
+export const DISPLAY_ELEMENTS: TypographyElement[] = ["display-1", "display-2", "display-3"];
 export const HEADING_ELEMENTS: TypographyElement[] = ["h1", "h2", "h3", "h4", "h5", "h6"];
 export const BODY_ELEMENTS: TypographyElement[] = ["p", "small"];
-export const ALL_ELEMENTS: TypographyElement[] = [...HEADING_ELEMENTS, ...BODY_ELEMENTS];
+export const ALL_ELEMENTS: TypographyElement[] = [...DISPLAY_ELEMENTS, ...HEADING_ELEMENTS, ...BODY_ELEMENTS];
 
 export const SCALE_POSITIONS: Record<TypographyElement, number> = {
+  "display-1": 9,
+  "display-2": 8,
+  "display-3": 7,
   h1: 6,
   h2: 5,
   h3: 4,

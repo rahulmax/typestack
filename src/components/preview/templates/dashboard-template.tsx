@@ -1,286 +1,347 @@
 import type { PreviewTemplate } from "./types";
 
-const cardStyle = `border: 1px solid color-mix(in srgb, currentColor 20%, transparent); border-radius: 10px; padding: 1.5rem;`;
-const cardHeaderSmall = `margin: 0 0 0.25rem; opacity: 0.7;`;
-const badgeGreen = `display: inline-block; font-size: 0.75em; padding: 0.15em 0.5em; border-radius: 999px; background: rgba(34,197,94,0.12); color: #16a34a;`;
-const badgeRed = `display: inline-block; font-size: 0.75em; padding: 0.15em 0.5em; border-radius: 999px; background: rgba(239,68,68,0.12); color: #dc2626;`;
-const badgeYellow = `display: inline-block; font-size: 0.75em; padding: 0.15em 0.5em; border-radius: 999px; background: rgba(234,179,8,0.12); color: #a16207;`;
-const barTrack = `height: 6px; border-radius: 3px; background: color-mix(in srgb, currentColor 15%, transparent); overflow: hidden;`;
+const border = `1px solid color-mix(in srgb, currentColor 12%, transparent)`;
+const borderLight = `1px solid color-mix(in srgb, currentColor 8%, transparent)`;
+const cardBg = `color-mix(in srgb, currentColor 3%, transparent)`;
+const subtleBg = `color-mix(in srgb, currentColor 5%, transparent)`;
+const barTrack = `height: 6px; border-radius: 3px; background: color-mix(in srgb, currentColor 10%, transparent); overflow: hidden;`;
+const badge = `display: inline-block; font-size: 0.7em; padding: 0.2em 0.6em; border-radius: 999px; background: color-mix(in srgb, currentColor 8%, transparent); font-weight: 500;`;
+const thStyle = `padding: 0.7rem 0.75rem; text-align: left; border-bottom: 2px solid color-mix(in srgb, currentColor 12%, transparent);`;
+const tdStyle = `padding: 0.75rem 0.75rem; border-bottom: ${borderLight};`;
+const avatarBase = `width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.75em;`;
 
 export const dashboardTemplate: PreviewTemplate = {
   id: "dashboard",
   name: "Dashboard",
   html: `
-<div style="max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem;">
+<style>
+  @media (max-width: 768px) {
+    #stat-cards { grid-template-columns: repeat(2, 1fr) !important; }
+    #mid-row { grid-template-columns: 1fr !important; }
+    #bottom-row { grid-template-columns: 1fr !important; }
+  }
+  @media (max-width: 480px) {
+    #stat-cards { grid-template-columns: 1fr !important; }
+  }
+  @media (max-width: 640px) {
+    #txn-table { overflow-x: auto; }
+    #txn-table table { min-width: 560px; }
+  }
+</style>
+
+<div style="max-width: 1000px; margin: 0 auto; padding: 2.5rem 1.5rem;">
 
   <!-- Header -->
-  <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2rem;">
+  <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2.25rem; flex-wrap: wrap; gap: 0.75rem;">
     <div>
-      <h2 style="margin: 0 0 0.25rem;">Dashboard</h2>
-      <p style="opacity: 0.6; margin: 0;">Welcome back, here's what's happening with your projects today.</p>
+      <h2 style="margin: 0 0 0.35rem; letter-spacing: -0.025em;">Dashboard</h2>
+      <p style="opacity: 0.5; margin: 0; font-size: 0.9em;">Welcome back. Here's what's happening with your projects today.</p>
     </div>
-    <small style="opacity: 0.5;">March 3, 2026</small>
+    <div style="${badge} font-size: 0.8em; padding: 0.35em 0.85em;">Mar 3, 2026</div>
   </div>
 
-  <!-- Stat Cards Row -->
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
-    <div style="${cardStyle}">
-      <small style="${cardHeaderSmall}">Total Revenue</small>
-      <h3 style="margin: 0;">$45,231.89</h3>
-      <small><span style="${badgeGreen}">+20.1%</span> from last month</small>
+  <!-- Stat Cards -->
+  <div id="stat-cards" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.75rem;">
+
+    <div style="border: ${border}; border-radius: 12px; padding: 1.5rem; background: ${cardBg};">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+        <small style="opacity: 0.6; font-weight: 500;">Total Revenue</small>
+        <div style="width: 16px; height: 16px; border-radius: 50%; background: color-mix(in srgb, currentColor 15%, transparent);"></div>
+      </div>
+      <h3 style="margin: 0 0 0.25rem; letter-spacing: -0.02em;">$4,521</h3>
+      <small style="opacity: 0.5;">+20.1% from last month</small>
     </div>
-    <div style="${cardStyle}">
-      <small style="${cardHeaderSmall}">Subscriptions</small>
-      <h3 style="margin: 0;">+2,350</h3>
-      <small><span style="${badgeGreen}">+180.1%</span> from last month</small>
+
+    <div style="border: ${border}; border-radius: 12px; padding: 1.5rem; background: ${cardBg};">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+        <small style="opacity: 0.6; font-weight: 500;">Subscriptions</small>
+        <div style="width: 16px; height: 16px; border-radius: 50%; background: color-mix(in srgb, currentColor 15%, transparent);"></div>
+      </div>
+      <h3 style="margin: 0 0 0.25rem; letter-spacing: -0.02em;">+2,350</h3>
+      <small style="opacity: 0.5;">+180.1% from last month</small>
     </div>
-    <div style="${cardStyle}">
-      <small style="${cardHeaderSmall}">Active Now</small>
-      <h3 style="margin: 0;">+573</h3>
-      <small><span style="${badgeRed}">-2.4%</span> from last hour</small>
+
+    <div style="border: ${border}; border-radius: 12px; padding: 1.5rem; background: ${cardBg};">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+        <small style="opacity: 0.6; font-weight: 500;">Active Now</small>
+        <div style="width: 16px; height: 16px; border-radius: 50%; background: color-mix(in srgb, currentColor 15%, transparent);"></div>
+      </div>
+      <h3 style="margin: 0 0 0.25rem; letter-spacing: -0.02em;">+573</h3>
+      <small style="opacity: 0.5;">+201 since last hour</small>
     </div>
-    <div style="${cardStyle}">
-      <small style="${cardHeaderSmall}">Bounce Rate</small>
-      <h3 style="margin: 0;">24.5%</h3>
-      <small><span style="${badgeGreen}">-4.3%</span> from last month</small>
+
+    <div style="border: ${border}; border-radius: 12px; padding: 1.5rem; background: ${cardBg};">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+        <small style="opacity: 0.6; font-weight: 500;">Bounce Rate</small>
+        <div style="width: 16px; height: 16px; border-radius: 50%; background: color-mix(in srgb, currentColor 15%, transparent);"></div>
+      </div>
+      <h3 style="margin: 0 0 0.25rem; letter-spacing: -0.02em;">24.5%</h3>
+      <small style="opacity: 0.5;">-4.3% from last month</small>
     </div>
+
   </div>
 
-  <!-- Two-Column Layout: Chart Placeholder + Activity -->
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+  <!-- Mid Row: Overview + Recent Sales -->
+  <div id="mid-row" style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 1rem; margin-bottom: 1.75rem;">
 
-    <!-- Overview Card -->
-    <div style="${cardStyle}">
-      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.25rem;">
-        <h4 style="margin: 0;">Overview</h4>
-        <small style="opacity: 0.5;">Last 7 days</small>
+    <!-- Overview Chart Card -->
+    <div style="border: ${border}; border-radius: 12px; overflow: hidden;">
+      <div style="padding: 1.25rem 1.5rem; border-bottom: ${borderLight};">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h4 style="margin: 0;">Overview</h4>
+          <small style="opacity: 0.5;">Last 7 days</small>
+        </div>
       </div>
-      <!-- Mini bar chart representation -->
-      <div style="display: flex; align-items: flex-end; gap: 6px; height: 120px; padding-top: 0.5rem;">
-        <div style="flex:1; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; gap:4px;">
-          <div style="width:100%; background:rgba(99,102,241,0.7); border-radius:4px 4px 0 0; height:45%;"></div>
-          <small style="font-size:0.65em; opacity:0.5;">Mon</small>
-        </div>
-        <div style="flex:1; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; gap:4px;">
-          <div style="width:100%; background:rgba(99,102,241,0.7); border-radius:4px 4px 0 0; height:72%;"></div>
-          <small style="font-size:0.65em; opacity:0.5;">Tue</small>
-        </div>
-        <div style="flex:1; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; gap:4px;">
-          <div style="width:100%; background:rgba(99,102,241,0.7); border-radius:4px 4px 0 0; height:58%;"></div>
-          <small style="font-size:0.65em; opacity:0.5;">Wed</small>
-        </div>
-        <div style="flex:1; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; gap:4px;">
-          <div style="width:100%; background:rgba(99,102,241,0.85); border-radius:4px 4px 0 0; height:92%;"></div>
-          <small style="font-size:0.65em; opacity:0.5;">Thu</small>
-        </div>
-        <div style="flex:1; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; gap:4px;">
-          <div style="width:100%; background:rgba(99,102,241,0.7); border-radius:4px 4px 0 0; height:80%;"></div>
-          <small style="font-size:0.65em; opacity:0.5;">Fri</small>
-        </div>
-        <div style="flex:1; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; gap:4px;">
-          <div style="width:100%; background:rgba(99,102,241,0.5); border-radius:4px 4px 0 0; height:35%;"></div>
-          <small style="font-size:0.65em; opacity:0.5;">Sat</small>
-        </div>
-        <div style="flex:1; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; gap:4px;">
-          <div style="width:100%; background:rgba(99,102,241,0.5); border-radius:4px 4px 0 0; height:28%;"></div>
-          <small style="font-size:0.65em; opacity:0.5;">Sun</small>
+      <div style="padding: 1.5rem;">
+        <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; height: 200px; align-items: end;">
+          <div style="text-align: center;"><div style="background: color-mix(in srgb, currentColor 35%, transparent); border-radius: 4px 4px 0 0; height: 60px;"></div><small style="font-size:0.6em; opacity:0.4; display:block; margin-top:4px;">Mon</small></div>
+          <div style="text-align: center;"><div style="background: color-mix(in srgb, currentColor 35%, transparent); border-radius: 4px 4px 0 0; height: 100px;"></div><small style="font-size:0.6em; opacity:0.4; display:block; margin-top:4px;">Tue</small></div>
+          <div style="text-align: center;"><div style="background: color-mix(in srgb, currentColor 35%, transparent); border-radius: 4px 4px 0 0; height: 78px;"></div><small style="font-size:0.6em; opacity:0.4; display:block; margin-top:4px;">Wed</small></div>
+          <div style="text-align: center;"><div style="background: color-mix(in srgb, currentColor 60%, transparent); border-radius: 4px 4px 0 0; height: 150px;"></div><small style="font-size:0.6em; opacity:0.4; display:block; margin-top:4px;">Thu</small></div>
+          <div style="text-align: center;"><div style="background: color-mix(in srgb, currentColor 35%, transparent); border-radius: 4px 4px 0 0; height: 115px;"></div><small style="font-size:0.6em; opacity:0.4; display:block; margin-top:4px;">Fri</small></div>
+          <div style="text-align: center;"><div style="background: color-mix(in srgb, currentColor 20%, transparent); border-radius: 4px 4px 0 0; height: 45px;"></div><small style="font-size:0.6em; opacity:0.4; display:block; margin-top:4px;">Sat</small></div>
+          <div style="text-align: center;"><div style="background: color-mix(in srgb, currentColor 20%, transparent); border-radius: 4px 4px 0 0; height: 32px;"></div><small style="font-size:0.6em; opacity:0.4; display:block; margin-top:4px;">Sun</small></div>
         </div>
       </div>
     </div>
 
-    <!-- Recent Activity Card -->
-    <div style="${cardStyle}">
-      <h4 style="margin: 0 0 1rem;">Recent Activity</h4>
-      <div style="display: flex; flex-direction: column; gap: 1rem;">
-        <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
-          <div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(99,102,241,0.15); flex-shrink: 0;"></div>
+    <!-- Recent Sales Card -->
+    <div style="border: ${border}; border-radius: 12px; overflow: hidden;">
+      <div style="padding: 1.25rem 1.5rem; border-bottom: ${borderLight};">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
           <div>
-            <p style="margin: 0;"><strong>Olivia Martin</strong> upgraded to Pro</p>
-            <small style="opacity: 0.5;">2 minutes ago</small>
-          </div>
-        </div>
-        <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
-          <div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(234,179,8,0.15); flex-shrink: 0;"></div>
-          <div>
-            <p style="margin: 0;"><strong>Jackson Lee</strong> created a new project</p>
-            <small style="opacity: 0.5;">18 minutes ago</small>
-          </div>
-        </div>
-        <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
-          <div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(34,197,94,0.15); flex-shrink: 0;"></div>
-          <div>
-            <p style="margin: 0;"><strong>Isabella Nguyen</strong> sent an invoice</p>
-            <small style="opacity: 0.5;">1 hour ago</small>
-          </div>
-        </div>
-        <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
-          <div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(239,68,68,0.15); flex-shrink: 0;"></div>
-          <div>
-            <p style="margin: 0;"><strong>William Kim</strong> reported a bug</p>
-            <small style="opacity: 0.5;">3 hours ago</small>
+            <h4 style="margin: 0;">Recent Sales</h4>
+            <small style="opacity: 0.45; font-size: 0.8em;">You made 265 sales this month.</small>
           </div>
         </div>
       </div>
+      <div style="padding: 1rem 1.5rem;">
+        <div style="display: flex; flex-direction: column; gap: 0;">
+
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; border-bottom: ${borderLight};">
+            <div style="display: flex; gap: 0.75rem; align-items: center;">
+              <div style="${avatarBase} background: color-mix(in srgb, currentColor 10%, transparent);">OM</div>
+              <div>
+                <p style="margin: 0; font-weight: 500; font-size: 0.9em;">Olivia Martin</p>
+                <small style="opacity: 0.45;">olivia.martin@email.com</small>
+              </div>
+            </div>
+            <p style="margin: 0; font-weight: 600; font-size: 0.95em;">+$1,999.00</p>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; border-bottom: ${borderLight};">
+            <div style="display: flex; gap: 0.75rem; align-items: center;">
+              <div style="${avatarBase} background: color-mix(in srgb, currentColor 10%, transparent);">JL</div>
+              <div>
+                <p style="margin: 0; font-weight: 500; font-size: 0.9em;">Jackson Lee</p>
+                <small style="opacity: 0.45;">jackson.lee@email.com</small>
+              </div>
+            </div>
+            <p style="margin: 0; font-weight: 600; font-size: 0.95em;">+$39.00</p>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0;">
+            <div style="display: flex; gap: 0.75rem; align-items: center;">
+              <div style="${avatarBase} background: color-mix(in srgb, currentColor 10%, transparent);">IN</div>
+              <div>
+                <p style="margin: 0; font-weight: 500; font-size: 0.9em;">Isabella Nguyen</p>
+                <small style="opacity: 0.45;">isabella.nguyen@email.com</small>
+              </div>
+            </div>
+            <p style="margin: 0; font-weight: 600; font-size: 0.95em;">+$299.00</p>
+          </div>
+
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Progress / Goals Card -->
-  <div style="${cardStyle} margin-bottom: 2rem;">
-    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.25rem;">
-      <h4 style="margin: 0;">Project Progress</h4>
-      <small style="opacity: 0.5;">Q1 2026</small>
+  <!-- Transactions Table Card -->
+  <div style="border: ${border}; border-radius: 12px; overflow: hidden; margin-bottom: 1.75rem;">
+    <div style="padding: 1.25rem 1.5rem; border-bottom: ${borderLight};">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h4 style="margin: 0;">Recent Transactions</h4>
+        <small style="opacity: 0.5; cursor: pointer;">View all</small>
+      </div>
     </div>
-    <div style="display: flex; flex-direction: column; gap: 1.25rem;">
-      <div>
-        <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
-          <p style="margin: 0;">Website Redesign</p>
-          <small style="font-weight: 600;">85%</small>
-        </div>
-        <div style="${barTrack}"><div style="height: 100%; width: 85%; background: #6366f1; border-radius: 3px;"></div></div>
-      </div>
-      <div>
-        <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
-          <p style="margin: 0;">Mobile App</p>
-          <small style="font-weight: 600;">62%</small>
-        </div>
-        <div style="${barTrack}"><div style="height: 100%; width: 62%; background: #8b5cf6; border-radius: 3px;"></div></div>
-      </div>
-      <div>
-        <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
-          <p style="margin: 0;">Design System</p>
-          <small style="font-weight: 600;">45%</small>
-        </div>
-        <div style="${barTrack}"><div style="height: 100%; width: 45%; background: #a855f7; border-radius: 3px;"></div></div>
-      </div>
-      <div>
-        <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
-          <p style="margin: 0;">API Integration</p>
-          <small style="font-weight: 600;">28%</small>
-        </div>
-        <div style="${barTrack}"><div style="height: 100%; width: 28%; background: #c084fc; border-radius: 3px;"></div></div>
-      </div>
+    <div id="txn-table" style="padding: 0;">
+      <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+          <tr style="background: ${subtleBg};">
+            <th style="${thStyle}"><small style="font-weight: 600; opacity: 0.55; text-transform: uppercase; letter-spacing: 0.04em; font-size: 0.7em;">Customer</small></th>
+            <th style="${thStyle}"><small style="font-weight: 600; opacity: 0.55; text-transform: uppercase; letter-spacing: 0.04em; font-size: 0.7em;">Email</small></th>
+            <th style="${thStyle}"><small style="font-weight: 600; opacity: 0.55; text-transform: uppercase; letter-spacing: 0.04em; font-size: 0.7em;">Type</small></th>
+            <th style="${thStyle}"><small style="font-weight: 600; opacity: 0.55; text-transform: uppercase; letter-spacing: 0.04em; font-size: 0.7em;">Status</small></th>
+            <th style="${thStyle} text-align: right;"><small style="font-weight: 600; opacity: 0.55; text-transform: uppercase; letter-spacing: 0.04em; font-size: 0.7em;">Amount</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="${tdStyle}"><p style="margin:0; font-weight: 500; font-size: 0.9em;">Olivia Martin</p></td>
+            <td style="${tdStyle}"><small style="opacity: 0.6;">olivia.martin@email.com</small></td>
+            <td style="${tdStyle}"><small style="opacity: 0.6;">Sale</small></td>
+            <td style="${tdStyle}"><span style="${badge}">Completed</span></td>
+            <td style="${tdStyle} text-align: right;"><p style="margin:0; font-weight: 600; font-size: 0.9em;">$1,999.00</p></td>
+          </tr>
+          <tr>
+            <td style="${tdStyle}"><p style="margin:0; font-weight: 500; font-size: 0.9em;">Jackson Lee</p></td>
+            <td style="${tdStyle}"><small style="opacity: 0.6;">jackson.lee@email.com</small></td>
+            <td style="${tdStyle}"><small style="opacity: 0.6;">Subscription</small></td>
+            <td style="${tdStyle}"><span style="${badge}">Processing</span></td>
+            <td style="${tdStyle} text-align: right;"><p style="margin:0; font-weight: 600; font-size: 0.9em;">$39.00</p></td>
+          </tr>
+          <tr>
+            <td style="${tdStyle}"><p style="margin:0; font-weight: 500; font-size: 0.9em;">Isabella Nguyen</p></td>
+            <td style="${tdStyle}"><small style="opacity: 0.6;">isabella.nguyen@email.com</small></td>
+            <td style="${tdStyle}"><small style="opacity: 0.6;">Sale</small></td>
+            <td style="${tdStyle}"><span style="${badge}">Completed</span></td>
+            <td style="${tdStyle} text-align: right;"><p style="margin:0; font-weight: 600; font-size: 0.9em;">$299.00</p></td>
+          </tr>
+          <tr>
+            <td style="${tdStyle}"><p style="margin:0; font-weight: 500; font-size: 0.9em;">William Kim</p></td>
+            <td style="${tdStyle}"><small style="opacity: 0.6;">will@email.com</small></td>
+            <td style="${tdStyle}"><small style="opacity: 0.6;">Sale</small></td>
+            <td style="${tdStyle}"><span style="${badge}">Completed</span></td>
+            <td style="${tdStyle} text-align: right;"><p style="margin:0; font-weight: 600; font-size: 0.9em;">$99.00</p></td>
+          </tr>
+          <tr>
+            <td style="padding: 0.75rem 0.75rem;"><p style="margin:0; font-weight: 500; font-size: 0.9em;">Sofia Davis</p></td>
+            <td style="padding: 0.75rem 0.75rem;"><small style="opacity: 0.6;">sofia.davis@email.com</small></td>
+            <td style="padding: 0.75rem 0.75rem;"><small style="opacity: 0.6;">Refund</small></td>
+            <td style="padding: 0.75rem 0.75rem;"><span style="${badge}">Failed</span></td>
+            <td style="padding: 0.75rem 0.75rem; text-align: right;"><p style="margin:0; font-weight: 600; font-size: 0.9em;">$499.00</p></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
-  <!-- Transactions Table -->
-  <div style="${cardStyle} margin-bottom: 2rem;">
-    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem;">
-      <h4 style="margin: 0;">Recent Transactions</h4>
-      <small style="opacity: 0.5;">View all</small>
-    </div>
-    <table style="width: 100%; border-collapse: collapse;">
-      <thead>
-        <tr>
-          <th style="padding: 0.6rem 0; text-align: left; border-bottom: 2px solid color-mix(in srgb, currentColor 20%, transparent);"><small style="font-weight: 600; opacity: 0.6;">Customer</small></th>
-          <th style="padding: 0.6rem 0; text-align: left; border-bottom: 2px solid color-mix(in srgb, currentColor 20%, transparent);"><small style="font-weight: 600; opacity: 0.6;">Email</small></th>
-          <th style="padding: 0.6rem 0; text-align: left; border-bottom: 2px solid color-mix(in srgb, currentColor 20%, transparent);"><small style="font-weight: 600; opacity: 0.6;">Status</small></th>
-          <th style="padding: 0.6rem 0; text-align: right; border-bottom: 2px solid color-mix(in srgb, currentColor 20%, transparent);"><small style="font-weight: 600; opacity: 0.6;">Amount</small></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style="padding: 0.75rem 0; border-bottom: 1px solid color-mix(in srgb, currentColor 10%, transparent);"><p style="margin:0; font-weight: 500;">Olivia Martin</p></td>
-          <td style="padding: 0.75rem 0; border-bottom: 1px solid color-mix(in srgb, currentColor 10%, transparent);"><small>olivia@email.com</small></td>
-          <td style="padding: 0.75rem 0; border-bottom: 1px solid color-mix(in srgb, currentColor 10%, transparent);"><small style="${badgeGreen}">Completed</small></td>
-          <td style="padding: 0.75rem 0; border-bottom: 1px solid color-mix(in srgb, currentColor 10%, transparent); text-align: right;"><p style="margin:0; font-weight: 600;">$1,999.00</p></td>
-        </tr>
-        <tr>
-          <td style="padding: 0.75rem 0; border-bottom: 1px solid color-mix(in srgb, currentColor 10%, transparent);"><p style="margin:0; font-weight: 500;">Jackson Lee</p></td>
-          <td style="padding: 0.75rem 0; border-bottom: 1px solid color-mix(in srgb, currentColor 10%, transparent);"><small>jackson@email.com</small></td>
-          <td style="padding: 0.75rem 0; border-bottom: 1px solid color-mix(in srgb, currentColor 10%, transparent);"><small style="${badgeYellow}">Processing</small></td>
-          <td style="padding: 0.75rem 0; border-bottom: 1px solid color-mix(in srgb, currentColor 10%, transparent); text-align: right;"><p style="margin:0; font-weight: 600;">$39.00</p></td>
-        </tr>
-        <tr>
-          <td style="padding: 0.75rem 0; border-bottom: 1px solid color-mix(in srgb, currentColor 10%, transparent);"><p style="margin:0; font-weight: 500;">Isabella Nguyen</p></td>
-          <td style="padding: 0.75rem 0; border-bottom: 1px solid color-mix(in srgb, currentColor 10%, transparent);"><small>isabella@email.com</small></td>
-          <td style="padding: 0.75rem 0; border-bottom: 1px solid color-mix(in srgb, currentColor 10%, transparent);"><small style="${badgeGreen}">Completed</small></td>
-          <td style="padding: 0.75rem 0; border-bottom: 1px solid color-mix(in srgb, currentColor 10%, transparent); text-align: right;"><p style="margin:0; font-weight: 600;">$299.00</p></td>
-        </tr>
-        <tr>
-          <td style="padding: 0.75rem 0; border-bottom: 1px solid color-mix(in srgb, currentColor 10%, transparent);"><p style="margin:0; font-weight: 500;">William Kim</p></td>
-          <td style="padding: 0.75rem 0; border-bottom: 1px solid color-mix(in srgb, currentColor 10%, transparent);"><small>will@email.com</small></td>
-          <td style="padding: 0.75rem 0; border-bottom: 1px solid color-mix(in srgb, currentColor 10%, transparent);"><small style="${badgeGreen}">Completed</small></td>
-          <td style="padding: 0.75rem 0; border-bottom: 1px solid color-mix(in srgb, currentColor 10%, transparent); text-align: right;"><p style="margin:0; font-weight: 600;">$99.00</p></td>
-        </tr>
-        <tr>
-          <td style="padding: 0.75rem 0;"><p style="margin:0; font-weight: 500;">Sofia Davis</p></td>
-          <td style="padding: 0.75rem 0;"><small>sofia@email.com</small></td>
-          <td style="padding: 0.75rem 0;"><small style="${badgeRed}">Failed</small></td>
-          <td style="padding: 0.75rem 0; text-align: right;"><p style="margin:0; font-weight: 600;">$499.00</p></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <!-- Bottom Row: Team Members + Storage -->
+  <div id="bottom-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.75rem;">
 
-  <!-- Bottom Row: Team + Quick Stats -->
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
     <!-- Team Members Card -->
-    <div style="${cardStyle}">
-      <h4 style="margin: 0 0 1rem;">Team Members</h4>
-      <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+    <div style="border: ${border}; border-radius: 12px; overflow: hidden;">
+      <div style="padding: 1.25rem 1.5rem; border-bottom: ${borderLight};">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-          <div style="display: flex; gap: 0.65rem; align-items: center;">
-            <div style="width:28px; height:28px; border-radius:50%; background: rgba(99,102,241,0.2); flex-shrink:0;"></div>
+          <h4 style="margin: 0;">Team Members</h4>
+          <small style="opacity: 0.5;">3 active</small>
+        </div>
+      </div>
+      <div style="padding: 0.5rem 1.5rem;">
+
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.85rem 0; border-bottom: ${borderLight};">
+          <div style="display: flex; gap: 0.75rem; align-items: center;">
+            <div style="${avatarBase} background: color-mix(in srgb, currentColor 12%, transparent);">SD</div>
             <div>
-              <p style="margin: 0; font-weight: 500;">Sofia Davis</p>
-              <small style="opacity: 0.5;">Lead Designer</small>
+              <p style="margin: 0; font-weight: 500; font-size: 0.9em;">Sofia Davis</p>
+              <small style="opacity: 0.45;">Lead Designer</small>
             </div>
           </div>
-          <small style="font-weight: 500;">12 tasks</small>
+          <span style="${badge}">12 tasks</span>
         </div>
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <div style="display: flex; gap: 0.65rem; align-items: center;">
-            <div style="width:28px; height:28px; border-radius:50%; background: rgba(234,179,8,0.2); flex-shrink:0;"></div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.85rem 0; border-bottom: ${borderLight};">
+          <div style="display: flex; gap: 0.75rem; align-items: center;">
+            <div style="${avatarBase} background: color-mix(in srgb, currentColor 12%, transparent);">AJ</div>
             <div>
-              <p style="margin: 0; font-weight: 500;">Alex Johnson</p>
-              <small style="opacity: 0.5;">Frontend Dev</small>
+              <p style="margin: 0; font-weight: 500; font-size: 0.9em;">Alex Johnson</p>
+              <small style="opacity: 0.45;">Frontend Dev</small>
             </div>
           </div>
-          <small style="font-weight: 500;">8 tasks</small>
+          <span style="${badge}">8 tasks</span>
         </div>
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <div style="display: flex; gap: 0.65rem; align-items: center;">
-            <div style="width:28px; height:28px; border-radius:50%; background: rgba(34,197,94,0.2); flex-shrink:0;"></div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.85rem 0;">
+          <div style="display: flex; gap: 0.75rem; align-items: center;">
+            <div style="${avatarBase} background: color-mix(in srgb, currentColor 12%, transparent);">MP</div>
             <div>
-              <p style="margin: 0; font-weight: 500;">Maya Patel</p>
-              <small style="opacity: 0.5;">Backend Dev</small>
+              <p style="margin: 0; font-weight: 500; font-size: 0.9em;">Maya Patel</p>
+              <small style="opacity: 0.45;">Backend Dev</small>
             </div>
           </div>
-          <small style="font-weight: 500;">15 tasks</small>
+          <span style="${badge}">15 tasks</span>
         </div>
+
       </div>
     </div>
 
-    <!-- Quick Stats Card -->
-    <div style="${cardStyle}">
-      <h4 style="margin: 0 0 1rem;">Storage</h4>
-      <div style="display: flex; flex-direction: column; gap: 1rem;">
-        <div>
-          <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-            <h5 style="margin: 0;">64.8 GB</h5>
+    <!-- Storage Card -->
+    <div style="border: ${border}; border-radius: 12px; overflow: hidden;">
+      <div style="padding: 1.25rem 1.5rem; border-bottom: ${borderLight};">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h4 style="margin: 0;">Storage</h4>
+          <small style="opacity: 0.5;">Manage</small>
+        </div>
+      </div>
+      <div style="padding: 1.5rem;">
+        <div style="margin-bottom: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem;">
+            <h5 style="margin: 0; letter-spacing: -0.01em;">64.8 GB</h5>
             <small style="opacity: 0.5;">of 100 GB used</small>
           </div>
-          <div style="${barTrack} height: 10px;">
-            <div style="height: 100%; width: 64.8%; background: linear-gradient(90deg, #6366f1, #a855f7); border-radius: 3px;"></div>
+          <div style="${barTrack} height: 8px;">
+            <div style="height: 100%; width: 64.8%; background: color-mix(in srgb, currentColor 50%, transparent); border-radius: 3px;"></div>
           </div>
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.5rem;">
-          <div>
-            <small style="opacity: 0.5;">Documents</small>
-            <h6 style="margin: 0.15rem 0 0;">24.5 GB</h6>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div style="border: ${borderLight}; border-radius: 8px; padding: 0.85rem;">
+            <small style="opacity: 0.45; font-size: 0.75em; text-transform: uppercase; letter-spacing: 0.03em;">Documents</small>
+            <p style="margin: 0.2rem 0 0; font-weight: 600; font-size: 0.95em;">24.5 GB</p>
           </div>
-          <div>
-            <small style="opacity: 0.5;">Media</small>
-            <h6 style="margin: 0.15rem 0 0;">18.2 GB</h6>
+          <div style="border: ${borderLight}; border-radius: 8px; padding: 0.85rem;">
+            <small style="opacity: 0.45; font-size: 0.75em; text-transform: uppercase; letter-spacing: 0.03em;">Media</small>
+            <p style="margin: 0.2rem 0 0; font-weight: 600; font-size: 0.95em;">18.2 GB</p>
           </div>
-          <div>
-            <small style="opacity: 0.5;">Backups</small>
-            <h6 style="margin: 0.15rem 0 0;">14.8 GB</h6>
+          <div style="border: ${borderLight}; border-radius: 8px; padding: 0.85rem;">
+            <small style="opacity: 0.45; font-size: 0.75em; text-transform: uppercase; letter-spacing: 0.03em;">Backups</small>
+            <p style="margin: 0.2rem 0 0; font-weight: 600; font-size: 0.95em;">14.8 GB</p>
           </div>
-          <div>
-            <small style="opacity: 0.5;">Other</small>
-            <h6 style="margin: 0.15rem 0 0;">7.3 GB</h6>
+          <div style="border: ${borderLight}; border-radius: 8px; padding: 0.85rem;">
+            <small style="opacity: 0.45; font-size: 0.75em; text-transform: uppercase; letter-spacing: 0.03em;">Other</small>
+            <p style="margin: 0.2rem 0 0; font-weight: 600; font-size: 0.95em;">7.3 GB</p>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project Progress Card -->
+  <div style="border: ${border}; border-radius: 12px; overflow: hidden;">
+    <div style="padding: 1.25rem 1.5rem; border-bottom: ${borderLight};">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h4 style="margin: 0;">Project Progress</h4>
+        <small style="opacity: 0.5;">Q1 2026</small>
+      </div>
+    </div>
+    <div style="padding: 1.5rem;">
+      <div style="display: flex; flex-direction: column; gap: 1.35rem;">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.4rem;">
+            <p style="margin: 0; font-weight: 500; font-size: 0.9em;">Website Redesign</p>
+            <small style="font-weight: 600; opacity: 0.7;">85%</small>
+          </div>
+          <div style="${barTrack}"><div style="height: 100%; width: 85%; background: color-mix(in srgb, currentColor 60%, transparent); border-radius: 3px;"></div></div>
+        </div>
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.4rem;">
+            <p style="margin: 0; font-weight: 500; font-size: 0.9em;">Mobile App</p>
+            <small style="font-weight: 600; opacity: 0.7;">62%</small>
+          </div>
+          <div style="${barTrack}"><div style="height: 100%; width: 62%; background: color-mix(in srgb, currentColor 50%, transparent); border-radius: 3px;"></div></div>
+        </div>
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.4rem;">
+            <p style="margin: 0; font-weight: 500; font-size: 0.9em;">Design System</p>
+            <small style="font-weight: 600; opacity: 0.7;">45%</small>
+          </div>
+          <div style="${barTrack}"><div style="height: 100%; width: 45%; background: color-mix(in srgb, currentColor 40%, transparent); border-radius: 3px;"></div></div>
+        </div>
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.4rem;">
+            <p style="margin: 0; font-weight: 500; font-size: 0.9em;">API Integration</p>
+            <small style="font-weight: 600; opacity: 0.7;">28%</small>
+          </div>
+          <div style="${barTrack}"><div style="height: 100%; width: 28%; background: color-mix(in srgb, currentColor 30%, transparent); border-radius: 3px;"></div></div>
         </div>
       </div>
     </div>

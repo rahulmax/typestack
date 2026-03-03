@@ -3,6 +3,7 @@
 import { Heart, Bookmark } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Stack } from "@/lib/stacks-api";
+import { PANGRAMS } from "@/data/pangrams";
 
 interface StackCardProps {
   stack: Stack;
@@ -16,6 +17,7 @@ export function StackCard({ stack, onSelect, onLike, onSave }: StackCardProps) {
   const headingFont = config.headingsGroup.fontFamily;
   const bodyFont = config.bodyGroup.fontFamily;
   const fg = config.headingsGroup.color;
+  const bodyColor = config.bodyGroup.color;
   const bg = config.backgroundColor;
 
   return (
@@ -24,44 +26,65 @@ export function StackCard({ stack, onSelect, onLike, onSave }: StackCardProps) {
       tabIndex={0}
       onClick={() => onSelect(stack)}
       onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onSelect(stack); }}
-      className="group relative flex cursor-pointer flex-col overflow-hidden rounded-xl border text-left shadow-sm transition-all hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      className="group relative flex cursor-pointer flex-col overflow-hidden rounded-xl text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.08)", transition: "transform 0.5s ease-in-out", willChange: "transform" }}
+      onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.035)"; }}
+      onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
     >
       {/* Preview area */}
       <div
-        className="flex flex-col gap-3 px-6 pb-5 pt-6"
-        style={{ backgroundColor: bg, color: fg }}
+        className="flex flex-1 flex-col gap-5 overflow-hidden px-7 pb-7 pt-7"
+        style={{ backgroundColor: bg, color: fg, minHeight: 200 }}
       >
-        <p
-          className="text-2xl leading-tight"
-          style={{
-            fontFamily: `"${headingFont}", sans-serif`,
-            fontWeight: config.headingsGroup.fontWeight,
-          }}
-        >
-          {headingFont}
-        </p>
-        <p
-          className="text-sm leading-relaxed opacity-80"
-          style={{
-            fontFamily: `"${bodyFont}", sans-serif`,
-            fontWeight: config.bodyGroup.fontWeight,
-          }}
-        >
-          The quick brown fox jumps over the lazy dog. Pack my box with five
-          dozen liquor jugs.
-        </p>
+        <div>
+          <p
+            className="text-3xl leading-tight"
+            style={{
+              fontFamily: `"${headingFont}", sans-serif`,
+              fontWeight: config.headingsGroup.fontWeight,
+            }}
+          >
+            {headingFont}
+          </p>
+          <p
+            className="mt-2 text-sm leading-relaxed"
+            style={{
+              fontFamily: `"${bodyFont}", sans-serif`,
+              fontWeight: config.bodyGroup.fontWeight,
+              color: bodyColor,
+            }}
+          >
+            {PANGRAMS[0].text}.
+          </p>
+        </div>
+        <div style={{ borderTop: `1px solid color-mix(in srgb, ${fg} 12%, transparent)`, paddingTop: "1rem" }}>
+          <p
+            className="text-lg leading-snug"
+            style={{
+              fontFamily: `"${headingFont}", sans-serif`,
+              fontWeight: config.headingsGroup.fontWeight,
+            }}
+          >
+            {PANGRAMS[1].text}
+          </p>
+          <p
+            className="mt-1.5 text-sm leading-relaxed"
+            style={{
+              fontFamily: `"${bodyFont}", sans-serif`,
+              fontWeight: config.bodyGroup.fontWeight,
+              color: bodyColor,
+            }}
+          >
+            {PANGRAMS[2].text}. {PANGRAMS[3].text}. {PANGRAMS[4].text}.
+          </p>
+        </div>
       </div>
 
       {/* Info bar */}
-      <div className="flex items-center justify-between border-t bg-card px-4 py-2.5">
-        <div className="flex flex-col gap-0.5">
-          <span className="text-xs font-medium text-foreground truncate max-w-[180px]">
-            {stack.name}
-          </span>
-          <span className="text-[10px] text-muted-foreground">
-            {headingFont} + {bodyFont}
-          </span>
-        </div>
+      <div className="flex items-center justify-between bg-card px-4 py-2.5">
+        <span className="text-xs font-medium text-foreground truncate max-w-[180px]">
+          {stack.name}
+        </span>
         <div className="flex items-center gap-1">
           <Button
             variant="ghost"
@@ -80,9 +103,11 @@ export function StackCard({ stack, onSelect, onLike, onSave }: StackCardProps) {
               }`}
             />
           </Button>
-          <span className="text-[10px] text-muted-foreground tabular-nums min-w-[1ch]">
-            {stack.likesCount}
-          </span>
+          {stack.likesCount > 0 && (
+            <span className="text-[10px] text-muted-foreground tabular-nums">
+              {stack.likesCount}
+            </span>
+          )}
           <Button
             variant="ghost"
             size="sm"
@@ -103,12 +128,6 @@ export function StackCard({ stack, onSelect, onLike, onSave }: StackCardProps) {
         </div>
       </div>
 
-      {/* Preset badge */}
-      {stack.isPreset && (
-        <div className="absolute right-2 top-2 rounded-full bg-black/20 px-2 py-0.5 text-[9px] font-medium uppercase tracking-wider" style={{ color: fg }}>
-          Preset
-        </div>
-      )}
     </div>
   );
 }

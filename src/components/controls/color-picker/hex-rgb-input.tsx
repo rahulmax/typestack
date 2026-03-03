@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { hexToOklch, oklchToHex } from "@/lib/color-utils";
 
 interface HexRgbInputProps {
   color: string;
@@ -39,6 +40,7 @@ export function HexRgbInput({ color, onChange }: HexRgbInputProps) {
   }, [color]);
 
   const rgb = hexToRgb(color);
+  const oklch = useMemo(() => (/^#[a-f\d]{6}$/i.test(color) ? hexToOklch(color) : null), [color]);
 
   const handleHexChange = (value: string) => {
     setHex(value);
@@ -81,6 +83,55 @@ export function HexRgbInput({ color, onChange }: HexRgbInputProps) {
               />
             </div>
           ))}
+        </div>
+      )}
+      {oklch && (
+        <div className="flex gap-2">
+          <div className="flex flex-col gap-1">
+            <Label className="text-xs uppercase text-muted-foreground">L</Label>
+            <Input
+              type="number"
+              min={0}
+              max={1}
+              step={0.01}
+              value={parseFloat(oklch.l.toFixed(2))}
+              onChange={(e) => {
+                const v = parseFloat(e.target.value);
+                if (!isNaN(v)) onChange(oklchToHex(v, oklch.c, oklch.h));
+              }}
+              className="h-8 w-16 text-sm"
+            />
+          </div>
+          <div className="flex flex-col gap-1">
+            <Label className="text-xs uppercase text-muted-foreground">C</Label>
+            <Input
+              type="number"
+              min={0}
+              max={0.4}
+              step={0.001}
+              value={parseFloat(oklch.c.toFixed(3))}
+              onChange={(e) => {
+                const v = parseFloat(e.target.value);
+                if (!isNaN(v)) onChange(oklchToHex(oklch.l, v, oklch.h));
+              }}
+              className="h-8 w-16 text-sm"
+            />
+          </div>
+          <div className="flex flex-col gap-1">
+            <Label className="text-xs uppercase text-muted-foreground">H</Label>
+            <Input
+              type="number"
+              min={0}
+              max={360}
+              step={0.1}
+              value={parseFloat(oklch.h.toFixed(1))}
+              onChange={(e) => {
+                const v = parseFloat(e.target.value);
+                if (!isNaN(v)) onChange(oklchToHex(oklch.l, oklch.c, v));
+              }}
+              className="h-8 w-20 text-sm"
+            />
+          </div>
         </div>
       )}
     </div>

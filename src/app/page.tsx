@@ -8,7 +8,6 @@ import { BaseSettings } from "@/components/controls/base-settings";
 import { GroupControls } from "@/components/controls/group-controls";
 import { ElementOverridePanel } from "@/components/controls/element-override";
 import { MobileSettings } from "@/components/controls/mobile-settings";
-import { BackgroundControl } from "@/components/controls/background-control";
 import { FontPicker } from "@/components/controls/font-picker/font-picker";
 import { ColorPicker } from "@/components/controls/color-picker/color-picker";
 import { PreviewContainer } from "@/components/preview/preview-container";
@@ -136,7 +135,8 @@ export default function Home() {
           <Header
             onExportClick={handleExportClick}
             onShareClick={handleShareClick}
-            onForegroundColorClick={() => setColorPickerTarget("headings")}
+            onHeadingColorClick={() => setColorPickerTarget("headings")}
+            onBodyColorClick={() => setColorPickerTarget("body")}
             onBackgroundColorClick={() => setColorPickerTarget("background")}
           />
         }
@@ -151,7 +151,6 @@ export default function Home() {
               group={headingsGroup}
               onUpdate={updateHeadingsGroup}
               onFontClick={() => setFontPickerTarget("headings")}
-              onColorClick={() => setColorPickerTarget("headings")}
             />
             <Separator />
             <GroupControls
@@ -159,16 +158,11 @@ export default function Home() {
               group={bodyGroup}
               onUpdate={updateBodyGroup}
               onFontClick={() => setFontPickerTarget("body")}
-              onColorClick={() => setColorPickerTarget("body")}
             />
             <Separator />
             <ElementOverridePanel />
             <Separator />
             <MobileSettings />
-            <Separator />
-            <BackgroundControl
-              onColorClick={() => setColorPickerTarget("background")}
-            />
           </Sidebar>
         }
         preview={<PreviewContainer />}

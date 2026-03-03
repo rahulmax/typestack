@@ -8,7 +8,7 @@ import type {
   GroupProperties,
   MobileConfig,
 } from "@/types/typography";
-import { HEADING_ELEMENTS } from "@/types/typography";
+import { HEADING_ELEMENTS, DISPLAY_ELEMENTS } from "@/types/typography";
 import { DEFAULT_CONFIG } from "@/data/default-config";
 import { findPresetByValue } from "@/data/scale-ratios";
 
@@ -109,5 +109,5 @@ export const useTypographyStore = create<TypographyStore>()(
 );
 
 export function isHeadingElement(element: TypographyElement): boolean {
-  return HEADING_ELEMENTS.includes(element);
+  return HEADING_ELEMENTS.includes(element) || DISPLAY_ELEMENTS.includes(element);
 }

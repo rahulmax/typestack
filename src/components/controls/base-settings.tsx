@@ -9,8 +9,6 @@ import { useTypographyStore } from "@/store/typography-store";
 export function BaseSettings() {
   const baseFontSize = useTypographyStore((s) => s.baseFontSize);
   const setBaseFontSize = useTypographyStore((s) => s.setBaseFontSize);
-  const sampleText = useTypographyStore((s) => s.sampleText);
-  const setSampleText = useTypographyStore((s) => s.setSampleText);
 
   return (
     <div className="flex flex-col gap-4">
@@ -44,14 +42,6 @@ export function BaseSettings() {
       <div className="flex flex-col gap-2">
         <Label className="text-xs text-muted-foreground">Scale Ratio</Label>
         <ScaleRatioSelect />
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <Label className="text-xs text-muted-foreground">Sample Text</Label>
-        <Input
-          value={sampleText}
-          onChange={(e) => setSampleText(e.target.value)}
-        />
       </div>
     </div>
   );

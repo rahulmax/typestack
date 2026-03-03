@@ -22,7 +22,7 @@ export function PreviewContainer() {
       <div
         className={`flex-1 overflow-auto ${
           activeTab === "scale"
-            ? "bg-muted/30"
+            ? ""
             : "bg-neutral-200 dark:bg-neutral-800"
         }`}
       >

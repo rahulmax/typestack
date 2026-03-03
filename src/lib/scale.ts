@@ -4,10 +4,10 @@ import type {
   ResolvedElementStyle,
   GroupProperties,
 } from "@/types/typography";
-import { SCALE_POSITIONS, ALL_ELEMENTS, HEADING_ELEMENTS } from "@/types/typography";
+import { SCALE_POSITIONS, ALL_ELEMENTS, HEADING_ELEMENTS, DISPLAY_ELEMENTS } from "@/types/typography";
 
-function isHeading(element: TypographyElement): boolean {
-  return HEADING_ELEMENTS.includes(element);
+function isHeadingOrDisplay(element: TypographyElement): boolean {
+  return HEADING_ELEMENTS.includes(element) || DISPLAY_ELEMENTS.includes(element);
 }
 
 export function computeFontSize(
@@ -23,7 +23,7 @@ export function resolveElementStyles(
   element: TypographyElement,
   config: TypographyConfig
 ): ResolvedElementStyle {
-  const group: GroupProperties = isHeading(element)
+  const group: GroupProperties = isHeadingOrDisplay(element)
     ? config.headingsGroup
     : config.bodyGroup;
 
@@ -68,7 +68,7 @@ export function resolveElementStylesMobile(
   element: TypographyElement,
   config: TypographyConfig
 ): ResolvedElementStyle {
-  const group: GroupProperties = isHeading(element)
+  const group: GroupProperties = isHeadingOrDisplay(element)
     ? config.headingsGroup
     : config.bodyGroup;
 
