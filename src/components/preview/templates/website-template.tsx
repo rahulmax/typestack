@@ -82,8 +82,8 @@ export const websiteTemplate: PreviewTemplate = {
 </style>
 
 <!-- NAV -->
-<nav style="max-width: 960px; margin: 0 auto; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
-  <h6 style="margin: 0; letter-spacing: -0.02em;">TypeStack</h6>
+<nav style="max-width: 1280px; margin: 0 auto; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+  <h6 style="margin: 0;">TypeStack</h6>
   <div id="nav-links" style="display: flex; gap: 2rem; align-items: center;">
     <small style="opacity: 0.7; cursor: pointer;">Features</small>
     <small style="opacity: 0.7; cursor: pointer;">Pricing</small>
@@ -93,10 +93,10 @@ export const websiteTemplate: PreviewTemplate = {
 </nav>
 
 <!-- HERO -->
-<section id="hero" style="max-width: 960px; margin: 0 auto; padding: 4rem 1.5rem 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
+<section id="hero" style="max-width: 1280px; margin: 0 auto; padding: 4rem 1.5rem 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
   <div>
     <small style="opacity: 0.4; text-transform: uppercase; letter-spacing: 0.1em; display: block; margin-bottom: 1rem;">Typography toolkit for modern teams</small>
-    <h2 style="margin: 0 0 1.25rem; line-height: 1.15; letter-spacing: -0.02em;">Your type system, from first sketch to shipped code</h2>
+    <h2 style="margin: 0 0 1.25rem;">Your type system, from first sketch to shipped code</h2>
     <p style="margin: 0 0 2rem; opacity: 0.65; max-width: 440px;">Create harmonious type scales, preview them in real layouts, and export production-ready CSS &mdash; all in one place.</p>
     <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
       <div style="display: inline-block; padding: 0.65em 1.75em; background: currentColor; border-radius: 8px; cursor: pointer;">
@@ -109,7 +109,7 @@ export const websiteTemplate: PreviewTemplate = {
 </section>
 
 <!-- LOGOS / TRUST BAR -->
-<section style="max-width: 960px; margin: 0 auto; padding: 0 1.5rem 4rem; text-align: center;">
+<section style="max-width: 1280px; margin: 0 auto; padding: 0 1.5rem 4rem; text-align: center;">
   <small style="opacity: 0.4; text-transform: uppercase; letter-spacing: 0.1em;">Trusted by design teams at</small>
   <div style="display: flex; justify-content: center; gap: 3rem; margin-top: 1.25rem; flex-wrap: wrap; opacity: 0.3;">
     <h6 style="margin: 0;">Vercel</h6>
@@ -121,7 +121,7 @@ export const websiteTemplate: PreviewTemplate = {
 </section>
 
 <!-- FEATURES GRID -->
-<section style="max-width: 960px; margin: 0 auto; padding: 0 1.5rem 5rem;">
+<section style="max-width: 1280px; margin: 0 auto; padding: 0 1.5rem 5rem;">
   <div style="text-align: center; margin-bottom: 3rem;">
     <h2 style="margin: 0 0 0.75rem;">Everything you need</h2>
     <p style="opacity: 0.6; max-width: 520px; margin: 0 auto;">A complete toolkit for typographic precision, from choosing scales to exporting production-ready tokens.</p>
@@ -173,11 +173,11 @@ export const websiteTemplate: PreviewTemplate = {
 </section>
 
 <!-- SPLIT SECTION: ILLUSTRATION LEFT, TEXT RIGHT -->
-<section id="split-1" style="max-width: 960px; margin: 0 auto; padding: 0 1.5rem 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
+<section id="split-1" style="max-width: 1280px; margin: 0 auto; padding: 0 1.5rem 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
   <div class="ill" id="ill-split-1" style="display: flex; align-items: center; justify-content: center; min-height: 240px; border: ${borderLight}; border-radius: 16px; padding: 2rem; background: color-mix(in srgb, currentColor 3%, transparent);"></div>
   <div>
     <small style="opacity: 0.4; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.75rem; display: block;">Precision</small>
-    <h3 style="margin: 0 0 1rem; line-height: 1.2;">Per-element control over every detail</h3>
+    <h3 style="margin: 0 0 1rem;">Per-element control over every detail</h3>
     <p style="opacity: 0.65; margin: 0 0 1.5rem;">Go beyond global settings. Adjust font weight, line height, letter spacing, and text transform for each heading level independently. Your h1 can be tight and bold while your h4 stays light and airy.</p>
     <div style="display: flex; gap: 2rem;">
       <div>
@@ -197,10 +197,10 @@ export const websiteTemplate: PreviewTemplate = {
 </section>
 
 <!-- SPLIT SECTION: TEXT LEFT, ILLUSTRATION RIGHT -->
-<section id="split-2" style="max-width: 960px; margin: 0 auto; padding: 0 1.5rem 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
+<section id="split-2" style="max-width: 1280px; margin: 0 auto; padding: 0 1.5rem 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
   <div>
     <small style="opacity: 0.4; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.75rem; display: block;">Responsive</small>
-    <h3 style="margin: 0 0 1rem; line-height: 1.2;">Mobile-first responsive scales</h3>
+    <h3 style="margin: 0 0 1rem;">Mobile-first responsive scales</h3>
     <p style="opacity: 0.65; margin: 0 0 1.5rem;">Headings that look grand on desktop can overwhelm a small screen. Define separate scales for mobile and desktop, then let TypeStack generate fluid clamp() values that adapt smoothly across every viewport.</p>
     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
       <div style="padding: 0.5em 1em; border: ${border}; border-radius: 8px;">
@@ -218,7 +218,7 @@ export const websiteTemplate: PreviewTemplate = {
 </section>
 
 <!-- STATS ROW -->
-<section style="max-width: 960px; margin: 0 auto; padding: 3rem 1.5rem 4rem; border-top: ${borderLight}; border-bottom: ${borderLight};">
+<section style="max-width: 1280px; margin: 0 auto; padding: 3rem 1.5rem 4rem; border-top: ${borderLight}; border-bottom: ${borderLight};">
   <div id="stats-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center;">
     <div>
       <h2 style="margin: 0 0 0.25rem;">50+</h2>
@@ -251,7 +251,7 @@ export const websiteTemplate: PreviewTemplate = {
 </section>
 
 <!-- HOW IT WORKS -->
-<section style="max-width: 960px; margin: 0 auto; padding: 0 1.5rem 5rem;">
+<section style="max-width: 1280px; margin: 0 auto; padding: 0 1.5rem 5rem;">
   <div style="text-align: center; margin-bottom: 3rem;">
     <h2 style="margin: 0 0 0.75rem;">How it works</h2>
     <p style="opacity: 0.6; max-width: 460px; margin: 0 auto;">Three steps to typographic harmony.</p>
@@ -282,7 +282,7 @@ export const websiteTemplate: PreviewTemplate = {
 </section>
 
 <!-- CTA -->
-<section style="max-width: 960px; margin: 0 auto; padding: 4rem 1.5rem; text-align: center; border-top: ${borderLight};">
+<section style="max-width: 1280px; margin: 0 auto; padding: 4rem 1.5rem; text-align: center; border-top: ${borderLight};">
   <h3 style="margin: 0 0 1rem;">Ready to build your type scale?</h3>
   <p style="opacity: 0.6; max-width: 480px; margin: 0 auto 2rem;">Join thousands of designers and developers who use TypeStack to create beautiful, consistent typography.</p>
   <div style="display: inline-block; padding: 0.7em 2.5em; background: currentColor; border-radius: 8px; cursor: pointer;">
@@ -291,7 +291,7 @@ export const websiteTemplate: PreviewTemplate = {
 </section>
 
 <!-- FOOTER -->
-<footer style="max-width: 960px; margin: 0 auto; padding: 3rem 1.5rem 2rem; border-top: ${borderLight};">
+<footer style="max-width: 1280px; margin: 0 auto; padding: 3rem 1.5rem 2rem; border-top: ${borderLight};">
   <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
     <div style="display: flex; align-items: center; gap: 2rem;">
       <h6 style="margin: 0;">TypeStack</h6>

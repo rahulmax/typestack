@@ -27,7 +27,7 @@ function ElementRow({ element }: { element: TypographyElement }) {
   };
 
   return (
-    <div className="rounded-md border">
+    <div className="rounded-sm border">
       <button
         type="button"
         className="flex w-full items-center justify-between px-3 py-2 text-sm hover:bg-accent"
@@ -39,7 +39,7 @@ function ElementRow({ element }: { element: TypographyElement }) {
             {resolved.fontSizeRem.toFixed(3)}rem
           </span>
           {override.isOverridden && (
-            <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+            <span className="h-1.5 w-1.5 rounded-full bg-accent-warm" />
           )}
         </div>
         <span className="text-xs text-muted-foreground">
@@ -106,13 +106,17 @@ function ElementRow({ element }: { element: TypographyElement }) {
                     },
                   });
                 }}
-                className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors ${
-                  (override.textTransform || "none") === "uppercase" ? "bg-primary" : "bg-muted"
+                className={`relative inline-flex h-[22px] w-10 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors before:absolute before:left-[7px] before:top-1/2 before:h-2.5 before:w-[2px] before:-translate-y-1/2 before:rounded-full before:bg-white/70 before:transition-opacity ${
+                  (override.textTransform || "none") === "uppercase" 
+                    ? "bg-accent-warm shadow-[inset_0_1px_3px_rgba(0,0,0,0.15)] before:opacity-100" 
+                    : "bg-muted shadow-[inset_0_1px_2px_rgba(0,0,0,0.06)] before:opacity-0"
                 }`}
               >
                 <span
-                  className={`pointer-events-none inline-block h-4 w-4 rounded-full bg-background shadow-sm ring-0 transition-transform ${
-                    (override.textTransform || "none") === "uppercase" ? "translate-x-4" : "translate-x-0"
+                  className={`pointer-events-none relative inline-block h-[18px] w-[18px] rounded-full bg-background ring-0 transition-transform after:absolute after:left-1/2 after:top-1/2 after:h-1.5 after:w-1.5 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-full ${
+                    (override.textTransform || "none") === "uppercase" 
+                      ? "translate-x-[18px] shadow-[0_1px_4px_rgba(0,0,0,0.15),0_0_0_1px_rgba(0,0,0,0.05)] after:bg-accent-warm" 
+                      : "translate-x-0 shadow-[0_1px_3px_rgba(0,0,0,0.12),0_0_0_1px_rgba(0,0,0,0.04)] after:bg-border"
                   }`}
                 />
               </button>

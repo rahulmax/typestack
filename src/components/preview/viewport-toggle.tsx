@@ -5,6 +5,7 @@ import { useUIStore, type ViewportSize } from "@/store/ui-store";
 
 const VIEWPORTS: { value: ViewportSize; label: string }[] = [
   { value: "desktop", label: "Desktop" },
+  { value: "laptop", label: "Laptop" },
   { value: "tablet", label: "Tablet" },
   { value: "mobile", label: "Mobile" },
 ];

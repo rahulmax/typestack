@@ -9,7 +9,7 @@ export function BrowserChrome({ children, width }: BrowserChromeProps) {
   return (
     <div
       className="mx-auto transition-all duration-300"
-      style={{ width, maxWidth: "100%" }}
+      style={{ width }}
     >
       <div className="overflow-hidden rounded-lg shadow-md border border-neutral-200 dark:border-neutral-700">
         {/* Title bar */}

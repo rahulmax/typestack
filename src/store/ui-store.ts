@@ -2,7 +2,7 @@
 
 import { create } from "zustand";
 
-export type ViewportSize = "desktop" | "tablet" | "mobile";
+export type ViewportSize = "desktop" | "laptop" | "tablet" | "mobile";
 export type PreviewTab = "scale" | "website" | "dashboard" | "blog";
 
 interface UIStore {
@@ -21,13 +21,14 @@ interface UIStore {
 }
 
 export const VIEWPORT_WIDTHS: Record<ViewportSize, string> = {
-  desktop: "100%",
+  desktop: "1920px",
+  laptop: "1440px",
   tablet: "768px",
   mobile: "375px",
 };
 
 export const useUIStore = create<UIStore>()((set) => ({
-  viewport: "desktop",
+  viewport: "laptop",
   activeTab: "scale",
   expandedElement: null,
   currentStackId: null,

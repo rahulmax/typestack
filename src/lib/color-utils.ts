@@ -253,28 +253,26 @@ export function computeSceneTones(
 }
 
 export function generateRandomColorPair(): { fg: string; bg: string } {
-  const MAX_ATTEMPTS = 50;
+  const MAX_ATTEMPTS = 200;
 
   for (let i = 0; i < MAX_ATTEMPTS; i++) {
-    const hue = Math.random() * 360;
-    const chroma = 0.05 + Math.random() * 0.10;
+    const fgHue = Math.random() * 360;
+    const fgSat = 10 + Math.random() * 90;
+    const fgLit = Math.random() * 100;
 
-    const lightL = 0.85 + Math.random() * 0.10;
-    const darkL = 0.15 + Math.random() * 0.15;
+    const bgHue = Math.random() * 360;
+    const bgSat = 10 + Math.random() * 90;
+    const bgLit = Math.random() * 100;
 
-    const lightHex = oklchToHex(lightL, chroma, hue);
-    const darkHex = oklchToHex(darkL, chroma, hue);
+    const fgRgb = hslToRgb(fgHue, fgSat, fgLit);
+    const bgRgb = hslToRgb(bgHue, bgSat, bgLit);
 
-    const lightRgb = hexToRgb(lightHex);
-    const darkRgb = hexToRgb(darkHex);
-
-    const ratio = contrastRatio(lightRgb, darkRgb);
+    const ratio = contrastRatio(fgRgb, bgRgb);
     if (ratio >= 4.5) {
-      if (Math.random() > 0.5) {
-        return { fg: darkHex, bg: lightHex };
-      } else {
-        return { fg: lightHex, bg: darkHex };
-      }
+      return {
+        fg: rgbToHex(...fgRgb),
+        bg: rgbToHex(...bgRgb),
+      };
     }
   }
 

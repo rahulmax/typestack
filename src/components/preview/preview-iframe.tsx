@@ -7,12 +7,15 @@ import { getFontLinkUrl } from "@/lib/google-fonts";
 
 interface PreviewIframeProps {
   bodyHTML: string;
+  mobile?: boolean;
 }
 
-function buildDoc(css: string, bodyHTML: string, fontLinks: string[]): string {
+function buildDoc(css: string, bodyHTML: string, fontLinks: string[], mobile?: boolean): string {
   const linkTags = fontLinks
     .map((url) => `<link rel="stylesheet" href="${url}" />`)
     .join("\n");
+
+  const mobileStyle = mobile ? `body { overflow-x: hidden; }` : "";
 
   return `<!DOCTYPE html>
 <html>
@@ -20,13 +23,14 @@ function buildDoc(css: string, bodyHTML: string, fontLinks: string[]): string {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   ${linkTags}
+  <style>${mobileStyle}</style>
   <style id="typestack-styles">${css}</style>
 </head>
 <body>${bodyHTML}</body>
 </html>`;
 }
 
-export function PreviewIframe({ bodyHTML }: PreviewIframeProps) {
+export function PreviewIframe({ bodyHTML, mobile }: PreviewIframeProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const css = usePreviewStyles();
   const headingFont = useTypographyStore((s) => s.headingsGroup.fontFamily);
@@ -43,9 +47,9 @@ export function PreviewIframe({ bodyHTML }: PreviewIframeProps) {
   // Build srcdoc only when template or fonts change — NOT on CSS changes.
   // CSS updates go through the effect below to avoid full iframe reload.
   const srcdoc = useMemo(
-    () => buildDoc(css, bodyHTML, fontLinks),
+    () => buildDoc(css, bodyHTML, fontLinks, mobile),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [bodyHTML, fontLinks]
+    [bodyHTML, fontLinks, mobile]
   );
 
   // Incremental CSS update (no iframe reload)
@@ -84,7 +88,7 @@ export function PreviewIframe({ bodyHTML }: PreviewIframeProps) {
       ref={iframeRef}
       srcDoc={srcdoc}
       className="h-full w-full border-0"
-      style={{ minHeight: "calc(100vh - 10rem)" }}
+      style={mobile ? undefined : { minHeight: "calc(100vh - 10rem)" }}
       title="Typography Preview"
     />
   );

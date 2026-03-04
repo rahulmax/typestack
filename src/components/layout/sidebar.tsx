@@ -22,7 +22,7 @@ export function Sidebar({ children }: SidebarProps) {
       <Button
         variant="ghost"
         size="sm"
-        className="absolute left-0 top-16 z-10 h-8 w-6 rounded-l-none rounded-r-md border border-l-0 bg-background"
+        className="absolute left-0 top-16 z-10 h-8 w-6 rounded-l-none rounded-r-sm border border-l-0 bg-background text-muted-foreground hover:text-foreground"
         onClick={() => setCollapsed(!collapsed)}
       >
         {collapsed ? ">" : "<"}

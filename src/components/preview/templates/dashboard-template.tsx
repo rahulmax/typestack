@@ -29,12 +29,12 @@ export const dashboardTemplate: PreviewTemplate = {
   }
 </style>
 
-<div style="max-width: 1000px; margin: 0 auto; padding: 2.5rem 1.5rem;">
+<div style="max-width: 1280px; margin: 0 auto; padding: 2.5rem 1.5rem;">
 
   <!-- Header -->
   <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2.25rem; flex-wrap: wrap; gap: 0.75rem;">
     <div>
-      <h2 style="margin: 0 0 0.35rem; letter-spacing: -0.025em;">Dashboard</h2>
+      <h2 style="margin: 0 0 0.35rem;">Dashboard</h2>
       <p style="opacity: 0.5; margin: 0; font-size: 0.9em;">Welcome back. Here's what's happening with your projects today.</p>
     </div>
     <div style="${badge} font-size: 0.8em; padding: 0.35em 0.85em;">Mar 3, 2026</div>
@@ -48,7 +48,7 @@ export const dashboardTemplate: PreviewTemplate = {
         <small style="opacity: 0.6; font-weight: 500;">Total Revenue</small>
         <div style="width: 16px; height: 16px; border-radius: 50%; background: color-mix(in srgb, currentColor 15%, transparent);"></div>
       </div>
-      <h3 style="margin: 0 0 0.25rem; letter-spacing: -0.02em;">$4,521</h3>
+      <h3 style="margin: 0 0 0.25rem;">$4,521</h3>
       <small style="opacity: 0.5;">+20.1% from last month</small>
     </div>
 
@@ -57,7 +57,7 @@ export const dashboardTemplate: PreviewTemplate = {
         <small style="opacity: 0.6; font-weight: 500;">Subscriptions</small>
         <div style="width: 16px; height: 16px; border-radius: 50%; background: color-mix(in srgb, currentColor 15%, transparent);"></div>
       </div>
-      <h3 style="margin: 0 0 0.25rem; letter-spacing: -0.02em;">+2,350</h3>
+      <h3 style="margin: 0 0 0.25rem;">+2,350</h3>
       <small style="opacity: 0.5;">+180.1% from last month</small>
     </div>
 
@@ -66,7 +66,7 @@ export const dashboardTemplate: PreviewTemplate = {
         <small style="opacity: 0.6; font-weight: 500;">Active Now</small>
         <div style="width: 16px; height: 16px; border-radius: 50%; background: color-mix(in srgb, currentColor 15%, transparent);"></div>
       </div>
-      <h3 style="margin: 0 0 0.25rem; letter-spacing: -0.02em;">+573</h3>
+      <h3 style="margin: 0 0 0.25rem;">+573</h3>
       <small style="opacity: 0.5;">+201 since last hour</small>
     </div>
 
@@ -75,7 +75,7 @@ export const dashboardTemplate: PreviewTemplate = {
         <small style="opacity: 0.6; font-weight: 500;">Bounce Rate</small>
         <div style="width: 16px; height: 16px; border-radius: 50%; background: color-mix(in srgb, currentColor 15%, transparent);"></div>
       </div>
-      <h3 style="margin: 0 0 0.25rem; letter-spacing: -0.02em;">24.5%</h3>
+      <h3 style="margin: 0 0 0.25rem;">24.5%</h3>
       <small style="opacity: 0.5;">-4.3% from last month</small>
     </div>
 
@@ -276,7 +276,7 @@ export const dashboardTemplate: PreviewTemplate = {
       <div style="padding: 1.5rem;">
         <div style="margin-bottom: 1.25rem;">
           <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem;">
-            <h5 style="margin: 0; letter-spacing: -0.01em;">64.8 GB</h5>
+            <h5 style="margin: 0;">64.8 GB</h5>
             <small style="opacity: 0.5;">of 100 GB used</small>
           </div>
           <div style="${barTrack} height: 8px;">

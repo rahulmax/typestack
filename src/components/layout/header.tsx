@@ -49,10 +49,10 @@ export function Header({
   }
 
   return (
-    <header className="flex h-14 items-center justify-between border-b px-4">
+    <header className="flex h-14 items-center justify-between border-b bg-background px-4">
       <div className="flex items-center gap-2">
         <span className="text-lg font-bold tracking-tight">TypeStack</span>
-        <span className="text-xs text-muted-foreground">Type Scale Generator</span>
+        <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Type Scale Generator</span>
       </div>
 
       <div className="flex items-center gap-1.5">
@@ -61,10 +61,10 @@ export function Header({
             <button
               type="button"
               onClick={onHeadingColorClick}
-              className="flex h-8 items-center gap-1.5 rounded-md border bg-background px-2 text-xs hover:bg-accent"
+              className="flex h-8 items-center gap-1.5 rounded-sm border bg-background px-2 text-xs hover:bg-accent"
             >
               <span
-                className="h-4 w-4 rounded-sm border"
+                className="h-4 w-4 rounded-sm border shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)]"
                 style={{ backgroundColor: headingColor }}
               />
               <span className="text-muted-foreground">H</span>
@@ -77,10 +77,10 @@ export function Header({
             <button
               type="button"
               onClick={onBodyColorClick}
-              className="flex h-8 items-center gap-1.5 rounded-md border bg-background px-2 text-xs hover:bg-accent"
+              className="flex h-8 items-center gap-1.5 rounded-sm border bg-background px-2 text-xs hover:bg-accent"
             >
               <span
-                className="h-4 w-4 rounded-sm border"
+                className="h-4 w-4 rounded-sm border shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)]"
                 style={{ backgroundColor: bodyColor }}
               />
               <span className="text-muted-foreground">B</span>
@@ -93,10 +93,10 @@ export function Header({
             <button
               type="button"
               onClick={onBackgroundColorClick}
-              className="flex h-8 items-center gap-1.5 rounded-md border bg-background px-2 text-xs hover:bg-accent"
+              className="flex h-8 items-center gap-1.5 rounded-sm border bg-background px-2 text-xs hover:bg-accent"
             >
               <span
-                className="h-4 w-4 rounded-sm border"
+                className="h-4 w-4 rounded-sm border shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)]"
                 style={{ backgroundColor }}
               />
               <span className="text-muted-foreground">BG</span>

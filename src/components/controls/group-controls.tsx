@@ -27,7 +27,7 @@ export function GroupControls({
         <button
           type="button"
           onClick={onFontClick}
-          className="flex h-9 w-full items-center rounded-md border bg-background px-3 text-sm hover:bg-accent"
+          className="flex h-9 w-full items-center rounded-sm border bg-background px-3 text-sm hover:bg-accent"
           style={{ fontFamily: group.fontFamily }}
         >
           {group.fontFamily}

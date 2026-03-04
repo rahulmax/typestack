@@ -5,6 +5,7 @@ import { TemplateTabs } from "./template-tabs";
 import { TypeScaleView } from "./type-scale-view";
 import { PreviewIframe } from "./preview-iframe";
 import { BrowserChrome } from "./browser-chrome";
+import { MobileChrome } from "./mobile-chrome";
 import { useUIStore, VIEWPORT_WIDTHS } from "@/store/ui-store";
 import { getTemplateHTML } from "./templates/template-registry";
 
@@ -15,12 +16,12 @@ export function PreviewContainer() {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex items-center justify-between border-b px-4 py-2">
+      <div className="flex items-center gap-3 border-b px-4 py-2">
         <TemplateTabs />
-        <ViewportToggle />
+        {activeTab !== "scale" && <ViewportToggle />}
       </div>
       <div
-        className={`flex-1 overflow-auto ${
+        className={`flex-1 overflow-hidden ${
           activeTab === "scale"
             ? ""
             : "bg-neutral-200 dark:bg-neutral-800"
@@ -28,8 +29,12 @@ export function PreviewContainer() {
       >
         {activeTab === "scale" ? (
           <TypeScaleView />
+        ) : viewport === "mobile" ? (
+          <MobileChrome>
+            <PreviewIframe bodyHTML={getTemplateHTML(activeTab)} mobile />
+          </MobileChrome>
         ) : (
-          <div className="p-6">
+          <div className="h-full overflow-auto p-4">
             <BrowserChrome width={width}>
               <PreviewIframe bodyHTML={getTemplateHTML(activeTab)} />
             </BrowserChrome>
