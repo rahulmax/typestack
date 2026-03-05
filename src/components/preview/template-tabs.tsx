@@ -4,7 +4,6 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUIStore, type PreviewTab } from "@/store/ui-store";
 
 const TABS: { value: PreviewTab; label: string }[] = [
-  { value: "scale", label: "Scale" },
   { value: "website", label: "Website" },
   { value: "dashboard", label: "Dashboard" },
   { value: "blog", label: "Blog" },

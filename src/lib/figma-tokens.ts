@@ -1,66 +1,72 @@
 import type { TypographyConfig } from "@/types/typography";
 import { computeScale } from "./scale";
-import { HEADING_ELEMENTS } from "@/types/typography";
+import { DISPLAY_ELEMENTS, HEADING_ELEMENTS } from "@/types/typography";
 
 export function generateTokensStudioJSON(config: TypographyConfig): string {
   const desktop = computeScale(config);
 
-  const tokens: Record<string, unknown> = {
-    typography: {
-      fontFamilies: {
-        heading: {
-          value: config.headingsGroup.fontFamily,
-          type: "fontFamilies",
-        },
-        body: {
-          value: config.bodyGroup.fontFamily,
-          type: "fontFamilies",
-        },
-      },
-      fontSizes: {} as Record<string, unknown>,
-      fontWeights: {} as Record<string, unknown>,
-      lineHeights: {} as Record<string, unknown>,
-      letterSpacing: {} as Record<string, unknown>,
-      composition: {} as Record<string, unknown>,
-    },
-  };
-
-  const sizes = tokens.typography as Record<string, Record<string, unknown>>;
+  const fontSizes: Record<string, unknown> = {};
+  const fontWeights: Record<string, unknown> = {};
+  const lineHeights: Record<string, unknown> = {};
+  const letterSpacing: Record<string, unknown> = {};
+  const typography: Record<string, unknown> = {};
 
   for (const style of desktop) {
-    sizes.fontSizes[style.element] = {
+    fontSizes[style.element] = {
       value: `${style.fontSizeRem.toFixed(4)}rem`,
       type: "fontSizes",
     };
 
-    sizes.fontWeights[style.element] = {
-      value: style.fontWeight,
+    fontWeights[style.element] = {
+      value: String(style.fontWeight),
       type: "fontWeights",
     };
 
-    sizes.lineHeights[style.element] = {
+    lineHeights[style.element] = {
       value: `${(style.lineHeight * 100).toFixed(0)}%`,
       type: "lineHeights",
     };
 
-    sizes.letterSpacing[style.element] = {
+    letterSpacing[style.element] = {
       value: `${style.letterSpacing}em`,
       type: "letterSpacing",
     };
 
-    sizes.composition[style.element] = {
+    const isHeading =
+      HEADING_ELEMENTS.includes(style.element) ||
+      DISPLAY_ELEMENTS.includes(style.element);
+
+    typography[style.element] = {
       value: {
-        fontFamily: HEADING_ELEMENTS.includes(style.element)
-          ? "{typography.fontFamilies.heading}"
-          : "{typography.fontFamilies.body}",
-        fontSize: `{typography.fontSizes.${style.element}}`,
-        fontWeight: `{typography.fontWeights.${style.element}}`,
-        lineHeight: `{typography.lineHeights.${style.element}}`,
-        letterSpacing: `{typography.letterSpacing.${style.element}}`,
+        fontFamily: isHeading
+          ? "{fontFamilies.heading}"
+          : "{fontFamilies.body}",
+        fontSize: `{fontSizes.${style.element}}`,
+        fontWeight: `{fontWeights.${style.element}}`,
+        lineHeight: `{lineHeights.${style.element}}`,
+        letterSpacing: `{letterSpacing.${style.element}}`,
       },
       type: "typography",
     };
   }
+
+  const tokens = {
+    fontFamilies: {
+      heading: {
+        value: config.headingsGroup.fontFamily,
+        type: "fontFamilies",
+      },
+      body: {
+        value: config.bodyGroup.fontFamily,
+        type: "fontFamilies",
+      },
+    },
+    fontSizes,
+    fontWeights,
+    lineHeights,
+    letterSpacing,
+    typography,
+  };
 
   return JSON.stringify(tokens, null, 2);
 }

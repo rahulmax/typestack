@@ -35,19 +35,17 @@ export function FontPicker({
   onSelectFont,
 }: FontPickerProps) {
   const [fonts, setFonts] = useState<GoogleFont[]>([]);
-  const [loading, setLoading] = useState(false);
   const [category, setCategory] = useState<FontCategory | "all">("all");
   const [search, setSearch] = useState("");
   const { observe } = useFontLoader();
+  const loading = open && fonts.length === 0;
 
   useEffect(() => {
-    if (!open) return;
-    setLoading(true);
+    if (!open || fonts.length > 0) return;
     fetchGoogleFonts()
       .then(setFonts)
-      .catch(console.error)
-      .finally(() => setLoading(false));
-  }, [open]);
+      .catch(console.error);
+  }, [open, fonts.length]);
 
   const filtered = useMemo(() => {
     let result = filterFontsByCategory(fonts, category);

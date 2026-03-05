@@ -22,15 +22,15 @@ export function ScaleRatioSelect() {
 
   useEffect(() => {
     if (customMode) {
-      setCustomValue(String(scaleRatio));
       inputRef.current?.focus();
       inputRef.current?.select();
     }
-  }, [customMode, scaleRatio]);
+  }, [customMode]);
 
   const handlePresetChange = (value: string) => {
     if (value === "Custom") {
       setScaleRatioPreset("Custom");
+      setCustomValue(String(scaleRatio));
       setCustomMode(true);
       return;
     }

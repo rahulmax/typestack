@@ -11,6 +11,7 @@ import { MobileSettings } from "@/components/controls/mobile-settings";
 import { FontPicker } from "@/components/controls/font-picker/font-picker";
 import { ColorPicker } from "@/components/controls/color-picker/color-picker";
 import { PreviewContainer } from "@/components/preview/preview-container";
+import { ScalePanel } from "@/components/layout/scale-panel";
 import { ExportDialog } from "@/components/export/export-dialog";
 import { Separator } from "@/components/ui/separator";
 import { useTypographyStore } from "@/store/typography-store";
@@ -178,6 +179,7 @@ export default function Home() {
             <MobileSettings />
           </Sidebar>
         }
+        scalePanel={<ScalePanel />}
         preview={<PreviewContainer />}
       />
 

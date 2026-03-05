@@ -7,14 +7,14 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Shuffle, ArrowLeftRight, Undo2, Redo2, RotateCcw, Wand2, Dices } from "lucide-react";
+import { Shuffle, ArrowLeftRight, Undo2, Redo2, RotateCcw, Wand2, Dices, Sun, Moon } from "lucide-react";
 import { useTypographyStore } from "@/store/typography-store";
 import { useStore } from "zustand";
 import { generateRandomColorPair } from "@/lib/color-utils";
 import { PRESETS } from "@/db/seed-presets";
 import { TemplateTabs } from "@/components/preview/template-tabs";
 import { ViewportToggle } from "@/components/preview/viewport-toggle";
-import { useUIStore } from "@/store/ui-store";
+import { useTheme } from "next-themes";
 
 const btnClass = "flex h-8 items-center gap-1.5 rounded-sm border bg-background px-2 text-xs hover:bg-accent";
 
@@ -43,7 +43,7 @@ export function Header({
   const resetConfig = useTypographyStore((s) => s.resetConfig);
   const autoBalance = useTypographyStore((s) => s.autoBalance);
   const setAutoBalance = useTypographyStore((s) => s.setAutoBalance);
-  const activeTab = useUIStore((s) => s.activeTab);
+  const { resolvedTheme, setTheme } = useTheme();
 
   const { undo, redo, pastStates, futureStates } = useStore(
     useTypographyStore.temporal
@@ -52,7 +52,7 @@ export function Header({
   const canRedo = futureStates.length > 0;
 
   function handleRandom() {
-    const { fg, bg } = generateRandomColorPair();
+    const { fg, bg } = generateRandomColorPair(resolvedTheme === "dark");
     setColors(fg, fg, bg);
   }
 
@@ -101,7 +101,7 @@ export function Header({
 
         {/* Template tabs + viewport */}
         <TemplateTabs />
-        {activeTab !== "scale" && <ViewportToggle />}
+        <ViewportToggle />
 
         <Separator orientation="vertical" className="mx-0.5 h-5" />
 
@@ -168,8 +168,23 @@ export function Header({
         </Tooltip>
       </div>
 
-      {/* Right: undo/redo/reset, share, export */}
+      {/* Right: theme, undo/redo/reset, share, export */}
       <div className="flex items-center gap-1.5 shrink-0">
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button
+              type="button"
+              onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+              className={btnClass}
+            >
+              {resolvedTheme === "dark" ? <Sun className="size-3.5" /> : <Moon className="size-3.5" />}
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>Toggle dark mode</TooltipContent>
+        </Tooltip>
+
+        <Separator orientation="vertical" className="mx-0.5 h-5" />
+
         <Tooltip>
           <TooltipTrigger asChild>
             <button

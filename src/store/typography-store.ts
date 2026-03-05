@@ -140,7 +140,8 @@ export const useTypographyStore = create<TypographyStore>()(
       loadConfig: (config) =>
         set((state) => {
           // Strip colors from loaded config — user controls colors independently
-          const { backgroundColor: _bg, ...rest } = config;
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { backgroundColor: _stripBg, ...rest } = config;
           return {
             ...rest,
             autoBalance: false,

@@ -137,18 +137,6 @@ export function hexToOklchString(hex: string): string {
   return `oklch(${(l * 100).toFixed(2)}% ${c.toFixed(4)} ${h.toFixed(2)})`;
 }
 
-function blendRgb(
-  from: [number, number, number],
-  to: [number, number, number],
-  t: number
-): [number, number, number] {
-  return [
-    Math.round(from[0] + (to[0] - from[0]) * t),
-    Math.round(from[1] + (to[1] - from[1]) * t),
-    Math.round(from[2] + (to[2] - from[2]) * t),
-  ];
-}
-
 function oklchToRgb(
   L: number,
   C: number,
@@ -252,29 +240,35 @@ export function computeSceneTones(
   };
 }
 
-export function generateRandomColorPair(): { fg: string; bg: string } {
+export function generateRandomColorPair(preferDarkBg = false): { fg: string; bg: string } {
   const MAX_ATTEMPTS = 200;
 
   for (let i = 0; i < MAX_ATTEMPTS; i++) {
-    const fgHue = Math.random() * 360;
-    const fgSat = 10 + Math.random() * 90;
-    const fgLit = Math.random() * 100;
+    const hue1 = Math.random() * 360;
+    const sat1 = 10 + Math.random() * 90;
+    const lit1 = Math.random() * 100;
 
-    const bgHue = Math.random() * 360;
-    const bgSat = 10 + Math.random() * 90;
-    const bgLit = Math.random() * 100;
+    const hue2 = Math.random() * 360;
+    const sat2 = 10 + Math.random() * 90;
+    const lit2 = Math.random() * 100;
 
-    const fgRgb = hslToRgb(fgHue, fgSat, fgLit);
-    const bgRgb = hslToRgb(bgHue, bgSat, bgLit);
+    const rgb1 = hslToRgb(hue1, sat1, lit1);
+    const rgb2 = hslToRgb(hue2, sat2, lit2);
 
-    const ratio = contrastRatio(fgRgb, bgRgb);
+    const ratio = contrastRatio(rgb1, rgb2);
     if (ratio >= 4.5) {
-      return {
-        fg: rgbToHex(...fgRgb),
-        bg: rgbToHex(...bgRgb),
-      };
+      const lum1 = relativeLuminance(...rgb1);
+      const lum2 = relativeLuminance(...rgb2);
+      const dark = lum1 < lum2 ? rgb1 : rgb2;
+      const light = lum1 < lum2 ? rgb2 : rgb1;
+
+      return preferDarkBg
+        ? { fg: rgbToHex(...light), bg: rgbToHex(...dark) }
+        : { fg: rgbToHex(...dark), bg: rgbToHex(...light) };
     }
   }
 
-  return { fg: "#1a1a2e", bg: "#e8e8f0" };
+  return preferDarkBg
+    ? { fg: "#e8e8f0", bg: "#1a1a2e" }
+    : { fg: "#1a1a2e", bg: "#e8e8f0" };
 }

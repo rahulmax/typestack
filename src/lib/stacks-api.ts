@@ -5,6 +5,7 @@ export interface Stack {
   id: string;
   name: string;
   config: TypographyConfig;
+  category: string | null;
   deviceId: string;
   isPublished: boolean;
   isPreset: boolean;

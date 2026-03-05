@@ -116,7 +116,7 @@ export function StackCard({
               className={`h-3.5 w-3.5 ${
                 stack.isLiked
                   ? "fill-red-500 text-red-500"
-                  : "text-neutral-400 dark:text-neutral-500"
+                  : "text-muted-foreground"
               }`}
             />
           </Button>
@@ -138,7 +138,7 @@ export function StackCard({
               className={`h-3.5 w-3.5 ${
                 stack.isSaved
                   ? "fill-blue-500 text-blue-500"
-                  : "text-neutral-400 dark:text-neutral-500"
+                  : "text-muted-foreground"
               }`}
             />
           </Button>

@@ -4,6 +4,7 @@ export const stacks = sqliteTable("stacks", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
   config: text("config").notNull(),
+  category: text("category"),
   deviceId: text("device_id").notNull(),
   isPublished: integer("is_published", { mode: "boolean" }).notNull().default(false),
   isPreset: integer("is_preset", { mode: "boolean" }).notNull().default(false),

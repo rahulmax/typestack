@@ -1,10 +1,10 @@
-import type { TypographyConfig, ResolvedElementStyle } from "@/types/typography";
+import type { TypographyConfig, TypographyElement, ResolvedElementStyle } from "@/types/typography";
 import { computeScale, computeMobileScale } from "./scale";
-import { ALL_ELEMENTS, HEADING_ELEMENTS, DISPLAY_ELEMENTS } from "@/types/typography";
+import { HEADING_ELEMENTS, DISPLAY_ELEMENTS } from "@/types/typography";
 import { computeSceneTones, hexToOklchString, hexToOklch, oklchToHex } from "./color-utils";
 
 function isHeadingLike(element: string): boolean {
-  return (HEADING_ELEMENTS.includes(element as any) || DISPLAY_ELEMENTS.includes(element as any)) && element !== "eyebrow";
+  return (HEADING_ELEMENTS.includes(element as TypographyElement) || DISPLAY_ELEMENTS.includes(element as TypographyElement)) && element !== "eyebrow";
 }
 
 function elementSelector(element: string): string {

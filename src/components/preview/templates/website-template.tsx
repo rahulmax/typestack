@@ -8,25 +8,50 @@ export const websiteTemplate: PreviewTemplate = {
   name: "Website",
   html: `
 <style>
-  @media (max-width: 768px) {
+  /* Tablet */
+  @media (max-width: 800px) {
     nav, section, footer {
-      padding-left: 1rem !important;
-      padding-right: 1rem !important;
+      padding-left: 1.25rem !important;
+      padding-right: 1.25rem !important;
     }
     #hero {
-      grid-template-columns: 1fr !important;
+      grid-template-columns: 1fr 0.8fr !important;
+      gap: 2rem !important;
       padding-top: 2.5rem !important;
       padding-bottom: 3rem !important;
     }
     #ill-hero {
-      min-height: 220px !important;
+      min-height: 200px !important;
     }
     #features-grid {
       grid-template-columns: repeat(2, 1fr) !important;
+      gap: 1rem !important;
+    }
+    #split-1, #split-2 {
+      gap: 2rem !important;
+    }
+    #stats-grid {
+      grid-template-columns: repeat(4, 1fr) !important;
+      gap: 1rem !important;
+    }
+    #hiw-grid {
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 1.25rem !important;
+    }
+  }
+  /* Small tablet / large phone */
+  @media (max-width: 600px) {
+    #hero {
+      grid-template-columns: 1fr !important;
+      padding-top: 2rem !important;
+      padding-bottom: 2.5rem !important;
+    }
+    #ill-hero {
+      min-height: 180px !important;
     }
     #split-1, #split-2 {
       grid-template-columns: 1fr !important;
-      gap: 2rem !important;
+      gap: 1.5rem !important;
     }
     #split-1 > :first-child {
       order: 2 !important;
@@ -42,7 +67,12 @@ export const websiteTemplate: PreviewTemplate = {
       align-items: flex-start !important;
     }
   }
+  /* Mobile */
   @media (max-width: 480px) {
+    nav, section, footer {
+      padding-left: 0.75rem !important;
+      padding-right: 0.75rem !important;
+    }
     #nav-links small:not(:last-child) {
       display: none !important;
     }
@@ -50,7 +80,7 @@ export const websiteTemplate: PreviewTemplate = {
       gap: 0.75rem !important;
     }
     #ill-hero {
-      min-height: 160px !important;
+      min-height: 140px !important;
     }
     #features-grid {
       grid-template-columns: 1fr !important;
@@ -61,19 +91,10 @@ export const websiteTemplate: PreviewTemplate = {
       gap: 1.5rem !important;
     }
     #split-1, #split-2 {
-      gap: 1.5rem !important;
       padding-bottom: 3rem !important;
     }
     #hiw-grid {
       gap: 1.5rem !important;
-    }
-    nav, section, footer {
-      padding-left: 0.75rem !important;
-      padding-right: 0.75rem !important;
-    }
-    footer > div:first-child {
-      flex-direction: column !important;
-      align-items: flex-start !important;
     }
     footer > div:last-child {
       flex-direction: column !important;
@@ -316,16 +337,18 @@ export const websiteTemplate: PreviewTemplate = {
 <!-- ILLUSTRATION INJECTION SCRIPT -->
 <script>
 (function() {
+  var total = 24;
   var nums = [];
-  while (nums.length < 3) {
-    var n = Math.floor(Math.random() * 8) + 1;
-    if (nums.indexOf(n) === -1) nums.push(n);
+  for (var j = 1; j <= total; j++) nums.push(j);
+  for (var k = nums.length - 1; k > 0; k--) {
+    var r = Math.floor(Math.random() * (k + 1));
+    var tmp = nums[k]; nums[k] = nums[r]; nums[r] = tmp;
   }
 
   var slots = document.querySelectorAll('.ill');
   slots.forEach(function(slot, i) {
-    if (i >= nums.length) return;
-    fetch('/ill/ill-' + nums[i] + '.svg')
+    var n = nums[i % total];
+    fetch('/ill/ill-' + n + '.svg')
       .then(function(r) { return r.text(); })
       .then(function(svg) {
         slot.innerHTML = svg;
@@ -333,8 +356,7 @@ export const websiteTemplate: PreviewTemplate = {
         if (svgEl) {
           svgEl.style.width = '100%';
           svgEl.style.height = 'auto';
-          svgEl.style.maxHeight = '320px';
-          svgEl.style.fill = 'var(--tone-base)';
+          svgEl.style.maxHeight = slot.dataset.maxH || '320px';
         }
       });
   });

@@ -28,7 +28,12 @@ for (const preset of PRESETS) {
 
   const existing = db.select().from(stacks).where(eq(stacks.id, id)).get();
   if (existing) {
-    console.log(`  skip: ${preset.name} (exists)`);
+    // Update category on existing presets
+    db.update(stacks)
+      .set({ category: preset.category })
+      .where(eq(stacks.id, id))
+      .run();
+    console.log(`  update: ${preset.name} (category: ${preset.category})`);
     continue;
   }
 
@@ -38,6 +43,7 @@ for (const preset of PRESETS) {
     id,
     name: preset.name,
     config: JSON.stringify(config),
+    category: preset.category,
     deviceId: PRESET_DEVICE_ID,
     isPublished: true,
     isPreset: true,
