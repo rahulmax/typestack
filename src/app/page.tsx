@@ -17,13 +17,16 @@ import { useTypographyStore } from "@/store/typography-store";
 import { useURLSync } from "@/store/middleware/url-sync";
 import { setConfigToURL } from "@/lib/url-codec";
 import { useActiveFontLoader } from "@/hooks/use-font-loader";
+import { useAutoBalance } from "@/hooks/use-auto-balance";
 import { useUIStore } from "@/store/ui-store";
 import { StackPicker } from "@/components/stacks/stack-picker";
+import { BrowseStacksDialog } from "@/components/stacks/browse-stacks-dialog";
 import { toast } from "sonner";
 
 export default function Home() {
   const store = useTypographyStore();
   useActiveFontLoader();
+  useAutoBalance();
   const headingsGroup = store.headingsGroup;
   const bodyGroup = store.bodyGroup;
   const backgroundColor = store.backgroundColor;
@@ -38,6 +41,7 @@ export default function Home() {
   const [fontPickerTarget, setFontPickerTarget] = useState<"headings" | "body" | null>(null);
   const [colorPickerTarget, setColorPickerTarget] = useState<"headings" | "body" | "background" | null>(null);
   const [exportOpen, setExportOpen] = useState(false);
+  const [browseStacksOpen, setBrowseStacksOpen] = useState(false);
 
   const handleExportClick = useCallback(() => {
     setExportOpen(true);
@@ -71,6 +75,12 @@ export default function Home() {
         } else if (e.key === "s") {
           e.preventDefault();
           handleShareClick();
+        } else if (e.key === "z" && !e.shiftKey) {
+          e.preventDefault();
+          useTypographyStore.temporal.getState().undo();
+        } else if ((e.key === "z" && e.shiftKey) || e.key === "y") {
+          e.preventDefault();
+          useTypographyStore.temporal.getState().redo();
         }
       }
     };
@@ -138,6 +148,7 @@ export default function Home() {
             onHeadingColorClick={() => setColorPickerTarget("headings")}
             onBodyColorClick={() => setColorPickerTarget("body")}
             onBackgroundColorClick={() => setColorPickerTarget("background")}
+            onBrowseStacks={() => setBrowseStacksOpen(true)}
           />
         }
         sidebar={
@@ -169,6 +180,13 @@ export default function Home() {
       />
 
       <ExportDialog open={exportOpen} onOpenChange={setExportOpen} />
+      <BrowseStacksDialog
+        open={browseStacksOpen}
+        onOpenChange={setBrowseStacksOpen}
+        onHeadingColorClick={() => setColorPickerTarget("headings")}
+        onBodyColorClick={() => setColorPickerTarget("body")}
+        onBackgroundColorClick={() => setColorPickerTarget("background")}
+      />
 
       <FontPicker
         open={fontPickerTarget !== null}

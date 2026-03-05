@@ -7,18 +7,29 @@ import { PANGRAMS } from "@/data/pangrams";
 
 interface StackCardProps {
   stack: Stack;
+  cardFg?: string;
+  cardBodyColor?: string;
+  cardBg?: string;
   onSelect: (stack: Stack) => void;
   onLike: (stack: Stack) => void;
   onSave: (stack: Stack) => void;
 }
 
-export function StackCard({ stack, onSelect, onLike, onSave }: StackCardProps) {
+export function StackCard({
+  stack,
+  cardFg = "#2b3a4a",
+  cardBodyColor,
+  cardBg = "#f0ebe0",
+  onSelect,
+  onLike,
+  onSave,
+}: StackCardProps) {
   const { config } = stack;
   const headingFont = config.headingsGroup.fontFamily;
   const bodyFont = config.bodyGroup.fontFamily;
-  const fg = config.headingsGroup.color;
-  const bodyColor = config.bodyGroup.color;
-  const bg = config.backgroundColor;
+  const fg = cardFg;
+  const body = cardBodyColor ?? cardFg;
+  const bg = cardBg;
 
   return (
     <div
@@ -26,19 +37,17 @@ export function StackCard({ stack, onSelect, onLike, onSave }: StackCardProps) {
       tabIndex={0}
       onClick={() => onSelect(stack)}
       onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onSelect(stack); }}
-      className="group relative flex cursor-pointer flex-col overflow-hidden rounded-xl text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-      style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.08)", transition: "transform 0.5s ease-in-out", willChange: "transform" }}
-      onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.035)"; }}
-      onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
+      className="group relative flex cursor-pointer flex-col overflow-hidden rounded-lg text-left transition-all duration-300 ease-out hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      style={{ boxShadow: "0 0 0 1px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.05)" }}
     >
       {/* Preview area */}
       <div
-        className="flex flex-1 flex-col gap-5 overflow-hidden px-7 pb-7 pt-7"
-        style={{ backgroundColor: bg, color: fg, minHeight: 200 }}
+        className="flex flex-col gap-4 overflow-hidden px-5 pb-5 pt-5 transition-colors duration-300"
+        style={{ backgroundColor: bg, color: fg }}
       >
         <div>
           <p
-            className="text-3xl leading-tight"
+            className="text-2xl leading-tight"
             style={{
               fontFamily: `"${headingFont}", sans-serif`,
               fontWeight: config.headingsGroup.fontWeight,
@@ -51,15 +60,15 @@ export function StackCard({ stack, onSelect, onLike, onSave }: StackCardProps) {
             style={{
               fontFamily: `"${bodyFont}", sans-serif`,
               fontWeight: config.bodyGroup.fontWeight,
-              color: bodyColor,
+              color: body,
             }}
           >
             {PANGRAMS[0].text}.
           </p>
         </div>
-        <div style={{ borderTop: `1px solid color-mix(in srgb, ${fg} 12%, transparent)`, paddingTop: "1rem" }}>
+        <div style={{ borderTop: `1px solid color-mix(in srgb, ${fg} 12%, transparent)`, paddingTop: "0.75rem" }}>
           <p
-            className="text-lg leading-snug"
+            className="text-sm leading-snug font-bold"
             style={{
               fontFamily: `"${headingFont}", sans-serif`,
               fontWeight: config.headingsGroup.fontWeight,
@@ -68,11 +77,11 @@ export function StackCard({ stack, onSelect, onLike, onSave }: StackCardProps) {
             {PANGRAMS[1].text}
           </p>
           <p
-            className="mt-1.5 text-sm leading-relaxed"
+            className="mt-1 text-xs leading-relaxed"
             style={{
               fontFamily: `"${bodyFont}", sans-serif`,
               fontWeight: config.bodyGroup.fontWeight,
-              color: bodyColor,
+              color: body,
             }}
           >
             {PANGRAMS[2].text}. {PANGRAMS[3].text}. {PANGRAMS[4].text}.
@@ -80,12 +89,12 @@ export function StackCard({ stack, onSelect, onLike, onSave }: StackCardProps) {
         </div>
       </div>
 
-      {/* Info bar */}
-      <div className="flex items-center justify-between bg-card px-4 py-2.5">
-        <span className="text-xs font-medium text-foreground truncate max-w-[180px]">
+      {/* Info bar — hidden by default, slides up on hover */}
+      <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-white/90 backdrop-blur-sm px-4 py-2 translate-y-full opacity-0 transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100">
+        <span className="text-xs font-medium text-neutral-700 truncate max-w-[180px]">
           {stack.name}
         </span>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-0.5">
           <Button
             variant="ghost"
             size="sm"
@@ -99,12 +108,12 @@ export function StackCard({ stack, onSelect, onLike, onSave }: StackCardProps) {
               className={`h-3.5 w-3.5 ${
                 stack.isLiked
                   ? "fill-red-500 text-red-500"
-                  : "text-muted-foreground"
+                  : "text-neutral-400"
               }`}
             />
           </Button>
           {stack.likesCount > 0 && (
-            <span className="text-[10px] text-muted-foreground tabular-nums">
+            <span className="text-[10px] text-neutral-400 tabular-nums">
               {stack.likesCount}
             </span>
           )}
@@ -121,13 +130,12 @@ export function StackCard({ stack, onSelect, onLike, onSave }: StackCardProps) {
               className={`h-3.5 w-3.5 ${
                 stack.isSaved
                   ? "fill-blue-500 text-blue-500"
-                  : "text-muted-foreground"
+                  : "text-neutral-400"
               }`}
             />
           </Button>
         </div>
       </div>
-
     </div>
   );
 }

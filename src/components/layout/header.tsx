@@ -7,9 +7,14 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Shuffle, ArrowLeftRight } from "lucide-react";
+import { Shuffle, ArrowLeftRight, Undo2, Redo2, RotateCcw, Layers, Wand2, Dices } from "lucide-react";
 import { useTypographyStore } from "@/store/typography-store";
+import { useStore } from "zustand";
 import { generateRandomColorPair } from "@/lib/color-utils";
+import { PRESETS } from "@/db/seed-presets";
+import { TemplateTabs } from "@/components/preview/template-tabs";
+import { ViewportToggle } from "@/components/preview/viewport-toggle";
+import { useUIStore } from "@/store/ui-store";
 
 interface HeaderProps {
   onExportClick: () => void;
@@ -17,6 +22,7 @@ interface HeaderProps {
   onHeadingColorClick: () => void;
   onBodyColorClick: () => void;
   onBackgroundColorClick: () => void;
+  onBrowseStacks: () => void;
 }
 
 export function Header({
@@ -25,6 +31,7 @@ export function Header({
   onHeadingColorClick,
   onBodyColorClick,
   onBackgroundColorClick,
+  onBrowseStacks,
 }: HeaderProps) {
   const headingColor = useTypographyStore((s) => s.headingsGroup.color);
   const bodyColor = useTypographyStore((s) => s.bodyGroup.color);
@@ -32,12 +39,28 @@ export function Header({
   const updateHeadingsGroup = useTypographyStore((s) => s.updateHeadingsGroup);
   const updateBodyGroup = useTypographyStore((s) => s.updateBodyGroup);
   const setBackgroundColor = useTypographyStore((s) => s.setBackgroundColor);
+  const resetConfig = useTypographyStore((s) => s.resetConfig);
+  const autoBalance = useTypographyStore((s) => s.autoBalance);
+  const setAutoBalance = useTypographyStore((s) => s.setAutoBalance);
+  const activeTab = useUIStore((s) => s.activeTab);
+
+  const { undo, redo, pastStates, futureStates } = useStore(
+    useTypographyStore.temporal
+  );
+  const canUndo = pastStates.length > 0;
+  const canRedo = futureStates.length > 0;
 
   function handleRandom() {
     const { fg, bg } = generateRandomColorPair();
     updateHeadingsGroup({ color: fg });
     updateBodyGroup({ color: fg });
     setBackgroundColor(bg);
+  }
+
+  function handleRandomStack() {
+    const preset = PRESETS[Math.floor(Math.random() * PRESETS.length)];
+    updateHeadingsGroup({ fontFamily: preset.headingFont, fontWeight: preset.headingWeight });
+    updateBodyGroup({ fontFamily: preset.bodyFont, fontWeight: preset.bodyWeight });
   }
 
   function handleReverse() {
@@ -56,6 +79,14 @@ export function Header({
       </div>
 
       <div className="flex items-center gap-1.5">
+        <TemplateTabs />
+        {activeTab !== "scale" && <ViewportToggle />}
+        <Separator orientation="vertical" className="mx-0.5 h-5" />
+        <Button variant="outline" size="sm" className="h-8 gap-1.5" onClick={onBrowseStacks}>
+          <Layers className="size-3.5" />
+          Browse Stacks
+        </Button>
+        <Separator orientation="vertical" className="mx-0.5 h-5" />
         <Tooltip>
           <TooltipTrigger asChild>
             <button
@@ -125,6 +156,20 @@ export function Header({
               type="button"
               variant="ghost"
               size="sm"
+              onClick={handleRandomStack}
+              className="h-8 w-8 p-0"
+            >
+              <Dices className="size-3.5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Random type stack</TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
               onClick={handleReverse}
               className="h-8 w-8 p-0"
             >
@@ -132,6 +177,66 @@ export function Header({
             </Button>
           </TooltipTrigger>
           <TooltipContent>Swap foreground / background</TooltipContent>
+        </Tooltip>
+        <Separator orientation="vertical" className="mx-0.5 h-5" />
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              type="button"
+              variant={autoBalance ? "secondary" : "ghost"}
+              size="sm"
+              onClick={() => setAutoBalance(!autoBalance)}
+              className="h-8 w-8 p-0"
+            >
+              <Wand2 className="size-3.5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Auto Balance</TooltipContent>
+        </Tooltip>
+        <Separator orientation="vertical" className="mx-0.5 h-5" />
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={() => undo()}
+              disabled={!canUndo}
+              className="h-8 w-8 p-0"
+            >
+              <Undo2 className="size-3.5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Undo (Cmd+Z)</TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={() => redo()}
+              disabled={!canRedo}
+              className="h-8 w-8 p-0"
+            >
+              <Redo2 className="size-3.5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Redo (Cmd+Shift+Z)</TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={resetConfig}
+              className="h-8 w-8 p-0"
+            >
+              <RotateCcw className="size-3.5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Reset to defaults</TooltipContent>
         </Tooltip>
       </div>
 
