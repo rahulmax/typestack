@@ -102,7 +102,7 @@ function ScaleRow({ style, sampleText }: { style: ResolvedElementStyle; sampleTe
         </span>
       </div>
       <div
-        className="min-w-0 flex-1 overflow-hidden whitespace-nowrap"
+        className="min-w-0 flex-1 overflow-x-clip overflow-y-visible whitespace-nowrap"
         style={{
           fontSize: `${style.fontSizeRem}rem`,
           fontFamily: `'${style.fontFamily}', sans-serif`,

@@ -137,122 +137,109 @@ export function BrowseStacksDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="!max-w-none !w-screen !h-screen !rounded-none !translate-x-[-50%] !translate-y-[-50%] !bg-transparent !border-0 !shadow-none !p-0 !gap-0">
+      <DialogContent className="!max-w-none !w-screen !h-screen !rounded-none !translate-x-[-50%] !translate-y-[-50%] !bg-transparent !border-0 !shadow-none !p-0 !gap-0 !overflow-hidden">
         <div
-          className={`${darkMode ? "dark" : ""} flex flex-col h-full w-full transition-colors duration-300`}
+          className="flex flex-col h-full w-full overflow-hidden transition-colors duration-300"
           style={{ backgroundColor: pageBg }}
         >
-          <DialogHeader className="flex flex-row items-center justify-between px-8 pt-5 pb-4 border-b border-border shrink-0 bg-background">
+          <DialogHeader
+            className="grid grid-cols-3 items-center px-8 pt-5 pb-4 shrink-0 transition-colors duration-300"
+            style={{ backgroundColor: pageBg, borderBottom: `1px solid ${darkMode ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)"}` }}
+          >
             <div>
-              <DialogTitle className="text-foreground">Stacks</DialogTitle>
-              <DialogDescription>Browse typography presets and community stacks</DialogDescription>
+              <DialogTitle style={{ color: cardFg }}>Stacks</DialogTitle>
+              <DialogDescription style={{ color: darkMode ? "#a1a1aa" : "#737373" }}>Browse typography presets and community stacks</DialogDescription>
             </div>
-            <div className="flex items-center gap-1.5 mr-8">
+            {(() => {
+              const btnBorder = darkMode ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.12)";
+              const btnBg = darkMode ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.03)";
+              const btnLabel = darkMode ? "#a1a1aa" : "#737373";
+              const btnStyle = { border: `1px solid ${btnBorder}`, backgroundColor: btnBg, color: btnLabel };
+              const swatchBorder = { border: `1px solid ${btnBorder}` };
+              return (
+            <div className="flex items-center justify-center gap-1.5">
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <button
-                    type="button"
-                    onClick={onHeadingColorClick}
-                    className="flex h-8 items-center gap-1.5 rounded-sm border border-border bg-background px-2 text-xs hover:bg-accent"
-                  >
-                    <span
-                      className="h-4 w-4 rounded-sm border border-border shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)]"
-                      style={{ backgroundColor: headingColor }}
-                    />
-                    <span className="text-muted-foreground">H</span>
+                  <button type="button" onClick={onHeadingColorClick} className="flex h-8 items-center gap-1.5 rounded-sm px-2 text-xs" style={btnStyle}>
+                    <span className="h-4 w-4 rounded-sm shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)]" style={{ backgroundColor: headingColor, ...swatchBorder }} />
+                    <span style={{ color: btnLabel }}>H</span>
                   </button>
                 </TooltipTrigger>
                 <TooltipContent>Heading color</TooltipContent>
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <button
-                    type="button"
-                    onClick={onBodyColorClick}
-                    className="flex h-8 items-center gap-1.5 rounded-sm border border-border bg-background px-2 text-xs hover:bg-accent"
-                  >
-                    <span
-                      className="h-4 w-4 rounded-sm border border-border shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)]"
-                      style={{ backgroundColor: bodyColor }}
-                    />
-                    <span className="text-muted-foreground">B</span>
+                  <button type="button" onClick={onBodyColorClick} className="flex h-8 items-center gap-1.5 rounded-sm px-2 text-xs" style={btnStyle}>
+                    <span className="h-4 w-4 rounded-sm shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)]" style={{ backgroundColor: bodyColor, ...swatchBorder }} />
+                    <span style={{ color: btnLabel }}>B</span>
                   </button>
                 </TooltipTrigger>
                 <TooltipContent>Body color</TooltipContent>
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <button
-                    type="button"
-                    onClick={onBackgroundColorClick}
-                    className="flex h-8 items-center gap-1.5 rounded-sm border border-border bg-background px-2 text-xs hover:bg-accent"
-                  >
-                    <span
-                      className="h-4 w-4 rounded-sm border border-border shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)]"
-                      style={{ backgroundColor }}
-                    />
-                    <span className="text-muted-foreground">BG</span>
+                  <button type="button" onClick={onBackgroundColorClick} className="flex h-8 items-center gap-1.5 rounded-sm px-2 text-xs" style={btnStyle}>
+                    <span className="h-4 w-4 rounded-sm shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)]" style={{ backgroundColor, ...swatchBorder }} />
+                    <span style={{ color: btnLabel }}>BG</span>
                   </button>
                 </TooltipTrigger>
                 <TooltipContent>Background color</TooltipContent>
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    onClick={handleRandom}
-                    className="h-8 w-8 p-0"
-                  >
+                  <button type="button" onClick={handleRandom} className="flex h-8 items-center gap-1.5 rounded-sm px-2 text-xs" style={btnStyle}>
                     <Shuffle className="size-3.5" />
-                  </Button>
+                  </button>
                 </TooltipTrigger>
                 <TooltipContent>Random accessible colors</TooltipContent>
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    onClick={handleReverse}
-                    className="h-8 w-8 p-0"
-                  >
+                  <button type="button" onClick={handleReverse} className="flex h-8 items-center gap-1.5 rounded-sm px-2 text-xs" style={btnStyle}>
                     <ArrowLeftRight className="size-3.5" />
-                  </Button>
+                  </button>
                 </TooltipTrigger>
                 <TooltipContent>Swap foreground / background</TooltipContent>
               </Tooltip>
-              <div className="mx-1.5 h-5 w-px bg-border" />
-              <Button size="sm" onClick={handleNew}>
+            </div>
+              );
+            })()}
+            <div className="flex items-center justify-end gap-1.5 mr-8">
+              <button
+                onClick={handleNew}
+                className="flex h-8 items-center rounded-sm px-3 text-xs font-medium"
+                style={{ backgroundColor: cardFg, color: cardBg }}
+              >
                 <Plus className="mr-1 h-4 w-4" />
                 New Stack
-              </Button>
+              </button>
             </div>
           </DialogHeader>
+
           <div className="px-8 pt-4 shrink-0">
             <div className="flex gap-1">
               {FILTER_LABELS.map(({ value, label }) => (
-                <Button
+                <button
                   key={value}
-                  variant={filter === value ? "default" : "ghost"}
-                  size="sm"
                   onClick={() => setFilter(value)}
-                  className="text-xs"
+                  className="rounded-sm px-3 py-1.5 text-xs font-medium transition-colors"
+                  style={filter === value
+                    ? { backgroundColor: cardFg, color: cardBg }
+                    : { backgroundColor: "transparent", color: darkMode ? "#a1a1aa" : "#737373" }
+                  }
                 >
                   {label}
-                </Button>
+                </button>
               ))}
             </div>
           </div>
-          <div className="flex-1 overflow-y-auto px-8 py-5">
+          <div className="flex-1 min-h-0 overflow-y-auto px-8 py-5">
             {loading ? (
-              <div className="py-20 text-center text-sm text-muted-foreground">
+              <div className="py-20 text-center text-sm" style={{ color: darkMode ? "#a1a1aa" : "#737373" }}>
                 Loading stacks...
               </div>
             ) : stacks.length === 0 ? (
-              <div className="py-20 text-center text-sm text-muted-foreground">
+              <div className="py-20 text-center text-sm" style={{ color: darkMode ? "#a1a1aa" : "#737373" }}>
                 No stacks found.
               </div>
             ) : (

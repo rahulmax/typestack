@@ -129,49 +129,59 @@ function ElementRow({ element }: { element: TypographyElement }) {
             />
           </div>
 
-          {showCapsToggle && (
+          {(() => {
+            const defaultTransform = element === "eyebrow" ? "uppercase" : "none";
+            const currentTransform = override.textTransform ?? defaultTransform;
+            const isUppercase = currentTransform === "uppercase";
+            return (
             <div className="flex items-center justify-between">
-              <Label className="text-xs text-muted-foreground">All Caps</Label>
-              <button
-                type="button"
-                onClick={() => {
-                  const s = useTypographyStore.getState();
-                  const cur = s.overrides[element];
-                  const next = (cur.textTransform || "none") === "uppercase" ? "none" : "uppercase";
-                  useTypographyStore.setState({
-                    overrides: {
-                      ...s.overrides,
-                      [element]: { ...cur, isOverridden: true, textTransform: next },
-                    },
-                  });
-                }}
-                className={`relative inline-flex h-[22px] w-10 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors before:absolute before:left-[7px] before:top-1/2 before:h-2.5 before:w-[2px] before:-translate-y-1/2 before:rounded-full before:bg-white/70 before:transition-opacity ${
-                  (override.textTransform || "none") === "uppercase"
-                    ? "bg-accent-warm shadow-[inset_0_1px_3px_rgba(0,0,0,0.15)] before:opacity-100"
-                    : "bg-muted shadow-[inset_0_1px_2px_rgba(0,0,0,0.06)] before:opacity-0"
-                }`}
-              >
-                <span
-                  className={`pointer-events-none relative inline-block h-[18px] w-[18px] rounded-full bg-background ring-0 transition-transform after:absolute after:left-1/2 after:top-1/2 after:h-1.5 after:w-1.5 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-full ${
-                    (override.textTransform || "none") === "uppercase"
-                      ? "translate-x-[18px] shadow-[0_1px_4px_rgba(0,0,0,0.15),0_0_0_1px_rgba(0,0,0,0.05)] after:bg-accent-warm"
-                      : "translate-x-0 shadow-[0_1px_3px_rgba(0,0,0,0.12),0_0_0_1px_rgba(0,0,0,0.04)] after:bg-border"
-                  }`}
-                />
-              </button>
+              <div className="flex items-center gap-2">
+                {showCapsToggle && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const s = useTypographyStore.getState();
+                      const cur = s.overrides[element];
+                      const next = isUppercase ? "none" : "uppercase";
+                      useTypographyStore.setState({
+                        overrides: {
+                          ...s.overrides,
+                          [element]: { ...cur, isOverridden: true, textTransform: next },
+                        },
+                      });
+                    }}
+                    className={`relative inline-flex h-[22px] w-10 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors before:absolute before:left-[7px] before:top-1/2 before:h-2.5 before:w-[2px] before:-translate-y-1/2 before:rounded-full before:bg-white/70 before:transition-opacity ${
+                      isUppercase
+                        ? "bg-accent-warm shadow-[inset_0_1px_3px_rgba(0,0,0,0.15)] before:opacity-100"
+                        : "bg-muted shadow-[inset_0_1px_2px_rgba(0,0,0,0.06)] before:opacity-0"
+                    }`}
+                  >
+                    <span
+                      className={`pointer-events-none relative inline-block h-[18px] w-[18px] rounded-full bg-background ring-0 transition-transform after:absolute after:left-1/2 after:top-1/2 after:h-1.5 after:w-1.5 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-full ${
+                        isUppercase
+                          ? "translate-x-[18px] shadow-[0_1px_4px_rgba(0,0,0,0.15),0_0_0_1px_rgba(0,0,0,0.05)] after:bg-accent-warm"
+                          : "translate-x-0 shadow-[0_1px_3px_rgba(0,0,0,0.12),0_0_0_1px_rgba(0,0,0,0.04)] after:bg-border"
+                      }`}
+                    />
+                  </button>
+                )}
+                {showCapsToggle && (
+                  <Label className="text-xs text-muted-foreground">All Caps</Label>
+                )}
+              </div>
+              {override.isOverridden && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => store.clearElementOverride(element)}
+                  className="h-6 px-2 text-[10px]"
+                >
+                  Reset
+                </Button>
+              )}
             </div>
-          )}
-
-          {override.isOverridden && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => store.clearElementOverride(element)}
-              className="self-start text-xs"
-            >
-              Reset Override
-            </Button>
-          )}
+            );
+          })()}
         </div>
       )}
     </div>

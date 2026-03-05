@@ -30,6 +30,7 @@ export default function Home() {
   const headingsGroup = store.headingsGroup;
   const bodyGroup = store.bodyGroup;
   const backgroundColor = store.backgroundColor;
+  const autoBalance = store.autoBalance;
   const updateHeadingsGroup = store.updateHeadingsGroup;
   const updateBodyGroup = store.updateBodyGroup;
   const setBackgroundColor = store.setBackgroundColor;
@@ -153,8 +154,7 @@ export default function Home() {
         }
         sidebar={
           <Sidebar>
-            <StackPicker />
-            <Separator />
+            <StackPicker onBrowseStacks={() => setBrowseStacksOpen(true)} />
             <BaseSettings />
             <Separator />
             <GroupControls
@@ -162,6 +162,7 @@ export default function Home() {
               group={headingsGroup}
               onUpdate={updateHeadingsGroup}
               onFontClick={() => setFontPickerTarget("headings")}
+              disabled={autoBalance}
             />
             <Separator />
             <GroupControls
@@ -169,6 +170,7 @@ export default function Home() {
               group={bodyGroup}
               onUpdate={updateBodyGroup}
               onFontClick={() => setFontPickerTarget("body")}
+              disabled={autoBalance}
             />
             <Separator />
             <ElementOverridePanel />

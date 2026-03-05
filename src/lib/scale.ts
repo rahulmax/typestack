@@ -49,7 +49,7 @@ export function resolveElementStyles(
   // Eyebrow baseline: always uppercase with ample letter-spacing
   if (element === "eyebrow") {
     resolved.textTransform = "uppercase";
-    resolved.letterSpacing = 0.08;
+    resolved.letterSpacing = 0.2;
   }
 
   const override = config.overrides[element];
@@ -99,7 +99,7 @@ export function resolveElementStylesMobile(
 
   if (element === "eyebrow") {
     resolved.textTransform = "uppercase";
-    resolved.letterSpacing = 0.08;
+    resolved.letterSpacing = 0.2;
   }
 
   const override = config.overrides[element];

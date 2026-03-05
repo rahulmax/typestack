@@ -7,7 +7,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Shuffle, ArrowLeftRight, Undo2, Redo2, RotateCcw, Layers, Wand2, Dices } from "lucide-react";
+import { Shuffle, ArrowLeftRight, Undo2, Redo2, RotateCcw, Wand2, Dices } from "lucide-react";
 import { useTypographyStore } from "@/store/typography-store";
 import { useStore } from "zustand";
 import { generateRandomColorPair } from "@/lib/color-utils";
@@ -15,6 +15,8 @@ import { PRESETS } from "@/db/seed-presets";
 import { TemplateTabs } from "@/components/preview/template-tabs";
 import { ViewportToggle } from "@/components/preview/viewport-toggle";
 import { useUIStore } from "@/store/ui-store";
+
+const btnClass = "flex h-8 items-center gap-1.5 rounded-sm border bg-background px-2 text-xs hover:bg-accent";
 
 interface HeaderProps {
   onExportClick: () => void;
@@ -65,27 +67,48 @@ export function Header({
 
   return (
     <header className="flex h-14 items-center justify-between border-b bg-background px-4">
-      <div className="flex items-center gap-2">
+      {/* Left: logo */}
+      <div className="flex items-center gap-2 shrink-0">
         <span className="text-lg font-bold tracking-tight">TypeStack</span>
         <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Type Scale Generator</span>
       </div>
 
+      {/* Center: tabs, viewport, then action buttons */}
       <div className="flex items-center gap-1.5">
-        <TemplateTabs />
-        {activeTab !== "scale" && <ViewportToggle />}
-        <Separator orientation="vertical" className="mx-0.5 h-5" />
-        <Button variant="outline" size="sm" className="h-8 gap-1.5" onClick={onBrowseStacks}>
-          <Layers className="size-3.5" />
-          Browse Stacks
-        </Button>
-        <Separator orientation="vertical" className="mx-0.5 h-5" />
+        {/* Auto Balance + Random Stack */}
         <Tooltip>
           <TooltipTrigger asChild>
             <button
               type="button"
-              onClick={onHeadingColorClick}
-              className="flex h-8 items-center gap-1.5 rounded-sm border bg-background px-2 text-xs hover:bg-accent"
+              onClick={() => setAutoBalance(!autoBalance)}
+              className={`${btnClass} ${autoBalance ? "bg-accent" : ""}`}
             >
+              <Wand2 className="size-3.5" />
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>Auto Balance</TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button type="button" onClick={handleRandomStack} className={btnClass}>
+              <Dices className="size-3.5" />
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>Random type stack</TooltipContent>
+        </Tooltip>
+
+        <Separator orientation="vertical" className="mx-0.5 h-5" />
+
+        {/* Template tabs + viewport */}
+        <TemplateTabs />
+        {activeTab !== "scale" && <ViewportToggle />}
+
+        <Separator orientation="vertical" className="mx-0.5 h-5" />
+
+        {/* Color controls */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button type="button" onClick={onHeadingColorClick} className={btnClass}>
               <span
                 className="h-4 w-4 rounded-sm border shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)]"
                 style={{ backgroundColor: headingColor }}
@@ -97,11 +120,7 @@ export function Header({
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
-            <button
-              type="button"
-              onClick={onBodyColorClick}
-              className="flex h-8 items-center gap-1.5 rounded-sm border bg-background px-2 text-xs hover:bg-accent"
-            >
+            <button type="button" onClick={onBodyColorClick} className={btnClass}>
               <span
                 className="h-4 w-4 rounded-sm border shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)]"
                 style={{ backgroundColor: bodyColor }}
@@ -113,11 +132,7 @@ export function Header({
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
-            <button
-              type="button"
-              onClick={onBackgroundColorClick}
-              className="flex h-8 items-center gap-1.5 rounded-sm border bg-background px-2 text-xs hover:bg-accent"
-            >
+            <button type="button" onClick={onBackgroundColorClick} className={btnClass}>
               <span
                 className="h-4 w-4 rounded-sm border shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)]"
                 style={{ backgroundColor }}
@@ -127,124 +142,82 @@ export function Header({
           </TooltipTrigger>
           <TooltipContent>Background color</TooltipContent>
         </Tooltip>
-        <Separator orientation="vertical" className="mx-0.5 h-5" />
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={handleRandom}
-              className="h-8 w-8 p-0"
-            >
+            <button type="button" onClick={handleRandom} className={btnClass}>
               <Shuffle className="size-3.5" />
-            </Button>
+            </button>
           </TooltipTrigger>
           <TooltipContent>Random accessible colors</TooltipContent>
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={handleRandomStack}
-              className="h-8 w-8 p-0"
-            >
-              <Dices className="size-3.5" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>Random type stack</TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={handleReverse}
-              className="h-8 w-8 p-0"
-            >
+            <button type="button" onClick={handleReverse} className={btnClass}>
               <ArrowLeftRight className="size-3.5" />
-            </Button>
+            </button>
           </TooltipTrigger>
           <TooltipContent>Swap foreground / background</TooltipContent>
         </Tooltip>
-        <Separator orientation="vertical" className="mx-0.5 h-5" />
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button
-              type="button"
-              variant={autoBalance ? "secondary" : "ghost"}
-              size="sm"
-              onClick={() => setAutoBalance(!autoBalance)}
-              className="h-8 w-8 p-0"
-            >
-              <Wand2 className="size-3.5" />
-            </Button>
+            <button type="button" onClick={onBrowseStacks} className={btnClass}>
+              <span className="text-muted-foreground">Stacks</span>
+            </button>
           </TooltipTrigger>
-          <TooltipContent>Auto Balance</TooltipContent>
+          <TooltipContent>Browse Stacks</TooltipContent>
         </Tooltip>
-        <Separator orientation="vertical" className="mx-0.5 h-5" />
+      </div>
+
+      {/* Right: undo/redo/reset, share, export */}
+      <div className="flex items-center gap-1.5 shrink-0">
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button
+            <button
               type="button"
-              variant="ghost"
-              size="sm"
               onClick={() => undo()}
               disabled={!canUndo}
-              className="h-8 w-8 p-0"
+              className={`${btnClass} ${!canUndo ? "opacity-40 pointer-events-none" : ""}`}
             >
               <Undo2 className="size-3.5" />
-            </Button>
+            </button>
           </TooltipTrigger>
           <TooltipContent>Undo (Cmd+Z)</TooltipContent>
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button
+            <button
               type="button"
-              variant="ghost"
-              size="sm"
               onClick={() => redo()}
               disabled={!canRedo}
-              className="h-8 w-8 p-0"
+              className={`${btnClass} ${!canRedo ? "opacity-40 pointer-events-none" : ""}`}
             >
               <Redo2 className="size-3.5" />
-            </Button>
+            </button>
           </TooltipTrigger>
           <TooltipContent>Redo (Cmd+Shift+Z)</TooltipContent>
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={resetConfig}
-              className="h-8 w-8 p-0"
-            >
+            <button type="button" onClick={resetConfig} className={btnClass}>
               <RotateCcw className="size-3.5" />
-            </Button>
+            </button>
           </TooltipTrigger>
           <TooltipContent>Reset to defaults</TooltipContent>
         </Tooltip>
-      </div>
 
-      <div className="flex items-center gap-2">
+        <Separator orientation="vertical" className="mx-0.5 h-5" />
+
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button variant="outline" size="sm" onClick={onShareClick}>
+            <Button variant="outline" size="sm" onClick={onShareClick} className="h-8">
               Share
             </Button>
           </TooltipTrigger>
           <TooltipContent>Share URL (Cmd+S)</TooltipContent>
         </Tooltip>
-        <Separator orientation="vertical" className="h-6" />
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button size="sm" onClick={onExportClick}>
+            <Button size="sm" onClick={onExportClick} className="h-8">
               Export
             </Button>
           </TooltipTrigger>

@@ -2,7 +2,6 @@
 
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Slider } from "@/components/ui/slider";
 import { ScaleRatioSelect } from "./scale-ratio-select";
 import { useTypographyStore } from "@/store/typography-store";
 
@@ -11,37 +10,30 @@ export function BaseSettings() {
   const setBaseFontSize = useTypographyStore((s) => s.setBaseFontSize);
 
   return (
-    <div className="flex flex-col gap-4">
-      <h3 className="text-sm font-semibold">Base Settings</h3>
-
-      <div className="flex flex-col gap-2">
-        <Label className="text-xs text-muted-foreground">
-          Base Font Size: {baseFontSize}px
-        </Label>
-        <div className="flex items-center gap-3">
-          <Slider
-            value={[baseFontSize]}
-            onValueChange={([v]) => setBaseFontSize(v)}
-            min={10}
-            max={24}
-            step={1}
-            className="flex-1"
-          />
-          <Input
-            type="number"
-            value={baseFontSize}
-            onChange={(e) => {
-              const v = parseInt(e.target.value, 10);
-              if (!isNaN(v) && v >= 8 && v <= 32) setBaseFontSize(v);
-            }}
-            className="w-16"
-          />
+    <div className="flex flex-col gap-3">
+      <div className="flex items-start gap-3">
+        <div className="flex flex-col gap-1.5 flex-1">
+          <Label className="text-xs text-muted-foreground">Base Size</Label>
+          <div className="flex items-center gap-1.5">
+            <Input
+              type="number"
+              value={baseFontSize}
+              onChange={(e) => {
+                const v = parseInt(e.target.value, 10);
+                if (!isNaN(v) && v >= 8 && v <= 32) setBaseFontSize(v);
+              }}
+              min={8}
+              max={32}
+              step={1}
+              className="w-full text-sm font-semibold h-9 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-auto [&::-webkit-inner-spin-button]:appearance-auto"
+            />
+            <span className="text-xs text-muted-foreground shrink-0">px</span>
+          </div>
         </div>
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <Label className="text-xs text-muted-foreground">Scale Ratio</Label>
-        <ScaleRatioSelect />
+        <div className="flex flex-col gap-1.5 flex-1">
+          <Label className="text-xs text-muted-foreground">Scale</Label>
+          <ScaleRatioSelect />
+        </div>
       </div>
     </div>
   );

@@ -137,7 +137,17 @@ export const useTypographyStore = create<TypographyStore>()(
 
       setAutoBalance: (enabled) => set({ autoBalance: enabled }),
 
-      loadConfig: (config) => set({ ...config, autoBalance: false }),
+      loadConfig: (config) =>
+        set((state) => {
+          // Strip colors from loaded config — user controls colors independently
+          const { backgroundColor: _bg, ...rest } = config;
+          return {
+            ...rest,
+            autoBalance: false,
+            headingsGroup: { ...config.headingsGroup, color: state.headingsGroup.color },
+            bodyGroup: { ...config.bodyGroup, color: state.bodyGroup.color },
+          };
+        }),
 
       resetConfig: () => set({ ...DEFAULT_CONFIG }),
     }),

@@ -52,6 +52,9 @@ export function useAutoBalance() {
       const newAutoBalanced = new Set<TypographyElement>();
 
       for (const element of ALL_ELEMENTS) {
+        // Eyebrow has its own baseline styles; skip auto-balance
+        if (element === "eyebrow") continue;
+
         // Skip elements with manual overrides (user set before auto-balance)
         const existing = overrides[element];
         if (existing?.isOverridden && !autoBalancedRef.current.has(element)) {

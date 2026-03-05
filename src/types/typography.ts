@@ -46,6 +46,7 @@ export interface MobileConfig {
 export interface ScaleRatioPreset {
   name: string;
   value: number;
+  label: string;
 }
 
 export interface TypographyConfig {

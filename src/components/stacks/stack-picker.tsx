@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -24,14 +23,13 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
-export function StackPicker() {
+export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) {
   const [open, setOpen] = useState(false);
   const [stacks, setStacks] = useState<Stack[]>([]);
   const [saving, setSaving] = useState(false);
   const [newName, setNewName] = useState("");
   const [showNameInput, setShowNameInput] = useState(false);
 
-  const router = useRouter();
   const currentStackId = useUIStore((s) => s.currentStackId);
   const currentStackName = useUIStore((s) => s.currentStackName);
   const isDirty = useUIStore((s) => s.isDirty);
@@ -101,9 +99,6 @@ export function StackPicker() {
 
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-        Stack
-      </label>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
@@ -169,7 +164,7 @@ export function StackPicker() {
               className="justify-start text-xs"
               onClick={() => {
                 setOpen(false);
-                router.push("/stacks");
+                onBrowseStacks();
               }}
             >
               <Library className="mr-2 h-3.5 w-3.5" />
