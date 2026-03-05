@@ -1,9 +1,12 @@
-export type TypographyElement = "display-1" | "display-2" | "display-3" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "small";
+export type TypographyElement = "display-1" | "display-2" | "display-3" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "eyebrow" | "small";
 
 export const DISPLAY_ELEMENTS: TypographyElement[] = ["display-1", "display-2", "display-3"];
 export const HEADING_ELEMENTS: TypographyElement[] = ["h1", "h2", "h3", "h4", "h5", "h6"];
-export const BODY_ELEMENTS: TypographyElement[] = ["p", "small"];
+export const BODY_ELEMENTS: TypographyElement[] = ["p", "eyebrow", "small"];
 export const ALL_ELEMENTS: TypographyElement[] = [...DISPLAY_ELEMENTS, ...HEADING_ELEMENTS, ...BODY_ELEMENTS];
+
+/** Elements that are off by default and require the user to enable them. */
+export const OPTIONAL_ELEMENTS: TypographyElement[] = ["display-1", "display-2", "display-3"];
 
 export const SCALE_POSITIONS: Record<TypographyElement, number> = {
   "display-1": 9,
@@ -16,6 +19,7 @@ export const SCALE_POSITIONS: Record<TypographyElement, number> = {
   h5: 2,
   h6: 1,
   p: 0,
+  eyebrow: -0.5,
   small: -1,
 };
 

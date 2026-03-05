@@ -46,6 +46,12 @@ export function resolveElementStyles(
     textTransform: "none",
   };
 
+  // Eyebrow baseline: always uppercase with ample letter-spacing
+  if (element === "eyebrow") {
+    resolved.textTransform = "uppercase";
+    resolved.letterSpacing = 0.08;
+  }
+
   const override = config.overrides[element];
   if (override?.isOverridden) {
     if (override.fontFamily !== undefined) resolved.fontFamily = override.fontFamily;
@@ -54,8 +60,8 @@ export function resolveElementStyles(
     if (override.letterSpacing !== undefined) resolved.letterSpacing = override.letterSpacing;
     if (override.wordSpacing !== undefined) resolved.wordSpacing = override.wordSpacing;
     if (override.color !== undefined) resolved.color = override.color;
+    if (override.textTransform !== undefined) resolved.textTransform = override.textTransform;
   }
-  if (override?.textTransform !== undefined) resolved.textTransform = override.textTransform;
 
   return resolved;
 }
@@ -91,6 +97,11 @@ export function resolveElementStylesMobile(
     textTransform: "none",
   };
 
+  if (element === "eyebrow") {
+    resolved.textTransform = "uppercase";
+    resolved.letterSpacing = 0.08;
+  }
+
   const override = config.overrides[element];
   if (override?.isOverridden) {
     if (override.fontFamily !== undefined) resolved.fontFamily = override.fontFamily;
@@ -99,8 +110,8 @@ export function resolveElementStylesMobile(
     if (override.letterSpacing !== undefined) resolved.letterSpacing = override.letterSpacing;
     if (override.wordSpacing !== undefined) resolved.wordSpacing = override.wordSpacing;
     if (override.color !== undefined) resolved.color = override.color;
+    if (override.textTransform !== undefined) resolved.textTransform = override.textTransform;
   }
-  if (override?.textTransform !== undefined) resolved.textTransform = override.textTransform;
 
   return resolved;
 }

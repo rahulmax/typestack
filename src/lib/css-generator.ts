@@ -4,11 +4,12 @@ import { ALL_ELEMENTS, HEADING_ELEMENTS, DISPLAY_ELEMENTS } from "@/types/typogr
 import { computeSceneTones, hexToOklchString, hexToOklch, oklchToHex } from "./color-utils";
 
 function isHeadingLike(element: string): boolean {
-  return HEADING_ELEMENTS.includes(element as any) || DISPLAY_ELEMENTS.includes(element as any);
+  return (HEADING_ELEMENTS.includes(element as any) || DISPLAY_ELEMENTS.includes(element as any)) && element !== "eyebrow";
 }
 
 function elementSelector(element: string): string {
-  return element.startsWith("display-") ? `.${element}` : element;
+  if (element.startsWith("display-") || element === "eyebrow") return `.${element}`;
+  return element;
 }
 
 function elementStyleToCSS(style: ResolvedElementStyle): string {
@@ -105,6 +106,7 @@ export function generatePreviewCSS(config: TypographyConfig): string {
   }
 
   lines.push(`@media (max-width: ${config.mobile.breakpointWidth}px) {`);
+  lines.push(`  body { padding: 0.75rem; }`);
   for (const style of mobile) {
     const selector = elementSelector(style.element);
     lines.push(`  ${selector} {`);

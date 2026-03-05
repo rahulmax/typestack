@@ -95,8 +95,8 @@ export const websiteTemplate: PreviewTemplate = {
 <!-- HERO -->
 <section id="hero" style="max-width: 1280px; margin: 0 auto; padding: 4rem 1.5rem 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
   <div>
-    <small style="opacity: 0.4; text-transform: uppercase; letter-spacing: 0.1em; display: block; margin-bottom: 1rem;">Typography toolkit for modern teams</small>
-    <h2 style="margin: 0 0 1.25rem;">Your type system, from first sketch to shipped code</h2>
+    <span class="eyebrow" style="opacity: 0.4; display: block; margin-bottom: 1rem;">Typography toolkit for modern teams</span>
+    <h1 style="margin: 0 0 1.25rem;">Your type system, from first sketch to shipped code</h1>
     <p style="margin: 0 0 2rem; opacity: 0.65; max-width: 440px;">Create harmonious type scales, preview them in real layouts, and export production-ready CSS &mdash; all in one place.</p>
     <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
       <div style="display: inline-block; padding: 0.65em 1.75em; background: currentColor; border-radius: 8px; cursor: pointer;">
@@ -110,7 +110,7 @@ export const websiteTemplate: PreviewTemplate = {
 
 <!-- LOGOS / TRUST BAR -->
 <section style="max-width: 1280px; margin: 0 auto; padding: 0 1.5rem 4rem; text-align: center;">
-  <small style="opacity: 0.4; text-transform: uppercase; letter-spacing: 0.1em;">Trusted by design teams at</small>
+  <span class="eyebrow" style="opacity: 0.4;">Trusted by design teams at</span>
   <div style="display: flex; justify-content: center; gap: 3rem; margin-top: 1.25rem; flex-wrap: wrap; opacity: 0.3;">
     <h6 style="margin: 0;">Vercel</h6>
     <h6 style="margin: 0;">Stripe</h6>
@@ -176,7 +176,7 @@ export const websiteTemplate: PreviewTemplate = {
 <section id="split-1" style="max-width: 1280px; margin: 0 auto; padding: 0 1.5rem 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
   <div class="ill" id="ill-split-1" style="display: flex; align-items: center; justify-content: center; min-height: 240px; border: ${borderLight}; border-radius: 16px; padding: 2rem; background: color-mix(in srgb, currentColor 3%, transparent);"></div>
   <div>
-    <small style="opacity: 0.4; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.75rem; display: block;">Precision</small>
+    <span class="eyebrow" style="opacity: 0.4; margin-bottom: 0.75rem; display: block;">Precision</span>
     <h3 style="margin: 0 0 1rem;">Per-element control over every detail</h3>
     <p style="opacity: 0.65; margin: 0 0 1.5rem;">Go beyond global settings. Adjust font weight, line height, letter spacing, and text transform for each heading level independently. Your h1 can be tight and bold while your h4 stays light and airy.</p>
     <div style="display: flex; gap: 2rem;">
@@ -199,7 +199,7 @@ export const websiteTemplate: PreviewTemplate = {
 <!-- SPLIT SECTION: TEXT LEFT, ILLUSTRATION RIGHT -->
 <section id="split-2" style="max-width: 1280px; margin: 0 auto; padding: 0 1.5rem 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
   <div>
-    <small style="opacity: 0.4; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.75rem; display: block;">Responsive</small>
+    <span class="eyebrow" style="opacity: 0.4; margin-bottom: 0.75rem; display: block;">Responsive</span>
     <h3 style="margin: 0 0 1rem;">Mobile-first responsive scales</h3>
     <p style="opacity: 0.65; margin: 0 0 1.5rem;">Headings that look grand on desktop can overwhelm a small screen. Define separate scales for mobile and desktop, then let TypeStack generate fluid clamp() values that adapt smoothly across every viewport.</p>
     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">

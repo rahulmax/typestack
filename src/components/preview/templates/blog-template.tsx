@@ -4,9 +4,14 @@ export const blogTemplate: PreviewTemplate = {
   id: "blog",
   name: "Blog",
   html: `
+<style>
+  @media (max-width: 768px) {
+    article { padding: 2rem 1rem !important; }
+  }
+</style>
 <article style="max-width: 680px; margin: 0 auto; padding: 3rem 1.5rem;">
   <header style="margin-bottom: 2.5rem;">
-    <small style="opacity: 0.5; text-transform: uppercase; letter-spacing: 0.05em;">Design Systems</small>
+    <span class="eyebrow" style="opacity: 0.5;">Design Systems</span>
     <h1 style="margin: 0.75rem 0;">The Art of Typographic Hierarchy</h1>
     <p style="opacity: 0.7;">How a well-crafted type scale can transform the readability and aesthetics of your digital products.</p>
     <div style="display: flex; gap: 1rem; margin-top: 1rem; align-items: center;">

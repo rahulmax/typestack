@@ -125,7 +125,14 @@ export function TypeScaleView() {
   const sampleText = useTypographyStore((s) => s.sampleText);
   const backgroundColor = useTypographyStore((s) => s.backgroundColor);
   const foregroundColor = useTypographyStore((s) => s.bodyGroup.color);
+  const enabledElements = useTypographyStore((s) => s.enabledElements);
   const headerColor = desktop[0]?.color;
+
+  const visibleStyles = desktop.filter((s) => {
+    // Optional elements must be explicitly enabled
+    if (s.element in enabledElements) return enabledElements[s.element];
+    return true;
+  });
 
   return (
     <div
@@ -137,7 +144,7 @@ export function TypeScaleView() {
         <SampleTextSelector fgColor={foregroundColor} bgColor={backgroundColor} />
       </div>
       <div className="flex flex-col gap-2">
-        {desktop.map((style) => (
+        {visibleStyles.map((style) => (
           <ScaleRow key={style.element} style={style} sampleText={sampleText} />
         ))}
       </div>

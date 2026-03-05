@@ -36,9 +36,8 @@ export function Header({
   const headingColor = useTypographyStore((s) => s.headingsGroup.color);
   const bodyColor = useTypographyStore((s) => s.bodyGroup.color);
   const backgroundColor = useTypographyStore((s) => s.backgroundColor);
-  const updateHeadingsGroup = useTypographyStore((s) => s.updateHeadingsGroup);
-  const updateBodyGroup = useTypographyStore((s) => s.updateBodyGroup);
-  const setBackgroundColor = useTypographyStore((s) => s.setBackgroundColor);
+  const setColors = useTypographyStore((s) => s.setColors);
+  const setFonts = useTypographyStore((s) => s.setFonts);
   const resetConfig = useTypographyStore((s) => s.resetConfig);
   const autoBalance = useTypographyStore((s) => s.autoBalance);
   const setAutoBalance = useTypographyStore((s) => s.setAutoBalance);
@@ -52,23 +51,16 @@ export function Header({
 
   function handleRandom() {
     const { fg, bg } = generateRandomColorPair();
-    updateHeadingsGroup({ color: fg });
-    updateBodyGroup({ color: fg });
-    setBackgroundColor(bg);
+    setColors(fg, fg, bg);
   }
 
   function handleRandomStack() {
     const preset = PRESETS[Math.floor(Math.random() * PRESETS.length)];
-    updateHeadingsGroup({ fontFamily: preset.headingFont, fontWeight: preset.headingWeight });
-    updateBodyGroup({ fontFamily: preset.bodyFont, fontWeight: preset.bodyWeight });
+    setFonts(preset.headingFont, preset.headingWeight, preset.bodyFont, preset.bodyWeight);
   }
 
   function handleReverse() {
-    const oldBg = backgroundColor;
-    const oldFg = headingColor;
-    updateHeadingsGroup({ color: oldBg });
-    updateBodyGroup({ color: oldBg });
-    setBackgroundColor(oldFg);
+    setColors(backgroundColor, backgroundColor, headingColor);
   }
 
   return (
