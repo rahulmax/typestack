@@ -1,7 +1,7 @@
 import type { TypographyConfig, TypographyElement, ResolvedElementStyle } from "@/types/typography";
 import { computeScale, computeMobileScale } from "./scale";
 import { HEADING_ELEMENTS, DISPLAY_ELEMENTS } from "@/types/typography";
-import { computeSceneTones, hexToOklchString, hexToOklch, oklchToHex } from "./color-utils";
+import { computeSceneTones, hexToOklchString } from "./color-utils";
 
 function isHeadingLike(element: string): boolean {
   return (HEADING_ELEMENTS.includes(element as TypographyElement) || DISPLAY_ELEMENTS.includes(element as TypographyElement)) && element !== "eyebrow";
@@ -74,17 +74,11 @@ export function generatePreviewCSS(config: TypographyConfig): string {
 
   lines.push("* { margin: 0; padding: 0; box-sizing: border-box; }");
   lines.push(`body { background: ${hexToOklchString(config.backgroundColor)}; color: ${hexToOklchString(config.bodyGroup.color)}; padding: 2rem; font-family: '${config.bodyGroup.fontFamily}', sans-serif; }`);
+  lines.push(`a, a:visited, a:hover, a:active { color: inherit; text-decoration: underline; }`);
+  lines.push(`.ill svg path:not([fill]), .ill svg circle:not([fill]), .ill svg rect:not([fill]), .ill svg polygon:not([fill]), .ill svg ellipse:not([fill]) { fill: currentColor; }`);
   const hc = config.headingsGroup.color;
   const st = computeSceneTones(config.backgroundColor, config.headingsGroup.color);
-  const fg = hexToOklch(hc);
-  const isDark = hexToOklch(config.backgroundColor).l <= 0.4;
-  const t1L = isDark ? Math.min(fg.l + 0.12, 1) : Math.max(fg.l - 0.1, 0);
-  const t2L = isDark ? Math.min(fg.l + 0.22, 1) : Math.max(fg.l + 0.15, 0);
-  const t1C = Math.max(fg.c * 1.2, 0.06);
-  const t2C = Math.max(fg.c * 1.3, 0.07);
-  const tone1Hex = oklchToHex(t1L, t1C, (fg.h + 30) % 360);
-  const tone2Hex = oklchToHex(t2L, t2C, (fg.h - 30 + 360) % 360);
-  lines.push(`:root { --bg-color: ${hexToOklchString(config.backgroundColor)}; --tone-base: ${hexToOklchString(hc)}; --tone-1: ${hexToOklchString(tone1Hex)}; --tone-2: ${hexToOklchString(tone2Hex)}; --scene-tone-1: ${st.tone1}; --scene-tone-2: ${st.tone2}; --scene-tone-3: ${st.tone3}; }`);
+  lines.push(`:root { --bg-color: ${hexToOklchString(config.backgroundColor)}; --tone-base: ${hexToOklchString(hc)}; --tone-1: ${st.tone1}; --tone-2: ${st.tone2}; --scene-tone-1: ${st.tone1}; --scene-tone-2: ${st.tone2}; --scene-tone-3: ${st.tone3}; }`);
   lines.push("");
 
   for (const style of desktop) {

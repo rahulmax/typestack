@@ -7,6 +7,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useState, useEffect } from "react";
 import { Shuffle, ArrowLeftRight, Undo2, Redo2, RotateCcw, Wand2, Dices, Sun, Moon, Grid3x3 } from "lucide-react";
 import { useTypographyStore } from "@/store/typography-store";
 import { useUIStore } from "@/store/ui-store";
@@ -16,6 +17,7 @@ import { PRESETS } from "@/db/seed-presets";
 import { TemplateTabs } from "@/components/preview/template-tabs";
 import { ViewportToggle } from "@/components/preview/viewport-toggle";
 import { useTheme } from "next-themes";
+import { Show, UserButton, SignInButton } from "@clerk/nextjs";
 
 const btnClass = "flex h-8 items-center gap-1.5 rounded-sm border bg-background px-2 text-xs hover:bg-accent";
 
@@ -47,6 +49,8 @@ export function Header({
   const gridPattern = useUIStore((s) => s.gridPattern);
   const cycleGridPattern = useUIStore((s) => s.cycleGridPattern);
   const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   const { undo, redo, pastStates, futureStates } = useStore(
     useTypographyStore.temporal
@@ -72,7 +76,7 @@ export function Header({
     <header className="flex h-14 items-center justify-between border-b bg-background px-4">
       {/* Left: logo */}
       <div className="flex items-center gap-2 shrink-0">
-        <span className="text-lg font-bold tracking-tight">TypeStack</span>
+        <span className="text-lg font-bold tracking-tight">TypeStax</span>
         <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Type Scale Generator</span>
       </div>
 
@@ -192,7 +196,7 @@ export function Header({
               onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
               className={btnClass}
             >
-              {resolvedTheme === "dark" ? <Sun className="size-3.5" /> : <Moon className="size-3.5" />}
+              {mounted ? (resolvedTheme === "dark" ? <Sun className="size-3.5" /> : <Moon className="size-3.5" />) : <span className="size-3.5" />}
             </button>
           </TooltipTrigger>
           <TooltipContent>Toggle dark mode</TooltipContent>
@@ -253,6 +257,19 @@ export function Header({
           </TooltipTrigger>
           <TooltipContent>Export (Cmd+E)</TooltipContent>
         </Tooltip>
+
+        <Separator orientation="vertical" className="mx-0.5 h-5" />
+
+        <Show when="signed-out">
+          <SignInButton mode="modal">
+            <Button variant="outline" size="sm" className="h-8">
+              Sign in
+            </Button>
+          </SignInButton>
+        </Show>
+        <Show when="signed-in">
+          <UserButton />
+        </Show>
       </div>
     </header>
   );

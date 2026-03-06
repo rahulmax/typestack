@@ -63,12 +63,20 @@ function ElementRow({ element }: { element: TypographyElement }) {
 
   return (
     <div className={`rounded-sm border ${!isEnabled ? "opacity-50" : ""}`}>
-      <button
-        type="button"
-        className="flex w-full items-center justify-between px-3 py-2 text-sm hover:bg-accent"
+      <div
+        role="button"
+        tabIndex={0}
+        className="flex w-full cursor-pointer items-center justify-between px-3 py-2 text-sm hover:bg-accent"
         onClick={() => {
           if (!isEnabled) return;
           setExpandedElement(isExpanded ? null : element);
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            if (!isEnabled) return;
+            setExpandedElement(isExpanded ? null : element);
+          }
         }}
       >
         <div className="flex items-center gap-2">
@@ -84,7 +92,7 @@ function ElementRow({ element }: { element: TypographyElement }) {
         <span className="text-xs text-muted-foreground">
           {isExpanded ? "−" : "+"}
         </span>
-      </button>
+      </div>
 
       {isExpanded && isEnabled && (
         <div className="flex flex-col gap-3 border-t px-3 py-3">

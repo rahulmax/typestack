@@ -192,13 +192,21 @@ function ensureContrast(
 }
 
 /**
- * Compute three SVG fill tones derived from the foreground color, using
- * analogous hue shifts in OKLCH. Each tone is contrast-verified against
- * the background at a minimum 1.3:1 ratio.
+ * Compute three SVG fill tones for illustrations.
  *
- * tone1 – outlines/strokes (foreground-derived)
- * tone2 – accent (+30° hue shift)
- * tone3 – accent (−30° hue shift)
+ * Strategy: derive hues from the *background* color so accents always feel
+ * harmonious with the page. When the background is chromatic (chroma > 0.02)
+ * we use its hue as the anchor with ±30° analogous shifts. When the
+ * background is neutral we fall back to the foreground hue.
+ *
+ * Lightness is placed opposite the background — light tones on dark
+ * backgrounds and muted mid-tones on light backgrounds. Chroma is moderate
+ * so fills look decorative, not garish. All tones are contrast-verified
+ * at 2:1 minimum.
+ *
+ * tone1 – primary accent (anchor hue)
+ * tone2 – secondary accent (+30° from anchor)
+ * tone3 – tertiary accent (−30° from anchor)
  */
 export function computeSceneTones(
   backgroundColor: string,
@@ -209,31 +217,31 @@ export function computeSceneTones(
   tone3: string;
 } {
   const bgRgb = hexToRgb(backgroundColor);
-  const bgLum = relativeLuminance(...bgRgb);
-  const isDark = bgLum <= 0.4;
+  const isDark = relativeLuminance(...bgRgb) <= 0.18;
 
   const fg = hexToOklch(foregroundColor);
   const bg = hexToOklch(backgroundColor);
 
-  const MIN_CR = 1.3;
+  const MIN_CR = 2.0;
 
-  let t1: { l: number; c: number; h: number };
-  let t2: { l: number; c: number; h: number };
-  let t3: { l: number; c: number; h: number };
+  // Use background hue when it's chromatic, otherwise foreground hue
+  const anchorH = bg.c > 0.02 ? bg.h : fg.h;
 
+  // Target lightness: opposite end from background
+  let baseL: number;
   if (isDark) {
-    t1 = { l: Math.max(fg.l, 0.85), c: Math.max(fg.c, 0.04), h: fg.h };
-    const accentL = Math.max(fg.l * 0.8, 0.65);
-    const accentC = Math.max(fg.c * 0.7, 0.05);
-    t2 = { l: accentL, c: accentC, h: (fg.h + 30) % 360 };
-    t3 = { l: accentL, c: accentC, h: (fg.h - 30 + 360) % 360 };
+    baseL = 0.65 + (1 - bg.l) * 0.2;
   } else {
-    const subtleL = fg.l + (bg.l - fg.l) * 0.5;
-    const subtleC = fg.c * 0.5;
-    t1 = { l: subtleL, c: subtleC, h: fg.h };
-    t2 = { l: subtleL, c: subtleC * 0.8, h: (fg.h + 30) % 360 };
-    t3 = { l: subtleL, c: subtleC * 0.8, h: (fg.h - 30 + 360) % 360 };
+    baseL = 0.25 + bg.l * 0.15;
   }
+
+  // Chroma: enough color to be interesting, scaled to the stronger of bg/fg
+  const refC = Math.max(bg.c, fg.c);
+  const baseC = Math.max(Math.min(refC * 0.7, 0.13), 0.04);
+
+  let t1: { l: number; c: number; h: number } = { l: baseL, c: baseC, h: anchorH };
+  let t2: { l: number; c: number; h: number } = { l: baseL - 0.04, c: baseC * 1.15, h: (anchorH + 30) % 360 };
+  let t3: { l: number; c: number; h: number } = { l: baseL - 0.04, c: baseC * 1.15, h: (anchorH - 30 + 360) % 360 };
 
   t1 = ensureContrast(t1, bgRgb, isDark, MIN_CR);
   t2 = ensureContrast(t2, bgRgb, isDark, MIN_CR);

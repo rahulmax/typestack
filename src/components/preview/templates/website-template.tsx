@@ -104,7 +104,7 @@ export const websiteTemplate: PreviewTemplate = {
 
 <!-- NAV -->
 <nav style="max-width: 1280px; margin: 0 auto; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
-  <h6 style="margin: 0;">TypeStack</h6>
+  <h6 style="margin: 0;">TypeStax</h6>
   <div id="nav-links" style="display: flex; gap: 2rem; align-items: center;">
     <small style="cursor: pointer;">Features</small>
     <small style="cursor: pointer;">Pricing</small>
@@ -195,7 +195,10 @@ export const websiteTemplate: PreviewTemplate = {
 
 <!-- SPLIT SECTION: ILLUSTRATION LEFT, TEXT RIGHT -->
 <section id="split-1" style="max-width: 1280px; margin: 0 auto; padding: 0 1.5rem 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
-  <div class="ill" id="ill-split-1" style="display: flex; align-items: center; justify-content: center; min-height: 240px; border: ${borderLight}; border-radius: 16px; padding: 2rem; background: color-mix(in srgb, currentColor 3%, transparent);"></div>
+  <div>
+    <div class="ill" id="ill-split-1" style="display: flex; align-items: center; justify-content: center; min-height: 240px; border: ${borderLight}; border-radius: 16px; padding: 2rem; background: color-mix(in srgb, currentColor 3%, transparent);"></div>
+    <small style="display: block; margin-top: 0.5rem; font-size: 0.65em; text-align: center;">Illustration by <a href="https://www.getillustrations.com" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">getillustrations.com</a></small>
+  </div>
   <div>
     <span class="eyebrow" style="margin-bottom: 0.75rem; display: block;">Precision</span>
     <h3 style="margin: 0 0 1rem;">Per-element control over every detail</h3>
@@ -222,7 +225,7 @@ export const websiteTemplate: PreviewTemplate = {
   <div>
     <span class="eyebrow" style="margin-bottom: 0.75rem; display: block;">Responsive</span>
     <h3 style="margin: 0 0 1rem;">Mobile-first responsive scales</h3>
-    <p style="margin: 0 0 1.5rem;">Headings that look grand on desktop can overwhelm a small screen. Define separate scales for mobile and desktop, then let TypeStack generate fluid clamp() values that adapt smoothly across every viewport.</p>
+    <p style="margin: 0 0 1.5rem;">Headings that look grand on desktop can overwhelm a small screen. Define separate scales for mobile and desktop, then let TypeStax generate fluid clamp() values that adapt smoothly across every viewport.</p>
     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
       <div style="padding: 0.5em 1em; border: ${border}; border-radius: 8px;">
         <small>320px</small>
@@ -235,7 +238,10 @@ export const websiteTemplate: PreviewTemplate = {
       </div>
     </div>
   </div>
-  <div class="ill" id="ill-split-2" style="display: flex; align-items: center; justify-content: center; min-height: 240px; border: ${borderLight}; border-radius: 16px; padding: 2rem; background: color-mix(in srgb, currentColor 3%, transparent);"></div>
+  <div>
+    <div class="ill" id="ill-split-2" style="display: flex; align-items: center; justify-content: center; min-height: 240px; border: ${borderLight}; border-radius: 16px; padding: 2rem; background: color-mix(in srgb, currentColor 3%, transparent);"></div>
+    <small style="display: block; margin-top: 0.5rem; font-size: 0.65em; text-align: center;">Illustration by <a href="https://www.getillustrations.com" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">getillustrations.com</a></small>
+  </div>
 </section>
 
 <!-- STATS ROW -->
@@ -263,7 +269,7 @@ export const websiteTemplate: PreviewTemplate = {
 <!-- TESTIMONIAL -->
 <section style="max-width: 700px; margin: 0 auto; padding: 5rem 1.5rem;">
   <blockquote style="border-left: 3px solid currentColor; padding-left: 1.75rem; margin: 0;">
-    <p style="margin: 0 0 1.25rem;"><em>"TypeStack completely transformed our design workflow. We went from spending hours tweaking font sizes in Figma to having a perfect, mathematically harmonious scale in under a minute. The per-element overrides are a game changer."</em></p>
+    <p style="margin: 0 0 1.25rem;"><em>"TypeStax completely transformed our design workflow. We went from spending hours tweaking font sizes in Figma to having a perfect, mathematically harmonious scale in under a minute. The per-element overrides are a game changer."</em></p>
     <div>
       <p style="margin: 0; font-weight: 600;">Sarah Chen</p>
       <small>Design Systems Lead at Linear</small>
@@ -305,7 +311,7 @@ export const websiteTemplate: PreviewTemplate = {
 <!-- CTA -->
 <section style="max-width: 1280px; margin: 0 auto; padding: 4rem 1.5rem; text-align: center; border-top: ${borderLight};">
   <h3 style="margin: 0 0 1rem;">Ready to build your type scale?</h3>
-  <p style="max-width: 480px; margin: 0 auto 2rem;">Join thousands of designers and developers who use TypeStack to create beautiful, consistent typography.</p>
+  <p style="max-width: 480px; margin: 0 auto 2rem;">Join thousands of designers and developers who use TypeStax to create beautiful, consistent typography.</p>
   <div style="display: inline-block; padding: 0.7em 2.5em; background: currentColor; border-radius: 8px; cursor: pointer;">
     <small style="color: var(--bg-color, #fff); font-weight: 600;">Get started for free</small>
   </div>
@@ -315,7 +321,7 @@ export const websiteTemplate: PreviewTemplate = {
 <footer style="max-width: 1280px; margin: 0 auto; padding: 3rem 1.5rem 2rem; border-top: ${borderLight};">
   <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
     <div style="display: flex; align-items: center; gap: 2rem;">
-      <h6 style="margin: 0;">TypeStack</h6>
+      <h6 style="margin: 0;">TypeStax</h6>
       <small>Beautiful type scales, instantly.</small>
     </div>
     <div style="display: flex; gap: 1.5rem;">
@@ -326,7 +332,7 @@ export const websiteTemplate: PreviewTemplate = {
     </div>
   </div>
   <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: ${borderLight}; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
-    <small>2026 TypeStack. All rights reserved.</small>
+    <small>2026 TypeStax. All rights reserved.</small>
     <div style="display: flex; gap: 1.5rem;">
       <small>Privacy</small>
       <small>Terms</small>
