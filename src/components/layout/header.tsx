@@ -7,8 +7,9 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Shuffle, ArrowLeftRight, Undo2, Redo2, RotateCcw, Wand2, Dices, Sun, Moon } from "lucide-react";
+import { Shuffle, ArrowLeftRight, Undo2, Redo2, RotateCcw, Wand2, Dices, Sun, Moon, Grid3x3 } from "lucide-react";
 import { useTypographyStore } from "@/store/typography-store";
+import { useUIStore } from "@/store/ui-store";
 import { useStore } from "zustand";
 import { generateRandomColorPair } from "@/lib/color-utils";
 import { PRESETS } from "@/db/seed-presets";
@@ -43,6 +44,8 @@ export function Header({
   const resetConfig = useTypographyStore((s) => s.resetConfig);
   const autoBalance = useTypographyStore((s) => s.autoBalance);
   const setAutoBalance = useTypographyStore((s) => s.setAutoBalance);
+  const gridPattern = useUIStore((s) => s.gridPattern);
+  const cycleGridPattern = useUIStore((s) => s.cycleGridPattern);
   const { resolvedTheme, setTheme } = useTheme();
 
   const { undo, redo, pastStates, futureStates } = useStore(
@@ -141,6 +144,18 @@ export function Header({
             </button>
           </TooltipTrigger>
           <TooltipContent>Background color</TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button
+              type="button"
+              onClick={cycleGridPattern}
+              className={`${btnClass} ${gridPattern !== null ? "bg-accent" : ""}`}
+            >
+              <Grid3x3 className="size-3.5" />
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>{gridPattern !== null ? `Pattern ${gridPattern}` : "Background pattern"}</TooltipContent>
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>

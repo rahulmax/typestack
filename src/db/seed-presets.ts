@@ -152,15 +152,12 @@ export function buildPresetConfig(preset: PresetDef): TypographyConfig {
       ...DEFAULT_CONFIG.headingsGroup,
       fontFamily: preset.headingFont,
       fontWeight: preset.headingWeight,
-      color: preset.fg,
     },
     bodyGroup: {
       ...DEFAULT_CONFIG.bodyGroup,
       fontFamily: preset.bodyFont,
       fontWeight: preset.bodyWeight,
-      color: preset.fg,
     },
-    backgroundColor: preset.bg,
   };
 }
 

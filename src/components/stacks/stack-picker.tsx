@@ -43,11 +43,11 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
       baseFontSize: s.baseFontSize,
       scaleRatioPreset: s.scaleRatioPreset,
       scaleRatio: s.scaleRatio,
-      headingsGroup: s.headingsGroup,
-      bodyGroup: s.bodyGroup,
+      headingsGroup: { ...s.headingsGroup, color: "#1a1a1a" },
+      bodyGroup: { ...s.bodyGroup, color: "#1a1a1a" },
       overrides: s.overrides,
       mobile: s.mobile,
-      backgroundColor: s.backgroundColor,
+      backgroundColor: "#ffffff",
       sampleText: s.sampleText,
     };
   }, []);

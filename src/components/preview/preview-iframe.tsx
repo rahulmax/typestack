@@ -5,6 +5,43 @@ import { usePreviewStyles } from "@/hooks/use-preview-styles";
 import { useTypographyStore } from "@/store/typography-store";
 import { getFontLinkUrl } from "@/lib/google-fonts";
 
+const EDITABLE_SELECTOR = "h1,h2,h3,h4,h5,h6,p,small,span,blockquote,label,td,th,li";
+
+function makeEditable(doc: Document) {
+  doc.querySelectorAll(EDITABLE_SELECTOR).forEach((el) => {
+    if (!el.querySelector("input,select,textarea,button,svg")) {
+      (el as HTMLElement).contentEditable = "true";
+    }
+  });
+}
+
+function setupEditableListeners(doc: Document) {
+  doc.addEventListener(
+    "focus",
+    (e) => {
+      const el = e.target as HTMLElement;
+      if (el.contentEditable === "true") {
+        el.style.outline = "2px solid #3b82f6";
+        el.style.outlineOffset = "2px";
+        el.style.borderRadius = "4px";
+      }
+    },
+    true
+  );
+  doc.addEventListener(
+    "blur",
+    (e) => {
+      const el = e.target as HTMLElement;
+      if (el.contentEditable === "true") {
+        el.style.outline = "";
+        el.style.outlineOffset = "";
+        el.style.borderRadius = "";
+      }
+    },
+    true
+  );
+}
+
 interface PreviewIframeProps {
   bodyHTML: string;
   mobile?: boolean;
@@ -67,6 +104,7 @@ export function PreviewIframe({ bodyHTML, mobile }: PreviewIframeProps) {
     const doc = iframeRef.current?.contentDocument;
     if (!doc) return;
     doc.body.innerHTML = bodyHTML;
+    makeEditable(doc);
   }, [bodyHTML]);
 
   // Update font links when fonts change
@@ -83,6 +121,13 @@ export function PreviewIframe({ bodyHTML, mobile }: PreviewIframeProps) {
     }
   }, [fontLinks]);
 
+  const handleLoad = () => {
+    const doc = iframeRef.current?.contentDocument;
+    if (!doc) return;
+    makeEditable(doc);
+    setupEditableListeners(doc);
+  };
+
   return (
     <iframe
       ref={iframeRef}
@@ -90,6 +135,7 @@ export function PreviewIframe({ bodyHTML, mobile }: PreviewIframeProps) {
       className="h-full w-full border-0"
       style={mobile ? undefined : { minHeight: "calc(100vh - 10rem)" }}
       title="Typography Preview"
+      onLoad={handleLoad}
     />
   );
 }

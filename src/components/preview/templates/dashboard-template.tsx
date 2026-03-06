@@ -6,14 +6,14 @@ const cardBg = `color-mix(in srgb, currentColor 3%, transparent)`;
 const card = `border: ${border}; border-radius: 12px; background: ${cardBg}; overflow: hidden;`;
 const cardHeader = `padding: 1.25rem 1.5rem 0.75rem;`;
 const cardTitle = `margin: 0 0 0.25rem; font-size: 1.1em; font-weight: 600; line-height: 1.3;`;
-const cardDesc = `margin: 0; font-size: 0.8em; opacity: 0.5;`;
+const cardDesc = `margin: 0; font-size: 0.8em;`;
 const cardContent = `padding: 0 1.5rem 1.25rem;`;
 const cardFooter = `padding: 0.75rem 1.5rem; border-top: ${borderLight};`;
 const btn = `display: inline-flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 0.82em; font-weight: 500; padding: 0.5em 1em; cursor: pointer; border: none; font-family: inherit;`;
 const btnOutline = `${btn} background: transparent; border: ${border}; color: inherit;`;
 const btnPrimary = `${btn} background: color-mix(in srgb, currentColor 80%, transparent); color: var(--bg-color);`;
 const btnSecondary = `${btn} background: color-mix(in srgb, currentColor 8%, transparent); color: inherit;`;
-const btnGhost = `${btn} background: transparent; opacity: 0.7; color: inherit;`;
+const btnGhost = `${btn} background: transparent; color: inherit;`;
 const input = `width: 100%; padding: 0.5em 0.75em; border: ${border}; border-radius: 8px; background: transparent; font-size: 0.85em; font-family: inherit; color: inherit; box-sizing: border-box;`;
 const textarea = `${input} min-height: 5em; resize: vertical;`;
 const label = `font-size: 0.82em; font-weight: 500;`;
@@ -59,7 +59,7 @@ export const dashboardTemplate: PreviewTemplate = {
       </div>
       <div style="padding: 0.25rem 1.5rem 0.75rem;">
         <svg viewBox="0 0 300 50" style="width: 100%; height: 50px;">
-          <polyline points="0,40 40,33 80,42 120,25 160,44 200,16 240,12 280,4 300,8" fill="none" stroke="currentColor" stroke-width="2" stroke-opacity="0.45" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="0,40 40,33 80,42 120,25 160,44 200,16 240,12 280,4 300,8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
     </div>
@@ -73,7 +73,7 @@ export const dashboardTemplate: PreviewTemplate = {
       </div>
       <div style="padding: 0.25rem 1.5rem 0.75rem;">
         <svg viewBox="0 0 300 50" style="width: 100%; height: 50px;">
-          <path d="M0,44 Q40,40 80,36 T160,30 T240,16 T300,4 L300,50 L0,50 Z" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="2" stroke-opacity="0.35"/>
+          <path d="M0,44 Q40,40 80,36 T160,30 T240,16 T300,4 L300,50 L0,50 Z" fill="currentColor" stroke="currentColor" stroke-width="2"/>
         </svg>
       </div>
     </div>
@@ -82,12 +82,12 @@ export const dashboardTemplate: PreviewTemplate = {
     <div style="${card}">
       <div style="padding: 1rem 1.25rem 0.75rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-          <span style="font-size: 0.6em; opacity: 0.4; cursor: pointer;">&#x25C0;</span>
+          <span style="font-size: 0.6em; cursor: pointer;">&#x25C0;</span>
           <span style="font-size: 0.85em; font-weight: 600;">June 2025</span>
-          <span style="font-size: 0.6em; opacity: 0.4; cursor: pointer;">&#x25B6;</span>
+          <span style="font-size: 0.6em; cursor: pointer;">&#x25B6;</span>
         </div>
         <table style="width: 100%; border-collapse: collapse; text-align: center; font-size: 0.72em;">
-          <thead><tr style="opacity: 0.4;">
+          <thead><tr>
             <th style="padding: 0.25em; font-weight: 500;">Su</th><th style="padding: 0.25em; font-weight: 500;">Mo</th><th style="padding: 0.25em; font-weight: 500;">Tu</th><th style="padding: 0.25em; font-weight: 500;">We</th><th style="padding: 0.25em; font-weight: 500;">Th</th><th style="padding: 0.25em; font-weight: 500;">Fr</th><th style="padding: 0.25em; font-weight: 500;">Sa</th>
           </tr></thead>
           <tbody>
@@ -96,7 +96,7 @@ export const dashboardTemplate: PreviewTemplate = {
             <tr style="background: color-mix(in srgb, currentColor 8%, transparent); border-radius: 6px;"><td style="padding: 0.35em; font-weight: 600;">9</td><td style="padding: 0.35em; font-weight: 600;">10</td><td style="padding: 0.35em; font-weight: 600;">11</td><td style="padding: 0.35em; font-weight: 600;">12</td><td style="padding: 0.35em; font-weight: 600;">13</td><td style="padding: 0.35em; font-weight: 600;">14</td><td style="padding: 0.35em; font-weight: 600;">15</td></tr>
             <tr><td style="padding: 0.35em;">16</td><td style="padding: 0.35em;">17</td><td style="padding: 0.35em;">18</td><td style="padding: 0.35em;">19</td><td style="padding: 0.35em;">20</td><td style="padding: 0.35em;">21</td><td style="padding: 0.35em;">22</td></tr>
             <tr><td style="padding: 0.35em;">23</td><td style="padding: 0.35em;">24</td><td style="padding: 0.35em;">25</td><td style="padding: 0.35em;">26</td><td style="padding: 0.35em;">27</td><td style="padding: 0.35em;">28</td><td style="padding: 0.35em;">29</td></tr>
-            <tr><td style="padding: 0.35em;">30</td><td style="padding: 0.35em; opacity: 0.3;">1</td><td style="padding: 0.35em; opacity: 0.3;">2</td><td style="padding: 0.35em; opacity: 0.3;">3</td><td style="padding: 0.35em; opacity: 0.3;">4</td><td style="padding: 0.35em; opacity: 0.3;">5</td><td style="padding: 0.35em; opacity: 0.3;">6</td></tr>
+            <tr><td style="padding: 0.35em;">30</td><td style="padding: 0.35em;">1</td><td style="padding: 0.35em;">2</td><td style="padding: 0.35em;">3</td><td style="padding: 0.35em;">4</td><td style="padding: 0.35em;">5</td><td style="padding: 0.35em;">6</td></tr>
           </tbody>
         </table>
       </div>
@@ -143,14 +143,14 @@ export const dashboardTemplate: PreviewTemplate = {
                   <span style="width: 10px; height: 10px; border-radius: 50%; background: color-mix(in srgb, currentColor 80%, transparent); display: inline-block;"></span>
                   <span style="font-size: 0.82em; font-weight: 600;">Starter Plan</span>
                 </div>
-                <small style="opacity: 0.45; font-size: 0.72em;">Perfect for small businesses.</small>
+                <small style="font-size: 0.72em;">Perfect for small businesses.</small>
               </div>
               <div style="border: ${border}; border-radius: 8px; padding: 0.65rem; cursor: pointer;">
                 <div style="display: flex; align-items: center; gap: 0.4em; margin-bottom: 0.25em;">
                   <span style="width: 10px; height: 10px; border-radius: 50%; border: ${border}; display: inline-block;"></span>
                   <span style="font-size: 0.82em; font-weight: 600;">Pro Plan</span>
                 </div>
-                <small style="opacity: 0.45; font-size: 0.72em;">More features and storage.</small>
+                <small style="font-size: 0.72em;">More features and storage.</small>
               </div>
             </div>
           </div>
@@ -183,10 +183,10 @@ export const dashboardTemplate: PreviewTemplate = {
         </div>
         <div style="${cardContent}">
           <svg viewBox="0 0 300 120" style="width: 100%; height: 100px;">
-            <polyline points="0,90 45,75 90,85 135,50 180,60 225,40 270,55" fill="none" stroke="currentColor" stroke-width="2" stroke-opacity="0.45" stroke-linecap="round" stroke-linejoin="round"/>
-            <polyline points="0,100 45,95 90,90 135,80 180,85 225,78 270,82" fill="none" stroke="currentColor" stroke-width="2" stroke-opacity="0.15" stroke-dasharray="4 4" stroke-linecap="round"/>
+            <polyline points="0,90 45,75 90,85 135,50 180,60 225,40 270,55" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="0,100 45,95 90,90 135,80 180,85 225,78 270,82" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4" stroke-linecap="round"/>
           </svg>
-          <div style="display: flex; justify-content: space-between; font-size: 0.7em; opacity: 0.4; margin-top: 0.25rem;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.7em; margin-top: 0.25rem;">
             <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
           </div>
         </div>
@@ -215,7 +215,7 @@ export const dashboardTemplate: PreviewTemplate = {
           </div>
           <div style="position: relative; text-align: center; margin: 1rem 0;">
             <hr style="${separator}" />
-            <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: inherit; padding: 0 0.75em; font-size: 0.7em; opacity: 0.45; text-transform: uppercase; letter-spacing: 0.03em;">Or continue with</span>
+            <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: inherit; padding: 0 0.75em; font-size: 0.7em; text-transform: uppercase; letter-spacing: 0.03em;">Or continue with</span>
           </div>
           <div style="display: flex; flex-direction: column; gap: 0.75rem;">
             <div>
@@ -239,7 +239,7 @@ export const dashboardTemplate: PreviewTemplate = {
           <div style="${avatarBase}">S</div>
           <div style="flex: 1;">
             <p style="margin: 0; font-weight: 500; font-size: 0.85em;">Sofia Davis</p>
-            <small style="opacity: 0.4; font-size: 0.75em;">m@example.com</small>
+            <small style="font-size: 0.75em;">m@example.com</small>
           </div>
           <div style="width: 26px; height: 26px; border-radius: 50%; background: color-mix(in srgb, currentColor 8%, transparent); display: flex; align-items: center; justify-content: center;">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -274,7 +274,7 @@ export const dashboardTemplate: PreviewTemplate = {
           </div>
         </div>
         <div style="${cardContent}">
-          <div style="display: flex; gap: 1rem; font-size: 0.78em; opacity: 0.5;">
+          <div style="display: flex; gap: 1rem; font-size: 0.78em;">
             <div style="display: flex; align-items: center; gap: 0.3em;"><span style="width: 9px; height: 9px; border-radius: 50%; background: #3178c6; display: inline-block;"></span>TypeScript</div>
             <div style="display: flex; align-items: center; gap: 0.3em;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279L12 19.771l-7.416 3.642 1.48-8.279L0 9.306l8.332-1.151z"/></svg>20k</div>
             <span>Updated April 2023</span>
@@ -297,21 +297,21 @@ export const dashboardTemplate: PreviewTemplate = {
             <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;">
               <div style="display: flex; align-items: center; gap: 0.65rem;">
                 <div style="${avatarBase}">S</div>
-                <div><p style="margin: 0; font-weight: 500; font-size: 0.85em;">Sofia Davis</p><small style="opacity: 0.4; font-size: 0.72em;">m@example.com</small></div>
+                <div><p style="margin: 0; font-weight: 500; font-size: 0.85em;">Sofia Davis</p><small style="font-size: 0.72em;">m@example.com</small></div>
               </div>
               <select style="${selectBox} width: auto; padding: 0.3em 1.8em 0.3em 0.5em; font-size: 0.78em;"><option>Owner</option><option>Developer</option></select>
             </div>
             <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;">
               <div style="display: flex; align-items: center; gap: 0.65rem;">
                 <div style="${avatarBase}">J</div>
-                <div><p style="margin: 0; font-weight: 500; font-size: 0.85em;">Jackson Lee</p><small style="opacity: 0.4; font-size: 0.72em;">p@example.com</small></div>
+                <div><p style="margin: 0; font-weight: 500; font-size: 0.85em;">Jackson Lee</p><small style="font-size: 0.72em;">p@example.com</small></div>
               </div>
               <select style="${selectBox} width: auto; padding: 0.3em 1.8em 0.3em 0.5em; font-size: 0.78em;"><option>Developer</option><option>Viewer</option></select>
             </div>
             <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;">
               <div style="display: flex; align-items: center; gap: 0.65rem;">
                 <div style="${avatarBase}">I</div>
-                <div><p style="margin: 0; font-weight: 500; font-size: 0.85em;">Isabella Nguyen</p><small style="opacity: 0.4; font-size: 0.72em;">i@example.com</small></div>
+                <div><p style="margin: 0; font-weight: 500; font-size: 0.85em;">Isabella Nguyen</p><small style="font-size: 0.72em;">i@example.com</small></div>
               </div>
               <select style="${selectBox} width: auto; padding: 0.3em 1.8em 0.3em 0.5em; font-size: 0.78em;"><option>Billing</option><option>Viewer</option></select>
             </div>
@@ -328,11 +328,11 @@ export const dashboardTemplate: PreviewTemplate = {
         <div style="${cardContent}">
           <div style="display: flex; flex-direction: column; gap: 1.1rem;">
             <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;">
-              <div><p style="margin: 0; font-weight: 500; font-size: 0.85em;">Strictly Necessary</p><small style="opacity: 0.4; font-size: 0.75em; line-height: 1.4;">These cookies are essential in order to use the website and its features.</small></div>
+              <div><p style="margin: 0; font-weight: 500; font-size: 0.85em;">Strictly Necessary</p><small style="font-size: 0.75em; line-height: 1.4;">These cookies are essential in order to use the website and its features.</small></div>
               <div style="${toggleOn}"><div style="position: absolute; top: 2px; right: 2px; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-color);"></div></div>
             </div>
             <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;">
-              <div><p style="margin: 0; font-weight: 500; font-size: 0.85em;">Functional Cookies</p><small style="opacity: 0.4; font-size: 0.75em; line-height: 1.4;">These cookies allow the website to provide personalized functionality.</small></div>
+              <div><p style="margin: 0; font-weight: 500; font-size: 0.85em;">Functional Cookies</p><small style="font-size: 0.75em; line-height: 1.4;">These cookies allow the website to provide personalized functionality.</small></div>
               <div style="${toggleOff}"><div style="position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-color);"></div></div>
             </div>
           </div>
@@ -352,30 +352,30 @@ export const dashboardTemplate: PreviewTemplate = {
           <table style="width: 100%; border-collapse: collapse; font-size: 0.8em;">
             <thead>
               <tr style="border-bottom: ${borderLight};">
-                <th style="padding: 0.55rem 1rem; text-align: left; opacity: 0.45; font-weight: 500; font-size: 0.85em;">Status</th>
-                <th style="padding: 0.55rem 0.75rem; text-align: left; opacity: 0.45; font-weight: 500; font-size: 0.85em;">Email</th>
-                <th style="padding: 0.55rem 1rem; text-align: right; opacity: 0.45; font-weight: 500; font-size: 0.85em;">Amount</th>
+                <th style="padding: 0.55rem 1rem; text-align: left; font-weight: 500; font-size: 0.85em;">Status</th>
+                <th style="padding: 0.55rem 0.75rem; text-align: left; font-weight: 500; font-size: 0.85em;">Email</th>
+                <th style="padding: 0.55rem 1rem; text-align: right; font-weight: 500; font-size: 0.85em;">Amount</th>
               </tr>
             </thead>
             <tbody>
               <tr style="border-bottom: ${borderLight};">
                 <td style="padding: 0.6rem 1rem;"><span style="${badge}">Success</span></td>
-                <td style="padding: 0.6rem 0.75rem; opacity: 0.65;">ken99@example.com</td>
+                <td style="padding: 0.6rem 0.75rem;">ken99@example.com</td>
                 <td style="padding: 0.6rem 1rem; text-align: right; font-weight: 600;">$316.00</td>
               </tr>
               <tr style="border-bottom: ${borderLight};">
                 <td style="padding: 0.6rem 1rem;"><span style="${badge}">Success</span></td>
-                <td style="padding: 0.6rem 0.75rem; opacity: 0.65;">abe45@example.com</td>
+                <td style="padding: 0.6rem 0.75rem;">abe45@example.com</td>
                 <td style="padding: 0.6rem 1rem; text-align: right; font-weight: 600;">$242.00</td>
               </tr>
               <tr style="border-bottom: ${borderLight};">
                 <td style="padding: 0.6rem 1rem;"><span style="${badge}">Processing</span></td>
-                <td style="padding: 0.6rem 0.75rem; opacity: 0.65;">monserrat44@example.com</td>
+                <td style="padding: 0.6rem 0.75rem;">monserrat44@example.com</td>
                 <td style="padding: 0.6rem 1rem; text-align: right; font-weight: 600;">$837.00</td>
               </tr>
               <tr>
                 <td style="padding: 0.6rem 1rem;"><span style="${badge}">Failed</span></td>
-                <td style="padding: 0.6rem 0.75rem; opacity: 0.65;">carmella@example.com</td>
+                <td style="padding: 0.6rem 0.75rem;">carmella@example.com</td>
                 <td style="padding: 0.6rem 1rem; text-align: right; font-weight: 600;">$721.00</td>
               </tr>
             </tbody>

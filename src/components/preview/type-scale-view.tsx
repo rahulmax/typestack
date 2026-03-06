@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 import { PANGRAMS } from "@/data/pangrams";
 import type { ResolvedElementStyle } from "@/types/typography";
+import { getGridPatternUrl } from "@/lib/grid-pattern";
 
 const CUSTOM_VALUE = "__custom__";
 
@@ -94,10 +95,10 @@ function ScaleRow({ style, sampleText }: { style: ResolvedElementStyle; sampleTe
     >
       <div className="flex w-24 shrink-0 flex-col gap-0.5 pt-1">
         <span className="font-mono text-sm font-semibold" style={{ color: style.color }}>{style.element}</span>
-        <span className="text-xs" style={{ color: style.color, opacity: 0.6 }}>
+        <span className="text-xs" style={{ color: style.color }}>
           {style.fontSizeRem.toFixed(3)}rem
         </span>
-        <span className="text-xs" style={{ color: style.color, opacity: 0.6 }}>
+        <span className="text-xs" style={{ color: style.color }}>
           {style.fontSize.toFixed(1)}px
         </span>
       </div>
@@ -126,7 +127,10 @@ export function TypeScaleView() {
   const backgroundColor = useTypographyStore((s) => s.backgroundColor);
   const foregroundColor = useTypographyStore((s) => s.bodyGroup.color);
   const enabledElements = useTypographyStore((s) => s.enabledElements);
+  const gridPattern = useUIStore((s) => s.gridPattern);
   const headerColor = desktop[0]?.color;
+
+  const patternUrl = getGridPatternUrl(gridPattern, backgroundColor);
 
   const visibleStyles = desktop.filter((s) => {
     // Optional elements must be explicitly enabled
@@ -137,7 +141,12 @@ export function TypeScaleView() {
   return (
     <div
       className="flex min-h-full flex-col p-6"
-      style={{ backgroundColor }}
+      style={{
+        backgroundColor,
+        backgroundImage: patternUrl ? `url(${patternUrl})` : undefined,
+        backgroundRepeat: patternUrl ? "repeat" : undefined,
+        backgroundSize: patternUrl ? "800px auto" : undefined,
+      }}
     >
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-sm font-semibold" style={{ color: headerColor }}>Type Scale</h2>

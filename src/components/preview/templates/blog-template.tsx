@@ -11,15 +11,15 @@ export const blogTemplate: PreviewTemplate = {
 </style>
 <article style="max-width: 680px; margin: 0 auto; padding: 3rem 1.5rem;">
   <header style="margin-bottom: 2.5rem;">
-    <span class="eyebrow" style="opacity: 0.5;">Design Systems</span>
+    <span class="eyebrow">Design Systems</span>
     <h1 style="margin: 0.75rem 0;">The Art of Typographic Hierarchy</h1>
-    <p style="opacity: 0.7;">How a well-crafted type scale can transform the readability and aesthetics of your digital products.</p>
+    <p>How a well-crafted type scale can transform the readability and aesthetics of your digital products.</p>
     <div style="display: flex; gap: 1rem; margin-top: 1rem; align-items: center;">
-      <small style="opacity: 0.5;">By Sarah Chen</small>
-      <small style="opacity: 0.4;">·</small>
-      <small style="opacity: 0.5;">March 3, 2026</small>
-      <small style="opacity: 0.4;">·</small>
-      <small style="opacity: 0.5;">8 min read</small>
+      <small>By Sarah Chen</small>
+      <small>·</small>
+      <small>March 3, 2026</small>
+      <small>·</small>
+      <small>8 min read</small>
     </div>
   </header>
 
@@ -33,9 +33,9 @@ export const blogTemplate: PreviewTemplate = {
     <h3 style="margin: 2rem 0 0.75rem;">Choosing the Right Ratio</h3>
     <p style="margin-bottom: 1.5rem;">For body-heavy content like articles and documentation, a tighter ratio like Minor Third (1.200) or Major Second (1.125) works well. For marketing pages where you need dramatic headings, a wider ratio like Perfect Fourth (1.333) or higher creates more visual impact.</p>
 
-    <blockquote style="border-left: 3px solid currentColor; padding-left: 1.5rem; margin: 2rem 0; opacity: 0.85;">
+    <blockquote style="border-left: 3px solid currentColor; padding-left: 1.5rem; margin: 2rem 0;">
       <p style="margin-bottom: 0.5rem;"><em>"The type scale is to typography what the color palette is to visual design — it's the foundational system that everything else builds upon."</em></p>
-      <small style="opacity: 0.6;">— Tim Brown, Head of Typography at Adobe</small>
+      <small>— Tim Brown, Head of Typography at Adobe</small>
     </blockquote>
 
     <h2 style="margin: 2rem 0 1rem;">Mobile Considerations</h2>
