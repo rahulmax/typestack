@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/select";
 import { PANGRAMS } from "@/data/pangrams";
 import type { ResolvedElementStyle } from "@/types/typography";
-import { getGridPatternUrl } from "@/lib/grid-pattern";
+
 
 const CUSTOM_VALUE = "__custom__";
 
@@ -127,10 +127,7 @@ export function TypeScaleView() {
   const backgroundColor = useTypographyStore((s) => s.backgroundColor);
   const foregroundColor = useTypographyStore((s) => s.bodyGroup.color);
   const enabledElements = useTypographyStore((s) => s.enabledElements);
-  const gridPattern = useUIStore((s) => s.gridPattern);
   const headerColor = desktop[0]?.color;
-
-  const patternUrl = getGridPatternUrl(gridPattern, backgroundColor);
 
   const visibleStyles = desktop.filter((s) => {
     // Optional elements must be explicitly enabled
@@ -141,12 +138,7 @@ export function TypeScaleView() {
   return (
     <div
       className="flex min-h-full flex-col p-6"
-      style={{
-        backgroundColor,
-        backgroundImage: patternUrl ? `url(${patternUrl})` : undefined,
-        backgroundRepeat: patternUrl ? "repeat" : undefined,
-        backgroundSize: patternUrl ? "800px auto" : undefined,
-      }}
+      style={{ backgroundColor }}
     >
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-sm font-semibold" style={{ color: headerColor }}>Type Scale</h2>

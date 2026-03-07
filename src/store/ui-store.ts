@@ -5,8 +5,8 @@ import { create } from "zustand";
 export type ViewportSize = "laptop" | "tablet" | "mobile";
 export type PreviewTab = "website" | "dashboard" | "blog";
 
-export const GRID_PATTERNS = [null, 18, 19, 20, 21] as const;
-export type GridPattern = (typeof GRID_PATTERNS)[number];
+export const GRID_PATTERN_TYPES = ["square", "dots", "plus", "tallrect"] as const;
+export type GridPatternType = (typeof GRID_PATTERN_TYPES)[number] | null;
 
 interface UIStore {
   viewport: ViewportSize;
@@ -16,7 +16,7 @@ interface UIStore {
   currentStackName: string | null;
   isDirty: boolean;
   scalePanelCollapsed: boolean;
-  gridPattern: GridPattern;
+  gridPattern: GridPatternType;
 
   setViewport: (viewport: ViewportSize) => void;
   setActiveTab: (tab: PreviewTab) => void;
@@ -24,7 +24,7 @@ interface UIStore {
   setCurrentStack: (id: string | null, name: string | null) => void;
   setDirty: (dirty: boolean) => void;
   setScalePanelCollapsed: (collapsed: boolean) => void;
-  cycleGridPattern: () => void;
+  setGridPattern: (pattern: GridPatternType) => void;
 }
 
 export const VIEWPORT_WIDTHS: Record<ViewportSize, string> = {
@@ -49,9 +49,5 @@ export const useUIStore = create<UIStore>()((set) => ({
   setCurrentStack: (id, name) => set({ currentStackId: id, currentStackName: name, isDirty: false }),
   setDirty: (dirty) => set({ isDirty: dirty }),
   setScalePanelCollapsed: (collapsed) => set({ scalePanelCollapsed: collapsed }),
-  cycleGridPattern: () =>
-    set((state) => {
-      const idx = GRID_PATTERNS.indexOf(state.gridPattern);
-      return { gridPattern: GRID_PATTERNS[(idx + 1) % GRID_PATTERNS.length] };
-    }),
+  setGridPattern: (pattern) => set({ gridPattern: pattern }),
 }));

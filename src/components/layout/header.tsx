@@ -8,14 +8,15 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useState, useEffect } from "react";
-import { Shuffle, ArrowLeftRight, Undo2, Redo2, RotateCcw, Wand2, Dices, Sun, Moon, Grid3x3 } from "lucide-react";
+import { Shuffle, ArrowLeftRight, Undo2, Redo2, RotateCcw, Wand2, Dices, Sun, Moon } from "lucide-react";
 import { useTypographyStore } from "@/store/typography-store";
-import { useUIStore } from "@/store/ui-store";
+import { useUIStore, type GridPatternType } from "@/store/ui-store";
 import { useStore } from "zustand";
 import { generateRandomColorPair } from "@/lib/color-utils";
 import { PRESETS } from "@/db/seed-presets";
 import { TemplateTabs } from "@/components/preview/template-tabs";
 import { ViewportToggle } from "@/components/preview/viewport-toggle";
+import { GridPatternTabs } from "@/components/preview/grid-pattern-tabs";
 import { useTheme } from "next-themes";
 import { Show, UserButton, SignInButton } from "@clerk/nextjs";
 
@@ -47,7 +48,7 @@ export function Header({
   const autoBalance = useTypographyStore((s) => s.autoBalance);
   const setAutoBalance = useTypographyStore((s) => s.setAutoBalance);
   const gridPattern = useUIStore((s) => s.gridPattern);
-  const cycleGridPattern = useUIStore((s) => s.cycleGridPattern);
+  const setGridPattern = useUIStore((s) => s.setGridPattern);
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -149,18 +150,7 @@ export function Header({
           </TooltipTrigger>
           <TooltipContent>Background color</TooltipContent>
         </Tooltip>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button
-              type="button"
-              onClick={cycleGridPattern}
-              className={`${btnClass} ${gridPattern !== null ? "bg-accent" : ""}`}
-            >
-              <Grid3x3 className="size-3.5" />
-            </button>
-          </TooltipTrigger>
-          <TooltipContent>{gridPattern !== null ? `Pattern ${gridPattern}` : "Background pattern"}</TooltipContent>
-        </Tooltip>
+        <GridPatternTabs value={gridPattern} onChange={setGridPattern} />
         <Tooltip>
           <TooltipTrigger asChild>
             <button type="button" onClick={handleRandom} className={btnClass}>

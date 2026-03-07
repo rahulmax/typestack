@@ -14,7 +14,7 @@ export function usePreviewStyles(): string {
   return useMemo(() => {
     let css = generatePreviewCSS(config);
     if (patternUrl) {
-      css += `\nbody { background-image: url(${patternUrl}); background-repeat: repeat; background-size: 800px auto; }`;
+      css += `\nbody { background-image: url("${patternUrl}"); background-repeat: repeat; }`;
     }
     return css;
   }, [config, patternUrl]);

@@ -1,68 +1,59 @@
-import { db } from "@/db";
+import { db, dbReady } from "@/db";
 import { stacks, stackLikes, stackSaves } from "@/db/schema";
 import { eq, and, desc, sql } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
+  await dbReady;
   const deviceId = request.headers.get("x-device-id") || "";
   const filter = request.nextUrl.searchParams.get("filter") || "all";
 
   let rows;
 
   if (filter === "presets") {
-    rows = db
+    rows = await db
       .select()
       .from(stacks)
       .where(eq(stacks.isPreset, true))
-      .orderBy(desc(stacks.createdAt))
-      .all();
+      .orderBy(desc(stacks.createdAt));
   } else if (filter === "community") {
-    rows = db
+    rows = await db
       .select()
       .from(stacks)
       .where(and(eq(stacks.isPublished, true), eq(stacks.isPreset, false)))
-      .orderBy(desc(stacks.likesCount))
-      .all();
+      .orderBy(desc(stacks.likesCount));
   } else if (filter === "mine") {
-    rows = db
+    rows = await db
       .select()
       .from(stacks)
       .where(eq(stacks.deviceId, deviceId))
-      .orderBy(desc(stacks.updatedAt))
-      .all();
+      .orderBy(desc(stacks.updatedAt));
   } else if (filter === "saved") {
-    rows = db
+    const joined = await db
       .select({ stack: stacks })
       .from(stackSaves)
       .innerJoin(stacks, eq(stackSaves.stackId, stacks.id))
-      .where(eq(stackSaves.deviceId, deviceId))
-      .all()
-      .map((r) => r.stack);
+      .where(eq(stackSaves.deviceId, deviceId));
+    rows = joined.map((r) => r.stack);
   } else {
-    rows = db
+    rows = await db
       .select()
       .from(stacks)
       .where(sql`${stacks.isPreset} = 1 OR ${stacks.isPublished} = 1`)
-      .orderBy(desc(stacks.isPreset), desc(stacks.likesCount))
-      .all();
+      .orderBy(desc(stacks.isPreset), desc(stacks.likesCount));
   }
 
-  const likedSet = new Set(
-    db
-      .select({ stackId: stackLikes.stackId })
-      .from(stackLikes)
-      .where(eq(stackLikes.deviceId, deviceId))
-      .all()
-      .map((r) => r.stackId)
-  );
-  const savedSet = new Set(
-    db
-      .select({ stackId: stackSaves.stackId })
-      .from(stackSaves)
-      .where(eq(stackSaves.deviceId, deviceId))
-      .all()
-      .map((r) => r.stackId)
-  );
+  const likedRows = await db
+    .select({ stackId: stackLikes.stackId })
+    .from(stackLikes)
+    .where(eq(stackLikes.deviceId, deviceId));
+  const likedSet = new Set(likedRows.map((r) => r.stackId));
+
+  const savedRows = await db
+    .select({ stackId: stackSaves.stackId })
+    .from(stackSaves)
+    .where(eq(stackSaves.deviceId, deviceId));
+  const savedSet = new Set(savedRows.map((r) => r.stackId));
 
   const result = rows.map((s) => ({
     ...s,
@@ -75,6 +66,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  await dbReady;
   const deviceId = request.headers.get("x-device-id");
   if (!deviceId) {
     return NextResponse.json({ error: "Missing device ID" }, { status: 400 });
@@ -93,25 +85,23 @@ export async function POST(request: NextRequest) {
   const id = crypto.randomUUID();
   const now = new Date().toISOString();
 
-  db.insert(stacks)
-    .values({
-      id,
-      name,
-      config: JSON.stringify(config),
-      deviceId,
-      isPublished: false,
-      isPreset: false,
-      likesCount: 0,
-      savesCount: 0,
-      createdAt: now,
-      updatedAt: now,
-    })
-    .run();
+  await db.insert(stacks).values({
+    id,
+    name,
+    config: JSON.stringify(config),
+    deviceId,
+    isPublished: false,
+    isPreset: false,
+    likesCount: 0,
+    savesCount: 0,
+    createdAt: now,
+    updatedAt: now,
+  });
 
-  const created = db.select().from(stacks).where(eq(stacks.id, id)).get()!;
+  const created = await db.select().from(stacks).where(eq(stacks.id, id)).get();
 
   return NextResponse.json(
-    { ...created, config: JSON.parse(created.config) },
+    { ...created!, config: JSON.parse(created!.config) },
     { status: 201 }
   );
 }

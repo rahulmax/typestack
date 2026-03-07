@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import { db, dbReady } from "@/db";
 import { stacks, stackLikes, stackSaves } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
@@ -6,21 +6,22 @@ import { NextRequest, NextResponse } from "next/server";
 type Params = { params: Promise<{ id: string }> };
 
 export async function GET(request: NextRequest, { params }: Params) {
+  await dbReady;
   const { id } = await params;
   const deviceId = request.headers.get("x-device-id") || "";
 
-  const stack = db.select().from(stacks).where(eq(stacks.id, id)).get();
+  const stack = await db.select().from(stacks).where(eq(stacks.id, id)).get();
   if (!stack) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  const liked = db
+  const liked = await db
     .select()
     .from(stackLikes)
     .where(and(eq(stackLikes.stackId, id), eq(stackLikes.deviceId, deviceId)))
     .get();
 
-  const saved = db
+  const saved = await db
     .select()
     .from(stackSaves)
     .where(and(eq(stackSaves.stackId, id), eq(stackSaves.deviceId, deviceId)))
@@ -35,13 +36,14 @@ export async function GET(request: NextRequest, { params }: Params) {
 }
 
 export async function PATCH(request: NextRequest, { params }: Params) {
+  await dbReady;
   const { id } = await params;
   const deviceId = request.headers.get("x-device-id");
   if (!deviceId) {
     return NextResponse.json({ error: "Missing device ID" }, { status: 400 });
   }
 
-  const stack = db.select().from(stacks).where(eq(stacks.id, id)).get();
+  const stack = await db.select().from(stacks).where(eq(stacks.id, id)).get();
   if (!stack) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
@@ -59,20 +61,21 @@ export async function PATCH(request: NextRequest, { params }: Params) {
     updates.config = JSON.stringify(body.config);
   if (body.isPublished !== undefined) updates.isPublished = body.isPublished;
 
-  db.update(stacks).set(updates).where(eq(stacks.id, id)).run();
+  await db.update(stacks).set(updates).where(eq(stacks.id, id));
 
-  const updated = db.select().from(stacks).where(eq(stacks.id, id)).get()!;
-  return NextResponse.json({ ...updated, config: JSON.parse(updated.config) });
+  const updated = await db.select().from(stacks).where(eq(stacks.id, id)).get();
+  return NextResponse.json({ ...updated!, config: JSON.parse(updated!.config) });
 }
 
 export async function DELETE(request: NextRequest, { params }: Params) {
+  await dbReady;
   const { id } = await params;
   const deviceId = request.headers.get("x-device-id");
   if (!deviceId) {
     return NextResponse.json({ error: "Missing device ID" }, { status: 400 });
   }
 
-  const stack = db.select().from(stacks).where(eq(stacks.id, id)).get();
+  const stack = await db.select().from(stacks).where(eq(stacks.id, id)).get();
   if (!stack) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
@@ -86,6 +89,6 @@ export async function DELETE(request: NextRequest, { params }: Params) {
     return NextResponse.json({ error: "Not owner" }, { status: 403 });
   }
 
-  db.delete(stacks).where(eq(stacks.id, id)).run();
+  await db.delete(stacks).where(eq(stacks.id, id));
   return NextResponse.json({ ok: true });
 }
