@@ -14,10 +14,15 @@ export function PreviewContainer() {
   if (viewport === "scale") {
     return (
       <div className="flex h-full flex-col">
-        <div className="flex-1 overflow-auto bg-muted p-4">
-          <BrowserChrome>
+        <div className="flex-1 overflow-auto bg-muted p-2 md:p-4">
+          <div className="hidden md:block">
+            <BrowserChrome>
+              <TypeScaleView />
+            </BrowserChrome>
+          </div>
+          <div className="md:hidden">
             <TypeScaleView />
-          </BrowserChrome>
+          </div>
         </div>
       </div>
     );

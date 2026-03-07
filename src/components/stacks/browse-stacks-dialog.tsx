@@ -16,6 +16,7 @@ import {
 import { StackCard } from "./stack-card";
 import {
   fetchStacks,
+  fetchStack,
   toggleLike,
   toggleSave,
   type Stack,
@@ -73,7 +74,7 @@ export function BrowseStacksDialog({
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await fetchStacks(filter);
+      const data = await fetchStacks(filter, true);
       setStacks(data);
     } catch {
       // Silently fail
@@ -102,10 +103,15 @@ export function BrowseStacksDialog({
     return stacks.filter((s) => s.category === categoryFilter);
   }, [stacks, categoryFilter]);
 
-  const handleSelect = (stack: Stack) => {
-    loadConfig(stack.config);
-    setCurrentStack(stack.id, stack.name);
-    onOpenChange(false);
+  const handleSelect = async (stack: Stack) => {
+    try {
+      const full = await fetchStack(stack.id);
+      loadConfig(full.config);
+      setCurrentStack(stack.id, stack.name);
+      onOpenChange(false);
+    } catch {
+      // Silently fail
+    }
   };
 
   const handleLike = async (stack: Stack) => {
@@ -151,12 +157,12 @@ export function BrowseStacksDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="!max-w-none !w-screen !h-screen !rounded-none !translate-x-[-50%] !translate-y-[-50%] !border-0 !shadow-none !p-0 !gap-0 !overflow-hidden !bg-muted">
         <div className="flex flex-col h-full w-full overflow-hidden">
-          <DialogHeader className="grid grid-cols-3 items-center px-8 pt-5 pb-4 shrink-0 border-b bg-muted">
+          <DialogHeader className="flex flex-col gap-3 md:grid md:grid-cols-3 md:items-center px-4 md:px-8 pt-4 md:pt-5 pb-3 md:pb-4 shrink-0 border-b bg-muted">
             <div>
               <DialogTitle>Stacks</DialogTitle>
               <DialogDescription>Browse typography presets and community stacks</DialogDescription>
             </div>
-            <div className="flex items-center justify-center gap-1.5">
+            <div className="hidden md:flex items-center justify-center gap-1.5">
               <Tooltip>
                 <TooltipTrigger asChild>
                   <button type="button" onClick={onHeadingColorClick} className={btnClass}>
@@ -201,7 +207,7 @@ export function BrowseStacksDialog({
                 <TooltipContent>Swap foreground / background</TooltipContent>
               </Tooltip>
             </div>
-            <div className="flex items-center justify-end gap-1.5 mr-8">
+            <div className="flex items-center md:justify-end gap-1.5 md:mr-8">
               <button
                 onClick={handleNew}
                 className="flex h-8 items-center rounded-sm bg-primary text-primary-foreground px-3 text-xs font-medium hover:bg-primary/90"
@@ -212,7 +218,7 @@ export function BrowseStacksDialog({
             </div>
           </DialogHeader>
 
-          <div className="px-8 pt-4 shrink-0 flex flex-col gap-2">
+          <div className="px-4 md:px-8 pt-3 md:pt-4 shrink-0 flex flex-col gap-2">
             {/* Source filter */}
             <div className="flex gap-1">
               {FILTER_LABELS.map(({ value, label }) => (
@@ -258,7 +264,7 @@ export function BrowseStacksDialog({
               </div>
             )}
           </div>
-          <div className="flex-1 min-h-0 overflow-y-auto px-8 py-5">
+          <div className="flex-1 min-h-0 overflow-y-auto px-4 md:px-8 py-4 md:py-5">
             {loading ? (
               <div className="py-20 text-center text-sm text-muted-foreground">
                 Loading stacks...
@@ -268,7 +274,7 @@ export function BrowseStacksDialog({
                 No stacks found.
               </div>
             ) : (
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
                 {filteredStacks.map((stack) => (
                   <StackCard
                     key={stack.id}

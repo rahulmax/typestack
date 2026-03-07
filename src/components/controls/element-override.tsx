@@ -30,7 +30,7 @@ function ElementRow({ element }: { element: TypographyElement }) {
   return (
     <div className={`rounded-sm border ${!isEnabled ? "opacity-50" : ""}`}>
       <div className="flex flex-col gap-3 px-3 py-3">
-          <div className="grid grid-cols-3 gap-x-5 gap-y-4">
+          <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-1.5">
               <div className="flex items-center justify-between">
                 <Label className="text-xs text-muted-foreground">Weight</Label>
@@ -45,32 +45,34 @@ function ElementRow({ element }: { element: TypographyElement }) {
               />
             </div>
 
-            <div className="flex flex-col gap-1.5">
-              <div className="flex items-center justify-between">
-                <Label className="text-xs text-muted-foreground">Line Height</Label>
-                <span className="text-xs tabular-nums text-muted-foreground">{(override.lineHeight ?? group.lineHeight).toFixed(2)}</span>
+            <div className="grid grid-cols-2 gap-x-5">
+              <div className="flex flex-col gap-1.5">
+                <div className="flex items-center justify-between">
+                  <Label className="text-xs text-muted-foreground">Line Height</Label>
+                  <span className="text-xs tabular-nums text-muted-foreground">{(override.lineHeight ?? group.lineHeight).toFixed(2)}</span>
+                </div>
+                <Slider
+                  value={[override.lineHeight ?? group.lineHeight]}
+                  onValueChange={([v]) => handleOverride({ lineHeight: v })}
+                  min={0.8}
+                  max={2.5}
+                  step={0.05}
+                />
               </div>
-              <Slider
-                value={[override.lineHeight ?? group.lineHeight]}
-                onValueChange={([v]) => handleOverride({ lineHeight: v })}
-                min={0.8}
-                max={2.5}
-                step={0.05}
-              />
-            </div>
 
-            <div className="flex flex-col gap-1.5">
-              <div className="flex items-center justify-between">
-                <Label className="text-xs text-muted-foreground">Tracking</Label>
-                <span className="text-xs tabular-nums text-muted-foreground">{(override.letterSpacing ?? group.letterSpacing).toFixed(3)}em</span>
+              <div className="flex flex-col gap-1.5">
+                <div className="flex items-center justify-between">
+                  <Label className="text-xs text-muted-foreground">Tracking</Label>
+                  <span className="text-xs tabular-nums text-muted-foreground">{(override.letterSpacing ?? group.letterSpacing).toFixed(3)}em</span>
+                </div>
+                <Slider
+                  value={[override.letterSpacing ?? group.letterSpacing]}
+                  onValueChange={([v]) => handleOverride({ letterSpacing: v })}
+                  min={-0.1}
+                  max={0.2}
+                  step={0.005}
+                />
               </div>
-              <Slider
-                value={[override.letterSpacing ?? group.letterSpacing]}
-                onValueChange={([v]) => handleOverride({ letterSpacing: v })}
-                min={-0.1}
-                max={0.2}
-                step={0.005}
-              />
             </div>
           </div>
 
@@ -95,7 +97,7 @@ function ElementRow({ element }: { element: TypographyElement }) {
                         },
                       });
                     }}
-                    className={`relative inline-flex h-4 w-8 shrink-0 cursor-pointer items-center rounded-full transition-colors ${
+                    className={`relative inline-flex h-4 w-8 shrink-0 cursor-pointer items-center rounded-sm transition-colors ${
                       isUppercase
                         ? "bg-foreground/25"
                         : "bg-border"

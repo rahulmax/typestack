@@ -43,24 +43,31 @@ export async function GET(request: NextRequest) {
       .orderBy(desc(stacks.isPreset), desc(stacks.likesCount));
   }
 
-  const likedRows = await db
-    .select({ stackId: stackLikes.stackId })
-    .from(stackLikes)
-    .where(eq(stackLikes.deviceId, deviceId));
+  const [likedRows, savedRows] = await Promise.all([
+    db.select({ stackId: stackLikes.stackId }).from(stackLikes).where(eq(stackLikes.deviceId, deviceId)),
+    db.select({ stackId: stackSaves.stackId }).from(stackSaves).where(eq(stackSaves.deviceId, deviceId)),
+  ]);
   const likedSet = new Set(likedRows.map((r) => r.stackId));
-
-  const savedRows = await db
-    .select({ stackId: stackSaves.stackId })
-    .from(stackSaves)
-    .where(eq(stackSaves.deviceId, deviceId));
   const savedSet = new Set(savedRows.map((r) => r.stackId));
 
-  const result = rows.map((s) => ({
-    ...s,
-    config: JSON.parse(s.config),
-    isLiked: likedSet.has(s.id),
-    isSaved: savedSet.has(s.id),
-  }));
+  const slim = request.nextUrl.searchParams.get("slim") === "1";
+
+  const result = rows.map((s) => {
+    const config = JSON.parse(s.config);
+    return {
+      ...s,
+      config: slim
+        ? {
+            headingsGroup: { fontFamily: config.headingsGroup?.fontFamily, fontWeight: config.headingsGroup?.fontWeight },
+            bodyGroup: { fontFamily: config.bodyGroup?.fontFamily, fontWeight: config.bodyGroup?.fontWeight },
+            scaleRatio: config.scaleRatio,
+            baseFontSize: config.baseFontSize,
+          }
+        : config,
+      isLiked: likedSet.has(s.id),
+      isSaved: savedSet.has(s.id),
+    };
+  });
 
   return NextResponse.json(result);
 }

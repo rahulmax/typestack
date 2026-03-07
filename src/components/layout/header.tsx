@@ -3,6 +3,14 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
@@ -49,6 +57,7 @@ export function Header({
   const cycleGridPattern = useUIStore((s) => s.cycleGridPattern);
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [resetOpen, setResetOpen] = useState(false);
   useEffect(() => setMounted(true), []);
 
   const { undo, redo, pastStates, futureStates } = useStore(
@@ -83,15 +92,15 @@ export function Header({
   }
 
   return (
-    <header className="flex h-14 items-center justify-between border-b bg-background px-4">
+    <header className="flex h-14 items-center justify-between border-b bg-background px-2 md:px-4">
       {/* Left: logo */}
       <div className="flex items-center gap-2 shrink-0">
         <span className="text-lg font-bold tracking-tight">TypeStax</span>
-        <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Type Scale Generator</span>
+        <span className="hidden sm:inline text-[10px] uppercase tracking-widest text-muted-foreground">Type Scale Generator</span>
       </div>
 
       {/* Center: tabs, viewport, then action buttons */}
-      <div className="flex items-center gap-1.5">
+      <div className="hidden lg:flex items-center gap-1.5">
         {/* Auto Balance + Random Stack */}
         <Tooltip>
           <TooltipTrigger asChild>
@@ -206,7 +215,7 @@ export function Header({
       </div>
 
       {/* Right: theme, undo/redo/reset, share, export */}
-      <div className="flex items-center gap-1.5 shrink-0">
+      <div className="flex items-center gap-1 md:gap-1.5 shrink-0">
         <Tooltip>
           <TooltipTrigger asChild>
             <button
@@ -220,61 +229,65 @@ export function Header({
           <TooltipContent>Toggle dark mode</TooltipContent>
         </Tooltip>
 
-        <Separator orientation="vertical" className="mx-0.5 h-5" />
+        <Separator orientation="vertical" className="mx-0.5 h-5 hidden md:block" />
 
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button
-              type="button"
-              onClick={() => undo()}
-              disabled={!canUndo}
-              className={`${btnClass} ${!canUndo ? "opacity-40 pointer-events-none" : ""}`}
-            >
-              <Undo2 className="size-3.5" />
-            </button>
-          </TooltipTrigger>
-          <TooltipContent>Undo (Cmd+Z)</TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button
-              type="button"
-              onClick={() => redo()}
-              disabled={!canRedo}
-              className={`${btnClass} ${!canRedo ? "opacity-40 pointer-events-none" : ""}`}
-            >
-              <Redo2 className="size-3.5" />
-            </button>
-          </TooltipTrigger>
-          <TooltipContent>Redo (Cmd+Shift+Z)</TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button type="button" onClick={() => { if (window.confirm("Reset all settings to defaults?")) resetConfig(); }} className={btnClass}>
-              <RotateCcw className="size-3.5" />
-            </button>
-          </TooltipTrigger>
-          <TooltipContent>Reset to defaults</TooltipContent>
-        </Tooltip>
+        <div className="hidden md:flex items-center gap-1.5">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                type="button"
+                onClick={() => undo()}
+                disabled={!canUndo}
+                className={`${btnClass} ${!canUndo ? "opacity-40 pointer-events-none" : ""}`}
+              >
+                <Undo2 className="size-3.5" />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>Undo (Cmd+Z)</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                type="button"
+                onClick={() => redo()}
+                disabled={!canRedo}
+                className={`${btnClass} ${!canRedo ? "opacity-40 pointer-events-none" : ""}`}
+              >
+                <Redo2 className="size-3.5" />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>Redo (Cmd+Shift+Z)</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button type="button" onClick={() => setResetOpen(true)} className={btnClass}>
+                <RotateCcw className="size-3.5" />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>Reset to defaults</TooltipContent>
+          </Tooltip>
+        </div>
 
-        <Separator orientation="vertical" className="mx-0.5 h-5" />
+        <Separator orientation="vertical" className="mx-0.5 h-5 hidden sm:block" />
 
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button variant="outline" size="sm" onClick={onShareClick} className="h-8">
-              Share
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>Share URL (Cmd+S)</TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button size="sm" onClick={onExportClick} className="h-8">
-              Export
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>Export (Cmd+E)</TooltipContent>
-        </Tooltip>
+        <div className="hidden sm:flex items-center gap-1.5">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button variant="outline" size="sm" onClick={onShareClick} className="h-8">
+                Share
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Share URL (Cmd+S)</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button size="sm" onClick={onExportClick} className="h-8">
+                Export
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Export (Cmd+E)</TooltipContent>
+          </Tooltip>
+        </div>
 
         <Separator orientation="vertical" className="mx-0.5 h-5" />
 
@@ -289,6 +302,19 @@ export function Header({
           <UserButton />
         </Show>
       </div>
+
+      <Dialog open={resetOpen} onOpenChange={setResetOpen}>
+        <DialogContent className="max-w-xs">
+          <DialogHeader>
+            <DialogTitle>Reset to defaults?</DialogTitle>
+            <DialogDescription>This will reset all typography settings. This action cannot be undone.</DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" size="sm" onClick={() => setResetOpen(false)}>Cancel</Button>
+            <Button variant="destructive" size="sm" onClick={() => { resetConfig(); setResetOpen(false); }}>Reset</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </header>
   );
 }

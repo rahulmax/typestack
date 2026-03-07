@@ -25,9 +25,10 @@ function headers(): HeadersInit {
 }
 
 export async function fetchStacks(
-  filter: "all" | "presets" | "community" | "mine" | "saved" = "all"
+  filter: "all" | "presets" | "community" | "mine" | "saved" = "all",
+  slim = false,
 ): Promise<Stack[]> {
-  const res = await fetch(`/api/stacks?filter=${filter}`, {
+  const res = await fetch(`/api/stacks?filter=${filter}${slim ? "&slim=1" : ""}`, {
     headers: headers(),
   });
   if (!res.ok) throw new Error("Failed to fetch stacks");
