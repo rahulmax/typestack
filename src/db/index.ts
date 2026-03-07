@@ -39,25 +39,30 @@ async function ensureSchema() {
 }
 
 async function seedPresets() {
-  const hasPresets = await db.select().from(schema.stacks).where(eq(schema.stacks.isPreset, true)).get();
-  if (hasPresets) return;
-
   const now = new Date().toISOString();
   for (const preset of PRESETS) {
     const id = `preset-${preset.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
-    await db.insert(schema.stacks).values({
-      id,
-      name: preset.name,
-      config: JSON.stringify(buildPresetConfig(preset)),
-      category: preset.category,
-      deviceId: "typestack-system",
-      isPublished: true,
-      isPreset: true,
-      likesCount: 0,
-      savesCount: 0,
-      createdAt: now,
-      updatedAt: now,
-    });
+    const config = JSON.stringify(buildPresetConfig(preset));
+    const existing = await db.select().from(schema.stacks).where(eq(schema.stacks.id, id)).get();
+    if (existing) {
+      await db.update(schema.stacks)
+        .set({ config, category: preset.category, updatedAt: now })
+        .where(eq(schema.stacks.id, id));
+    } else {
+      await db.insert(schema.stacks).values({
+        id,
+        name: preset.name,
+        config,
+        category: preset.category,
+        deviceId: "typestack-system",
+        isPublished: true,
+        isPreset: true,
+        likesCount: 0,
+        savesCount: 0,
+        createdAt: now,
+        updatedAt: now,
+      });
+    }
   }
 }
 

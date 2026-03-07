@@ -152,7 +152,12 @@ export function Header({
         <Tooltip>
           <TooltipTrigger asChild>
             <button type="button" onClick={handleRandom} className={btnClass}>
-              <Shuffle className="size-3.5" />
+              <svg className="size-3.5" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="4.5" cy="4.5" r="3" fill="#ff5f57" />
+                <circle cx="11.5" cy="4.5" r="3" fill="#febc2e" />
+                <circle cx="4.5" cy="11.5" r="3" fill="#28c840" />
+                <circle cx="11.5" cy="11.5" r="3" fill="#5b9cf6" />
+              </svg>
             </button>
           </TooltipTrigger>
           <TooltipContent>Random accessible colors</TooltipContent>
@@ -160,7 +165,11 @@ export function Header({
         <Tooltip>
           <TooltipTrigger asChild>
             <button type="button" onClick={handleReverse} className={btnClass}>
-              <ArrowLeftRight className="size-3.5" />
+              <svg className="size-3.5" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0.5" y="3" width="6" height="10" rx="1.5" fill={headingColor} stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.2" />
+                <rect x="9.5" y="3" width="6" height="10" rx="1.5" fill={backgroundColor} stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.2" />
+                <path d="M7.5 8L8.5 8M8.5 6.5L8.5 9.5" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" opacity="0.4" />
+              </svg>
             </button>
           </TooltipTrigger>
           <TooltipContent>Swap foreground / background</TooltipContent>
