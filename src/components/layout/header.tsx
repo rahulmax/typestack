@@ -15,7 +15,6 @@ import { useStore } from "zustand";
 import { generateRandomColorPair } from "@/lib/color-utils";
 import { PRESETS } from "@/db/seed-presets";
 import { TemplateTabs } from "@/components/preview/template-tabs";
-import { ViewportToggle } from "@/components/preview/viewport-toggle";
 import { GridPatternTabs } from "@/components/preview/grid-pattern-tabs";
 import { useTheme } from "next-themes";
 import { Show, UserButton, SignInButton } from "@clerk/nextjs";
@@ -107,9 +106,8 @@ export function Header({
 
         <Separator orientation="vertical" className="mx-0.5 h-5" />
 
-        {/* Template tabs + viewport */}
+        {/* Template tabs */}
         <TemplateTabs />
-        <ViewportToggle />
 
         <Separator orientation="vertical" className="mx-0.5 h-5" />
 
