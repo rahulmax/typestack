@@ -49,24 +49,26 @@ export function HexRgbInput({ color, onChange }: HexRgbInputProps) {
     }
   };
 
+  const numClass = "h-7 text-xs tabular-nums px-1.5 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none";
+
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex flex-col gap-1">
-        <Label className="text-xs text-muted-foreground">Hex</Label>
+    <div className="flex items-end gap-1.5">
+      {/* Hex */}
+      <div className="flex min-w-0 flex-1 flex-col gap-1 rounded-md bg-muted/50 p-1.5">
+        <Label className="text-[10px] text-muted-foreground">Hex</Label>
         <Input
           value={hex}
           onChange={(e) => handleHexChange(e.target.value)}
-          className="h-8 font-mono text-sm"
+          className="h-7 w-full font-mono text-xs px-1.5"
           maxLength={7}
         />
       </div>
+      {/* RGB */}
       {rgb && (
-        <div className="flex gap-2">
+        <div className="flex min-w-0 flex-[1.5] gap-1 rounded-md bg-muted/50 p-1.5">
           {(["r", "g", "b"] as const).map((ch) => (
-            <div key={ch} className="flex flex-col gap-1">
-              <Label className="text-xs uppercase text-muted-foreground">
-                {ch}
-              </Label>
+            <div key={ch} className="flex min-w-0 flex-1 flex-col gap-1">
+              <Label className="text-[10px] uppercase text-muted-foreground">{ch}</Label>
               <Input
                 type="number"
                 min={0}
@@ -79,16 +81,17 @@ export function HexRgbInput({ color, onChange }: HexRgbInputProps) {
                     onChange(rgbToHex(newRgb.r, newRgb.g, newRgb.b));
                   }
                 }}
-                className="h-8 w-16 text-sm"
+                className={`w-full ${numClass}`}
               />
             </div>
           ))}
         </div>
       )}
+      {/* OKLCH */}
       {oklch && (
-        <div className="flex gap-2">
-          <div className="flex flex-col gap-1">
-            <Label className="text-xs uppercase text-muted-foreground">L</Label>
+        <div className="flex min-w-0 flex-[1.5] gap-1 rounded-md bg-muted/50 p-1.5">
+          <div className="flex min-w-0 flex-1 flex-col gap-1">
+            <Label className="text-[10px] uppercase text-muted-foreground">L</Label>
             <Input
               type="number"
               min={0}
@@ -99,11 +102,11 @@ export function HexRgbInput({ color, onChange }: HexRgbInputProps) {
                 const v = parseFloat(e.target.value);
                 if (!isNaN(v)) onChange(oklchToHex(v, oklch.c, oklch.h));
               }}
-              className="h-8 w-16 text-sm"
+              className={`w-full ${numClass}`}
             />
           </div>
-          <div className="flex flex-col gap-1">
-            <Label className="text-xs uppercase text-muted-foreground">C</Label>
+          <div className="flex min-w-0 flex-1 flex-col gap-1">
+            <Label className="text-[10px] uppercase text-muted-foreground">C</Label>
             <Input
               type="number"
               min={0}
@@ -114,11 +117,11 @@ export function HexRgbInput({ color, onChange }: HexRgbInputProps) {
                 const v = parseFloat(e.target.value);
                 if (!isNaN(v)) onChange(oklchToHex(oklch.l, v, oklch.h));
               }}
-              className="h-8 w-16 text-sm"
+              className={`w-full ${numClass}`}
             />
           </div>
-          <div className="flex flex-col gap-1">
-            <Label className="text-xs uppercase text-muted-foreground">H</Label>
+          <div className="flex min-w-0 flex-1 flex-col gap-1">
+            <Label className="text-[10px] uppercase text-muted-foreground">H</Label>
             <Input
               type="number"
               min={0}
@@ -129,7 +132,7 @@ export function HexRgbInput({ color, onChange }: HexRgbInputProps) {
                 const v = parseFloat(e.target.value);
                 if (!isNaN(v)) onChange(oklchToHex(oklch.l, oklch.c, v));
               }}
-              className="h-8 w-20 text-sm"
+              className={`w-full ${numClass}`}
             />
           </div>
         </div>

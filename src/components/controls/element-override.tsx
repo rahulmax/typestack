@@ -5,48 +5,14 @@ import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { useTypographyStore, isHeadingElement } from "@/store/typography-store";
 import { useUIStore } from "@/store/ui-store";
-import { resolveElementStyles } from "@/lib/scale";
 import type { TypographyElement, GroupProperties } from "@/types/typography";
 import { HEADING_ELEMENTS, DISPLAY_ELEMENTS, OPTIONAL_ELEMENTS, BODY_ELEMENTS } from "@/types/typography";
 
-function ElementToggle({ element }: { element: TypographyElement }) {
-  const enabled = useTypographyStore((s) => !!s.enabledElements[element]);
-  const toggleElement = useTypographyStore((s) => s.toggleElement);
-
-  return (
-    <button
-      type="button"
-      onClick={(e) => {
-        e.stopPropagation();
-        toggleElement(element);
-      }}
-      className={`relative inline-flex h-[18px] w-8 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors ${
-        enabled
-          ? "bg-accent-warm shadow-[inset_0_1px_3px_rgba(0,0,0,0.15)]"
-          : "bg-muted shadow-[inset_0_1px_2px_rgba(0,0,0,0.06)]"
-      }`}
-    >
-      <span
-        className={`pointer-events-none inline-block h-[14px] w-[14px] rounded-full bg-background ring-0 transition-transform ${
-          enabled
-            ? "translate-x-[14px] shadow-[0_1px_4px_rgba(0,0,0,0.15)]"
-            : "translate-x-0 shadow-[0_1px_3px_rgba(0,0,0,0.12)]"
-        }`}
-      />
-    </button>
-  );
-}
-
 function ElementRow({ element }: { element: TypographyElement }) {
   const store = useTypographyStore();
-  const expandedElement = useUIStore((s) => s.expandedElement);
-  const setExpandedElement = useUIStore((s) => s.setExpandedElement);
   const override = store.overrides[element] ?? { isOverridden: false };
-  const isExpanded = expandedElement === element;
   const isOptional = OPTIONAL_ELEMENTS.includes(element);
   const isEnabled = isOptional ? !!store.enabledElements[element] : true;
-
-  const resolved = resolveElementStyles(element, store);
 
   const group: GroupProperties = isHeadingElement(element)
     ? store.headingsGroup
@@ -63,39 +29,7 @@ function ElementRow({ element }: { element: TypographyElement }) {
 
   return (
     <div className={`rounded-sm border ${!isEnabled ? "opacity-50" : ""}`}>
-      <div
-        role="button"
-        tabIndex={0}
-        className="flex w-full cursor-pointer items-center justify-between px-3 py-2 text-sm hover:bg-accent"
-        onClick={() => {
-          if (!isEnabled) return;
-          setExpandedElement(isExpanded ? null : element);
-        }}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            if (!isEnabled) return;
-            setExpandedElement(isExpanded ? null : element);
-          }
-        }}
-      >
-        <div className="flex items-center gap-2">
-          {isOptional && <ElementToggle element={element} />}
-          <span className="font-mono font-medium">{element}</span>
-          <span className="text-xs text-muted-foreground">
-            {resolved.fontSizeRem.toFixed(3)}rem
-          </span>
-          {override.isOverridden && (
-            <span className="h-1.5 w-1.5 rounded-full bg-accent-warm" />
-          )}
-        </div>
-        <span className="text-xs text-muted-foreground">
-          {isExpanded ? "−" : "+"}
-        </span>
-      </div>
-
-      {isExpanded && isEnabled && (
-        <div className="flex flex-col gap-3 border-t px-3 py-3">
+      <div className="flex flex-col gap-3 px-3 py-3">
           <div className="flex flex-col gap-2">
             <Label className="text-xs text-muted-foreground">
               Font Weight: {override.isOverridden && override.fontWeight !== undefined ? override.fontWeight : group.fontWeight}
@@ -191,24 +125,48 @@ function ElementRow({ element }: { element: TypographyElement }) {
             );
           })()}
         </div>
-      )}
+    </div>
+  );
+}
+
+function ElementTabs({ elements, label }: { elements: TypographyElement[]; label: string }) {
+  const expandedElement = useUIStore((s) => s.expandedElement);
+  const setExpandedElement = useUIStore((s) => s.setExpandedElement);
+  const activeEl = elements.includes(expandedElement as TypographyElement) ? expandedElement : null;
+
+  return (
+    <div className="flex flex-col gap-2">
+      <span className="text-xs font-semibold text-muted-foreground">{label}</span>
+      <div className="flex gap-0.5 rounded-md bg-muted p-0.5">
+        {elements.map((el) => {
+          const isActive = activeEl === el;
+          return (
+            <button
+              key={el}
+              type="button"
+              onClick={() => setExpandedElement(isActive ? null : el)}
+              className={`flex-1 rounded-sm px-1.5 py-1 text-center font-mono text-xs transition-colors ${
+                isActive
+                  ? "bg-background text-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {el}
+            </button>
+          );
+        })}
+      </div>
+      {activeEl && <ElementRow element={activeEl} />}
     </div>
   );
 }
 
 export function ElementOverridePanel() {
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-4">
       <h3 className="text-sm font-semibold">Per-Element Overrides</h3>
-      <div className="flex flex-col gap-2">
-        {[...DISPLAY_ELEMENTS, ...HEADING_ELEMENTS].map((el) => (
-          <ElementRow key={el} element={el} />
-        ))}
-        <h4 className="text-xs font-semibold text-muted-foreground mt-2">Body</h4>
-        {BODY_ELEMENTS.map((el) => (
-          <ElementRow key={el} element={el} />
-        ))}
-      </div>
+      <ElementTabs elements={HEADING_ELEMENTS as unknown as TypographyElement[]} label="Headings" />
+      <ElementTabs elements={BODY_ELEMENTS as unknown as TypographyElement[]} label="Body" />
     </div>
   );
 }

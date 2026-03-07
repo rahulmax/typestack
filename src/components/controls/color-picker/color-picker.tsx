@@ -33,11 +33,11 @@ export function ColorPicker({
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>Pick a color using the picker, hex/RGB input, or Tailwind palette.</DialogDescription>
         </DialogHeader>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-3">
           <HexColorPicker
             color={color}
             onChange={onChange}
-            style={{ width: "100%" }}
+            style={{ width: "100%", height: 160 }}
           />
           <HexRgbInput color={color} onChange={onChange} />
           <TailwindPalette onSelect={onChange} />

@@ -33,11 +33,12 @@ export function GroupControls({
         </button>
       </div>
 
-      <div className={`flex flex-col gap-4 ${disabled ? "opacity-50 pointer-events-none" : ""}`}>
-        <div className="flex flex-col gap-2">
-          <Label className="text-xs text-muted-foreground">
-            Font Weight: {group.fontWeight}
-          </Label>
+      <div className={`grid grid-cols-2 gap-x-3 gap-y-3 ${disabled ? "opacity-50 pointer-events-none" : ""}`}>
+        <div className="flex flex-col gap-1.5">
+          <div className="flex items-center justify-between">
+            <Label className="text-[10px] text-muted-foreground">Font Weight</Label>
+            <span className="text-[10px] tabular-nums text-muted-foreground">{group.fontWeight}</span>
+          </div>
           <Slider
             value={[group.fontWeight]}
             onValueChange={([v]) => onUpdate({ fontWeight: v })}
@@ -48,10 +49,11 @@ export function GroupControls({
           />
         </div>
 
-        <div className="flex flex-col gap-2">
-          <Label className="text-xs text-muted-foreground">
-            Line Height: {group.lineHeight.toFixed(2)}
-          </Label>
+        <div className="flex flex-col gap-1.5">
+          <div className="flex items-center justify-between">
+            <Label className="text-[10px] text-muted-foreground">Line Height</Label>
+            <span className="text-[10px] tabular-nums text-muted-foreground">{group.lineHeight.toFixed(2)}</span>
+          </div>
           <Slider
             value={[group.lineHeight]}
             onValueChange={([v]) => onUpdate({ lineHeight: v })}
@@ -62,10 +64,11 @@ export function GroupControls({
           />
         </div>
 
-        <div className="flex flex-col gap-2">
-          <Label className="text-xs text-muted-foreground">
-            Letter Spacing: {group.letterSpacing.toFixed(3)}em
-          </Label>
+        <div className="flex flex-col gap-1.5">
+          <div className="flex items-center justify-between">
+            <Label className="text-[10px] text-muted-foreground">Letter Spacing</Label>
+            <span className="text-[10px] tabular-nums text-muted-foreground">{group.letterSpacing.toFixed(3)}em</span>
+          </div>
           <Slider
             value={[group.letterSpacing]}
             onValueChange={([v]) => onUpdate({ letterSpacing: v })}
@@ -76,10 +79,11 @@ export function GroupControls({
           />
         </div>
 
-        <div className="flex flex-col gap-2">
-          <Label className="text-xs text-muted-foreground">
-            Word Spacing: {group.wordSpacing.toFixed(3)}em
-          </Label>
+        <div className="flex flex-col gap-1.5">
+          <div className="flex items-center justify-between">
+            <Label className="text-[10px] text-muted-foreground">Word Spacing</Label>
+            <span className="text-[10px] tabular-nums text-muted-foreground">{group.wordSpacing.toFixed(3)}em</span>
+          </div>
           <Slider
             value={[group.wordSpacing]}
             onValueChange={([v]) => onUpdate({ wordSpacing: v })}

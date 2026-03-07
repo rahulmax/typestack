@@ -176,6 +176,7 @@ export default function Home() {
             <ElementOverridePanel />
             <Separator />
             <MobileSettings />
+            <div className="h-24 shrink-0" />
           </Sidebar>
         }
         preview={<PreviewContainer />}

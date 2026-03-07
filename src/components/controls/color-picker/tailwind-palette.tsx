@@ -25,7 +25,7 @@ export function TailwindPalette({ onSelect }: TailwindPaletteProps) {
                 <TooltipTrigger asChild>
                   <button
                     type="button"
-                    className="h-5 min-w-0 flex-1 rounded-sm border border-transparent hover:border-foreground/30 hover:scale-110 transition-transform"
+                    className="h-3.5 min-w-0 flex-1 rounded-sm border border-transparent hover:border-foreground/30 hover:scale-110 transition-transform"
                     style={{ backgroundColor: hex }}
                     onClick={() => onSelect(hex)}
                   />
