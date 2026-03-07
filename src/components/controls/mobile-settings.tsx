@@ -13,10 +13,10 @@ export function MobileSettings() {
     <div className="flex flex-col gap-3">
       <h3 className="text-sm font-semibold">Mobile Settings</h3>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-x-5 gap-y-4">
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center justify-between">
-            <Label className="text-[10px] text-muted-foreground">Base Size</Label>
+            <Label className="text-xs text-muted-foreground">Base Size</Label>
             <span className="text-[10px] tabular-nums text-muted-foreground">{mobile.baseFontSize}px</span>
           </div>
           <Slider
@@ -30,7 +30,7 @@ export function MobileSettings() {
 
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center justify-between">
-            <Label className="text-[10px] text-muted-foreground">Scale Ratio</Label>
+            <Label className="text-xs text-muted-foreground">Scale Ratio</Label>
             <span className="text-[10px] tabular-nums text-muted-foreground">{mobile.scaleRatio.toFixed(3)}</span>
           </div>
           <Slider

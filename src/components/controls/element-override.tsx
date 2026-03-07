@@ -30,45 +30,48 @@ function ElementRow({ element }: { element: TypographyElement }) {
   return (
     <div className={`rounded-sm border ${!isEnabled ? "opacity-50" : ""}`}>
       <div className="flex flex-col gap-3 px-3 py-3">
-          <div className="flex flex-col gap-2">
-            <Label className="text-xs text-muted-foreground">
-              Font Weight: {override.isOverridden && override.fontWeight !== undefined ? override.fontWeight : group.fontWeight}
-            </Label>
-            <Slider
-              value={[override.fontWeight ?? group.fontWeight]}
-              onValueChange={([v]) => handleOverride({ fontWeight: v })}
-              min={100}
-              max={900}
-              step={100}
-            />
-          </div>
+          <div className="grid grid-cols-3 gap-x-5 gap-y-4">
+            <div className="flex flex-col gap-1.5">
+              <div className="flex items-center justify-between">
+                <Label className="text-xs text-muted-foreground">Weight</Label>
+                <span className="text-xs tabular-nums text-muted-foreground">{override.fontWeight ?? group.fontWeight}</span>
+              </div>
+              <Slider
+                value={[override.fontWeight ?? group.fontWeight]}
+                onValueChange={([v]) => handleOverride({ fontWeight: v })}
+                min={100}
+                max={900}
+                step={100}
+              />
+            </div>
 
-          <div className="flex flex-col gap-2">
-            <Label className="text-xs text-muted-foreground">
-              Line Height:{" "}
-              {(override.lineHeight ?? group.lineHeight).toFixed(2)}
-            </Label>
-            <Slider
-              value={[override.lineHeight ?? group.lineHeight]}
-              onValueChange={([v]) => handleOverride({ lineHeight: v })}
-              min={0.8}
-              max={2.5}
-              step={0.05}
-            />
-          </div>
+            <div className="flex flex-col gap-1.5">
+              <div className="flex items-center justify-between">
+                <Label className="text-xs text-muted-foreground">Line Height</Label>
+                <span className="text-xs tabular-nums text-muted-foreground">{(override.lineHeight ?? group.lineHeight).toFixed(2)}</span>
+              </div>
+              <Slider
+                value={[override.lineHeight ?? group.lineHeight]}
+                onValueChange={([v]) => handleOverride({ lineHeight: v })}
+                min={0.8}
+                max={2.5}
+                step={0.05}
+              />
+            </div>
 
-          <div className="flex flex-col gap-2">
-            <Label className="text-xs text-muted-foreground">
-              Letter Spacing:{" "}
-              {(override.letterSpacing ?? group.letterSpacing).toFixed(3)}em
-            </Label>
-            <Slider
-              value={[override.letterSpacing ?? group.letterSpacing]}
-              onValueChange={([v]) => handleOverride({ letterSpacing: v })}
-              min={-0.1}
-              max={0.2}
-              step={0.005}
-            />
+            <div className="flex flex-col gap-1.5">
+              <div className="flex items-center justify-between">
+                <Label className="text-xs text-muted-foreground">Tracking</Label>
+                <span className="text-xs tabular-nums text-muted-foreground">{(override.letterSpacing ?? group.letterSpacing).toFixed(3)}em</span>
+              </div>
+              <Slider
+                value={[override.letterSpacing ?? group.letterSpacing]}
+                onValueChange={([v]) => handleOverride({ letterSpacing: v })}
+                min={-0.1}
+                max={0.2}
+                step={0.005}
+              />
+            </div>
           </div>
 
           {(() => {
@@ -92,19 +95,25 @@ function ElementRow({ element }: { element: TypographyElement }) {
                         },
                       });
                     }}
-                    className={`relative inline-flex h-[22px] w-10 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors before:absolute before:left-[7px] before:top-1/2 before:h-2.5 before:w-[2px] before:-translate-y-1/2 before:rounded-full before:bg-white/70 before:transition-opacity ${
+                    className={`relative inline-flex h-4 w-8 shrink-0 cursor-pointer items-center rounded-full transition-colors ${
                       isUppercase
-                        ? "bg-accent-warm shadow-[inset_0_1px_3px_rgba(0,0,0,0.15)] before:opacity-100"
-                        : "bg-muted shadow-[inset_0_1px_2px_rgba(0,0,0,0.06)] before:opacity-0"
+                        ? "bg-foreground/25"
+                        : "bg-border"
                     }`}
                   >
                     <span
-                      className={`pointer-events-none relative inline-block h-[18px] w-[18px] rounded-full bg-background ring-0 transition-transform after:absolute after:left-1/2 after:top-1/2 after:h-1.5 after:w-1.5 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-full ${
+                      className={`pointer-events-none flex h-4 w-2.5 items-center justify-center rounded-sm border border-foreground/15 bg-foreground shadow-sm transition-transform ${
                         isUppercase
-                          ? "translate-x-[18px] shadow-[0_1px_4px_rgba(0,0,0,0.15),0_0_0_1px_rgba(0,0,0,0.05)] after:bg-accent-warm"
-                          : "translate-x-0 shadow-[0_1px_3px_rgba(0,0,0,0.12),0_0_0_1px_rgba(0,0,0,0.04)] after:bg-border"
+                          ? "translate-x-[22px]"
+                          : "translate-x-0"
                       }`}
-                    />
+                    >
+                      <span className="flex gap-px">
+                        <span className="block h-1.5 w-px rounded-full bg-background/40" />
+                        <span className="block h-1.5 w-px rounded-full bg-background/40" />
+                        <span className="block h-1.5 w-px rounded-full bg-background/40" />
+                      </span>
+                    </span>
                   </button>
                 )}
                 {showCapsToggle && (

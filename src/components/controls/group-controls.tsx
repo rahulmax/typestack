@@ -33,10 +33,10 @@ export function GroupControls({
         </button>
       </div>
 
-      <div className={`grid grid-cols-2 gap-x-3 gap-y-3 ${disabled ? "opacity-50 pointer-events-none" : ""}`}>
+      <div className={`grid grid-cols-2 gap-x-5 gap-y-4 ${disabled ? "opacity-50 pointer-events-none" : ""}`}>
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center justify-between">
-            <Label className="text-[10px] text-muted-foreground">Font Weight</Label>
+            <Label className="text-xs text-muted-foreground">Font Weight</Label>
             <span className="text-[10px] tabular-nums text-muted-foreground">{group.fontWeight}</span>
           </div>
           <Slider
@@ -51,7 +51,7 @@ export function GroupControls({
 
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center justify-between">
-            <Label className="text-[10px] text-muted-foreground">Line Height</Label>
+            <Label className="text-xs text-muted-foreground">Line Height</Label>
             <span className="text-[10px] tabular-nums text-muted-foreground">{group.lineHeight.toFixed(2)}</span>
           </div>
           <Slider
@@ -66,7 +66,7 @@ export function GroupControls({
 
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center justify-between">
-            <Label className="text-[10px] text-muted-foreground">Letter Spacing</Label>
+            <Label className="text-xs text-muted-foreground">Letter Spacing</Label>
             <span className="text-[10px] tabular-nums text-muted-foreground">{group.letterSpacing.toFixed(3)}em</span>
           </div>
           <Slider
@@ -81,7 +81,7 @@ export function GroupControls({
 
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center justify-between">
-            <Label className="text-[10px] text-muted-foreground">Word Spacing</Label>
+            <Label className="text-xs text-muted-foreground">Word Spacing</Label>
             <span className="text-[10px] tabular-nums text-muted-foreground">{group.wordSpacing.toFixed(3)}em</span>
           </div>
           <Slider
