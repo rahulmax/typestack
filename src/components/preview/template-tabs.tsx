@@ -12,12 +12,14 @@ const TABS: { value: PreviewTab; label: string }[] = [
 export function TemplateTabs() {
   const activeTab = useUIStore((s) => s.activeTab);
   const setActiveTab = useUIStore((s) => s.setActiveTab);
+  const viewport = useUIStore((s) => s.viewport);
+  const isScale = viewport === "scale";
 
   return (
     <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as PreviewTab)}>
-      <TabsList className="h-8">
+      <TabsList className={`h-8 ${isScale ? "opacity-40 pointer-events-none" : ""}`}>
         {TABS.map(({ value, label }) => (
-          <TabsTrigger key={value} value={value} className="text-xs">
+          <TabsTrigger key={value} value={value} className="text-xs" disabled={isScale}>
             {label}
           </TabsTrigger>
         ))}

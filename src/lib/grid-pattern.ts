@@ -30,6 +30,18 @@ export function getGridPatternUrl(
     case "tallrect":
       svg = `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="48"><rect width="28" height="48" fill="none" stroke="${stroke}" stroke-width="1"/></svg>`;
       break;
+    case "diagonal":
+      svg = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><path d="M-4 4l8-8M0 16l16-16M12 20l8-8" stroke="${stroke}" stroke-width="1" fill="none"/></svg>`;
+      break;
+    case "crosshatch":
+      svg = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><path d="M-4 4l8-8M0 16l16-16M12 20l8-8M20 4l-8-8M16 16L0-0M4 20l-8-8" stroke="${stroke}" stroke-width="1" fill="none"/></svg>`;
+      break;
+    case "hlines":
+      svg = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="12"><line x1="0" y1="11.5" x2="16" y2="11.5" stroke="${stroke}" stroke-width="1"/></svg>`;
+      break;
+    case "diamond":
+      svg = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path d="M16 0l16 16-16 16L0 16z" fill="none" stroke="${stroke}" stroke-width="1"/></svg>`;
+      break;
   }
 
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;

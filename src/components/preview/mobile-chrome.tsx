@@ -1,11 +1,12 @@
 "use client";
 
-import { Laptop, Tablet, Smartphone } from "lucide-react";
+import { ALargeSmall, Laptop, Tablet, Smartphone } from "lucide-react";
 import { useUIStore, type ViewportSize } from "@/store/ui-store";
 import { useTypographyStore } from "@/store/typography-store";
 import { isBgDark } from "@/lib/color-utils";
 
 const VIEWPORTS: { value: ViewportSize; icon: typeof Laptop }[] = [
+  { value: "scale", icon: ALargeSmall },
   { value: "laptop", icon: Laptop },
   { value: "tablet", icon: Tablet },
   { value: "mobile", icon: Smartphone },
@@ -30,23 +31,25 @@ export function MobileChrome({ children }: MobileChromeProps) {
         {/* Dynamic island area — overlays content */}
         <div className="relative z-10 flex items-center justify-center py-1.5">
           <div
-            className="flex items-center gap-1 rounded-full px-3 py-1.5"
+            className="flex items-center gap-0.5 rounded-full px-2 py-1"
             style={{ backgroundColor: dark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.06)" }}
           >
-            {VIEWPORTS.map(({ value, icon: Icon }) => (
-              <button
-                key={value}
-                type="button"
-                onClick={() => setViewport(value)}
-                className="rounded-full p-1 transition-colors"
-                style={{
-                  color: viewport === value
-                    ? (dark ? "rgba(255,255,255,0.9)" : "rgba(0,0,0,0.7)")
-                    : (dark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.25)"),
-                }}
-              >
-                <Icon className="size-3" />
-              </button>
+            {VIEWPORTS.map(({ value, icon: Icon }, i) => (
+              <span key={value} className="flex items-center">
+                {i === 1 && <span className="mx-1 h-4 w-px" style={{ backgroundColor: dark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.1)" }} />}
+                <button
+                  type="button"
+                  onClick={() => setViewport(value)}
+                  className="rounded-full p-2 transition-colors"
+                  style={{
+                    color: viewport === value
+                      ? (dark ? "rgba(255,255,255,0.9)" : "rgba(0,0,0,0.7)")
+                      : (dark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.25)"),
+                  }}
+                >
+                  <Icon className="size-4" />
+                </button>
+              </span>
             ))}
           </div>
         </div>

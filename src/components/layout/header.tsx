@@ -7,15 +7,14 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useState, useEffect } from "react";
-import { Shuffle, ArrowLeftRight, Undo2, Redo2, RotateCcw, Wand2, Dices, Sun, Moon } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Shuffle, ArrowLeftRight, Undo2, Redo2, RotateCcw, Wand2, Dices, Sun, Moon, Grid3x3 } from "lucide-react";
 import { useTypographyStore } from "@/store/typography-store";
-import { useUIStore, type GridPatternType } from "@/store/ui-store";
+import { useUIStore } from "@/store/ui-store";
 import { useStore } from "zustand";
 import { generateRandomColorPair } from "@/lib/color-utils";
-import { PRESETS } from "@/db/seed-presets";
+import { fetchStacks, type Stack } from "@/lib/stacks-api";
 import { TemplateTabs } from "@/components/preview/template-tabs";
-import { GridPatternTabs } from "@/components/preview/grid-pattern-tabs";
 import { useTheme } from "next-themes";
 import { Show, UserButton, SignInButton } from "@clerk/nextjs";
 
@@ -42,12 +41,12 @@ export function Header({
   const bodyColor = useTypographyStore((s) => s.bodyGroup.color);
   const backgroundColor = useTypographyStore((s) => s.backgroundColor);
   const setColors = useTypographyStore((s) => s.setColors);
-  const setFonts = useTypographyStore((s) => s.setFonts);
   const resetConfig = useTypographyStore((s) => s.resetConfig);
+  const loadConfig = useTypographyStore((s) => s.loadConfig);
   const autoBalance = useTypographyStore((s) => s.autoBalance);
   const setAutoBalance = useTypographyStore((s) => s.setAutoBalance);
   const gridPattern = useUIStore((s) => s.gridPattern);
-  const setGridPattern = useUIStore((s) => s.setGridPattern);
+  const cycleGridPattern = useUIStore((s) => s.cycleGridPattern);
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -63,9 +62,20 @@ export function Header({
     setColors(fg, fg, bg);
   }
 
-  function handleRandomStack() {
-    const preset = PRESETS[Math.floor(Math.random() * PRESETS.length)];
-    setFonts(preset.headingFont, preset.headingWeight, preset.bodyFont, preset.bodyWeight);
+  const stacksCache = useRef<Stack[]>([]);
+
+  async function handleRandomStack() {
+    if (stacksCache.current.length === 0) {
+      try {
+        stacksCache.current = await fetchStacks("all");
+      } catch {
+        return;
+      }
+    }
+    const stacks = stacksCache.current;
+    if (stacks.length === 0) return;
+    const stack = stacks[Math.floor(Math.random() * stacks.length)];
+    loadConfig(stack.config);
   }
 
   function handleReverse() {
@@ -148,7 +158,18 @@ export function Header({
           </TooltipTrigger>
           <TooltipContent>Background color</TooltipContent>
         </Tooltip>
-        <GridPatternTabs value={gridPattern} onChange={setGridPattern} />
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button
+              type="button"
+              onClick={cycleGridPattern}
+              className={`${btnClass} ${gridPattern !== null ? "bg-accent" : ""}`}
+            >
+              <Grid3x3 className="size-3.5" />
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>{gridPattern ? `Pattern: ${gridPattern}` : "Background pattern"}</TooltipContent>
+        </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
             <button type="button" onClick={handleRandom} className={btnClass}>
@@ -229,7 +250,7 @@ export function Header({
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
-            <button type="button" onClick={resetConfig} className={btnClass}>
+            <button type="button" onClick={() => { if (window.confirm("Reset all settings to defaults?")) resetConfig(); }} className={btnClass}>
               <RotateCcw className="size-3.5" />
             </button>
           </TooltipTrigger>

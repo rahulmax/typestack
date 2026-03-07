@@ -27,6 +27,7 @@ export function StackCard({
   onSave,
 }: StackCardProps) {
   const { config } = stack;
+  if (!config?.headingsGroup || !config?.bodyGroup) return null;
   const headingFont = config.headingsGroup.fontFamily;
   const bodyFont = config.bodyGroup.fontFamily;
   const fg = cardFg;

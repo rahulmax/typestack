@@ -11,10 +11,10 @@ export const blogTemplate: PreviewTemplate = {
 </style>
 <article style="max-width: 680px; margin: 0 auto; padding: 3rem 1.5rem;">
   <header style="margin-bottom: 2.5rem;">
-    <span class="eyebrow">Design Systems</span>
+    <span class="eyebrow" style="opacity: 0.8;">Design Systems</span>
     <h1 style="margin: 0.75rem 0;">The Art of Typographic Hierarchy</h1>
     <p>How a well-crafted type scale can transform the readability and aesthetics of your digital products.</p>
-    <div style="display: flex; gap: 1rem; margin-top: 1rem; align-items: center;">
+    <div style="display: flex; gap: 0.4rem; margin-top: 0.75rem; align-items: center; opacity: 0.8;">
       <small>By Sarah Chen</small>
       <small>·</small>
       <small>March 3, 2026</small>

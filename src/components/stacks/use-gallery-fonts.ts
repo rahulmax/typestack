@@ -7,8 +7,8 @@ export function useFontLoader(stacks: Stack[]) {
   useEffect(() => {
     const families = new Set<string>();
     for (const s of stacks) {
-      families.add(s.config.headingsGroup.fontFamily);
-      families.add(s.config.bodyGroup.fontFamily);
+      if (s.config?.headingsGroup?.fontFamily) families.add(s.config.headingsGroup.fontFamily);
+      if (s.config?.bodyGroup?.fontFamily) families.add(s.config.bodyGroup.fontFamily);
     }
 
     for (const family of families) {

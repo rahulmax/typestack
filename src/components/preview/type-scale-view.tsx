@@ -87,13 +87,13 @@ function ScaleRow({ style, sampleText }: { style: ResolvedElementStyle; sampleTe
   return (
     <button
       type="button"
-      className={`group flex w-full items-start gap-4 rounded-lg p-4 text-left transition-colors ${isActive ? "border-l-2 border-l-primary" : "border-l-2 border-l-transparent"}`}
+      className={`group flex w-full items-start gap-4 rounded-lg px-4 py-1.5 text-left transition-colors ${isActive ? "border-l-2 border-l-primary" : "border-l-2 border-l-transparent"}`}
       style={{ background: undefined }}
       onMouseEnter={(e) => { e.currentTarget.style.background = "color-mix(in srgb, currentColor 3%, transparent)"; }}
       onMouseLeave={(e) => { e.currentTarget.style.background = ""; }}
       onClick={() => setExpandedElement(isActive ? null : style.element)}
     >
-      <div className="flex w-24 shrink-0 flex-col gap-0.5 pt-1">
+      <div className="flex w-24 shrink-0 flex-col pt-0.5">
         <span className="font-mono text-sm font-semibold" style={{ color: style.color }}>{style.element}</span>
         <span className="text-xs" style={{ color: style.color }}>
           {style.fontSizeRem.toFixed(3)}rem
@@ -137,14 +137,14 @@ export function TypeScaleView() {
 
   return (
     <div
-      className="flex min-h-full flex-col p-6"
-      style={{ backgroundColor }}
+      className="flex flex-col px-6 py-3"
+      style={{ backgroundColor, minHeight: "calc(100vh - 10rem)" }}
     >
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mb-2 flex items-center justify-between">
         <h2 className="text-sm font-semibold" style={{ color: headerColor }}>Type Scale</h2>
         <SampleTextSelector fgColor={foregroundColor} bgColor={backgroundColor} />
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-0">
         {visibleStyles.map((style) => (
           <ScaleRow key={style.element} style={style} sampleText={sampleText} />
         ))}
