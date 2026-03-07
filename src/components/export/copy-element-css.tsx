@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useComputedScale } from "@/hooks/use-computed-scale";
 import { HEADING_ELEMENTS } from "@/types/typography";
 import type { ResolvedElementStyle } from "@/types/typography";
+import { hexToOklchString } from "@/lib/color-utils";
 import { toast } from "sonner";
 
 function elementToCSS(style: ResolvedElementStyle, headingFont: string, bodyFont: string): string {
@@ -15,7 +16,7 @@ function elementToCSS(style: ResolvedElementStyle, headingFont: string, bodyFont
   line-height: ${style.lineHeight};
   letter-spacing: ${style.letterSpacing}em;
   word-spacing: ${style.wordSpacing}em;
-  color: ${style.color};
+  color: ${hexToOklchString(style.color)};
 }`;
 }
 

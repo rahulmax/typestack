@@ -156,7 +156,7 @@ function ElementTabs({ elements, label }: { elements: TypographyElement[]; label
           );
         })}
       </div>
-      {activeEl && <ElementRow element={activeEl} />}
+      {activeEl && <ElementRow element={activeEl as TypographyElement} />}
     </div>
   );
 }
