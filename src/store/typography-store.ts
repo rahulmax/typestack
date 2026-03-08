@@ -159,6 +159,19 @@ export const useTypographyStore = create<TypographyStore>()(
         const { autoBalance, enabledElements, ...rest } = state;
         return rest;
       },
+      merge: (persisted, current) => {
+        const p = persisted as Record<string, unknown> | undefined;
+        if (!p) return current;
+        return {
+          ...current,
+          ...p,
+          // Deep-merge nested objects so new fields get defaults
+          headingsGroup: { ...current.headingsGroup, ...(p.headingsGroup as object) },
+          bodyGroup: { ...current.bodyGroup, ...(p.bodyGroup as object) },
+          mobile: { ...current.mobile, ...(p.mobile as object) },
+          overrides: { ...current.overrides, ...(p.overrides as object) },
+        };
+      },
     }
   ),
   {
