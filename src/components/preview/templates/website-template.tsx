@@ -103,7 +103,7 @@ export const websiteTemplate: PreviewTemplate = {
 </style>
 
 <!-- NAV -->
-<nav style="max-width: 1280px; margin: 0 auto; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+<nav style="max-width: 1024px; margin: 0 auto; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
   <h6 style="margin: 0;">TypeStax</h6>
   <div id="nav-links" style="display: flex; gap: 2rem; align-items: center;">
     <small style="cursor: pointer;">Features</small>
@@ -114,7 +114,7 @@ export const websiteTemplate: PreviewTemplate = {
 </nav>
 
 <!-- HERO -->
-<section id="hero" style="max-width: 1280px; margin: 0 auto; padding: 4rem 1.5rem 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
+<section id="hero" style="max-width: 1024px; margin: 0 auto; padding: 4rem 1.5rem 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
   <div>
     <span class="eyebrow" style="display: block; margin-bottom: 1rem;">Typography toolkit for modern teams</span>
     <h1 style="margin: 0 0 1.25rem;">Your type system, from first sketch to shipped code</h1>
@@ -130,7 +130,7 @@ export const websiteTemplate: PreviewTemplate = {
 </section>
 
 <!-- LOGOS / TRUST BAR -->
-<section style="max-width: 1280px; margin: 0 auto; padding: 0 1.5rem 4rem; text-align: center;">
+<section style="max-width: 1024px; margin: 0 auto; padding: 0 1.5rem 4rem; text-align: center;">
   <span class="eyebrow">Trusted by design teams at</span>
   <div style="display: flex; justify-content: center; gap: 3rem; margin-top: 1.25rem; flex-wrap: wrap;">
     <h6 style="margin: 0;">Vercel</h6>
@@ -142,7 +142,7 @@ export const websiteTemplate: PreviewTemplate = {
 </section>
 
 <!-- FEATURES GRID -->
-<section style="max-width: 1280px; margin: 0 auto; padding: 0 1.5rem 5rem;">
+<section style="max-width: 1024px; margin: 0 auto; padding: 0 1.5rem 5rem;">
   <div style="text-align: center; margin-bottom: 3rem;">
     <h2 style="margin: 0 0 0.75rem;">Everything you need</h2>
     <p style="max-width: 520px; margin: 0 auto;">A complete toolkit for typographic precision, from choosing scales to exporting production-ready tokens.</p>
@@ -194,7 +194,7 @@ export const websiteTemplate: PreviewTemplate = {
 </section>
 
 <!-- SPLIT SECTION: ILLUSTRATION LEFT, TEXT RIGHT -->
-<section id="split-1" style="max-width: 1280px; margin: 0 auto; padding: 0 1.5rem 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
+<section id="split-1" style="max-width: 1024px; margin: 0 auto; padding: 0 1.5rem 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
   <div>
     <div class="ill" id="ill-split-1" style="display: flex; align-items: center; justify-content: center; min-height: 240px; border: ${borderLight}; border-radius: 16px; padding: 2rem; background: color-mix(in srgb, currentColor 3%, transparent);"></div>
     <small style="display: block; margin-top: 0.5rem; font-size: 0.65em; text-align: center;">Illustration by <a href="https://www.getillustrations.com" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">getillustrations.com</a></small>
@@ -221,7 +221,7 @@ export const websiteTemplate: PreviewTemplate = {
 </section>
 
 <!-- SPLIT SECTION: TEXT LEFT, ILLUSTRATION RIGHT -->
-<section id="split-2" style="max-width: 1280px; margin: 0 auto; padding: 0 1.5rem 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
+<section id="split-2" style="max-width: 1024px; margin: 0 auto; padding: 0 1.5rem 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
   <div>
     <span class="eyebrow" style="margin-bottom: 0.75rem; display: block;">Responsive</span>
     <h3 style="margin: 0 0 1rem;">Mobile-first responsive scales</h3>
@@ -245,7 +245,7 @@ export const websiteTemplate: PreviewTemplate = {
 </section>
 
 <!-- STATS ROW -->
-<section style="max-width: 1280px; margin: 0 auto; padding: 3rem 1.5rem 4rem; border-top: ${borderLight}; border-bottom: ${borderLight};">
+<section style="max-width: 1024px; margin: 0 auto; padding: 3rem 1.5rem 4rem; border-top: ${borderLight}; border-bottom: ${borderLight};">
   <div id="stats-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center;">
     <div>
       <h2 style="margin: 0 0 0.25rem;">50+</h2>
@@ -278,7 +278,7 @@ export const websiteTemplate: PreviewTemplate = {
 </section>
 
 <!-- HOW IT WORKS -->
-<section style="max-width: 1280px; margin: 0 auto; padding: 0 1.5rem 5rem;">
+<section style="max-width: 1024px; margin: 0 auto; padding: 0 1.5rem 5rem;">
   <div style="text-align: center; margin-bottom: 3rem;">
     <h2 style="margin: 0 0 0.75rem;">How it works</h2>
     <p style="max-width: 460px; margin: 0 auto;">Three steps to typographic harmony.</p>
@@ -309,7 +309,7 @@ export const websiteTemplate: PreviewTemplate = {
 </section>
 
 <!-- CTA -->
-<section style="max-width: 1280px; margin: 0 auto; padding: 4rem 1.5rem; text-align: center; border-top: ${borderLight};">
+<section style="max-width: 1024px; margin: 0 auto; padding: 4rem 1.5rem; text-align: center; border-top: ${borderLight};">
   <h3 style="margin: 0 0 1rem;">Ready to build your type scale?</h3>
   <p style="max-width: 480px; margin: 0 auto 2rem;">Join thousands of designers and developers who use TypeStax to create beautiful, consistent typography.</p>
   <div style="display: inline-block; padding: 0.7em 2.5em; background: currentColor; border-radius: 8px; cursor: pointer;">
@@ -318,7 +318,7 @@ export const websiteTemplate: PreviewTemplate = {
 </section>
 
 <!-- FOOTER -->
-<footer style="max-width: 1280px; margin: 0 auto; padding: 3rem 1.5rem 2rem; border-top: ${borderLight};">
+<footer style="max-width: 1024px; margin: 0 auto; padding: 3rem 1.5rem 2rem; border-top: ${borderLight};">
   <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
     <div style="display: flex; align-items: center; gap: 2rem;">
       <h6 style="margin: 0;">TypeStax</h6>

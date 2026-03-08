@@ -22,7 +22,7 @@ export function BrowserChrome({ children, tablet }: BrowserChromeProps) {
   return (
     <div
       className="mx-auto transition-all duration-300"
-      style={tablet ? { width: 768 } : viewport === "laptop" ? { minWidth: 1280, width: "100%" } : { width: "100%" }}
+      style={tablet ? { width: 768 } : viewport === "laptop" ? { minWidth: 1024, width: "100%" } : { width: "100%" }}
     >
       <div className="overflow-hidden rounded-lg shadow-md border border-border">
         {/* Title bar */}
