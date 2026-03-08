@@ -10,7 +10,7 @@ import type {
   MobileConfig,
 } from "@/types/typography";
 import { HEADING_ELEMENTS, DISPLAY_ELEMENTS, OPTIONAL_ELEMENTS } from "@/types/typography";
-import { DEFAULT_CONFIG } from "@/data/default-config";
+import { DEFAULT_CONFIG, normalizeConfig } from "@/data/default-config";
 import { findPresetByValue } from "@/data/scale-ratios";
 
 interface TypographyStore extends TypographyConfig {
@@ -139,14 +139,13 @@ export const useTypographyStore = create<TypographyStore>()(
 
       loadConfig: (config) =>
         set((state) => {
-          // Strip colors from loaded config — user controls colors independently
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { backgroundColor: _stripBg, ...rest } = config;
+          const safe = normalizeConfig(config as unknown as Record<string, unknown>);
           return {
-            ...rest,
+            ...safe,
+            backgroundColor: state.backgroundColor,
             autoBalance: false,
-            headingsGroup: { ...config.headingsGroup, color: state.headingsGroup.color },
-            bodyGroup: { ...config.bodyGroup, color: state.bodyGroup.color },
+            headingsGroup: { ...safe.headingsGroup, color: state.headingsGroup.color },
+            bodyGroup: { ...safe.bodyGroup, color: state.bodyGroup.color },
           };
         }),
 
@@ -164,12 +163,7 @@ export const useTypographyStore = create<TypographyStore>()(
         if (!p) return current;
         return {
           ...current,
-          ...p,
-          // Deep-merge nested objects so new fields get defaults
-          headingsGroup: { ...current.headingsGroup, ...(p.headingsGroup as object) },
-          bodyGroup: { ...current.bodyGroup, ...(p.bodyGroup as object) },
-          mobile: { ...current.mobile, ...(p.mobile as object) },
-          overrides: { ...current.overrides, ...(p.overrides as object) },
+          ...normalizeConfig(p),
         };
       },
     }

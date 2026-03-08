@@ -11,6 +11,24 @@ function buildOverrides(): Record<TypographyElement, ElementOverride> {
   return result;
 }
 
+/**
+ * Merge a partial/stale config with defaults so every field is guaranteed present.
+ * Used when loading configs from API, URL params, or persisted storage.
+ */
+export function normalizeConfig(raw: Record<string, unknown>): TypographyConfig {
+  return {
+    ...DEFAULT_CONFIG,
+    ...raw,
+    headingsGroup: { ...DEFAULT_CONFIG.headingsGroup, ...(raw.headingsGroup as object) },
+    bodyGroup: { ...DEFAULT_CONFIG.bodyGroup, ...(raw.bodyGroup as object) },
+    mobile: { ...DEFAULT_CONFIG.mobile, ...(raw.mobile as object) },
+    overrides: {
+      ...DEFAULT_CONFIG.overrides,
+      ...(raw.overrides as object),
+    },
+  };
+}
+
 export const DEFAULT_CONFIG: TypographyConfig = {
   baseFontSize: 16,
   scaleRatioPreset: "Minor Third",

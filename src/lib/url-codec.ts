@@ -1,5 +1,6 @@
 import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from "lz-string";
 import type { TypographyConfig } from "@/types/typography";
+import { normalizeConfig } from "@/data/default-config";
 
 export function encodeConfig(config: TypographyConfig): string {
   const json = JSON.stringify(config);
@@ -10,7 +11,7 @@ export function decodeConfig(encoded: string): TypographyConfig | null {
   try {
     const json = decompressFromEncodedURIComponent(encoded);
     if (!json) return null;
-    return JSON.parse(json) as TypographyConfig;
+    return normalizeConfig(JSON.parse(json));
   } catch {
     return null;
   }
