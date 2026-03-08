@@ -96,7 +96,9 @@ export function Header({
       {/* Left: logo */}
       <div className="flex items-center gap-2 shrink-0">
         <span className="text-lg font-bold tracking-tight">TypeStax</span>
-        <span className="hidden sm:inline text-[10px] uppercase tracking-widest text-muted-foreground">Type Scale Generator</span>
+        <button type="button" onClick={onBrowseStacks} className="hidden sm:inline text-xs text-muted-foreground hover:text-foreground transition-colors">
+          Presets
+        </button>
       </div>
 
       {/* Center: tabs, viewport, then action buttons */}
@@ -120,7 +122,7 @@ export function Header({
               <Dices className="size-3.5" />
             </button>
           </TooltipTrigger>
-          <TooltipContent>Random type stack</TooltipContent>
+          <TooltipContent>Random preset</TooltipContent>
         </Tooltip>
 
         <Separator orientation="vertical" className="mx-0.5 h-5" />
@@ -203,14 +205,6 @@ export function Header({
             </button>
           </TooltipTrigger>
           <TooltipContent>Swap foreground / background</TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button type="button" onClick={onBrowseStacks} className={btnClass}>
-              <span className="text-muted-foreground">Stacks</span>
-            </button>
-          </TooltipTrigger>
-          <TooltipContent>Browse Stacks</TooltipContent>
         </Tooltip>
       </div>
 

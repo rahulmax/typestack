@@ -33,7 +33,7 @@ type Filter = "all" | "presets" | "community" | "mine" | "saved";
 const FILTER_LABELS: { value: Filter; label: string }[] = [
   { value: "all", label: "All" },
   { value: "community", label: "Community" },
-  { value: "mine", label: "My Stacks" },
+  { value: "mine", label: "Mine" },
   { value: "saved", label: "Saved" },
 ];
 
@@ -159,8 +159,8 @@ export function BrowseStacksDialog({
         <div className="flex flex-col h-full w-full overflow-hidden">
           <DialogHeader className="flex flex-col gap-3 md:grid md:grid-cols-3 md:items-center px-4 md:px-8 pt-4 md:pt-5 pb-3 md:pb-4 shrink-0 border-b bg-muted">
             <div>
-              <DialogTitle>Stacks</DialogTitle>
-              <DialogDescription>Browse typography presets and community stacks</DialogDescription>
+              <DialogTitle>Presets</DialogTitle>
+              <DialogDescription>Browse typography presets and community creations</DialogDescription>
             </div>
             <div className="hidden md:flex items-center justify-center gap-1.5">
               <Tooltip>
@@ -213,7 +213,7 @@ export function BrowseStacksDialog({
                 className="flex h-8 items-center rounded-sm bg-primary text-primary-foreground px-3 text-xs font-medium hover:bg-primary/90"
               >
                 <Plus className="mr-1 h-4 w-4" />
-                New Stack
+                New Preset
               </button>
             </div>
           </DialogHeader>
@@ -267,11 +267,11 @@ export function BrowseStacksDialog({
           <div className="flex-1 min-h-0 overflow-y-auto px-4 md:px-8 py-4 md:py-5">
             {loading ? (
               <div className="py-20 text-center text-sm text-muted-foreground">
-                Loading stacks...
+                Loading presets...
               </div>
             ) : filteredStacks.length === 0 ? (
               <div className="py-20 text-center text-sm text-muted-foreground">
-                No stacks found.
+                No presets found.
               </div>
             ) : (
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">

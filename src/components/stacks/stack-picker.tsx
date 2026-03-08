@@ -75,9 +75,9 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
       setShowNameInput(false);
       setNewName("");
       setOpen(false);
-      toast.success("Stack saved");
+      toast.success("Preset saved");
     } catch {
-      toast.error("Failed to save stack");
+      toast.error("Failed to save preset");
     } finally {
       setSaving(false);
     }
@@ -95,7 +95,7 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
     setOpen(false);
   };
 
-  const displayName = currentStackName || "Unsaved Stack";
+  const displayName = currentStackName || "Unsaved Preset";
 
   return (
     <div className="flex flex-col gap-2">
@@ -119,7 +119,7 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
                 <Input
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
-                  placeholder="Stack name..."
+                  placeholder="Preset name..."
                   className="h-8 text-xs"
                   autoFocus
                   onKeyDown={(e) => {
@@ -155,7 +155,7 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
               onClick={handleNew}
             >
               <Plus className="mr-2 h-3.5 w-3.5" />
-              New Stack
+              New Preset
             </Button>
 
             <Button
@@ -168,7 +168,7 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
               }}
             >
               <Library className="mr-2 h-3.5 w-3.5" />
-              Browse All Stacks
+              Browse All Presets
             </Button>
 
             {stacks.length > 0 && (
