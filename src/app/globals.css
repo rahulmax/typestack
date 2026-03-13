@@ -130,6 +130,29 @@
   }
 }
 
+/* Sidebar scrollbar — hidden until hover */
+.sidebar-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 0.2s;
+}
+.sidebar-scroll:hover {
+  scrollbar-color: color-mix(in srgb, currentColor 20%, transparent) transparent;
+}
+.sidebar-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 3px;
+}
+.sidebar-scroll:hover::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, currentColor 20%, transparent);
+}
+
 /* Noise texture overlay for matte industrial surface */
 .surface-noise::before {
   content: "";
@@ -149,6 +172,7 @@
   position: relative;
   z-index: 2;
   height: 3px;
+  flex-shrink: 0;
   background: linear-gradient(
     to bottom,
     oklch(0.85 0.003 80) 0%,
@@ -170,6 +194,36 @@
   box-shadow:
     inset 0 1px 2px oklch(0 0 0 / 60%),
     0 1px 0 oklch(1 0 0 / 4%);
+}
+
+/* Vertical module groove — recessed vertical seam */
+.module-groove-v {
+  position: relative;
+  width: 3px;
+  min-width: 3px;
+  flex-shrink: 0;
+  align-self: stretch;
+  min-height: 1px;
+  background: linear-gradient(
+    to right,
+    oklch(0.75 0.005 60) 0%,
+    oklch(0.82 0.005 60) 40%,
+    oklch(0.92 0.005 60) 100%
+  );
+  box-shadow:
+    inset 1px 0 2px oklch(0 0 0 / 12%),
+    1px 0 0 oklch(1 0 0 / 50%);
+}
+.dark .module-groove-v {
+  background: linear-gradient(
+    to right,
+    oklch(0.08 0.005 60) 0%,
+    oklch(0.10 0.005 60) 40%,
+    oklch(0.22 0.005 60) 100%
+  );
+  box-shadow:
+    inset 1px 0 2px oklch(0 0 0 / 60%),
+    1px 0 0 oklch(1 0 0 / 4%);
 }
 
 /* Hardware button — skeuomorphic raised tactile button */
@@ -266,13 +320,30 @@
 .hw-btn-primary {
   background: linear-gradient(180deg, oklch(0.30 0.005 60) 0%, oklch(0.24 0.005 60) 100%);
   color: oklch(0.92 0.003 80);
+  border-color: oklch(0.20 0.005 60);
+}
+.hw-btn-primary:hover {
+  background: linear-gradient(180deg, oklch(0.34 0.005 60) 0%, oklch(0.28 0.005 60) 100%);
+}
+.hw-btn-primary:active {
+  background: linear-gradient(180deg, oklch(0.22 0.005 60) 0%, oklch(0.26 0.005 60) 100%);
+  box-shadow:
+    inset 0 1px 3px oklch(0 0 0 / 20%),
+    inset 0 0 1px oklch(0 0 0 / 15%);
 }
 .dark .hw-btn-primary {
   background: linear-gradient(180deg, oklch(0.32 0.005 60) 0%, oklch(0.26 0.005 60) 100%);
   color: oklch(0.95 0.003 80);
+  border-color: oklch(0.18 0.005 60);
 }
 .dark .hw-btn-primary:hover {
   background: linear-gradient(180deg, oklch(0.36 0.005 60) 0%, oklch(0.30 0.005 60) 100%);
+}
+.dark .hw-btn-primary:active {
+  background: linear-gradient(180deg, oklch(0.24 0.005 60) 0%, oklch(0.28 0.005 60) 100%);
+  box-shadow:
+    inset 0 1px 3px oklch(0 0 0 / 40%),
+    inset 0 0 1px oklch(0 0 0 / 25%);
 }
 
 /* Selector button variant — compact, for element tabs like H1/H2/p */
@@ -285,6 +356,80 @@
   gap: 0;
   padding-top: 3px;
   padding-bottom: 2px;
+}
+
+/* Button group — strip inner radii, collapse borders */
+.hw-btn-group > .hw-btn,
+.hw-btn-group > .hw-selector-btn,
+.hw-btn-group > * > .hw-btn,
+.hw-btn-group > * > .hw-selector-btn,
+.hw-btn-group > * > * > .hw-btn,
+.hw-btn-group > * > * > .hw-selector-btn {
+  border-radius: 0;
+}
+.hw-btn-group > :not(:first-child) > .hw-btn,
+.hw-btn-group > :not(:first-child) > .hw-selector-btn,
+.hw-btn-group > :not(:first-child) > * > .hw-btn,
+.hw-btn-group > :not(:first-child) > * > .hw-selector-btn,
+.hw-btn-group > .hw-btn:not(:first-child),
+.hw-btn-group > .hw-selector-btn:not(:first-child) {
+  border-left-width: 0;
+}
+.hw-btn-group > :first-child,
+.hw-btn-group > :first-child > .hw-btn,
+.hw-btn-group > :first-child > .hw-selector-btn,
+.hw-btn-group > :first-child > * > .hw-btn,
+.hw-btn-group > :first-child > * > .hw-selector-btn {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.hw-btn-group > :last-child,
+.hw-btn-group > :last-child > .hw-btn,
+.hw-btn-group > :last-child > .hw-selector-btn,
+.hw-btn-group > :last-child > * > .hw-btn,
+.hw-btn-group > :last-child > * > .hw-selector-btn {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+/* react-colorful – rounded rectangle pointers */
+.react-colorful__saturation-pointer,
+.react-colorful__hue-pointer,
+.react-colorful__alpha-pointer {
+  width: 14px !important;
+  height: 14px !important;
+  border-radius: 3px !important;
+}
+.react-colorful__hue,
+.react-colorful__alpha {
+  border-radius: 4px !important;
+}
+.react-colorful__saturation {
+  border-radius: 4px !important;
+}
+.react-colorful {
+  gap: 4px !important;
+}
+
+/* Grouped inputs – collapse borders & strip middle radii */
+.input-group > input {
+  border-radius: 0;
+  --tw-ring-shadow: none;
+}
+.input-group > input:first-child {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.input-group > input:last-child {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.input-group {
+  border-radius: 5px;
+  box-shadow: inset 0 0 0 1px var(--color-stone-300);
+}
+:is(.dark .input-group) {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-stone-700) 50%, transparent);
 }
 
 /* Amber LED indicator for active selector */

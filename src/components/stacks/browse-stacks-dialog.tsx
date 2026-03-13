@@ -137,7 +137,7 @@ export function BrowseStacksDialog({
   };
 
   const handleNew = () => {
-    resetConfig();
+    resetConfig(resolvedTheme === 'dark');
     setCurrentStack(null, null);
     onOpenChange(false);
   };
@@ -151,66 +151,67 @@ export function BrowseStacksDialog({
     setColors(backgroundColor, backgroundColor, headingColor);
   }
 
-  const btnClass = "flex h-8 items-center gap-1.5 rounded-sm border bg-background px-2 text-xs text-muted-foreground hover:bg-accent";
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="!max-w-none !w-screen !h-screen !top-0 !left-0 !translate-x-0 !translate-y-0 !rounded-none !border-0 !shadow-none !p-0 !gap-0 !overflow-hidden !bg-muted" showCloseButton={false}>
         <div className="flex flex-col h-full w-full overflow-hidden">
-          <DialogHeader className="flex flex-col gap-3 md:grid md:grid-cols-3 md:items-center px-4 md:px-8 pt-4 md:pt-5 pb-3 md:pb-4 shrink-0 border-b bg-muted">
+          <DialogHeader className="flex flex-col gap-3 md:grid md:grid-cols-3 md:items-center px-4 md:px-8 pt-4 md:pt-5 pb-3 md:pb-4 shrink-0 border-b bg-muted surface-noise">
             <div>
               <DialogTitle>Presets</DialogTitle>
               <DialogDescription>Browse typography presets and community creations</DialogDescription>
             </div>
-            <div className="hidden md:flex items-center justify-center gap-1.5">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <button type="button" onClick={onHeadingColorClick} className={btnClass}>
-                    <span className="h-4 w-4 rounded-sm border shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)]" style={{ backgroundColor: headingColor }} />
-                    <span>H</span>
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent>Heading color</TooltipContent>
-              </Tooltip>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <button type="button" onClick={onBodyColorClick} className={btnClass}>
-                    <span className="h-4 w-4 rounded-sm border shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)]" style={{ backgroundColor: bodyColor }} />
-                    <span>B</span>
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent>Body color</TooltipContent>
-              </Tooltip>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <button type="button" onClick={onBackgroundColorClick} className={btnClass}>
-                    <span className="h-4 w-4 rounded-sm border shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)]" style={{ backgroundColor }} />
-                    <span>BG</span>
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent>Background color</TooltipContent>
-              </Tooltip>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <button type="button" onClick={handleRandom} className={btnClass}>
-                    <Shuffle className="size-3.5" />
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent>Random accessible colors</TooltipContent>
-              </Tooltip>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <button type="button" onClick={handleReverse} className={btnClass}>
-                    <ArrowLeftRight className="size-3.5" />
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent>Swap foreground / background</TooltipContent>
-              </Tooltip>
+            <div className="hidden md:flex items-center justify-center">
+              <div className="hw-btn-group flex">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button type="button" onClick={onHeadingColorClick} className="hw-btn">
+                      <span className="h-4 w-4 rounded-sm shadow-[inset_0_1px_2px_rgba(0,0,0,0.2)]" style={{ backgroundColor: headingColor }} />
+                      <span className="opacity-60">H</span>
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>Heading color</TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button type="button" onClick={onBodyColorClick} className="hw-btn">
+                      <span className="h-4 w-4 rounded-sm shadow-[inset_0_1px_2px_rgba(0,0,0,0.2)]" style={{ backgroundColor: bodyColor }} />
+                      <span className="opacity-60">B</span>
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>Body color</TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button type="button" onClick={onBackgroundColorClick} className="hw-btn">
+                      <span className="h-4 w-4 rounded-sm shadow-[inset_0_1px_2px_rgba(0,0,0,0.2)]" style={{ backgroundColor }} />
+                      <span className="opacity-60">BG</span>
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>Background color</TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button type="button" onClick={handleRandom} className="hw-btn">
+                      <Shuffle className="size-3.5" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>Random accessible colors</TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button type="button" onClick={handleReverse} className="hw-btn">
+                      <ArrowLeftRight className="size-3.5" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>Swap foreground / background</TooltipContent>
+                </Tooltip>
+              </div>
             </div>
             <div className="flex items-center md:justify-end gap-1.5 md:mr-8">
               <button
+                type="button"
                 onClick={handleNew}
-                className="flex h-8 items-center rounded-sm bg-primary text-primary-foreground px-3 text-xs font-medium hover:bg-primary/90"
+                className="hw-btn hw-btn-primary !h-8 text-xs"
               >
                 <Plus className="mr-1 h-4 w-4" />
                 New Preset
@@ -220,16 +221,15 @@ export function BrowseStacksDialog({
 
           <div className="px-4 md:px-8 pt-3 md:pt-4 shrink-0 flex flex-col gap-2">
             {/* Source filter */}
-            <div className="flex gap-1">
+            <div className="hw-btn-group flex w-fit">
               {FILTER_LABELS.map(({ value, label }) => (
                 <button
                   key={value}
+                  type="button"
                   onClick={() => { setFilter(value); setCategoryFilter(null); }}
-                  className={`rounded-sm px-3 py-1.5 text-xs font-medium transition-colors ${
-                    filter === value
-                      ? "bg-primary text-primary-foreground"
-                      : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                  }`}
+                  className="hw-btn hw-selector-btn"
+                  data-active={filter === value}
+                  style={{ height: 34, padding: '0 16px', fontSize: 13 }}
                 >
                   {label}
                 </button>
@@ -237,26 +237,24 @@ export function BrowseStacksDialog({
             </div>
             {/* Category filter */}
             {availableCategories.length > 0 && (
-              <div className="flex gap-1 flex-wrap">
+              <div className="hw-btn-group flex w-fit flex-wrap">
                 <button
+                  type="button"
                   onClick={() => setCategoryFilter(null)}
-                  className={`rounded-sm px-2.5 py-1 text-[11px] font-medium transition-colors ${
-                    categoryFilter === null
-                      ? "bg-secondary text-secondary-foreground"
-                      : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                  }`}
+                  className="hw-btn hw-selector-btn"
+                  data-active={categoryFilter === null}
+                  style={{ height: 30, padding: '0 14px', fontSize: 12 }}
                 >
                   All styles
                 </button>
                 {availableCategories.map((cat) => (
                   <button
                     key={cat}
+                    type="button"
                     onClick={() => setCategoryFilter(categoryFilter === cat ? null : cat)}
-                    className={`rounded-sm px-2.5 py-1 text-[11px] font-medium capitalize transition-colors ${
-                      categoryFilter === cat
-                        ? "bg-secondary text-secondary-foreground"
-                        : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                    }`}
+                    className="hw-btn hw-selector-btn capitalize"
+                    data-active={categoryFilter === cat}
+                    style={{ height: 30, padding: '0 14px', fontSize: 12 }}
                   >
                     {cat}
                   </button>

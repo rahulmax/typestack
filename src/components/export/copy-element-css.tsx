@@ -1,10 +1,10 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { useComputedScale } from "@/hooks/use-computed-scale";
-import { HEADING_ELEMENTS } from "@/types/typography";
+import { HEADING_ELEMENTS, OPTIONAL_ELEMENTS } from "@/types/typography";
 import type { ResolvedElementStyle } from "@/types/typography";
 import { hexToOklchString } from "@/lib/color-utils";
+import { useTypographyStore } from "@/store/typography-store";
 import { toast } from "sonner";
 
 function elementToCSS(style: ResolvedElementStyle, headingFont: string, bodyFont: string): string {
@@ -22,6 +22,11 @@ function elementToCSS(style: ResolvedElementStyle, headingFont: string, bodyFont
 
 export function CopyElementCSS() {
   const { desktop, config } = useComputedScale();
+  const enabledElements = useTypographyStore((s) => s.enabledElements);
+
+  const visibleStyles = desktop.filter(
+    (s) => !OPTIONAL_ELEMENTS.includes(s.element) || enabledElements[s.element]
+  );
 
   const handleCopy = (style: ResolvedElementStyle) => {
     const css = elementToCSS(
@@ -37,16 +42,16 @@ export function CopyElementCSS() {
     <div className="flex flex-col gap-2">
       <span className="text-sm font-medium">Per-Element CSS</span>
       <div className="flex flex-wrap gap-2">
-        {desktop.map((style) => (
-          <Button
+        {visibleStyles.map((style) => (
+          <button
             key={style.element}
-            variant="outline"
-            size="sm"
-            className="font-mono text-xs"
+            type="button"
+            className="hw-btn text-xs"
+            style={{ height: 28, padding: '0 10px' }}
             onClick={() => handleCopy(style)}
           >
             {style.element}
-          </Button>
+          </button>
         ))}
       </div>
     </div>

@@ -63,11 +63,11 @@ export function FontPicker({
     return result.slice(0, 200)
   }, [fonts, category, search])
 
-  const handleSelect = (family: string) => {
+  const handleSelect = useCallback((family: string) => {
     loadFontFull(family)
     onSelectFont(family)
     setOpen(false)
-  }
+  }, [onSelectFont])
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

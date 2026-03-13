@@ -8,6 +8,7 @@ import { BaseSettings } from "@/components/controls/base-settings";
 import { GroupControls } from "@/components/controls/group-controls";
 import { ElementOverridePanel } from "@/components/controls/element-override";
 import { MobileSettings } from "@/components/controls/mobile-settings";
+import { SidebarToolbar } from "@/components/controls/sidebar-toolbar";
 
 import { ColorPicker } from "@/components/controls/color-picker/color-picker";
 import { PreviewContainer } from "@/components/preview/preview-container";
@@ -30,7 +31,10 @@ export default function Home() {
   const headingsGroup = store.headingsGroup;
   const bodyGroup = store.bodyGroup;
   const backgroundColor = store.backgroundColor;
-  const autoBalance = store.autoBalance;
+  const autoBalanceHeadings = store.autoBalanceHeadings;
+  const autoBalanceBody = store.autoBalanceBody;
+  const setAutoBalanceHeadings = store.setAutoBalanceHeadings;
+  const setAutoBalanceBody = store.setAutoBalanceBody;
   const updateHeadingsGroup = store.updateHeadingsGroup;
   const updateBodyGroup = store.updateBodyGroup;
   const setBackgroundColor = store.setBackgroundColor;
@@ -138,7 +142,8 @@ export default function Home() {
             <div className="relative z-[2] px-4 pt-4 pb-4">
               <StackPicker onBrowseStacks={() => setBrowseStacksOpen(true)} />
             </div>
-            <div className="relative z-[2] px-4 pb-3">
+            <div className="module-groove" />
+            <div className="relative z-[2] px-4">
               <BaseSettings />
             </div>
             <div className="module-groove" />
@@ -147,7 +152,9 @@ export default function Home() {
                 title="Headings"
                 group={headingsGroup}
                 onUpdate={updateHeadingsGroup}
-                disabled={autoBalance}
+                disabled={autoBalanceHeadings}
+                autoBalance={autoBalanceHeadings}
+                onAutoBalanceChange={setAutoBalanceHeadings}
               />
             </div>
             <div className="module-groove" />
@@ -156,12 +163,18 @@ export default function Home() {
                 title="Body"
                 group={bodyGroup}
                 onUpdate={updateBodyGroup}
-                disabled={autoBalance}
+                disabled={autoBalanceBody}
+                autoBalance={autoBalanceBody}
+                onAutoBalanceChange={setAutoBalanceBody}
               />
             </div>
             <div className="module-groove" />
             <div className="relative z-[2] px-4 py-4">
               <ElementOverridePanel />
+            </div>
+            <div className="module-groove" />
+            <div className="relative z-[2] px-4 py-4">
+              <SidebarToolbar />
             </div>
             <div className="module-groove" />
             <div className="relative z-[2] px-4 py-4">

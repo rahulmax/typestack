@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Button } from "@/components/ui/button";
 import { useTypographyStore } from "@/store/typography-store";
 import { generateTailwindCSS, generateTailwindConfig } from "@/lib/tailwind-export";
 import { toast } from "sonner";
@@ -40,26 +39,30 @@ export function TailwindExport() {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1.5">
           <span className="text-sm font-medium">Tailwind</span>
-          <div className="flex gap-0.5 rounded-md bg-muted p-0.5">
+          <div className="hw-btn-group flex">
             <button
               type="button"
               onClick={() => setFormat("v4")}
-              className={`rounded-sm px-2 py-0.5 text-xs transition-colors ${format === "v4" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground"}`}
+              className="hw-btn hw-selector-btn"
+              data-active={format === "v4"}
+              style={{ height: 28, padding: '0 10px', fontSize: 11 }}
             >
               v4 CSS
             </button>
             <button
               type="button"
               onClick={() => setFormat("v3")}
-              className={`rounded-sm px-2 py-0.5 text-xs transition-colors ${format === "v3" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground"}`}
+              className="hw-btn hw-selector-btn"
+              data-active={format === "v3"}
+              style={{ height: 28, padding: '0 10px', fontSize: 11 }}
             >
               v3 Config
             </button>
           </div>
         </div>
-        <Button variant="outline" size="sm" onClick={handleCopy}>
+        <button type="button" className="hw-btn" onClick={handleCopy}>
           Copy
-        </Button>
+        </button>
       </div>
       <pre className="max-h-[400px] overflow-auto rounded-md border bg-muted p-4 text-xs">
         <code>{output}</code>

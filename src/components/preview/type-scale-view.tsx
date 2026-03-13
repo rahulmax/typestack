@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { memo, useMemo, useState, useCallback } from "react";
 import { useComputedScale } from "@/hooks/use-computed-scale";
 import { useTypographyStore } from "@/store/typography-store";
 import { useUIStore } from "@/store/ui-store";
@@ -79,19 +79,30 @@ function SampleTextSelector({ fgColor, bgColor }: { fgColor: string; bgColor: st
   );
 }
 
-function ScaleRow({ style, sampleText }: { style: ResolvedElementStyle; sampleText: string }) {
-  const expandedElement = useUIStore((s) => s.expandedElement);
-  const setExpandedElement = useUIStore((s) => s.setExpandedElement);
-  const isActive = expandedElement === style.element;
+const ScaleRow = memo(function ScaleRow({
+  style,
+  sampleText,
+  isActive,
+  onToggle,
+}: {
+  style: ResolvedElementStyle
+  sampleText: string
+  isActive: boolean
+  onToggle: (element: string) => void
+}) {
+  const handleClick = useCallback(() => onToggle(style.element), [onToggle, style.element])
 
   return (
     <button
       type="button"
-      className="group flex w-full items-start gap-4 rounded-lg px-4 py-1.5 text-left transition-colors"
-      style={{ background: isActive ? `color-mix(in srgb, ${style.color} 8%, transparent)` : undefined }}
-      onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.background = `color-mix(in srgb, ${style.color} 4%, transparent)`; }}
-      onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.background = ""; }}
-      onClick={() => setExpandedElement(isActive ? null : style.element)}
+      className="group flex w-full items-start gap-4 rounded-lg px-4 py-1.5 text-left transition-colors hover:brightness-95"
+      style={{
+        background: isActive ? `color-mix(in srgb, ${style.color} 8%, transparent)` : undefined,
+        ['--row-hover-bg' as string]: `color-mix(in srgb, ${style.color} 4%, transparent)`,
+      }}
+      onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.background = `var(--row-hover-bg)` }}
+      onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.background = "" }}
+      onClick={handleClick}
     >
       <div className="flex w-24 shrink-0 flex-col pt-0.5">
         <span className="font-mono text-sm font-semibold" style={{ color: style.color }}>{style.element}</span>
@@ -118,22 +129,31 @@ function ScaleRow({ style, sampleText }: { style: ResolvedElementStyle; sampleTe
         {sampleText}
       </div>
     </button>
-  );
-}
+  )
+})
 
 export function TypeScaleView() {
-  const { desktop } = useComputedScale();
-  const sampleText = useTypographyStore((s) => s.sampleText);
-  const backgroundColor = useTypographyStore((s) => s.backgroundColor);
-  const foregroundColor = useTypographyStore((s) => s.bodyGroup.color);
-  const enabledElements = useTypographyStore((s) => s.enabledElements);
-  const headerColor = desktop[0]?.color;
+  const { desktop } = useComputedScale()
+  const sampleText = useTypographyStore((s) => s.sampleText)
+  const backgroundColor = useTypographyStore((s) => s.backgroundColor)
+  const foregroundColor = useTypographyStore((s) => s.bodyGroup.color)
+  const enabledElements = useTypographyStore((s) => s.enabledElements)
+  const expandedElement = useUIStore((s) => s.expandedElement)
+  const setExpandedElement = useUIStore((s) => s.setExpandedElement)
+  const headerColor = desktop[0]?.color
 
-  const visibleStyles = desktop.filter((s) => {
-    // Optional elements must be explicitly enabled
-    if (s.element in enabledElements) return enabledElements[s.element];
-    return true;
-  });
+  const visibleStyles = useMemo(
+    () => desktop.filter((s) => {
+      if (s.element in enabledElements) return enabledElements[s.element]
+      return true
+    }),
+    [desktop, enabledElements]
+  )
+
+  const handleToggle = useCallback(
+    (element: string) => setExpandedElement(expandedElement === element ? null : element),
+    [expandedElement, setExpandedElement]
+  )
 
   return (
     <div
@@ -146,9 +166,15 @@ export function TypeScaleView() {
       </div>
       <div className="flex flex-col gap-0">
         {visibleStyles.map((style) => (
-          <ScaleRow key={style.element} style={style} sampleText={sampleText} />
+          <ScaleRow
+            key={style.element}
+            style={style}
+            sampleText={sampleText}
+            isActive={expandedElement === style.element}
+            onToggle={handleToggle}
+          />
         ))}
       </div>
     </div>
-  );
+  )
 }

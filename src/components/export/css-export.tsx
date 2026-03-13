@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo } from "react";
-import { Button } from "@/components/ui/button";
 import { useTypographyStore } from "@/store/typography-store";
 import { generateCSS } from "@/lib/css-generator";
 import { toast } from "sonner";
@@ -33,9 +32,9 @@ export function CSSExport() {
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
         <span className="text-sm font-medium">CSS Custom Properties</span>
-        <Button variant="outline" size="sm" onClick={handleCopy}>
+        <button type="button" className="hw-btn" onClick={handleCopy}>
           Copy
-        </Button>
+        </button>
       </div>
       <pre className="max-h-[400px] overflow-auto rounded-md border bg-muted p-4 text-xs">
         <code>{css}</code>

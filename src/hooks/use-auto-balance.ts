@@ -13,7 +13,8 @@ function isHeadingLike(el: TypographyElement): boolean {
 }
 
 export function useAutoBalance() {
-  const autoBalance = useTypographyStore((s) => s.autoBalance);
+  const autoBalanceHeadings = useTypographyStore((s) => s.autoBalanceHeadings);
+  const autoBalanceBody = useTypographyStore((s) => s.autoBalanceBody);
   const headingFont = useTypographyStore((s) => s.headingsGroup.fontFamily);
   const bodyFont = useTypographyStore((s) => s.bodyGroup.fontFamily);
   const headingWeight = useTypographyStore((s) => s.headingsGroup.fontWeight);
@@ -28,8 +29,10 @@ export function useAutoBalance() {
   // Track which elements we auto-balanced (vs manually overridden)
   const autoBalancedRef = useRef<Set<TypographyElement>>(new Set());
 
+  const anyActive = autoBalanceHeadings || autoBalanceBody;
+
   useEffect(() => {
-    if (!autoBalance) {
+    if (!anyActive) {
       // Clear only elements we auto-balanced (not manual overrides)
       for (const el of autoBalancedRef.current) {
         clearElementOverride(el);
@@ -55,15 +58,28 @@ export function useAutoBalance() {
         // Eyebrow has its own baseline styles; skip auto-balance
         if (element === "eyebrow") continue;
 
+        const isBody = BODY_ELEMENTS.includes(element);
+        const isHeading = isHeadingLike(element);
+
+        // Skip if this group's auto-balance is off
+        if (isHeading && !autoBalanceHeadings) {
+          // If was previously auto-balanced, clear it
+          if (autoBalancedRef.current.has(element)) clearElementOverride(element);
+          continue;
+        }
+        if (isBody && !autoBalanceBody) {
+          if (autoBalancedRef.current.has(element)) clearElementOverride(element);
+          continue;
+        }
+
         // Skip elements with manual overrides (user set before auto-balance)
         const existing = overrides[element];
         if (existing?.isOverridden && !autoBalancedRef.current.has(element)) {
           continue;
         }
 
-        const isBody = BODY_ELEMENTS.includes(element);
-        const metrics = isHeadingLike(element) ? headingMetrics : bodyMetrics;
-        const baseWeight = isHeadingLike(element) ? headingWeight : bodyWeight;
+        const metrics = isHeading ? headingMetrics : bodyMetrics;
+        const baseWeight = isHeading ? headingWeight : bodyWeight;
         const fontSize = baseFontSize * Math.pow(scaleRatio, SCALE_POSITIONS[element]);
         const isUppercase = existing?.textTransform === "uppercase";
 
@@ -96,7 +112,9 @@ export function useAutoBalance() {
     return () => { cancelled = true; };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    autoBalance,
+    anyActive,
+    autoBalanceHeadings,
+    autoBalanceBody,
     headingFont,
     bodyFont,
     headingWeight,

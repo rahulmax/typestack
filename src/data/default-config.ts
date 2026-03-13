@@ -39,7 +39,7 @@ export const DEFAULT_CONFIG: TypographyConfig = {
     lineHeight: 1.2,
     letterSpacing: -0.02,
     wordSpacing: 0,
-    color: "#0a0a0a",
+    color: "#2e2e2e",
   },
   bodyGroup: {
     fontFamily: "Inter",
@@ -47,7 +47,7 @@ export const DEFAULT_CONFIG: TypographyConfig = {
     lineHeight: 1.6,
     letterSpacing: 0,
     wordSpacing: 0,
-    color: "#171717",
+    color: "#3a3a3a",
   },
   overrides: buildOverrides(),
   mobile: {
@@ -55,6 +55,6 @@ export const DEFAULT_CONFIG: TypographyConfig = {
     scaleRatio: 1.15,
     breakpointWidth: 768,
   },
-  backgroundColor: "#ffffff",
+  backgroundColor: "#f5f5f5",
   sampleText: "The quick brown fox jumps over the lazy dog",
 };

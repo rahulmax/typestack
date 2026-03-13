@@ -1,8 +1,13 @@
 "use client"
 
-import { RotateCcw } from "lucide-react"
+import { RotateCcw, Sparkles } from "lucide-react"
 import { Label } from "@/components/ui/label"
 import { Slider } from "@/components/ui/slider"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { FontPicker } from "./font-picker/font-picker"
 import { DEFAULT_CONFIG } from "@/data/default-config"
 import type { GroupProperties } from "@/types/typography"
@@ -12,6 +17,8 @@ interface GroupControlsProps {
   group: GroupProperties
   onUpdate: (props: Partial<GroupProperties>) => void
   disabled?: boolean
+  autoBalance?: boolean
+  onAutoBalanceChange?: (enabled: boolean) => void
 }
 
 export function GroupControls({
@@ -19,6 +26,8 @@ export function GroupControls({
   group,
   onUpdate,
   disabled,
+  autoBalance,
+  onAutoBalanceChange,
 }: GroupControlsProps) {
   const defaults = title === "Headings"
     ? DEFAULT_CONFIG.headingsGroup
@@ -32,6 +41,21 @@ export function GroupControls({
           currentFont={group.fontFamily}
           onSelectFont={(family) => onUpdate({ fontFamily: family })}
         />
+        {onAutoBalanceChange && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                type="button"
+                onClick={() => onAutoBalanceChange(!autoBalance)}
+                className="hw-btn shrink-0 !h-8 !w-8 !p-0"
+                data-active={autoBalance}
+              >
+                <Sparkles className="size-3.5" />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>Auto balance {title.toLowerCase()}</TooltipContent>
+          </Tooltip>
+        )}
       </div>
 
       <div className="grid grid-cols-2 gap-x-5 gap-y-4">

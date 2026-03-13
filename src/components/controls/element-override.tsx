@@ -196,6 +196,20 @@ const ALL_OVERRIDE_ELEMENTS: TypographyElement[] = [
   ...(BODY_ELEMENTS as unknown as TypographyElement[]),
 ];
 
+const BUTTON_STYLES: React.CSSProperties[] = ALL_OVERRIDE_ELEMENTS.map((_, i) => {
+  const isFirst = i === 0
+  const isLast = i === ALL_OVERRIDE_ELEMENTS.length - 1
+  return {
+    height: 56,
+    borderRadius: 0,
+    paddingTop: 6,
+    paddingBottom: 8,
+    ...(isFirst ? { borderTopLeftRadius: 4, borderBottomLeftRadius: 4 } : {}),
+    ...(isLast ? { borderTopRightRadius: 4, borderBottomRightRadius: 4 } : {}),
+    ...(!isFirst ? { borderLeftWidth: 0 } : {}),
+  }
+})
+
 export function ElementOverridePanel() {
   const expandedElement = useUIStore((s) => s.expandedElement);
   const setExpandedElement = useUIStore((s) => s.setExpandedElement);
@@ -211,8 +225,6 @@ export function ElementOverridePanel() {
         {ALL_OVERRIDE_ELEMENTS.map((el, i) => {
           const isActive = activeEl === el;
           const hasOverride = overrides[el]?.isOverridden;
-          const isFirst = i === 0;
-          const isLast = i === ALL_OVERRIDE_ELEMENTS.length - 1;
           return (
             <button
               key={el}
@@ -220,15 +232,7 @@ export function ElementOverridePanel() {
               onClick={() => setExpandedElement(isActive ? null : el)}
               className="hw-btn hw-selector-btn flex-1 flex-col !items-stretch !justify-end !gap-0"
               data-active={isActive}
-              style={{
-                height: 56,
-                borderRadius: 0,
-                paddingTop: 6,
-                paddingBottom: 8,
-                ...(isFirst ? { borderTopLeftRadius: 4, borderBottomLeftRadius: 4 } : {}),
-                ...(isLast ? { borderTopRightRadius: 4, borderBottomRightRadius: 4 } : {}),
-                ...(!isFirst ? { borderLeftWidth: 0 } : {}),
-              }}
+              style={BUTTON_STYLES[i]}
             >
               <div className="flex justify-center">
                 <span

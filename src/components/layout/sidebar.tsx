@@ -1,40 +1,46 @@
-"use client";
+"use client"
 
-import { ReactNode, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { PanelLeftClose, PanelLeftOpen, X } from "lucide-react";
+import { createContext, ReactNode, useRef, useState } from "react"
+import { Button } from "@/components/ui/button"
+import { PanelLeftOpen, X } from "lucide-react"
+
+interface SidebarOverflowCtx {
+  portalRef: React.RefObject<HTMLDivElement | null>
+  scrollRef: React.RefObject<HTMLDivElement | null>
+}
+
+export const SidebarOverflowContext = createContext<SidebarOverflowCtx | null>(null)
 
 interface SidebarProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 export function Sidebar({ children }: SidebarProps) {
-  const [collapsed, setCollapsed] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const portalRef = useRef<HTMLDivElement>(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
 
   return (
-    <>
+    <SidebarOverflowContext.Provider value={{ portalRef, scrollRef }}>
       {/* Desktop sidebar */}
-      <div className="relative shrink-0 hidden md:block">
+      <div className="relative z-10 shrink-0 hidden md:block">
         <aside
           style={{ "--sidebar-width": "360px" } as React.CSSProperties}
-          className={`relative h-full border-r bg-background surface-noise transition-all duration-200 ${
-            collapsed ? "w-0 border-r-0 overflow-hidden" : "w-[360px] overflow-y-clip"
-          }`}
+          className="relative h-full w-[360px] bg-background surface-noise overflow-x-visible"
         >
+          {/* Border drawn as absolute div so scrollbar can sit outside it */}
+          <div className="absolute top-0 right-0 bottom-0 w-px bg-border z-[1]" />
           <div
-            className="relative z-[2] h-full overflow-y-auto flex flex-col"
-            style={{ overflowX: 'clip', overflowClipMargin: 20 } as React.CSSProperties}
+            ref={scrollRef}
+            className="relative z-[2] h-full overflow-y-auto flex flex-col -mr-3 pr-3 sidebar-scroll"
           >{children}</div>
+          {/* Portal target — outside scroll container, overflow visible */}
+          <div
+            ref={portalRef}
+            className="pointer-events-none absolute top-0 left-0 w-full z-[3]"
+            style={{ overflow: 'visible' }}
+          />
         </aside>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="absolute -right-8 top-2 z-10 h-7 w-7 rounded-sm border bg-background p-0 text-muted-foreground hover:text-foreground"
-          onClick={() => setCollapsed(!collapsed)}
-        >
-          {collapsed ? <PanelLeftOpen className="size-3.5" /> : <PanelLeftClose className="size-3.5" />}
-        </Button>
       </div>
 
       {/* Mobile toggle */}
@@ -67,6 +73,6 @@ export function Sidebar({ children }: SidebarProps) {
           </aside>
         </div>
       )}
-    </>
-  );
+    </SidebarOverflowContext.Provider>
+  )
 }

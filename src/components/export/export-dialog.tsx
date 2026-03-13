@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -7,7 +8,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CSSExport } from "./css-export";
 import { TailwindExport } from "./tailwind-export";
 import { CopyElementCSS } from "./copy-element-css";
@@ -19,7 +19,18 @@ interface ExportDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
+const TABS = [
+  { value: "css", label: "CSS" },
+  { value: "tailwind", label: "Tailwind" },
+  { value: "figma-json", label: "Figma JSON" },
+  { value: "figma-api", label: "Figma API" },
+] as const;
+
+type TabValue = (typeof TABS)[number]["value"];
+
 export function ExportDialog({ open, onOpenChange }: ExportDialogProps) {
+  const [tab, setTab] = useState<TabValue>("css");
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
@@ -27,27 +38,31 @@ export function ExportDialog({ open, onOpenChange }: ExportDialogProps) {
           <DialogTitle>Export Typography</DialogTitle>
           <DialogDescription>Copy CSS, download Figma tokens, or push variables to Figma.</DialogDescription>
         </DialogHeader>
-        <Tabs defaultValue="css" className="w-full">
-          <TabsList className="w-full">
-            <TabsTrigger value="css" className="flex-1">CSS</TabsTrigger>
-            <TabsTrigger value="tailwind" className="flex-1">Tailwind</TabsTrigger>
-            <TabsTrigger value="figma-json" className="flex-1">Figma JSON</TabsTrigger>
-            <TabsTrigger value="figma-api" className="flex-1">Figma API</TabsTrigger>
-          </TabsList>
-          <TabsContent value="css" className="flex flex-col gap-4 pt-4">
-            <CSSExport />
-            <CopyElementCSS />
-          </TabsContent>
-          <TabsContent value="tailwind" className="pt-4">
-            <TailwindExport />
-          </TabsContent>
-          <TabsContent value="figma-json" className="pt-4">
-            <FigmaJSONExport />
-          </TabsContent>
-          <TabsContent value="figma-api" className="pt-4">
-            <FigmaAPIExport />
-          </TabsContent>
-        </Tabs>
+        <div className="hw-btn-group flex">
+          {TABS.map((t) => (
+            <button
+              key={t.value}
+              type="button"
+              onClick={() => setTab(t.value)}
+              className="hw-btn hw-selector-btn flex-1"
+              data-active={tab === t.value}
+              style={{ height: 34, padding: '0 16px', fontSize: 13 }}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+        <div className="pt-2">
+          {tab === "css" && (
+            <div className="flex flex-col gap-4">
+              <CSSExport />
+              <CopyElementCSS />
+            </div>
+          )}
+          {tab === "tailwind" && <TailwindExport />}
+          {tab === "figma-json" && <FigmaJSONExport />}
+          {tab === "figma-api" && <FigmaAPIExport />}
+        </div>
       </DialogContent>
     </Dialog>
   );

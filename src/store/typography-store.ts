@@ -39,9 +39,13 @@ interface TypographyStore extends TypographyConfig {
   enabledElements: Record<string, boolean>;
   toggleElement: (element: TypographyElement) => void;
 
-  // Auto-balance
+  // Auto-balance (per-group)
   autoBalance: boolean;
+  autoBalanceHeadings: boolean;
+  autoBalanceBody: boolean;
   setAutoBalance: (enabled: boolean) => void;
+  setAutoBalanceHeadings: (enabled: boolean) => void;
+  setAutoBalanceBody: (enabled: boolean) => void;
 
   // Batch color updates (single undo step)
   setColors: (headingColor: string, bodyColor: string, bg: string) => void;
@@ -49,7 +53,7 @@ interface TypographyStore extends TypographyConfig {
 
   // Bulk
   loadConfig: (config: TypographyConfig) => void;
-  resetConfig: () => void;
+  resetConfig: (dark?: boolean) => void;
 }
 
 export const useTypographyStore = create<TypographyStore>()(
@@ -59,6 +63,8 @@ export const useTypographyStore = create<TypographyStore>()(
       ...DEFAULT_CONFIG,
       enabledElements: Object.fromEntries(OPTIONAL_ELEMENTS.map((el) => [el, false])),
       autoBalance: false,
+      autoBalanceHeadings: false,
+      autoBalanceBody: false,
 
       setBaseFontSize: (size) => set({ baseFontSize: size }),
 
@@ -135,7 +141,9 @@ export const useTypographyStore = create<TypographyStore>()(
           bodyGroup: { ...state.bodyGroup, fontFamily: bodyFont, fontWeight: bodyWeight },
         })),
 
-      setAutoBalance: (enabled) => set({ autoBalance: enabled }),
+      setAutoBalance: (enabled) => set({ autoBalance: enabled, autoBalanceHeadings: enabled, autoBalanceBody: enabled }),
+      setAutoBalanceHeadings: (enabled) => set((s) => ({ autoBalanceHeadings: enabled, autoBalance: enabled && s.autoBalanceBody })),
+      setAutoBalanceBody: (enabled) => set((s) => ({ autoBalanceBody: enabled, autoBalance: enabled && s.autoBalanceHeadings })),
 
       loadConfig: (config) =>
         set((state) => {
@@ -144,18 +152,32 @@ export const useTypographyStore = create<TypographyStore>()(
             ...safe,
             backgroundColor: state.backgroundColor,
             autoBalance: false,
+            autoBalanceHeadings: false,
+            autoBalanceBody: false,
             headingsGroup: { ...safe.headingsGroup, color: state.headingsGroup.color },
             bodyGroup: { ...safe.bodyGroup, color: state.bodyGroup.color },
           };
         }),
 
-      resetConfig: () => set({ ...DEFAULT_CONFIG }),
+      resetConfig: (dark) => set({
+        ...DEFAULT_CONFIG,
+        ...(dark ? {
+          headingsGroup: { ...DEFAULT_CONFIG.headingsGroup, color: '#e5e5e5' },
+          bodyGroup: { ...DEFAULT_CONFIG.bodyGroup, color: '#d4d4d4' },
+          backgroundColor: '#171717',
+        } : {
+          headingsGroup: { ...DEFAULT_CONFIG.headingsGroup, color: '#2e2e2e' },
+          bodyGroup: { ...DEFAULT_CONFIG.bodyGroup, color: '#3a3a3a' },
+          backgroundColor: '#f5f5f5',
+        }),
+      }),
     }),
     {
       name: "typestack-typography",
       partialize: (state) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { autoBalance, enabledElements, ...rest } = state;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { autoBalance, autoBalanceHeadings, autoBalanceBody, enabledElements, ...rest } = state;
         return rest;
       },
       merge: (persisted, current) => {
@@ -171,11 +193,14 @@ export const useTypographyStore = create<TypographyStore>()(
   {
     limit: 50,
     equality: (pastState, currentState) => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { autoBalance: _a, enabledElements: _c, ...past } = pastState as unknown as Record<string, unknown>;
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { autoBalance: _b, enabledElements: _d, ...curr } = currentState as unknown as Record<string, unknown>;
-      return JSON.stringify(past) === JSON.stringify(curr);
+      const past = pastState as unknown as Record<string, unknown>
+      const curr = currentState as unknown as Record<string, unknown>
+      const keys = Object.keys(curr)
+      for (const key of keys) {
+        if (key === 'autoBalance' || key === 'autoBalanceHeadings' || key === 'autoBalanceBody' || key === 'enabledElements') continue
+        if (past[key] !== curr[key]) return false
+      }
+      return true
     },
   },
   )

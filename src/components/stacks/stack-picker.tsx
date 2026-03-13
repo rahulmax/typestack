@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
@@ -19,7 +18,14 @@ import {
   Library,
   Plus,
   Save,
+  Shuffle,
 } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { useTheme } from "next-themes";
 import { toast } from "sonner";
 
 export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) {
@@ -37,6 +43,7 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
   const resetConfig = useTypographyStore((s) => s.resetConfig);
   const headingFont = useTypographyStore((s) => s.headingsGroup.fontFamily);
   const bodyFont = useTypographyStore((s) => s.bodyGroup.fontFamily);
+  const { resolvedTheme } = useTheme();
 
   const getConfig = useCallback(() => {
     const s = useTypographyStore.getState();
@@ -91,20 +98,32 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
   };
 
   const handleNew = () => {
-    resetConfig();
+    resetConfig(resolvedTheme === 'dark');
     setCurrentStack(null, null);
     setOpen(false);
   };
 
   const hasCustomName = !!currentStackName;
 
+  const handleRandomStack = useCallback(async () => {
+    try {
+      const data = await fetchStacks("all")
+      if (data.length === 0) return
+      const stack = data[Math.floor(Math.random() * data.length)]
+      loadConfig(stack.config)
+      setCurrentStack(stack.id, stack.name)
+    } catch {
+      // Silently fail
+    }
+  }, [loadConfig, setCurrentStack])
+
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex gap-1.5">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <button
             type="button"
-            className="hw-btn flex !h-12 w-full items-center !justify-between !rounded-[4px] px-3 text-sm text-left"
+            className="hw-btn flex !h-12 flex-1 min-w-0 items-center !justify-between !rounded-[4px] px-3 !text-base text-left"
           >
             <span className="truncate">
               {hasCustomName ? (
@@ -129,9 +148,9 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
           <span className="hw-bolt hw-bolt-tr" />
           <span className="hw-bolt hw-bolt-bl" />
           <span className="hw-bolt hw-bolt-br" />
-          <div className="flex flex-col gap-1 px-3 py-3">
+          <div className="flex flex-col gap-1.5 px-3 py-3">
             {showNameInput ? (
-              <div className="flex gap-1 p-1">
+              <div className="flex gap-1">
                 <Input
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
@@ -143,41 +162,38 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
                     if (e.key === "Escape") setShowNameInput(false);
                   }}
                 />
-                <Button
-                  size="sm"
-                  className="h-8 text-xs"
+                <button
+                  type="button"
+                  className="hw-btn hw-btn-primary !h-8 text-xs"
                   disabled={saving || !newName.trim()}
                   onClick={handleSaveAs}
                 >
                   Save
-                </Button>
+                </button>
               </div>
             ) : (
-              <Button
-                variant="ghost"
-                size="sm"
-                className="justify-start text-xs"
+              <button
+                type="button"
+                className="hw-btn !justify-start text-xs"
                 onClick={() => setShowNameInput(true)}
               >
                 <Save className="mr-2 h-3.5 w-3.5" />
                 Save As...
-              </Button>
+              </button>
             )}
 
-            <Button
-              variant="ghost"
-              size="sm"
-              className="justify-start text-xs"
+            <button
+              type="button"
+              className="hw-btn !justify-start text-xs"
               onClick={handleNew}
             >
               <Plus className="mr-2 h-3.5 w-3.5" />
               New Preset
-            </Button>
+            </button>
 
-            <Button
-              variant="ghost"
-              size="sm"
-              className="justify-start text-xs"
+            <button
+              type="button"
+              className="hw-btn !justify-start text-xs"
               onClick={() => {
                 setOpen(false);
                 onBrowseStacks();
@@ -185,7 +201,7 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
             >
               <Library className="mr-2 h-3.5 w-3.5" />
               Browse All Presets
-            </Button>
+            </button>
 
             {stacks.length > 0 && (
               <>
@@ -194,23 +210,35 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
                   Saved
                 </span>
                 {stacks.map((s) => (
-                  <Button
+                  <button
                     key={s.id}
-                    variant="ghost"
-                    size="sm"
-                    className={`justify-start text-xs ${
-                      s.id === currentStackId ? "bg-accent" : ""
+                    type="button"
+                    className={`hw-btn !justify-start text-xs w-full ${
+                      s.id === currentStackId ? "hw-btn-active" : ""
                     }`}
+                    data-active={s.id === currentStackId}
                     onClick={() => handleSelect(s)}
                   >
                     <span className="truncate">{s.name}</span>
-                  </Button>
+                  </button>
                 ))}
               </>
             )}
           </div>
         </PopoverContent>
       </Popover>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <button
+            type="button"
+            onClick={handleRandomStack}
+            className="hw-btn !h-12 !w-12 shrink-0 !rounded-[4px]"
+          >
+            <Shuffle className="size-4" />
+          </button>
+        </TooltipTrigger>
+        <TooltipContent>Random preset</TooltipContent>
+      </Tooltip>
     </div>
   );
 }

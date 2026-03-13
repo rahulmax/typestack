@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo } from "react";
-import { Button } from "@/components/ui/button";
 import { useTypographyStore } from "@/store/typography-store";
 import { generateTokensStudioJSON } from "@/lib/figma-tokens";
 import { toast } from "sonner";
@@ -45,12 +44,12 @@ export function FigmaJSONExport() {
       <div className="flex items-center justify-between">
         <span className="text-sm font-medium">Tokens Studio Format</span>
         <div className="flex gap-2">
-          <Button variant="outline" size="sm" onClick={handleCopy}>
+          <button type="button" className="hw-btn" onClick={handleCopy}>
             Copy
-          </Button>
-          <Button variant="outline" size="sm" onClick={handleDownload}>
+          </button>
+          <button type="button" className="hw-btn" onClick={handleDownload}>
             Download
-          </Button>
+          </button>
         </div>
       </div>
       <pre className="max-h-[400px] overflow-auto rounded-md border bg-muted p-4 text-xs">

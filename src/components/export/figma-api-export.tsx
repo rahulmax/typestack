@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useTypographyStore } from "@/store/typography-store";
@@ -70,9 +69,9 @@ export function FigmaAPIExport() {
           placeholder="https://figma.com/design/..."
         />
       </div>
-      <Button onClick={handlePush} disabled={loading || !token || !fileUrl}>
+      <button type="button" className="hw-btn hw-btn-primary" onClick={handlePush} disabled={loading || !token || !fileUrl}>
         {loading ? "Pushing..." : "Push Variables"}
-      </Button>
+      </button>
       <p className="text-xs text-muted-foreground">
         For best results, use the Tokens Studio plugin with the JSON export
         above.
