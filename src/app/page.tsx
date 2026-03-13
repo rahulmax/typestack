@@ -8,11 +8,11 @@ import { BaseSettings } from "@/components/controls/base-settings";
 import { GroupControls } from "@/components/controls/group-controls";
 import { ElementOverridePanel } from "@/components/controls/element-override";
 import { MobileSettings } from "@/components/controls/mobile-settings";
-import { FontPicker } from "@/components/controls/font-picker/font-picker";
+
 import { ColorPicker } from "@/components/controls/color-picker/color-picker";
 import { PreviewContainer } from "@/components/preview/preview-container";
 import { ExportDialog } from "@/components/export/export-dialog";
-import { Separator } from "@/components/ui/separator";
+
 import { useTypographyStore } from "@/store/typography-store";
 import { useURLSync } from "@/store/middleware/url-sync";
 import { setConfigToURL } from "@/lib/url-codec";
@@ -39,7 +39,6 @@ export default function Home() {
 
   const setDirty = useUIStore((s) => s.setDirty);
 
-  const [fontPickerTarget, setFontPickerTarget] = useState<"headings" | "body" | null>(null);
   const [colorPickerTarget, setColorPickerTarget] = useState<"headings" | "body" | "background" | null>(null);
   const [exportOpen, setExportOpen] = useState(false);
   const [browseStacksOpen, setBrowseStacksOpen] = useState(false);
@@ -98,21 +97,6 @@ export default function Home() {
     return unsub;
   }, [setDirty]);
 
-  const currentFontForPicker =
-    fontPickerTarget === "headings"
-      ? headingsGroup.fontFamily
-      : fontPickerTarget === "body"
-        ? bodyGroup.fontFamily
-        : "";
-
-  const handleFontSelect = (family: string) => {
-    if (fontPickerTarget === "headings") {
-      updateHeadingsGroup({ fontFamily: family });
-    } else if (fontPickerTarget === "body") {
-      updateBodyGroup({ fontFamily: family });
-    }
-  };
-
   const currentColorForPicker =
     colorPickerTarget === "headings"
       ? headingsGroup.color
@@ -154,28 +138,38 @@ export default function Home() {
         }
         sidebar={
           <Sidebar>
-            <StackPicker onBrowseStacks={() => setBrowseStacksOpen(true)} />
-            <BaseSettings />
-            <Separator />
-            <GroupControls
-              title="Headings"
-              group={headingsGroup}
-              onUpdate={updateHeadingsGroup}
-              onFontClick={() => setFontPickerTarget("headings")}
-              disabled={autoBalance}
-            />
-            <Separator />
-            <GroupControls
-              title="Body"
-              group={bodyGroup}
-              onUpdate={updateBodyGroup}
-              onFontClick={() => setFontPickerTarget("body")}
-              disabled={autoBalance}
-            />
-            <Separator />
-            <ElementOverridePanel />
-            <Separator />
-            <MobileSettings />
+            <div className="relative z-[2] px-4 pt-4 pb-4">
+              <StackPicker onBrowseStacks={() => setBrowseStacksOpen(true)} />
+            </div>
+            <div className="relative z-[2] px-4 pb-3">
+              <BaseSettings />
+            </div>
+            <div className="module-groove" />
+            <div className="relative z-[2] px-4 py-4">
+              <GroupControls
+                title="Headings"
+                group={headingsGroup}
+                onUpdate={updateHeadingsGroup}
+                disabled={autoBalance}
+              />
+            </div>
+            <div className="module-groove" />
+            <div className="relative z-[2] px-4 py-4">
+              <GroupControls
+                title="Body"
+                group={bodyGroup}
+                onUpdate={updateBodyGroup}
+                disabled={autoBalance}
+              />
+            </div>
+            <div className="module-groove" />
+            <div className="relative z-[2] px-4 py-4">
+              <ElementOverridePanel />
+            </div>
+            <div className="module-groove" />
+            <div className="relative z-[2] px-4 py-4">
+              <MobileSettings />
+            </div>
             <div className="h-24 shrink-0" />
           </Sidebar>
         }
@@ -189,15 +183,6 @@ export default function Home() {
         onHeadingColorClick={() => setColorPickerTarget("headings")}
         onBodyColorClick={() => setColorPickerTarget("body")}
         onBackgroundColorClick={() => setColorPickerTarget("background")}
-      />
-
-      <FontPicker
-        open={fontPickerTarget !== null}
-        onOpenChange={(open) => {
-          if (!open) setFontPickerTarget(null);
-        }}
-        currentFont={currentFontForPicker}
-        onSelectFont={handleFontSelect}
       />
 
       <ColorPicker

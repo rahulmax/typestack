@@ -32,44 +32,60 @@ function getElementLabel(el: HTMLElement): string {
   return labels[tag] || tag;
 }
 
+function createLabel(doc: Document, el: HTMLElement, opacity: string): HTMLElement {
+  const label = doc.createElement("div");
+  label.textContent = getElementLabel(el);
+  label.setAttribute("data-ts-label", "true");
+  Object.assign(label.style, {
+    position: "absolute",
+    top: "-18px",
+    left: "-2px",
+    fontSize: "11px",
+    fontWeight: "600",
+    lineHeight: "1",
+    padding: "2px 6px",
+    background: "#3b82f6",
+    color: "#fff",
+    borderRadius: "3px 3px 0 0",
+    pointerEvents: "none",
+    whiteSpace: "nowrap",
+    fontFamily: "system-ui, sans-serif",
+    zIndex: "9999",
+    letterSpacing: "normal",
+    textTransform: "none",
+    fontStyle: "normal",
+    textDecoration: "none",
+    wordSpacing: "normal",
+    opacity,
+  });
+  return label;
+}
+
 function setupEditableListeners(doc: Document) {
-  let labelEl: HTMLElement | null = null;
+  let focusLabelEl: HTMLElement | null = null;
+  let hoverLabelEl: HTMLElement | null = null;
+  let focusedEl: HTMLElement | null = null;
 
   doc.addEventListener(
     "focus",
     (e) => {
       const el = e.target as HTMLElement;
       if (el.contentEditable !== "true") return;
+      focusedEl = el;
+
+      // Remove hover state if present
+      if (hoverLabelEl && hoverLabelEl.parentNode) {
+        hoverLabelEl.parentNode.removeChild(hoverLabelEl);
+        hoverLabelEl = null;
+      }
 
       el.style.outline = "2px solid #3b82f6";
       el.style.outlineOffset = "2px";
       el.style.borderRadius = "4px";
       el.style.position = "relative";
 
-      labelEl = doc.createElement("div");
-      labelEl.textContent = getElementLabel(el);
-      Object.assign(labelEl.style, {
-        position: "absolute",
-        top: "-18px",
-        left: "-2px",
-        fontSize: "11px",
-        fontWeight: "600",
-        lineHeight: "1",
-        padding: "2px 6px",
-        background: "#3b82f6",
-        color: "#fff",
-        borderRadius: "3px 3px 0 0",
-        pointerEvents: "none",
-        whiteSpace: "nowrap",
-        fontFamily: "system-ui, sans-serif",
-        zIndex: "9999",
-        letterSpacing: "normal",
-        textTransform: "none",
-        fontStyle: "normal",
-        textDecoration: "none",
-        wordSpacing: "normal",
-      });
-      el.appendChild(labelEl);
+      focusLabelEl = createLabel(doc, el, "1");
+      el.appendChild(focusLabelEl);
     },
     true
   );
@@ -79,18 +95,46 @@ function setupEditableListeners(doc: Document) {
     (e) => {
       const el = e.target as HTMLElement;
       if (el.contentEditable !== "true") return;
+      focusedEl = null;
 
       el.style.outline = "";
       el.style.outlineOffset = "";
       el.style.borderRadius = "";
 
-      if (labelEl && labelEl.parentNode) {
-        labelEl.parentNode.removeChild(labelEl);
-        labelEl = null;
+      if (focusLabelEl && focusLabelEl.parentNode) {
+        focusLabelEl.parentNode.removeChild(focusLabelEl);
+        focusLabelEl = null;
       }
     },
     true
   );
+
+  doc.addEventListener("mouseover", (e) => {
+    const el = (e.target as HTMLElement).closest(EDITABLE_SELECTOR) as HTMLElement | null;
+    if (!el || el.contentEditable !== "true" || el === focusedEl) return;
+
+    el.style.outline = "2px solid rgba(59, 130, 246, 0.35)";
+    el.style.outlineOffset = "2px";
+    el.style.borderRadius = "4px";
+    el.style.position = "relative";
+
+    hoverLabelEl = createLabel(doc, el, "0.35");
+    el.appendChild(hoverLabelEl);
+  });
+
+  doc.addEventListener("mouseout", (e) => {
+    const el = (e.target as HTMLElement).closest(EDITABLE_SELECTOR) as HTMLElement | null;
+    if (!el || el.contentEditable !== "true" || el === focusedEl) return;
+
+    el.style.outline = "";
+    el.style.outlineOffset = "";
+    el.style.borderRadius = "";
+
+    if (hoverLabelEl && hoverLabelEl.parentNode) {
+      hoverLabelEl.parentNode.removeChild(hoverLabelEl);
+      hoverLabelEl = null;
+    }
+  });
 }
 
 interface PreviewIframeProps {

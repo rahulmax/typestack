@@ -5,14 +5,21 @@ import { Slider as SliderPrimitive } from "radix-ui"
 
 import { cn } from "@/lib/utils"
 
+const TICK_COUNT = 7
+
 function Slider({
   className,
   defaultValue,
   value,
   min = 0,
   max = 100,
+  label,
+  formatValue,
   ...props
-}: React.ComponentProps<typeof SliderPrimitive.Root>) {
+}: React.ComponentProps<typeof SliderPrimitive.Root> & {
+  label?: string
+  formatValue?: (v: number) => string
+}) {
   const _values = React.useMemo(
     () =>
       Array.isArray(value)
@@ -23,46 +30,51 @@ function Slider({
     [value, defaultValue, min, max]
   )
 
+  const displayValue = formatValue
+    ? formatValue(_values[0])
+    : _values[0].toFixed(2)
+
   return (
-    <SliderPrimitive.Root
-      data-slot="slider"
-      defaultValue={defaultValue}
-      value={value}
-      min={min}
-      max={max}
-      className={cn(
-        "relative flex h-5 w-full touch-none items-center select-none data-[disabled]:opacity-50 data-[orientation=vertical]:h-full data-[orientation=vertical]:min-h-44 data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col",
-        className
-      )}
-      {...props}
-    >
-      <SliderPrimitive.Track
-        data-slot="slider-track"
-        className={cn(
-          "relative grow overflow-hidden rounded-full bg-border data-[orientation=horizontal]:h-1 data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-1"
-        )}
+    <div className={cn("relative h-8 w-full rounded-[4px] bg-stone-200 dark:bg-stone-800 overflow-hidden ring-1 ring-inset ring-stone-300/50 dark:ring-stone-700/50", className)} data-disabled={props.disabled || undefined}>
+      <span className="absolute left-2 top-1/2 -translate-y-1/2 font-[family-name:var(--font-oswald)] text-xs font-extralight text-stone-400 tabular-nums select-none z-0">
+        {Number.isInteger(min) && min >= 10 ? min : min.toFixed(1)}
+      </span>
+      <div className="absolute inset-y-0 left-14 right-1 flex items-center justify-evenly pointer-events-none z-0">
+        {Array.from({ length: TICK_COUNT }, (_, i) => (
+          <span key={i} className="h-4 w-px bg-stone-400/50" />
+        ))}
+      </div>
+      <SliderPrimitive.Root
+        data-slot="slider"
+        defaultValue={defaultValue}
+        value={value}
+        min={min}
+        max={max}
+        className="absolute inset-x-[2px] inset-y-0 flex touch-none items-center select-none data-[disabled]:opacity-50"
+        {...props}
       >
-        <SliderPrimitive.Range
-          data-slot="slider-range"
-          className={cn(
-            "absolute bg-foreground/25 data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full"
-          )}
-        />
-      </SliderPrimitive.Track>
-      {Array.from({ length: _values.length }, (_, index) => (
-        <SliderPrimitive.Thumb
-          data-slot="slider-thumb"
-          key={index}
-          className="flex h-4 w-2.5 shrink-0 items-center justify-center rounded-sm border border-foreground/15 bg-foreground shadow-sm ring-ring/50 transition-[color,box-shadow] hover:ring-4 focus-visible:ring-4 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50"
+        <SliderPrimitive.Track
+          data-slot="slider-track"
+          className="relative h-full w-full"
         >
-          <span className="flex gap-px">
-            <span className="block h-1.5 w-px rounded-full bg-background/40" />
-            <span className="block h-1.5 w-px rounded-full bg-background/40" />
-            <span className="block h-1.5 w-px rounded-full bg-background/40" />
-          </span>
-        </SliderPrimitive.Thumb>
-      ))}
-    </SliderPrimitive.Root>
+          <SliderPrimitive.Range
+            data-slot="slider-range"
+            className="absolute h-full"
+          />
+        </SliderPrimitive.Track>
+        {Array.from({ length: _values.length }, (_, index) => (
+          <SliderPrimitive.Thumb
+            data-slot="slider-thumb"
+            key={index}
+            className="flex h-7 w-16 shrink-0 cursor-grab active:cursor-grabbing items-center justify-center rounded-[4px] bg-stone-700 active:bg-orange-500 text-white dark:bg-stone-300 dark:text-stone-900 shadow-lg transition-colors focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50"
+          >
+            <span className="font-[family-name:var(--font-host-grotesk)] text-sm font-semibold tabular-nums pointer-events-none">
+              {displayValue}
+            </span>
+          </SliderPrimitive.Thumb>
+        ))}
+      </SliderPrimitive.Root>
+    </div>
   )
 }
 

@@ -17,11 +17,11 @@ export function Sidebar({ children }: SidebarProps) {
       {/* Desktop sidebar */}
       <div className="relative shrink-0 hidden md:block">
         <aside
-          className={`h-full overflow-y-auto border-r bg-background transition-all duration-200 ${
-            collapsed ? "w-0 overflow-hidden border-r-0" : "w-[360px]"
+          className={`h-full overflow-hidden border-r bg-background surface-noise transition-all duration-200 ${
+            collapsed ? "w-0 border-r-0" : "w-[360px]"
           }`}
         >
-          <div className="flex flex-col gap-6 p-4">{children}</div>
+          <div className="relative z-[2] h-full overflow-y-auto flex flex-col">{children}</div>
         </aside>
         <Button
           variant="ghost"
@@ -47,7 +47,7 @@ export function Sidebar({ children }: SidebarProps) {
       {mobileOpen && (
         <div className="fixed inset-0 z-50 md:hidden">
           <div className="absolute inset-0 bg-black/40" onClick={() => setMobileOpen(false)} />
-          <aside className="absolute inset-y-0 left-0 w-[85vw] max-w-[400px] overflow-y-auto bg-background shadow-xl">
+          <aside className="absolute inset-y-0 left-0 w-[85vw] max-w-[400px] overflow-y-auto bg-background surface-noise shadow-xl">
             <div className="flex items-center justify-between border-b px-4 py-3">
               <span className="text-sm font-semibold">Settings</span>
               <Button
@@ -59,7 +59,7 @@ export function Sidebar({ children }: SidebarProps) {
                 <X className="size-4" />
               </Button>
             </div>
-            <div className="flex flex-col gap-6 p-4">{children}</div>
+            <div className="flex flex-col">{children}</div>
           </aside>
         </div>
       )}

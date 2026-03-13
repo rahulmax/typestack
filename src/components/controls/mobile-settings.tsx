@@ -1,9 +1,12 @@
 "use client";
 
+import { RotateCcw } from "lucide-react";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
+import { DEFAULT_CONFIG } from "@/data/default-config";
 import { useTypographyStore } from "@/store/typography-store";
+
+const defaults = DEFAULT_CONFIG.mobile;
 
 export function MobileSettings() {
   const mobile = useTypographyStore((s) => s.mobile);
@@ -16,7 +19,14 @@ export function MobileSettings() {
       <div className="grid grid-cols-2 gap-x-5 gap-y-4">
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center justify-between">
-            <Label className="text-xs text-muted-foreground">Base Size</Label>
+            <div className="flex items-center gap-1">
+              <Label className="text-xs text-muted-foreground">Base Size</Label>
+              {mobile.baseFontSize !== defaults.baseFontSize && (
+                <button type="button" onClick={() => updateMobile({ baseFontSize: defaults.baseFontSize })} className="text-muted-foreground hover:text-foreground">
+                  <RotateCcw className="size-2.5" />
+                </button>
+              )}
+            </div>
             <span className="text-[10px] tabular-nums text-muted-foreground">{mobile.baseFontSize}px</span>
           </div>
           <Slider
@@ -25,12 +35,20 @@ export function MobileSettings() {
             min={10}
             max={20}
             step={1}
+            formatValue={(v) => `${v}px`}
           />
         </div>
 
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center justify-between">
-            <Label className="text-xs text-muted-foreground">Scale Ratio</Label>
+            <div className="flex items-center gap-1">
+              <Label className="text-xs text-muted-foreground">Scale Ratio</Label>
+              {mobile.scaleRatio !== defaults.scaleRatio && (
+                <button type="button" onClick={() => updateMobile({ scaleRatio: defaults.scaleRatio })} className="text-muted-foreground hover:text-foreground">
+                  <RotateCcw className="size-2.5" />
+                </button>
+              )}
+            </div>
             <span className="text-[10px] tabular-nums text-muted-foreground">{mobile.scaleRatio.toFixed(3)}</span>
           </div>
           <Slider

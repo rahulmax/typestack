@@ -30,10 +30,10 @@ function ElementRow({ element }: { element: TypographyElement }) {
   return (
     <div className={`rounded-sm border ${!isEnabled ? "opacity-50" : ""}`}>
       <div className="flex flex-col gap-3 px-3 py-3">
-          <div className="flex flex-col gap-3">
+          <div className="grid grid-cols-2 gap-x-5 gap-y-4">
             <div className="flex flex-col gap-1.5">
               <div className="flex items-center justify-between">
-                <Label className="text-xs text-muted-foreground">Weight</Label>
+                <Label className="text-xs text-muted-foreground">Font Weight</Label>
                 <span className="text-xs tabular-nums text-muted-foreground">{override.fontWeight ?? group.fontWeight}</span>
               </div>
               <Slider
@@ -42,37 +42,52 @@ function ElementRow({ element }: { element: TypographyElement }) {
                 min={100}
                 max={900}
                 step={100}
+                formatValue={(v) => String(v)}
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-x-5">
-              <div className="flex flex-col gap-1.5">
-                <div className="flex items-center justify-between">
-                  <Label className="text-xs text-muted-foreground">Line Height</Label>
-                  <span className="text-xs tabular-nums text-muted-foreground">{(override.lineHeight ?? group.lineHeight).toFixed(2)}</span>
-                </div>
-                <Slider
-                  value={[override.lineHeight ?? group.lineHeight]}
-                  onValueChange={([v]) => handleOverride({ lineHeight: v })}
-                  min={0.8}
-                  max={2.5}
-                  step={0.05}
-                />
+            <div className="flex flex-col gap-1.5">
+              <div className="flex items-center justify-between">
+                <Label className="text-xs text-muted-foreground">Line Height</Label>
+                <span className="text-xs tabular-nums text-muted-foreground">{(override.lineHeight ?? group.lineHeight).toFixed(2)}</span>
               </div>
+              <Slider
+                value={[override.lineHeight ?? group.lineHeight]}
+                onValueChange={([v]) => handleOverride({ lineHeight: v })}
+                min={0.8}
+                max={2.5}
+                step={0.05}
+              />
+            </div>
 
-              <div className="flex flex-col gap-1.5">
-                <div className="flex items-center justify-between">
-                  <Label className="text-xs text-muted-foreground">Tracking</Label>
-                  <span className="text-xs tabular-nums text-muted-foreground">{(override.letterSpacing ?? group.letterSpacing).toFixed(3)}em</span>
-                </div>
-                <Slider
-                  value={[override.letterSpacing ?? group.letterSpacing]}
-                  onValueChange={([v]) => handleOverride({ letterSpacing: v })}
-                  min={-0.1}
-                  max={0.2}
-                  step={0.005}
-                />
+            <div className="flex flex-col gap-1.5">
+              <div className="flex items-center justify-between">
+                <Label className="text-xs text-muted-foreground">Letter Spacing</Label>
+                <span className="text-xs tabular-nums text-muted-foreground">{(override.letterSpacing ?? group.letterSpacing).toFixed(3)}em</span>
               </div>
+              <Slider
+                value={[override.letterSpacing ?? group.letterSpacing]}
+                onValueChange={([v]) => handleOverride({ letterSpacing: v })}
+                min={-0.1}
+                max={0.2}
+                step={0.005}
+                formatValue={(v) => v.toFixed(3)}
+              />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <div className="flex items-center justify-between">
+                <Label className="text-xs text-muted-foreground">Word Spacing</Label>
+                <span className="text-xs tabular-nums text-muted-foreground">{(override.wordSpacing ?? group.wordSpacing).toFixed(2)}em</span>
+              </div>
+              <Slider
+                value={[override.wordSpacing ?? group.wordSpacing]}
+                onValueChange={([v]) => handleOverride({ wordSpacing: v })}
+                min={-0.1}
+                max={0.5}
+                step={0.01}
+                formatValue={(v) => v.toFixed(2)}
+              />
             </div>
           </div>
 

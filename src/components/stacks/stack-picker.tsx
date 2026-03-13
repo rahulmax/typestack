@@ -16,7 +16,6 @@ import {
 import { useTypographyStore } from "@/store/typography-store";
 import { useUIStore } from "@/store/ui-store";
 import {
-  ChevronDown,
   Library,
   Plus,
   Save,
@@ -101,18 +100,21 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
     <div className="flex flex-col gap-2">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            className="w-full justify-between text-sm font-normal"
+          <button
+            type="button"
+            className="flex h-8 w-full items-center justify-between rounded-[4px] border-none bg-stone-200 dark:bg-stone-800 ring-1 ring-inset ring-stone-300/50 dark:ring-stone-700/50 px-3 text-sm hover:bg-stone-300/50 dark:hover:bg-stone-700/50"
           >
             <span className="truncate">
               {displayName}
               {isDirty && " *"}
             </span>
-            <ChevronDown className="ml-2 h-3.5 w-3.5 shrink-0 opacity-50" />
-          </Button>
+            <svg viewBox="0 0 16 16" fill="currentColor" className="ml-2 size-3 shrink-0 opacity-50">
+              <polygon points="8 3 14 10 2 10" />
+              <rect x="2" y="12" width="12" height="1.5" rx="0.5" />
+            </svg>
+          </button>
         </PopoverTrigger>
-        <PopoverContent className="w-[320px] p-2" align="start">
+        <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-2 surface-noise" align="start">
           <div className="flex flex-col gap-1">
             {showNameInput ? (
               <div className="flex gap-1 p-1">
