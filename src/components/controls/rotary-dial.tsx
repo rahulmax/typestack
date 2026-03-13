@@ -209,7 +209,7 @@ export function RotaryDial({ value, onChange, onPresetChange }: RotaryDialProps)
                 textAnchor="end"
                 dominantBaseline="central"
                 className={isActive ? "fill-foreground" : "fill-muted-foreground/50"}
-                style={{ fontSize: 10, fontWeight: 600, fontFamily: "var(--font-host-grotesk)" }}
+                style={{ fontSize: 13, fontWeight: 600, fontFamily: "var(--font-host-grotesk)" }}
               >
                 {preset.name}
                 <tspan dx={5}>{preset.label}</tspan>
