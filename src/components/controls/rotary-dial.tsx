@@ -81,9 +81,6 @@ const DOT_STYLE: React.CSSProperties = {
 
 const COUNTER_STYLE: React.CSSProperties = {
   height: 22,
-  background: "rgba(0,0,0,0.5)",
-  boxShadow:
-    "inset 0 1px 3px rgba(0,0,0,0.6), inset 0 -1px 1px rgba(0,0,0,0.2), 0 1px 0 rgba(255,255,255,0.05)",
   padding: "0 3px",
 }
 
@@ -99,7 +96,7 @@ const RollingDigit = memo(function RollingDigit({ digit }: { digit: number }) {
         }}
       >
         {DIGIT_CELLS.map((d) => (
-          <div key={d} className="text-[13px] font-bold text-white/80" style={DIGIT_STYLE}>
+          <div key={d} className="text-[13px] font-bold text-stone-900/80 dark:text-white/80" style={DIGIT_STYLE}>
             {d}
           </div>
         ))}
@@ -113,10 +110,10 @@ const MechanicalCounter = memo(function MechanicalCounter({ value }: { value: nu
   const chars = str.split("")
 
   return (
-    <div className="flex items-center justify-center rounded-[3px]" style={COUNTER_STYLE}>
+    <div className="flex items-center justify-center rounded-[3px] bg-white/30 shadow-[inset_0_1px_3px_rgba(0,0,0,0.15),inset_0_-1px_1px_rgba(0,0,0,0.05),0_1px_0_rgba(255,255,255,0.1)] dark:bg-black/50 dark:shadow-[inset_0_1px_3px_rgba(0,0,0,0.6),inset_0_-1px_1px_rgba(0,0,0,0.2),0_1px_0_rgba(255,255,255,0.05)]" style={COUNTER_STYLE}>
       {chars.map((ch, i) =>
         ch === "." ? (
-          <span key={i} className="text-[13px] font-bold text-white/50" style={DOT_STYLE}>
+          <span key={i} className="text-[13px] font-bold text-stone-900/50 dark:text-white/50" style={DOT_STYLE}>
             .
           </span>
         ) : (
@@ -129,38 +126,21 @@ const MechanicalCounter = memo(function MechanicalCounter({ value }: { value: nu
 
 // ── Knob static styles ──────────────────────────────────────────
 
-// Grippy ridges around the knob edge — 48 notches
-const GRIP_COUNT = 48
-const gripStops = Array.from({ length: GRIP_COUNT }, (_, i) => {
-  const a1 = (i / GRIP_COUNT) * 360
-  const a2 = ((i + 0.5) / GRIP_COUNT) * 360
-  const a3 = ((i + 1) / GRIP_COUNT) * 360
-  return `var(--knob-grip-dark) ${a1}deg, var(--knob-grip-light) ${a2}deg, var(--knob-grip-dark) ${a3}deg`
-}).join(", ")
-
 const OUTER_RING_STYLE: React.CSSProperties = {
-  background: `conic-gradient(from 0deg, ${gripStops})`,
   boxShadow: `
-    0 2px 8px rgba(0,0,0,0.3),
-    0 4px 16px rgba(0,0,0,0.15),
-    inset 0 1px 0 rgba(255,255,255,0.08),
-    inset 0 -1px 0 rgba(0,0,0,0.2)
+    0 2px 6px rgba(0,0,0,0.25),
+    0 4px 12px rgba(0,0,0,0.12),
+    0 8px 24px rgba(0,0,0,0.06),
+    inset 0 1px 0 rgba(255,255,255,0.12),
+    inset 0 -1px 0 rgba(0,0,0,0.15)
   `,
 }
 
 const KNOB_FACE_STYLE: React.CSSProperties = {
-  background: `
-    radial-gradient(ellipse at 30% 30%, rgba(255,255,255,0.12), transparent 60%),
-    conic-gradient(
-      from 0deg,
-      var(--knob-face-1), var(--knob-face-2), var(--knob-face-1),
-      var(--knob-face-2), var(--knob-face-1), var(--knob-face-2),
-      var(--knob-face-1), var(--knob-face-2), var(--knob-face-1)
-    )
-  `,
   boxShadow: `
-    inset 0 2px 4px rgba(255,255,255,0.08),
-    inset 0 -2px 4px rgba(0,0,0,0.15)
+    inset 0 2px 4px rgba(255,255,255,0.15),
+    inset 0 -3px 6px rgba(0,0,0,0.12),
+    inset 0 0 0 1px rgba(0,0,0,0.04)
   `,
 }
 
@@ -169,8 +149,6 @@ const INDICATOR_STYLE: React.CSSProperties = {
   width: 2,
   height: 8,
   borderRadius: 1,
-  backgroundColor: "#4ade80",
-  boxShadow: "0 0 3px rgba(74, 222, 128, 0.6), 0 0 6px rgba(74, 222, 128, 0.3)",
 }
 
 const SVG_STYLE: React.CSSProperties = {
@@ -264,10 +242,10 @@ export const RotaryDial = memo(function RotaryDial({ value, onChange, onPresetCh
       onPointerUp={handlePointerUp}
     >
       {/* Outer ring */}
-      <div className="absolute inset-0 rounded-full" style={OUTER_RING_STYLE} />
+      <div className="absolute inset-0 rounded-full bg-gradient-to-b from-stone-200 to-stone-400 dark:from-stone-700 dark:to-stone-900 ring-1 ring-stone-400/30 dark:ring-stone-600/50" style={OUTER_RING_STYLE} />
       {/* Knob face */}
       <div
-        className="absolute inset-[3px] rounded-full cursor-grab active:cursor-grabbing"
+        className="absolute inset-[3px] rounded-full cursor-grab active:cursor-grabbing bg-gradient-to-b from-stone-100 to-stone-300 dark:from-stone-800 dark:to-stone-950"
         style={KNOB_FACE_STYLE}
       >
         {/* Indicator */}
@@ -275,7 +253,7 @@ export const RotaryDial = memo(function RotaryDial({ value, onChange, onPresetCh
           className="absolute inset-0 rounded-full transition-transform duration-200 ease-out"
           style={indicatorTransform}
         >
-          <div className="absolute left-1/2 -translate-x-1/2" style={INDICATOR_STYLE} />
+          <div className="absolute left-1/2 -translate-x-1/2 bg-stone-500 shadow-[0_0_3px_rgba(0,0,0,0.3)] dark:bg-green-400 dark:shadow-[0_0_3px_rgba(74,222,128,0.6),0_0_6px_rgba(74,222,128,0.3)]" style={INDICATOR_STYLE} />
         </div>
 
         {/* Counter */}

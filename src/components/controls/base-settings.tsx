@@ -49,7 +49,7 @@ function VerticalBaseSlider({ value, onChange, height }: { value: number; onChan
   return (
     <div
       ref={trackRef}
-      className="relative rounded-[5px] overflow-hidden cursor-grab active:cursor-grabbing bg-gradient-to-b from-stone-300 to-stone-200 dark:from-stone-900 dark:to-stone-800 shadow-[inset_0_2px_4px_rgba(0,0,0,0.15),inset_0_1px_1px_rgba(0,0,0,0.1),0_1px_0_rgba(255,255,255,0.05)] ring-1 ring-inset ring-stone-400/30 dark:ring-stone-600/40"
+      className="relative rounded-[5px] overflow-hidden cursor-grab active:cursor-grabbing bg-gradient-to-b from-stone-200 to-stone-100 dark:from-stone-950 dark:to-stone-900 shadow-[inset_0_2px_4px_rgba(0,0,0,0.15),inset_0_1px_1px_rgba(0,0,0,0.1),0_1px_0_rgba(255,255,255,0.05)] ring-1 ring-inset ring-stone-400/30 dark:ring-stone-600/40"
       style={{ width: 108, height }}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
@@ -58,7 +58,7 @@ function VerticalBaseSlider({ value, onChange, height }: { value: number; onChan
       {/* Ticks */}
       <div className="absolute inset-x-0 top-4 bottom-4 flex flex-col items-center justify-evenly pointer-events-none">
         {Array.from({ length: TICK_COUNT }, (_, i) => (
-          <span key={i} className="w-6 h-px bg-stone-400/40 dark:bg-stone-600/50" />
+          <span key={i} className="w-6 h-px bg-stone-400/40 dark:bg-stone-600/20" />
         ))}
       </div>
       {/* Thumb */}
@@ -66,23 +66,23 @@ function VerticalBaseSlider({ value, onChange, height }: { value: number; onChan
         className={`absolute left-[2px] right-[2px] flex items-center justify-center rounded-[4px] shadow-[0_2px_4px_rgba(0,0,0,0.3),0_4px_8px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.15),inset_0_-1px_0_rgba(0,0,0,0.1)] transition-colors duration-150 ${
           atLimit
             ? "bg-amber-600 active:bg-amber-700 dark:bg-amber-500 dark:active:bg-amber-400"
-            : "bg-stone-700 active:bg-stone-800 dark:bg-stone-300 dark:active:bg-stone-200"
+            : "bg-stone-300 active:bg-stone-200 dark:bg-stone-900 dark:active:bg-stone-950"
         }`}
         style={{ height: 32, top: Math.max(2, Math.min(height - 34, thumbY - 16)) }}
       >
         {/* Left gripper */}
         <div className="absolute left-1.5 top-1/2 -translate-y-1/2 flex flex-col gap-[3px] pointer-events-none">
           {Array.from({ length: 3 }, (_, i) => (
-            <span key={i} className="block w-1 h-px bg-white/25 dark:bg-stone-900/25" />
+            <span key={i} className="block w-1 h-px bg-stone-400/30 dark:bg-white/25" />
           ))}
         </div>
-        <span className="font-[family-name:var(--font-host-grotesk)] text-sm font-semibold tabular-nums pointer-events-none text-white dark:text-stone-900 slider-embossed-text">
+        <span className="font-[family-name:var(--font-host-grotesk)] text-sm font-semibold tabular-nums pointer-events-none text-stone-900 dark:text-white slider-embossed-text">
           {value}px
         </span>
         {/* Right gripper */}
         <div className="absolute right-1.5 top-1/2 -translate-y-1/2 flex flex-col gap-[3px] pointer-events-none">
           {Array.from({ length: 3 }, (_, i) => (
-            <span key={i} className="block w-1 h-px bg-white/25 dark:bg-stone-900/25" />
+            <span key={i} className="block w-1 h-px bg-stone-400/30 dark:bg-white/25" />
           ))}
         </div>
       </div>

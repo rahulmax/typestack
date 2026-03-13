@@ -7,7 +7,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useEffect, useState } from "react";
-import { Undo2, Redo2, RotateCcw, Sun, Moon, ChevronUp } from "lucide-react";
+import { Undo2, Redo2, RotateCcw, Sun, Moon } from "lucide-react";
 import { useTypographyStore } from "@/store/typography-store";
 import { useStore } from "zustand";
 import { useTheme } from "next-themes";
@@ -41,13 +41,16 @@ export function Header({
       {/* Left: logo + strapline */}
       <div className="relative z-[2] flex items-center gap-2 shrink-0">
         <span className="text-lg font-bold tracking-tight">TypeStax</span>
-        <span className="hidden sm:inline text-xs text-muted-foreground/60 tracking-wide">harmonious type scales</span>
+        <span className="hidden sm:inline text-xs text-muted-foreground/60 tracking-wide translate-y-px">Harmonious Type Stacks</span>
       </div>
 
       {/* Center: browse button (offset by half sidebar width so it centers in the preview area) */}
       <div className="absolute inset-x-0 flex justify-center pointer-events-none z-[2]" style={{ paddingLeft: 180 }}>
         <button type="button" onClick={onBrowseStacks} className="hw-btn hidden sm:inline-flex text-sm pointer-events-auto" style={{ height: 36, padding: '0 16px' }}>
-          <ChevronUp className="size-3.5" />
+          <svg viewBox="0 0 16 16" fill="currentColor" className="size-3.5">
+            <polygon points="8 3 14 10 2 10" />
+            <rect x="2" y="12" width="12" height="1.5" rx="0.5" />
+          </svg>
           Browse Typeface Combos
         </button>
       </div>

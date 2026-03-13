@@ -24,7 +24,7 @@ import {
 import { useTypographyStore } from "@/store/typography-store";
 import { useUIStore } from "@/store/ui-store";
 import { useFontLoader } from "./use-gallery-fonts";
-import { Plus, Shuffle, ArrowLeftRight } from "lucide-react";
+import { Plus, Shuffle, ArrowLeftRight, X } from "lucide-react";
 import { generateRandomColorPair } from "@/lib/color-utils";
 import { useTheme } from "next-themes";
 
@@ -215,6 +215,14 @@ export function BrowseStacksDialog({
               >
                 <Plus className="mr-1 h-4 w-4" />
                 New Preset
+              </button>
+              <button
+                type="button"
+                onClick={() => onOpenChange(false)}
+                className="hw-btn !h-8 text-xs"
+              >
+                <X className="mr-1 h-4 w-4" />
+                Close
               </button>
             </div>
           </DialogHeader>
