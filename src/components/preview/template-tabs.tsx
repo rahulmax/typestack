@@ -1,11 +1,9 @@
 "use client";
 
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUIStore, type PreviewTab } from "@/store/ui-store";
 
 const TABS: { value: PreviewTab; label: string }[] = [
   { value: "website", label: "Website" },
-  { value: "dashboard", label: "Dashboard" },
   { value: "blog", label: "Blog" },
 ];
 
@@ -16,14 +14,24 @@ export function TemplateTabs() {
   const isScale = viewport === "scale";
 
   return (
-    <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as PreviewTab)}>
-      <TabsList className={`h-8 ${isScale ? "opacity-40 pointer-events-none" : ""}`}>
-        {TABS.map(({ value, label }) => (
-          <TabsTrigger key={value} value={value} className="text-xs" disabled={isScale}>
-            {label}
-          </TabsTrigger>
-        ))}
-      </TabsList>
-    </Tabs>
+    <div className={`flex gap-1.5 ${isScale ? "opacity-40 pointer-events-none" : ""}`}>
+      {TABS.map(({ value, label }) => {
+        const isActive = activeTab === value;
+        return (
+          <button
+            key={value}
+            type="button"
+            onClick={() => setActiveTab(value)}
+            disabled={isScale}
+            className="hw-btn hw-selector-btn"
+            data-active={isActive}
+            style={{ height: 32, paddingLeft: 10, paddingRight: 10, paddingTop: 4, paddingBottom: 3 }}
+          >
+            {isActive && <span className="hw-selector-led" />}
+            <span className="relative text-[11px]">{label}</span>
+          </button>
+        );
+      })}
+    </div>
   );
 }

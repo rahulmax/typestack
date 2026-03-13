@@ -28,8 +28,8 @@ function ElementRow({ element }: { element: TypographyElement }) {
     element === "eyebrow";
 
   return (
-    <div className={`rounded-sm border ${!isEnabled ? "opacity-50" : ""}`}>
-      <div className="flex flex-col gap-3 px-3 py-3">
+    <div className={`${!isEnabled ? "opacity-50" : ""}`}>
+      <div className="flex flex-col gap-3 pt-3">
           <div className="grid grid-cols-2 gap-x-5 gap-y-4">
             <div className="flex flex-col gap-1.5">
               <div className="flex items-center justify-between">
@@ -62,7 +62,7 @@ function ElementRow({ element }: { element: TypographyElement }) {
 
             <div className="flex flex-col gap-1.5">
               <div className="flex items-center justify-between">
-                <Label className="text-xs text-muted-foreground">Letter Spacing</Label>
+                <Label className="text-xs text-muted-foreground">Tracking</Label>
                 <span className="text-xs tabular-nums text-muted-foreground">{(override.letterSpacing ?? group.letterSpacing).toFixed(3)}em</span>
               </div>
               <Slider
@@ -77,7 +77,7 @@ function ElementRow({ element }: { element: TypographyElement }) {
 
             <div className="flex flex-col gap-1.5">
               <div className="flex items-center justify-between">
-                <Label className="text-xs text-muted-foreground">Word Spacing</Label>
+                <Label className="text-xs text-muted-foreground">Word Sp.</Label>
                 <span className="text-xs tabular-nums text-muted-foreground">{(override.wordSpacing ?? group.wordSpacing).toFixed(2)}em</span>
               </div>
               <Slider
@@ -155,44 +155,67 @@ function ElementRow({ element }: { element: TypographyElement }) {
   );
 }
 
-function ElementTabs({ elements, label }: { elements: TypographyElement[]; label: string }) {
+const SHORT_LABELS: Partial<Record<TypographyElement, string>> = {
+  eyebrow: "e",
+  small: "s",
+};
+
+const ALL_OVERRIDE_ELEMENTS: TypographyElement[] = [
+  ...(HEADING_ELEMENTS as unknown as TypographyElement[]),
+  ...(BODY_ELEMENTS as unknown as TypographyElement[]),
+];
+
+export function ElementOverridePanel() {
   const expandedElement = useUIStore((s) => s.expandedElement);
   const setExpandedElement = useUIStore((s) => s.setExpandedElement);
-  const activeEl = elements.includes(expandedElement as TypographyElement) ? expandedElement : null;
+  const overrides = useTypographyStore((s) => s.overrides);
+  const activeEl = ALL_OVERRIDE_ELEMENTS.includes(expandedElement as TypographyElement)
+    ? expandedElement
+    : null;
 
   return (
-    <div className="flex flex-col gap-2">
-      <span className="text-xs font-semibold text-muted-foreground">{label}</span>
-      <div className="flex gap-0.5 rounded-md bg-muted p-0.5">
-        {elements.map((el) => {
+    <div className="flex flex-col gap-4">
+      <h3 className="text-sm font-semibold">Per-Element Overrides</h3>
+      <div className="hw-btn-group flex">
+        {ALL_OVERRIDE_ELEMENTS.map((el, i) => {
           const isActive = activeEl === el;
+          const hasOverride = overrides[el]?.isOverridden;
+          const isFirst = i === 0;
+          const isLast = i === ALL_OVERRIDE_ELEMENTS.length - 1;
           return (
             <button
               key={el}
               type="button"
               onClick={() => setExpandedElement(isActive ? null : el)}
-              className={`flex-1 rounded-sm px-1.5 py-1 text-center font-mono text-xs transition-colors ${
-                isActive
-                  ? "bg-background text-foreground shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
+              className="hw-btn hw-selector-btn flex-1 flex-col !items-stretch !justify-end !gap-0"
+              data-active={isActive}
+              style={{
+                height: 56,
+                borderRadius: 0,
+                paddingTop: 6,
+                paddingBottom: 8,
+                ...(isFirst ? { borderTopLeftRadius: 4, borderBottomLeftRadius: 4 } : {}),
+                ...(isLast ? { borderTopRightRadius: 4, borderBottomRightRadius: 4 } : {}),
+                ...(!isFirst ? { borderLeftWidth: 0 } : {}),
+              }}
             >
-              {el}
+              <div className="flex justify-center">
+                <span
+                  className="block rounded-sm transition-all"
+                  style={{
+                    width: 12,
+                    height: 3,
+                    backgroundColor: hasOverride ? '#f59e0b' : 'color-mix(in srgb, currentColor 15%, transparent)',
+                    boxShadow: hasOverride ? '0 0 6px 1px rgba(245, 158, 11, 0.4)' : 'none',
+                  }}
+                />
+              </div>
+              <span className="relative mt-auto text-[11px]">{SHORT_LABELS[el] || el}</span>
             </button>
           );
         })}
       </div>
       {activeEl && <ElementRow element={activeEl as TypographyElement} />}
-    </div>
-  );
-}
-
-export function ElementOverridePanel() {
-  return (
-    <div className="flex flex-col gap-4">
-      <h3 className="text-sm font-semibold">Per-Element Overrides</h3>
-      <ElementTabs elements={HEADING_ELEMENTS as unknown as TypographyElement[]} label="Headings" />
-      <ElementTabs elements={BODY_ELEMENTS as unknown as TypographyElement[]} label="Body" />
     </div>
   );
 }

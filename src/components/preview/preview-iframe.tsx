@@ -1,11 +1,26 @@
 "use client";
 
-import { useRef, useEffect, useMemo } from "react";
+import { useRef, useEffect, useMemo, useCallback } from "react";
 import { usePreviewStyles } from "@/hooks/use-preview-styles";
 import { useTypographyStore } from "@/store/typography-store";
+import { useUIStore } from "@/store/ui-store";
 import { getFontLinkUrl } from "@/lib/google-fonts";
+import type { TypographyElement } from "@/types/typography";
 
 const EDITABLE_SELECTOR = "h1,h2,h3,h4,h5,h6,p,blockquote,.eyebrow";
+
+const TAG_TO_ELEMENT: Record<string, TypographyElement> = {
+  h1: "h1", h2: "h2", h3: "h3", h4: "h4", h5: "h5", h6: "h6",
+  p: "p", small: "small", blockquote: "p",
+};
+
+function getTypographyElement(el: HTMLElement): TypographyElement | null {
+  if (el.classList.contains("eyebrow")) return "eyebrow";
+  if (el.classList.contains("display-1")) return "display-1";
+  if (el.classList.contains("display-2")) return "display-2";
+  if (el.classList.contains("display-3")) return "display-3";
+  return TAG_TO_ELEMENT[el.tagName.toLowerCase()] ?? null;
+}
 
 function makeEditable(doc: Document) {
   doc.querySelectorAll(EDITABLE_SELECTOR).forEach((el) => {
@@ -32,7 +47,9 @@ function getElementLabel(el: HTMLElement): string {
   return labels[tag] || tag;
 }
 
-function createLabel(doc: Document, el: HTMLElement, opacity: string): HTMLElement {
+type ColorRef = { fg: string; bg: string };
+
+function createLabel(doc: Document, el: HTMLElement, opacity: string, colors: ColorRef): HTMLElement {
   const label = doc.createElement("div");
   label.textContent = getElementLabel(el);
   label.setAttribute("data-ts-label", "true");
@@ -44,8 +61,8 @@ function createLabel(doc: Document, el: HTMLElement, opacity: string): HTMLEleme
     fontWeight: "600",
     lineHeight: "1",
     padding: "2px 6px",
-    background: "#3b82f6",
-    color: "#fff",
+    background: colors.fg,
+    color: colors.bg,
     borderRadius: "3px 3px 0 0",
     pointerEvents: "none",
     whiteSpace: "nowrap",
@@ -61,7 +78,11 @@ function createLabel(doc: Document, el: HTMLElement, opacity: string): HTMLEleme
   return label;
 }
 
-function setupEditableListeners(doc: Document) {
+function setupEditableListeners(
+  doc: Document,
+  colorsRef: React.RefObject<ColorRef>,
+  onElementFocus: (element: TypographyElement | null) => void,
+) {
   let focusLabelEl: HTMLElement | null = null;
   let hoverLabelEl: HTMLElement | null = null;
   let focusedEl: HTMLElement | null = null;
@@ -71,7 +92,9 @@ function setupEditableListeners(doc: Document) {
     (e) => {
       const el = e.target as HTMLElement;
       if (el.contentEditable !== "true") return;
+      const colors = colorsRef.current!;
       focusedEl = el;
+      onElementFocus(getTypographyElement(el));
 
       // Remove hover state if present
       if (hoverLabelEl && hoverLabelEl.parentNode) {
@@ -79,12 +102,12 @@ function setupEditableListeners(doc: Document) {
         hoverLabelEl = null;
       }
 
-      el.style.outline = "2px solid #3b82f6";
+      el.style.outline = `2px solid ${colors.fg}`;
       el.style.outlineOffset = "2px";
       el.style.borderRadius = "4px";
       el.style.position = "relative";
 
-      focusLabelEl = createLabel(doc, el, "1");
+      focusLabelEl = createLabel(doc, el, "1", colors);
       el.appendChild(focusLabelEl);
     },
     true
@@ -96,6 +119,7 @@ function setupEditableListeners(doc: Document) {
       const el = e.target as HTMLElement;
       if (el.contentEditable !== "true") return;
       focusedEl = null;
+      onElementFocus(null);
 
       el.style.outline = "";
       el.style.outlineOffset = "";
@@ -112,13 +136,14 @@ function setupEditableListeners(doc: Document) {
   doc.addEventListener("mouseover", (e) => {
     const el = (e.target as HTMLElement).closest(EDITABLE_SELECTOR) as HTMLElement | null;
     if (!el || el.contentEditable !== "true" || el === focusedEl) return;
+    const colors = colorsRef.current!;
 
-    el.style.outline = "2px solid rgba(59, 130, 246, 0.35)";
+    el.style.outline = `2px solid color-mix(in srgb, ${colors.fg} 35%, transparent)`;
     el.style.outlineOffset = "2px";
     el.style.borderRadius = "4px";
     el.style.position = "relative";
 
-    hoverLabelEl = createLabel(doc, el, "0.35");
+    hoverLabelEl = createLabel(doc, el, "0.35", colors);
     el.appendChild(hoverLabelEl);
   });
 
@@ -167,6 +192,14 @@ export function PreviewIframe({ bodyHTML, mobile }: PreviewIframeProps) {
   const css = usePreviewStyles();
   const headingFont = useTypographyStore((s) => s.headingsGroup.fontFamily);
   const bodyFont = useTypographyStore((s) => s.bodyGroup.fontFamily);
+  const foregroundColor = useTypographyStore((s) => s.bodyGroup.color);
+  const backgroundColor = useTypographyStore((s) => s.backgroundColor);
+  const setExpandedElement = useUIStore((s) => s.setExpandedElement);
+  const colorsRef = useRef<ColorRef>({ fg: foregroundColor, bg: backgroundColor });
+  colorsRef.current = { fg: foregroundColor, bg: backgroundColor };
+  const handleElementFocus = useCallback((element: TypographyElement | null) => {
+    setExpandedElement(element);
+  }, [setExpandedElement]);
 
   const fontLinks = useMemo(
     () => [
@@ -176,12 +209,12 @@ export function PreviewIframe({ bodyHTML, mobile }: PreviewIframeProps) {
     [headingFont, bodyFont]
   );
 
-  // Build srcdoc only when template or fonts change — NOT on CSS changes.
-  // CSS updates go through the effect below to avoid full iframe reload.
+  // Build srcdoc only on initial mount or when fonts/viewport change.
+  // Template and CSS updates go through effects to avoid full iframe reloads.
   const srcdoc = useMemo(
     () => buildDoc(css, bodyHTML, fontLinks, mobile),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [bodyHTML, fontLinks, mobile]
+    [fontLinks, mobile]
   );
 
   // Incremental CSS update (no iframe reload)
@@ -194,12 +227,18 @@ export function PreviewIframe({ bodyHTML, mobile }: PreviewIframeProps) {
     }
   }, [css]);
 
-  // Update body HTML when template changes
+  // Update body HTML when template changes (no full iframe reload)
   useEffect(() => {
     const doc = iframeRef.current?.contentDocument;
     if (!doc) return;
     doc.body.innerHTML = bodyHTML;
     makeEditable(doc);
+    // Re-run any inline scripts (e.g. illustration injection)
+    doc.body.querySelectorAll("script").forEach((old) => {
+      const s = doc.createElement("script");
+      s.textContent = old.textContent;
+      old.replaceWith(s);
+    });
   }, [bodyHTML]);
 
   // Update font links when fonts change
@@ -216,11 +255,30 @@ export function PreviewIframe({ bodyHTML, mobile }: PreviewIframeProps) {
     }
   }, [fontLinks]);
 
+  // Update any active focus/hover outlines and labels when colors change
+  useEffect(() => {
+    const doc = iframeRef.current?.contentDocument;
+    if (!doc) return;
+
+    // Update active focus outline
+    const focused = doc.activeElement as HTMLElement | null;
+    if (focused?.contentEditable === "true") {
+      focused.style.outline = `2px solid ${foregroundColor}`;
+    }
+
+    // Update all visible labels
+    doc.querySelectorAll("[data-ts-label]").forEach((label) => {
+      const el = label as HTMLElement;
+      el.style.background = foregroundColor;
+      el.style.color = backgroundColor;
+    });
+  }, [foregroundColor, backgroundColor]);
+
   const handleLoad = () => {
     const doc = iframeRef.current?.contentDocument;
     if (!doc) return;
     makeEditable(doc);
-    setupEditableListeners(doc);
+    setupEditableListeners(doc, colorsRef, handleElementFocus);
   };
 
   return (

@@ -87,10 +87,10 @@ function ScaleRow({ style, sampleText }: { style: ResolvedElementStyle; sampleTe
   return (
     <button
       type="button"
-      className={`group flex w-full items-start gap-4 rounded-lg px-4 py-1.5 text-left transition-colors ${isActive ? "border-l-2 border-l-primary" : "border-l-2 border-l-transparent"}`}
-      style={{ background: undefined }}
-      onMouseEnter={(e) => { e.currentTarget.style.background = "color-mix(in srgb, currentColor 3%, transparent)"; }}
-      onMouseLeave={(e) => { e.currentTarget.style.background = ""; }}
+      className="group flex w-full items-start gap-4 rounded-lg px-4 py-1.5 text-left transition-colors"
+      style={{ background: isActive ? `color-mix(in srgb, ${style.color} 8%, transparent)` : undefined }}
+      onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.background = `color-mix(in srgb, ${style.color} 4%, transparent)`; }}
+      onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.background = ""; }}
       onClick={() => setExpandedElement(isActive ? null : style.element)}
     >
       <div className="flex w-24 shrink-0 flex-col pt-0.5">

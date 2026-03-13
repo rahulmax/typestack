@@ -3,7 +3,7 @@
 import { create } from "zustand";
 
 export type ViewportSize = "scale" | "laptop" | "tablet" | "mobile";
-export type PreviewTab = "website" | "dashboard" | "blog";
+export type PreviewTab = "website" | "blog";
 
 export const GRID_PATTERN_TYPES = ["square", "dots", "plus", "tallrect", "diagonal", "crosshatch", "hlines", "diamond"] as const;
 export type GridPatternType = (typeof GRID_PATTERN_TYPES)[number] | null;
