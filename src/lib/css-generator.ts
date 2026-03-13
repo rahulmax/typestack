@@ -51,7 +51,7 @@ export function generateCSS(config: TypographyConfig): string {
     lines.push("");
   }
 
-  lines.push(`@media (max-width: ${config.mobile.breakpointWidth}px) {`);
+  lines.push(`@media (max-width: ${config.mobile.breakpointWidth - 1}px) {`);
   lines.push("  :root {");
   lines.push(`    --ts-base-size: ${config.mobile.baseFontSize}px;`);
   lines.push(`    --ts-scale-ratio: ${config.mobile.scaleRatio};`);
@@ -99,7 +99,7 @@ export function generatePreviewCSS(config: TypographyConfig): string {
     lines.push("");
   }
 
-  lines.push(`@media (max-width: ${config.mobile.breakpointWidth}px) {`);
+  lines.push(`@media (max-width: ${config.mobile.breakpointWidth - 1}px) {`);
   lines.push(`  body { padding: 0.75rem; }`);
   for (const style of mobile) {
     const selector = elementSelector(style.element);

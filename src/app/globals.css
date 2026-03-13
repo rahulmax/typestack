@@ -48,6 +48,12 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+  --animate-blink-fast: blink-fast 0.4s ease-in-out infinite;
+}
+
+@keyframes blink-fast {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.15; }
 }
 
 :root {
@@ -449,6 +455,20 @@
     0 0 3px oklch(0.78 0.16 65 / 70%),
     0 0 8px oklch(0.78 0.16 65 / 30%),
     0 0 2px oklch(0.78 0.16 65 / 90%);
+}
+
+/* Rotary knob theme variables */
+:root {
+  --knob-grip-dark: hsl(30 2% 18%);
+  --knob-grip-light: hsl(30 2% 28%);
+  --knob-face-1: hsl(30 2% 22%);
+  --knob-face-2: hsl(30 2% 30%);
+}
+.dark {
+  --knob-grip-dark: hsl(30 2% 10%);
+  --knob-grip-light: hsl(30 2% 18%);
+  --knob-face-1: hsl(30 2% 14%);
+  --knob-face-2: hsl(30 2% 20%);
 }
 
 /* Embossed text on slider thumbs — pressed-in look */

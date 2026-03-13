@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useCallback } from "react"
+import { useRef, useCallback, useState } from "react"
 import { RotateCcw } from "lucide-react"
 import { Label } from "@/components/ui/label"
 import { RotaryDial } from "./rotary-dial"
@@ -13,6 +13,7 @@ const TICK_COUNT = 10
 
 function VerticalBaseSlider({ value, onChange, height }: { value: number; onChange: (v: number) => void; height: number }) {
   const trackRef = useRef<HTMLDivElement>(null)
+  const [pressing, setPressing] = useState(false)
 
   const yToValue = useCallback((y: number) => {
     const pct = 1 - Math.max(0, Math.min(1, y / height))
@@ -24,6 +25,7 @@ function VerticalBaseSlider({ value, onChange, height }: { value: number; onChan
     const track = trackRef.current
     if (!track) return
     ;(e.target as HTMLElement).setPointerCapture(e.pointerId)
+    setPressing(true)
     const rect = track.getBoundingClientRect()
     onChange(yToValue(e.clientY - rect.top))
   }, [onChange, yToValue])
@@ -36,8 +38,13 @@ function VerticalBaseSlider({ value, onChange, height }: { value: number; onChan
     onChange(yToValue(e.clientY - rect.top))
   }, [onChange, yToValue])
 
+  const handlePointerUp = useCallback(() => {
+    setPressing(false)
+  }, [])
+
   const pct = (value - VSLIDER_MIN) / (VSLIDER_MAX - VSLIDER_MIN)
   const thumbY = (1 - pct) * height
+  const atLimit = pressing && (value <= VSLIDER_MIN || value >= VSLIDER_MAX)
 
   return (
     <div
@@ -46,6 +53,7 @@ function VerticalBaseSlider({ value, onChange, height }: { value: number; onChan
       style={{ width: 108, height }}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
     >
       {/* Ticks */}
       <div className="absolute inset-x-0 top-4 bottom-4 flex flex-col items-center justify-evenly pointer-events-none">
@@ -55,7 +63,11 @@ function VerticalBaseSlider({ value, onChange, height }: { value: number; onChan
       </div>
       {/* Thumb */}
       <div
-        className="absolute left-[2px] right-[2px] flex items-center justify-center rounded-[4px] bg-stone-700 active:bg-stone-800 dark:bg-stone-300 dark:active:bg-stone-200 shadow-[0_2px_4px_rgba(0,0,0,0.3),0_4px_8px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.15),inset_0_-1px_0_rgba(0,0,0,0.1)]"
+        className={`absolute left-[2px] right-[2px] flex items-center justify-center rounded-[4px] shadow-[0_2px_4px_rgba(0,0,0,0.3),0_4px_8px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.15),inset_0_-1px_0_rgba(0,0,0,0.1)] transition-colors duration-150 ${
+          atLimit
+            ? "bg-amber-600 active:bg-amber-700 dark:bg-amber-500 dark:active:bg-amber-400"
+            : "bg-stone-700 active:bg-stone-800 dark:bg-stone-300 dark:active:bg-stone-200"
+        }`}
         style={{ height: 32, top: Math.max(2, Math.min(height - 34, thumbY - 16)) }}
       >
         {/* Left gripper */}

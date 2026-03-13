@@ -105,15 +105,21 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
 
   const hasCustomName = !!currentStackName;
 
+  const [randomLoading, setRandomLoading] = useState(false)
+
   const handleRandomStack = useCallback(async () => {
     try {
+      setRandomLoading(true)
       const data = await fetchStacks("all")
-      if (data.length === 0) return
+      if (data.length === 0) { setRandomLoading(false); return }
       const stack = data[Math.floor(Math.random() * data.length)]
       loadConfig(stack.config)
       setCurrentStack(stack.id, stack.name)
+      await document.fonts.ready
     } catch {
       // Silently fail
+    } finally {
+      setRandomLoading(false)
     }
   }, [loadConfig, setCurrentStack])
 
@@ -232,9 +238,14 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
           <button
             type="button"
             onClick={handleRandomStack}
+            disabled={randomLoading}
             className="hw-btn !h-12 !w-12 shrink-0 !rounded-[4px]"
           >
-            <Shuffle className="size-4" />
+            {randomLoading ? (
+              <span className="block h-2 w-2 rounded-full bg-green-500 dark:bg-green-400 animate-blink-fast shadow-[0_0_4px_theme(colors.green.500),0_0_8px_theme(colors.green.500/50%)] dark:shadow-[0_0_6px_theme(colors.green.400),0_0_12px_theme(colors.green.400/60%)]" />
+            ) : (
+              <Shuffle className="size-4" />
+            )}
           </button>
         </TooltipTrigger>
         <TooltipContent>Random preset</TooltipContent>

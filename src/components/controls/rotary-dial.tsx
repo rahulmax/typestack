@@ -129,9 +129,17 @@ const MechanicalCounter = memo(function MechanicalCounter({ value }: { value: nu
 
 // ── Knob static styles ──────────────────────────────────────────
 
+// Grippy ridges around the knob edge — 48 notches
+const GRIP_COUNT = 48
+const gripStops = Array.from({ length: GRIP_COUNT }, (_, i) => {
+  const a1 = (i / GRIP_COUNT) * 360
+  const a2 = ((i + 0.5) / GRIP_COUNT) * 360
+  const a3 = ((i + 1) / GRIP_COUNT) * 360
+  return `var(--knob-grip-dark) ${a1}deg, var(--knob-grip-light) ${a2}deg, var(--knob-grip-dark) ${a3}deg`
+}).join(", ")
+
 const OUTER_RING_STYLE: React.CSSProperties = {
-  background:
-    "conic-gradient(from 0deg, rgba(0,0,0,0.15), rgba(255,255,255,0.05), rgba(0,0,0,0.15), rgba(255,255,255,0.05), rgba(0,0,0,0.15))",
+  background: `conic-gradient(from 0deg, ${gripStops})`,
   boxShadow: `
     0 2px 8px rgba(0,0,0,0.3),
     0 4px 16px rgba(0,0,0,0.15),
@@ -145,9 +153,9 @@ const KNOB_FACE_STYLE: React.CSSProperties = {
     radial-gradient(ellipse at 30% 30%, rgba(255,255,255,0.12), transparent 60%),
     conic-gradient(
       from 0deg,
-      hsl(30 2% 38%), hsl(30 2% 48%), hsl(30 2% 36%),
-      hsl(30 2% 50%), hsl(30 2% 38%), hsl(30 2% 46%),
-      hsl(30 2% 36%), hsl(30 2% 48%), hsl(30 2% 38%)
+      var(--knob-face-1), var(--knob-face-2), var(--knob-face-1),
+      var(--knob-face-2), var(--knob-face-1), var(--knob-face-2),
+      var(--knob-face-1), var(--knob-face-2), var(--knob-face-1)
     )
   `,
   boxShadow: `
