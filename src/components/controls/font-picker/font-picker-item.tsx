@@ -8,6 +8,7 @@ interface FontPickerItemProps {
   isSelected: boolean;
   onSelect: (family: string) => void;
   observeRef: (el: HTMLElement | null) => void;
+  showCategory?: boolean;
 }
 
 export function FontPickerItem({
@@ -15,6 +16,7 @@ export function FontPickerItem({
   isSelected,
   onSelect,
   observeRef,
+  showCategory,
 }: FontPickerItemProps) {
   return (
     <CommandItem
@@ -22,13 +24,16 @@ export function FontPickerItem({
       data-font-family={font.family}
       value={font.family}
       onSelect={() => onSelect(font.family)}
-      className="flex items-center justify-between py-2"
+      className={`flex items-center justify-between py-2.5 hw-groove-separator ${
+        isSelected ? "!bg-stone-200 dark:!bg-stone-700 font-semibold" : ""
+      }`}
     >
       <span style={{ fontFamily: `'${font.family}', ${font.category}` }}>
         {font.family}
       </span>
-      <span className="text-xs text-muted-foreground">{font.category}</span>
-      {isSelected && <span className="ml-2 text-xs">&#10003;</span>}
+      {showCategory && (
+        <span className="text-[10px] text-muted-foreground/60">{font.category}</span>
+      )}
     </CommandItem>
   );
 }

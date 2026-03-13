@@ -30,7 +30,6 @@ import { useUIStore, GRID_PATTERN_TYPES, type GridPatternType } from "@/store/ui
 import { useStore } from "zustand";
 import { generateRandomColorPair } from "@/lib/color-utils";
 import { fetchStacks, type Stack } from "@/lib/stacks-api";
-import { TemplateTabs } from "@/components/preview/template-tabs";
 import { useTheme } from "next-themes";
 import { Show, UserButton, SignInButton } from "@clerk/nextjs";
 
@@ -223,7 +222,7 @@ export function Header({
   }
 
   return (
-    <header className="flex h-14 items-center justify-between border-b bg-background px-2 md:px-4 surface-noise">
+    <header className="relative flex h-14 items-center justify-between border-b bg-background px-2 md:px-4 surface-noise">
       {/* Left: logo */}
       <div className="relative z-[2] flex items-center gap-2 shrink-0">
         <span className="text-lg font-bold tracking-tight">TypeStax</span>
@@ -256,11 +255,6 @@ export function Header({
           </TooltipTrigger>
           <TooltipContent>Random preset</TooltipContent>
         </Tooltip>
-
-        <Separator orientation="vertical" className="mx-0.5 h-5" />
-
-        {/* Template tabs */}
-        <TemplateTabs />
 
         <Separator orientation="vertical" className="mx-0.5 h-5" />
 

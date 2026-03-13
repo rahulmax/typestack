@@ -35,6 +35,8 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
   const setCurrentStack = useUIStore((s) => s.setCurrentStack);
   const loadConfig = useTypographyStore((s) => s.loadConfig);
   const resetConfig = useTypographyStore((s) => s.resetConfig);
+  const headingFont = useTypographyStore((s) => s.headingsGroup.fontFamily);
+  const bodyFont = useTypographyStore((s) => s.bodyGroup.fontFamily);
 
   const getConfig = useCallback(() => {
     const s = useTypographyStore.getState();
@@ -94,7 +96,7 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
     setOpen(false);
   };
 
-  const displayName = currentStackName || "Unsaved Preset";
+  const hasCustomName = !!currentStackName;
 
   return (
     <div className="flex flex-col gap-2">
@@ -102,11 +104,19 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
         <PopoverTrigger asChild>
           <button
             type="button"
-            className="flex h-8 w-full items-center justify-between rounded-[4px] border-none bg-stone-200 dark:bg-stone-800 ring-1 ring-inset ring-stone-300/50 dark:ring-stone-700/50 px-3 text-sm hover:bg-stone-300/50 dark:hover:bg-stone-700/50"
+            className="hw-btn flex !h-12 w-full items-center !justify-between !rounded-[4px] px-3 text-sm text-left"
           >
             <span className="truncate">
-              {displayName}
-              {isDirty && " *"}
+              {hasCustomName ? (
+                <>{currentStackName}{isDirty && " *"}</>
+              ) : (
+                <>
+                  <span style={{ fontFamily: headingFont }}>{headingFont}</span>
+                  <span className="text-muted-foreground/50"> + </span>
+                  <span style={{ fontFamily: bodyFont }}>{bodyFont}</span>
+                  {isDirty && " *"}
+                </>
+              )}
             </span>
             <svg viewBox="0 0 16 16" fill="currentColor" className="ml-2 size-3 shrink-0 opacity-50">
               <polygon points="8 3 14 10 2 10" />
@@ -114,8 +124,12 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
             </svg>
           </button>
         </PopoverTrigger>
-        <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-2 surface-noise" align="start">
-          <div className="flex flex-col gap-1">
+        <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0 surface-noise hw-module-panel" align="start">
+          <span className="hw-bolt hw-bolt-tl" />
+          <span className="hw-bolt hw-bolt-tr" />
+          <span className="hw-bolt hw-bolt-bl" />
+          <span className="hw-bolt hw-bolt-br" />
+          <div className="flex flex-col gap-1 px-3 py-3">
             {showNameInput ? (
               <div className="flex gap-1 p-1">
                 <Input

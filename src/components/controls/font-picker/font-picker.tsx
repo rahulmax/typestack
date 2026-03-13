@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useMemo } from "react"
+import { useState, useEffect, useMemo, useRef, useCallback } from "react"
 import {
   Command,
   CommandInput,
@@ -34,6 +34,18 @@ export function FontPicker({
   const [search, setSearch] = useState("")
   const { observe } = useFontLoader()
   const loading = open && fonts.length === 0
+  const triggerRef = useRef<HTMLButtonElement>(null)
+  const [alignOffset, setAlignOffset] = useState(0)
+
+  const calcOffset = useCallback(() => {
+    const btn = triggerRef.current
+    if (!btn) return
+    const sidebar = btn.closest("aside")
+    if (!sidebar) return
+    const sidebarRect = sidebar.getBoundingClientRect()
+    const btnRect = btn.getBoundingClientRect()
+    setAlignOffset(Math.round(sidebarRect.left - btnRect.left))
+  }, [])
 
   useEffect(() => {
     if (!open || fonts.length > 0) return
@@ -61,8 +73,10 @@ export function FontPicker({
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <button
+          ref={triggerRef}
           type="button"
-          className="flex h-8 flex-1 min-w-0 items-center justify-between rounded-[4px] border-none bg-stone-200 dark:bg-stone-800 ring-1 ring-inset ring-stone-300/50 dark:ring-stone-700/50 px-3 text-sm hover:bg-stone-300/50 dark:hover:bg-stone-700/50"
+          onClick={calcOffset}
+          className="hw-btn flex h-8 flex-1 min-w-0 items-center !justify-between !rounded-[4px] px-3 text-sm text-left"
           style={{ fontFamily: currentFont }}
         >
           <span className="truncate">{currentFont}</span>
@@ -73,37 +87,47 @@ export function FontPicker({
         </button>
       </PopoverTrigger>
       <PopoverContent
-        className="w-[var(--radix-popover-trigger-width)] p-0 surface-noise overflow-hidden"
+        className="!w-[var(--sidebar-width,360px)] p-0 surface-noise overflow-hidden hw-module-panel"
+        side="bottom"
         align="start"
+        alignOffset={alignOffset}
         sideOffset={4}
+        avoidCollisions={false}
       >
-        <Command shouldFilter={false} className="border-none bg-transparent">
-          <CommandInput
-            placeholder="Search fonts..."
-            value={search}
-            onValueChange={setSearch}
-          />
-          <FontCategoryFilter selected={category} onChange={setCategory} />
-          <CommandList className="max-h-[320px]">
-            {loading && (
-              <div className="py-6 text-center text-sm text-muted-foreground">
-                Loading fonts...
-              </div>
-            )}
-            <CommandEmpty>No fonts found.</CommandEmpty>
-            <CommandGroup>
-              {filtered.map((font) => (
-                <FontPickerItem
-                  key={font.family}
-                  font={font}
-                  isSelected={font.family === currentFont}
-                  onSelect={handleSelect}
-                  observeRef={observe}
-                />
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
+        <span className="hw-bolt hw-bolt-tl" />
+        <span className="hw-bolt hw-bolt-tr" />
+        <span className="hw-bolt hw-bolt-bl" />
+        <span className="hw-bolt hw-bolt-br" />
+        <div className="px-3 pt-3 pb-1">
+          <Command shouldFilter={false} className="border-none bg-transparent">
+            <CommandInput
+              placeholder="Search fonts..."
+              value={search}
+              onValueChange={setSearch}
+            />
+            <FontCategoryFilter selected={category} onChange={setCategory} />
+            <CommandList className="max-h-[320px]">
+              {loading && (
+                <div className="py-6 text-center text-sm text-muted-foreground">
+                  Loading fonts...
+                </div>
+              )}
+              <CommandEmpty>No fonts found.</CommandEmpty>
+              <CommandGroup>
+                {filtered.map((font) => (
+                  <FontPickerItem
+                    key={font.family}
+                    font={font}
+                    isSelected={font.family === currentFont}
+                    onSelect={handleSelect}
+                    observeRef={observe}
+                    showCategory={category === "all"}
+                  />
+                ))}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </div>
       </PopoverContent>
     </Popover>
   )

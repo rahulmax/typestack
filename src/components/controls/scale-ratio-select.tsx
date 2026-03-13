@@ -86,7 +86,7 @@ export function ScaleRatioSelect() {
         setCustomMode(true);
       }
     }}>
-      <SelectTrigger className="w-full h-9 text-sm font-semibold tabular-nums">
+      <SelectTrigger className="w-full !h-9 text-sm font-semibold tabular-nums">
         <SelectValue>{scaleRatio}</SelectValue>
       </SelectTrigger>
       <SelectContent>

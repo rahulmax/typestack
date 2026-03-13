@@ -61,11 +61,15 @@ function DialogContent({
       <DialogPrimitive.Content
         data-slot="dialog-content"
         className={cn(
-          "fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-sm border bg-background p-6 shadow-[0_4px_16px_rgba(0,0,0,0.08)] duration-200 outline-none data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 sm:max-w-lg",
+          "hw-module-panel fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border bg-background p-6 shadow-[0_4px_12px_rgba(0,0,0,0.12),0_8px_24px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.06)] dark:border-[oklch(0.14_0.005_60)] dark:bg-[oklch(0.19_0.005_60)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.5),0_8px_24px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.06)] surface-noise duration-200 outline-none data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 sm:max-w-lg [&>*]:relative [&>*]:z-[2]",
           className
         )}
         {...props}
       >
+        <span className="hw-bolt hw-bolt-tl" />
+        <span className="hw-bolt hw-bolt-tr" />
+        <span className="hw-bolt hw-bolt-bl" />
+        <span className="hw-bolt hw-bolt-br" />
         {children}
         {showCloseButton && (
           <DialogPrimitive.Close

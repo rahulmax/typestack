@@ -34,18 +34,18 @@ export function GroupControls({
         />
       </div>
 
-      <div className={`grid grid-cols-2 gap-x-5 gap-y-4 ${disabled ? "opacity-50 pointer-events-none" : ""}`}>
+      <div className="grid grid-cols-2 gap-x-5 gap-y-4">
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1">
               <Label className="text-xs text-muted-foreground">Font Weight</Label>
-              {group.fontWeight !== defaults.fontWeight && (
+              {!disabled && group.fontWeight !== defaults.fontWeight && (
                 <button type="button" onClick={() => onUpdate({ fontWeight: defaults.fontWeight })} className="text-muted-foreground hover:text-foreground">
                   <RotateCcw className="size-2.5" />
                 </button>
               )}
             </div>
-            <span className="text-[10px] tabular-nums text-muted-foreground">{group.fontWeight}</span>
+            <span className="text-xs tabular-nums text-muted-foreground">{group.fontWeight}</span>
           </div>
           <Slider
             value={[group.fontWeight]}
@@ -54,6 +54,7 @@ export function GroupControls({
             max={900}
             step={100}
             disabled={disabled}
+            disabledText={disabled ? "auto" : undefined}
             formatValue={(v) => String(v)}
           />
         </div>
@@ -62,13 +63,13 @@ export function GroupControls({
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1">
               <Label className="text-xs text-muted-foreground">Line Height</Label>
-              {group.lineHeight !== defaults.lineHeight && (
+              {!disabled && group.lineHeight !== defaults.lineHeight && (
                 <button type="button" onClick={() => onUpdate({ lineHeight: defaults.lineHeight })} className="text-muted-foreground hover:text-foreground">
                   <RotateCcw className="size-2.5" />
                 </button>
               )}
             </div>
-            <span className="text-[10px] tabular-nums text-muted-foreground">{group.lineHeight.toFixed(2)}</span>
+            <span className="text-xs tabular-nums text-muted-foreground">{group.lineHeight.toFixed(2)}</span>
           </div>
           <Slider
             value={[group.lineHeight]}
@@ -77,6 +78,7 @@ export function GroupControls({
             max={2.5}
             step={0.05}
             disabled={disabled}
+            disabledText={disabled ? "auto" : undefined}
           />
         </div>
 
@@ -84,13 +86,13 @@ export function GroupControls({
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1">
               <Label className="text-xs text-muted-foreground">Letter Spacing</Label>
-              {group.letterSpacing !== defaults.letterSpacing && (
+              {!disabled && group.letterSpacing !== defaults.letterSpacing && (
                 <button type="button" onClick={() => onUpdate({ letterSpacing: defaults.letterSpacing })} className="text-muted-foreground hover:text-foreground">
                   <RotateCcw className="size-2.5" />
                 </button>
               )}
             </div>
-            <span className="text-[10px] tabular-nums text-muted-foreground">{group.letterSpacing.toFixed(3)}em</span>
+            <span className="text-xs tabular-nums text-muted-foreground">{group.letterSpacing.toFixed(3)}em</span>
           </div>
           <Slider
             value={[group.letterSpacing]}
@@ -99,6 +101,7 @@ export function GroupControls({
             max={0.2}
             step={0.005}
             disabled={disabled}
+            disabledText={disabled ? "auto" : undefined}
             formatValue={(v) => v.toFixed(3)}
           />
         </div>
@@ -107,13 +110,13 @@ export function GroupControls({
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1">
               <Label className="text-xs text-muted-foreground">Word Spacing</Label>
-              {group.wordSpacing !== defaults.wordSpacing && (
+              {!disabled && group.wordSpacing !== defaults.wordSpacing && (
                 <button type="button" onClick={() => onUpdate({ wordSpacing: defaults.wordSpacing })} className="text-muted-foreground hover:text-foreground">
                   <RotateCcw className="size-2.5" />
                 </button>
               )}
             </div>
-            <span className="text-[10px] tabular-nums text-muted-foreground">{group.wordSpacing.toFixed(2)}em</span>
+            <span className="text-xs tabular-nums text-muted-foreground">{group.wordSpacing.toFixed(2)}em</span>
           </div>
           <Slider
             value={[group.wordSpacing]}
@@ -122,6 +125,7 @@ export function GroupControls({
             max={0.5}
             step={0.01}
             disabled={disabled}
+            disabledText={disabled ? "auto" : undefined}
             formatValue={(v) => v.toFixed(2)}
           />
         </div>

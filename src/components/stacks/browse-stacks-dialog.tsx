@@ -155,7 +155,7 @@ export function BrowseStacksDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="!max-w-none !w-screen !h-screen !rounded-none !translate-x-[-50%] !translate-y-[-50%] !border-0 !shadow-none !p-0 !gap-0 !overflow-hidden !bg-muted">
+      <DialogContent className="!max-w-none !w-screen !h-screen !top-0 !left-0 !translate-x-0 !translate-y-0 !rounded-none !border-0 !shadow-none !p-0 !gap-0 !overflow-hidden !bg-muted" showCloseButton={false}>
         <div className="flex flex-col h-full w-full overflow-hidden">
           <DialogHeader className="flex flex-col gap-3 md:grid md:grid-cols-3 md:items-center px-4 md:px-8 pt-4 md:pt-5 pb-3 md:pb-4 shrink-0 border-b bg-muted">
             <div>

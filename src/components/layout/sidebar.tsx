@@ -17,11 +17,15 @@ export function Sidebar({ children }: SidebarProps) {
       {/* Desktop sidebar */}
       <div className="relative shrink-0 hidden md:block">
         <aside
-          className={`h-full overflow-hidden border-r bg-background surface-noise transition-all duration-200 ${
-            collapsed ? "w-0 border-r-0" : "w-[360px]"
+          style={{ "--sidebar-width": "360px" } as React.CSSProperties}
+          className={`relative h-full border-r bg-background surface-noise transition-all duration-200 ${
+            collapsed ? "w-0 border-r-0 overflow-hidden" : "w-[360px] overflow-y-clip"
           }`}
         >
-          <div className="relative z-[2] h-full overflow-y-auto flex flex-col">{children}</div>
+          <div
+            className="relative z-[2] h-full overflow-y-auto flex flex-col"
+            style={{ overflowX: 'clip', overflowClipMargin: 20 } as React.CSSProperties}
+          >{children}</div>
         </aside>
         <Button
           variant="ghost"

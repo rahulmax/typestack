@@ -1,7 +1,7 @@
 "use client";
 
-import { ALargeSmall, Laptop, Tablet, Smartphone } from "lucide-react";
-import { useUIStore, type ViewportSize } from "@/store/ui-store";
+import { ALargeSmall, Laptop, Tablet, Smartphone, Globe, AlignLeft } from "lucide-react";
+import { useUIStore, type ViewportSize, type PreviewTab } from "@/store/ui-store";
 import { useTypographyStore } from "@/store/typography-store";
 import { isBgDark } from "@/lib/color-utils";
 
@@ -12,6 +12,11 @@ const VIEWPORTS: { value: ViewportSize; icon: typeof Laptop }[] = [
   { value: "mobile", icon: Smartphone },
 ];
 
+const TEMPLATES: { value: PreviewTab; icon: typeof Globe }[] = [
+  { value: "website", icon: Globe },
+  { value: "blog", icon: AlignLeft },
+];
+
 interface MobileChromeProps {
   children: React.ReactNode;
 }
@@ -19,8 +24,11 @@ interface MobileChromeProps {
 export function MobileChrome({ children }: MobileChromeProps) {
   const viewport = useUIStore((s) => s.viewport);
   const setViewport = useUIStore((s) => s.setViewport);
+  const activeTab = useUIStore((s) => s.activeTab);
+  const setActiveTab = useUIStore((s) => s.setActiveTab);
   const bgColor = useTypographyStore((s) => s.backgroundColor);
   const dark = isBgDark(bgColor);
+  const isScale = viewport === "scale";
 
   return (
     <div className="flex h-full items-start justify-center pt-2">
@@ -29,7 +37,7 @@ export function MobileChrome({ children }: MobileChromeProps) {
         style={{ width: 375, maxWidth: "100%", height: "calc(100% - 0.5rem)", backgroundColor: bgColor }}
       >
         {/* Dynamic island area — overlays content */}
-        <div className="relative z-10 flex items-center justify-center py-1.5">
+        <div className="relative z-10 flex items-center justify-center gap-2 py-1.5">
           <div
             className="flex items-center gap-0.5 rounded-full px-2 py-1"
             style={{ backgroundColor: dark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.06)" }}
@@ -50,6 +58,31 @@ export function MobileChrome({ children }: MobileChromeProps) {
                   <Icon className="size-4" />
                 </button>
               </span>
+            ))}
+          </div>
+          <div
+            className="flex items-center gap-0.5 rounded-full px-2 py-1 transition-opacity"
+            style={{
+              backgroundColor: dark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.06)",
+              opacity: isScale ? 0.4 : 1,
+              pointerEvents: isScale ? "none" : undefined,
+            }}
+          >
+            {TEMPLATES.map(({ value, icon: Icon }) => (
+              <button
+                key={value}
+                type="button"
+                onClick={() => setActiveTab(value)}
+                disabled={isScale}
+                className="rounded-full p-2 transition-colors"
+                style={{
+                  color: activeTab === value
+                    ? (dark ? "rgba(255,255,255,0.9)" : "rgba(0,0,0,0.7)")
+                    : (dark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.25)"),
+                }}
+              >
+                <Icon className="size-3.5" />
+              </button>
             ))}
           </div>
         </div>

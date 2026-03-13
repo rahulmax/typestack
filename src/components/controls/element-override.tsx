@@ -2,7 +2,7 @@
 
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { Button } from "@/components/ui/button";
+import { RotateCcw } from "lucide-react";
 import { useTypographyStore, isHeadingElement } from "@/store/typography-store";
 import { useUIStore } from "@/store/ui-store";
 import type { TypographyElement, GroupProperties } from "@/types/typography";
@@ -27,17 +27,58 @@ function ElementRow({ element }: { element: TypographyElement }) {
     DISPLAY_ELEMENTS.includes(element) ||
     element === "eyebrow";
 
+  const fontWeight = override.fontWeight ?? group.fontWeight;
+  const lineHeight = override.lineHeight ?? group.lineHeight;
+  const letterSpacing = override.letterSpacing ?? group.letterSpacing;
+  const wordSpacing = override.wordSpacing ?? group.wordSpacing;
+  const defaultTransform = element === "eyebrow" ? "uppercase" : "none";
+  const currentTransform = override.textTransform ?? defaultTransform;
+  const isUppercase = currentTransform === "uppercase";
+
+  const hasFontWeightOverride = override.fontWeight !== undefined && override.fontWeight !== group.fontWeight;
+  const hasLineHeightOverride = override.lineHeight !== undefined && override.lineHeight !== group.lineHeight;
+  const hasLetterSpacingOverride = override.letterSpacing !== undefined && override.letterSpacing !== group.letterSpacing;
+  const hasWordSpacingOverride = override.wordSpacing !== undefined && override.wordSpacing !== group.wordSpacing;
+  const hasCapsOverride = override.textTransform !== undefined && override.textTransform !== defaultTransform;
+
+  const clearField = (field: keyof GroupProperties) => {
+    const s = useTypographyStore.getState();
+    const cur = { ...s.overrides[element] };
+    delete cur[field];
+    const hasAny = Object.keys(cur).some((k) => k !== "isOverridden");
+    useTypographyStore.setState({
+      overrides: { ...s.overrides, [element]: { ...cur, isOverridden: hasAny } },
+    });
+  };
+
+  const clearCaps = () => {
+    const s = useTypographyStore.getState();
+    const cur = { ...s.overrides[element] };
+    delete cur.textTransform;
+    const hasAny = Object.keys(cur).some((k) => k !== "isOverridden");
+    useTypographyStore.setState({
+      overrides: { ...s.overrides, [element]: { ...cur, isOverridden: hasAny } },
+    });
+  };
+
   return (
     <div className={`${!isEnabled ? "opacity-50" : ""}`}>
       <div className="flex flex-col gap-3 pt-3">
           <div className="grid grid-cols-2 gap-x-5 gap-y-4">
             <div className="flex flex-col gap-1.5">
               <div className="flex items-center justify-between">
-                <Label className="text-xs text-muted-foreground">Font Weight</Label>
-                <span className="text-xs tabular-nums text-muted-foreground">{override.fontWeight ?? group.fontWeight}</span>
+                <div className="flex items-center gap-1">
+                  <Label className="text-xs text-muted-foreground">Font Weight</Label>
+                  {hasFontWeightOverride && (
+                    <button type="button" onClick={() => clearField("fontWeight")} className="text-muted-foreground hover:text-foreground">
+                      <RotateCcw className="size-2.5" />
+                    </button>
+                  )}
+                </div>
+                <span className="text-xs tabular-nums text-muted-foreground">{fontWeight}</span>
               </div>
               <Slider
-                value={[override.fontWeight ?? group.fontWeight]}
+                value={[fontWeight]}
                 onValueChange={([v]) => handleOverride({ fontWeight: v })}
                 min={100}
                 max={900}
@@ -48,11 +89,18 @@ function ElementRow({ element }: { element: TypographyElement }) {
 
             <div className="flex flex-col gap-1.5">
               <div className="flex items-center justify-between">
-                <Label className="text-xs text-muted-foreground">Line Height</Label>
-                <span className="text-xs tabular-nums text-muted-foreground">{(override.lineHeight ?? group.lineHeight).toFixed(2)}</span>
+                <div className="flex items-center gap-1">
+                  <Label className="text-xs text-muted-foreground">Line Height</Label>
+                  {hasLineHeightOverride && (
+                    <button type="button" onClick={() => clearField("lineHeight")} className="text-muted-foreground hover:text-foreground">
+                      <RotateCcw className="size-2.5" />
+                    </button>
+                  )}
+                </div>
+                <span className="text-xs tabular-nums text-muted-foreground">{lineHeight.toFixed(2)}</span>
               </div>
               <Slider
-                value={[override.lineHeight ?? group.lineHeight]}
+                value={[lineHeight]}
                 onValueChange={([v]) => handleOverride({ lineHeight: v })}
                 min={0.8}
                 max={2.5}
@@ -62,11 +110,18 @@ function ElementRow({ element }: { element: TypographyElement }) {
 
             <div className="flex flex-col gap-1.5">
               <div className="flex items-center justify-between">
-                <Label className="text-xs text-muted-foreground">Tracking</Label>
-                <span className="text-xs tabular-nums text-muted-foreground">{(override.letterSpacing ?? group.letterSpacing).toFixed(3)}em</span>
+                <div className="flex items-center gap-1">
+                  <Label className="text-xs text-muted-foreground">Tracking</Label>
+                  {hasLetterSpacingOverride && (
+                    <button type="button" onClick={() => clearField("letterSpacing")} className="text-muted-foreground hover:text-foreground">
+                      <RotateCcw className="size-2.5" />
+                    </button>
+                  )}
+                </div>
+                <span className="text-xs tabular-nums text-muted-foreground">{letterSpacing.toFixed(3)}em</span>
               </div>
               <Slider
-                value={[override.letterSpacing ?? group.letterSpacing]}
+                value={[letterSpacing]}
                 onValueChange={([v]) => handleOverride({ letterSpacing: v })}
                 min={-0.1}
                 max={0.2}
@@ -77,11 +132,18 @@ function ElementRow({ element }: { element: TypographyElement }) {
 
             <div className="flex flex-col gap-1.5">
               <div className="flex items-center justify-between">
-                <Label className="text-xs text-muted-foreground">Word Sp.</Label>
-                <span className="text-xs tabular-nums text-muted-foreground">{(override.wordSpacing ?? group.wordSpacing).toFixed(2)}em</span>
+                <div className="flex items-center gap-1">
+                  <Label className="text-xs text-muted-foreground">Word Sp.</Label>
+                  {hasWordSpacingOverride && (
+                    <button type="button" onClick={() => clearField("wordSpacing")} className="text-muted-foreground hover:text-foreground">
+                      <RotateCcw className="size-2.5" />
+                    </button>
+                  )}
+                </div>
+                <span className="text-xs tabular-nums text-muted-foreground">{wordSpacing.toFixed(2)}em</span>
               </div>
               <Slider
-                value={[override.wordSpacing ?? group.wordSpacing]}
+                value={[wordSpacing]}
                 onValueChange={([v]) => handleOverride({ wordSpacing: v })}
                 min={-0.1}
                 max={0.5}
@@ -91,65 +153,34 @@ function ElementRow({ element }: { element: TypographyElement }) {
             </div>
           </div>
 
-          {(() => {
-            const defaultTransform = element === "eyebrow" ? "uppercase" : "none";
-            const currentTransform = override.textTransform ?? defaultTransform;
-            const isUppercase = currentTransform === "uppercase";
-            return (
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                {showCapsToggle && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const s = useTypographyStore.getState();
-                      const cur = s.overrides[element];
-                      const next = isUppercase ? "none" : "uppercase";
-                      useTypographyStore.setState({
-                        overrides: {
-                          ...s.overrides,
-                          [element]: { ...cur, isOverridden: true, textTransform: next },
-                        },
-                      });
-                    }}
-                    className={`relative inline-flex h-4 w-8 shrink-0 cursor-pointer items-center rounded-sm transition-colors ${
-                      isUppercase
-                        ? "bg-foreground/25"
-                        : "bg-border"
-                    }`}
-                  >
-                    <span
-                      className={`pointer-events-none flex h-4 w-2.5 items-center justify-center rounded-sm border border-foreground/15 bg-foreground shadow-sm transition-transform ${
-                        isUppercase
-                          ? "translate-x-[22px]"
-                          : "translate-x-0"
-                      }`}
-                    >
-                      <span className="flex gap-px">
-                        <span className="block h-1.5 w-px rounded-full bg-background/40" />
-                        <span className="block h-1.5 w-px rounded-full bg-background/40" />
-                        <span className="block h-1.5 w-px rounded-full bg-background/40" />
-                      </span>
-                    </span>
-                  </button>
-                )}
-                {showCapsToggle && (
-                  <Label className="text-xs text-muted-foreground">All Caps</Label>
-                )}
-              </div>
-              {override.isOverridden && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => store.clearElementOverride(element)}
-                  className="h-6 px-2 text-[10px]"
-                >
-                  Reset
-                </Button>
+          {showCapsToggle && (
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  const s = useTypographyStore.getState();
+                  const cur = s.overrides[element];
+                  const next = isUppercase ? "none" : "uppercase";
+                  useTypographyStore.setState({
+                    overrides: {
+                      ...s.overrides,
+                      [element]: { ...cur, isOverridden: true, textTransform: next },
+                    },
+                  });
+                }}
+                className={`hw-btn flex-1 ${isUppercase ? "" : "opacity-50"}`}
+                data-active={isUppercase}
+                style={{ height: 36 }}
+              >
+                <span className="text-xs">ALL CAPS</span>
+              </button>
+              {hasCapsOverride && (
+                <button type="button" onClick={clearCaps} className="text-muted-foreground hover:text-foreground p-1">
+                  <RotateCcw className="size-3" />
+                </button>
               )}
             </div>
-            );
-          })()}
+          )}
         </div>
     </div>
   );

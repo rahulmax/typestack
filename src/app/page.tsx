@@ -130,9 +130,6 @@ export default function Home() {
           <Header
             onExportClick={handleExportClick}
             onShareClick={handleShareClick}
-            onHeadingColorClick={() => setColorPickerTarget("headings")}
-            onBodyColorClick={() => setColorPickerTarget("body")}
-            onBackgroundColorClick={() => setColorPickerTarget("background")}
             onBrowseStacks={() => setBrowseStacksOpen(true)}
           />
         }
