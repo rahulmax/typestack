@@ -1,6 +1,7 @@
-import type { TypographyConfig } from "@/types/typography";
+import type { TypographyConfig, TypographyElement } from "@/types/typography";
 import { computeScale } from "./scale";
 import { HEADING_ELEMENTS, DISPLAY_ELEMENTS } from "@/types/typography";
+import { buildFontImports } from "./google-fonts";
 
 function isHeadingLike(element: string): boolean {
   return (
@@ -9,14 +10,28 @@ function isHeadingLike(element: string): boolean {
   );
 }
 
+function collectFontFamilies(config: TypographyConfig, styles: { element: string; fontWeight: number }[]): Map<string, Set<number>> {
+  const families = new Map<string, Set<number>>()
+  for (const style of styles) {
+    const family = isHeadingLike(style.element)
+      ? config.headingsGroup.fontFamily
+      : config.bodyGroup.fontFamily
+    if (!families.has(family)) families.set(family, new Set())
+    families.get(family)!.add(style.fontWeight)
+  }
+  return families
+}
+
 /**
  * Generates a Tailwind v4 CSS theme block with @theme tokens.
  * Compatible with tweakcn and Tailwind CSS v4's native CSS config.
  */
 export function generateTailwindCSS(config: TypographyConfig): string {
-  const desktop = computeScale(config);
+  const desktop = computeScale(config).filter(s => !DISPLAY_ELEMENTS.includes(s.element as TypographyElement));
   const lines: string[] = [];
 
+  lines.push(...buildFontImports(collectFontFamilies(config, desktop)));
+  lines.push("");
   lines.push("@theme {");
   lines.push(`  --font-heading: '${config.headingsGroup.fontFamily}', sans-serif;`);
   lines.push(`  --font-body: '${config.bodyGroup.fontFamily}', sans-serif;`);
@@ -60,7 +75,7 @@ export function generateTailwindCSS(config: TypographyConfig): string {
  * Generates a Tailwind v3 theme extension object (JS/JSON).
  */
 export function generateTailwindConfig(config: TypographyConfig): string {
-  const desktop = computeScale(config);
+  const desktop = computeScale(config).filter(s => !DISPLAY_ELEMENTS.includes(s.element as TypographyElement));
 
   const fontSize: Record<string, [string, Record<string, string>]> = {};
 
@@ -83,5 +98,10 @@ export function generateTailwindConfig(config: TypographyConfig): string {
     fontSize,
   };
 
-  return `// tailwind.config.js — theme.extend\n${JSON.stringify(themeExtend, null, 2)}`;
+  const imports = buildFontImports(collectFontFamilies(config, desktop))
+  const importComment = imports.length
+    ? `/* Add to your global CSS:\n${imports.join("\n")}\n*/\n\n`
+    : ""
+
+  return `${importComment}// tailwind.config.js — theme.extend\n${JSON.stringify(themeExtend, null, 2)}`;
 }

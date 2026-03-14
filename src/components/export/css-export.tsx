@@ -36,7 +36,7 @@ export function CSSExport() {
           Copy
         </button>
       </div>
-      <pre className="max-h-[400px] overflow-auto rounded-md border bg-muted p-4 text-xs">
+      <pre className="max-h-[400px] overflow-auto rounded-md border bg-muted p-4 text-xs whitespace-pre-wrap break-all">
         <code>{css}</code>
       </pre>
     </div>

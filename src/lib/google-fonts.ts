@@ -66,3 +66,15 @@ export function getFontLinkUrl(family: string, weights: number[] = [400, 700]): 
   const weightStr = weights.map((w) => `0,${w};1,${w}`).join(";");
   return `https://fonts.googleapis.com/css2?family=${encodeURIComponent(family)}:ital,wght@${weightStr}&display=swap`;
 }
+
+export function buildFontImports(families: Map<string, Set<number>>): string[] {
+  const imports: string[] = []
+  for (const [family, weights] of families) {
+    const sorted = [...weights].sort((a, b) => a - b)
+    const wghtList = sorted.map((w) => `0,${w};1,${w}`).join(";")
+    imports.push(
+      `@import url('https://fonts.googleapis.com/css2?family=${encodeURIComponent(family)}:ital,wght@${wghtList}&display=swap');`
+    )
+  }
+  return imports
+}

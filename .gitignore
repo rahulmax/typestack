@@ -45,3 +45,10 @@ next-env.d.ts
 
 # clerk configuration (can include secrets)
 /.clerk/
+
+# playwright
+.playwright-mcp/
+test-results/
+
+# superpowers
+.superpowers/

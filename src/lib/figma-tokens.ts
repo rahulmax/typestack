@@ -3,7 +3,7 @@ import { computeScale } from "./scale";
 import { DISPLAY_ELEMENTS, HEADING_ELEMENTS } from "@/types/typography";
 
 export function generateTokensStudioJSON(config: TypographyConfig): string {
-  const desktop = computeScale(config);
+  const desktop = computeScale(config).filter(s => !DISPLAY_ELEMENTS.includes(s.element));
 
   const fontSizes: Record<string, unknown> = {};
   const fontWeights: Record<string, unknown> = {};

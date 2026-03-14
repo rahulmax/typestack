@@ -1,5 +1,6 @@
-import type { TypographyConfig } from "@/types/typography";
+import type { TypographyConfig, TypographyElement } from "@/types/typography";
 import { computeScale } from "./scale";
+import { DISPLAY_ELEMENTS } from "@/types/typography";
 
 interface FigmaVariable {
   name: string;
@@ -10,7 +11,7 @@ interface FigmaVariable {
 export function buildFigmaVariables(
   config: TypographyConfig
 ): FigmaVariable[] {
-  const desktop = computeScale(config);
+  const desktop = computeScale(config).filter(s => !DISPLAY_ELEMENTS.includes(s.element as TypographyElement));
   const variables: FigmaVariable[] = [];
 
   variables.push({

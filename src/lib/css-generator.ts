@@ -2,6 +2,7 @@ import type { TypographyConfig, TypographyElement, ResolvedElementStyle } from "
 import { computeScale, computeMobileScale } from "./scale";
 import { HEADING_ELEMENTS, DISPLAY_ELEMENTS } from "@/types/typography";
 import { computeSceneTones, hexToOklchString } from "./color-utils";
+import { buildFontImports } from "./google-fonts";
 
 function isHeadingLike(element: string): boolean {
   return (HEADING_ELEMENTS.includes(element as TypographyElement) || DISPLAY_ELEMENTS.includes(element as TypographyElement)) && element !== "eyebrow";
@@ -27,12 +28,26 @@ function elementStyleToCSS(style: ResolvedElementStyle): string {
   return `${selector} {\n${lines.join("\n")}\n}`;
 }
 
+function collectFontFamilies(config: TypographyConfig, styles: ResolvedElementStyle[]): Map<string, Set<number>> {
+  const families = new Map<string, Set<number>>()
+  for (const style of styles) {
+    const family = isHeadingLike(style.element)
+      ? config.headingsGroup.fontFamily
+      : config.bodyGroup.fontFamily
+    if (!families.has(family)) families.set(family, new Set())
+    families.get(family)!.add(style.fontWeight)
+  }
+  return families
+}
+
 export function generateCSS(config: TypographyConfig): string {
-  const desktop = computeScale(config);
-  const mobile = computeMobileScale(config);
+  const desktop = computeScale(config).filter(s => !DISPLAY_ELEMENTS.includes(s.element as TypographyElement));
+  const mobile = computeMobileScale(config).filter(s => !DISPLAY_ELEMENTS.includes(s.element as TypographyElement));
 
   const lines: string[] = [];
 
+  lines.push(...buildFontImports(collectFontFamilies(config, desktop)));
+  lines.push("");
   lines.push(":root {");
   lines.push(`  --ts-base-size: ${config.baseFontSize}px;`);
   lines.push(`  --ts-scale-ratio: ${config.scaleRatio};`);
