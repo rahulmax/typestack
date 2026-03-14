@@ -39,7 +39,7 @@ async function ensureSchema() {
 }
 
 // Bump this when presets change to trigger a re-seed
-const PRESET_VERSION = 2;
+const PRESET_VERSION = 3;
 
 async function seedPresets() {
   // Check if presets exist and are current version by looking at a marker

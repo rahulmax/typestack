@@ -14,6 +14,10 @@ interface PresetDef {
 
 const PRESETS: PresetDef[] = [
   // ——— Editorial: serif heading + sans body, magazine/newspaper feel ———
+  { name: "Playfair Display + Fira Sans", headingFont: "Playfair Display", headingWeight: 700, bodyFont: "Fira Sans", bodyWeight: 400, fg: "#2a2a28", bg: "#f0ece5", category: "editorial" },
+  { name: "Domine + Open Sans", headingFont: "Domine", headingWeight: 700, bodyFont: "Open Sans", bodyWeight: 400, fg: "#2b3a4a", bg: "#f0ebe0", category: "editorial" },
+  { name: "Source Serif Pro + Source Sans Pro", headingFont: "Source Serif Pro", headingWeight: 700, bodyFont: "Source Sans Pro", bodyWeight: 400, fg: "#2a1e15", bg: "#f0e8da", category: "editorial" },
+  { name: "Neuton + Lato", headingFont: "Neuton", headingWeight: 700, bodyFont: "Lato", bodyWeight: 400, fg: "#3a2a1e", bg: "#f0e8d8", category: "editorial" },
   { name: "Abril Fatface + Lato", headingFont: "Abril Fatface", headingWeight: 400, bodyFont: "Lato", bodyWeight: 400, fg: "#3a2a1e", bg: "#e8a06a", category: "editorial" },
   { name: "Oswald + Source Serif 4", headingFont: "Oswald", headingWeight: 700, bodyFont: "Source Serif 4", bodyWeight: 400, fg: "#f0ede8", bg: "#38404a", category: "editorial" },
   { name: "Source Sans Pro + Alegreya", headingFont: "Source Sans Pro", headingWeight: 700, bodyFont: "Alegreya", bodyWeight: 400, fg: "#2b2b1e", bg: "#d4a843", category: "editorial" },
@@ -37,6 +41,7 @@ const PRESETS: PresetDef[] = [
   { name: "Cormorant Garamond + Fira Sans", headingFont: "Cormorant Garamond", headingWeight: 600, bodyFont: "Fira Sans", bodyWeight: 400, fg: "#e8dcc8", bg: "#1a1a2e", category: "luxury" },
 
   // ——— Elegant: refined, thin, sophisticated ———
+  { name: "Rosario + Crimson Text", headingFont: "Rosario", headingWeight: 700, bodyFont: "Crimson Text", bodyWeight: 400, fg: "#2b2b2b", bg: "#f0ede8", category: "elegant" },
   { name: "Grand Hotel + Lato", headingFont: "Grand Hotel", headingWeight: 400, bodyFont: "Lato", bodyWeight: 400, fg: "#5a3a1b", bg: "#e8d8c5", category: "elegant" },
   { name: "Yeseva One + Josefin Sans", headingFont: "Yeseva One", headingWeight: 400, bodyFont: "Josefin Sans", bodyWeight: 400, fg: "#e8d8c5", bg: "#1b3a3a", category: "elegant" },
   { name: "Playfair Display + Work Sans", headingFont: "Playfair Display", headingWeight: 700, bodyFont: "Work Sans", bodyWeight: 400, fg: "#2a5a68", bg: "#f0ebe0", category: "elegant" },
@@ -46,6 +51,8 @@ const PRESETS: PresetDef[] = [
   { name: "Fraunces + Epilogue", headingFont: "Fraunces", headingWeight: 700, bodyFont: "Epilogue", bodyWeight: 400, fg: "#f0e8ea", bg: "#5a3858", category: "elegant" },
 
   // ——— Minimal: clean, restrained, geometric sans ———
+  { name: "Montserrat + Arvo", headingFont: "Montserrat", headingWeight: 700, bodyFont: "Arvo", bodyWeight: 400, fg: "#1b2838", bg: "#e8eef5", category: "minimal" },
+  { name: "Roboto Slab + Roboto", headingFont: "Roboto Slab", headingWeight: 700, bodyFont: "Roboto", bodyWeight: 400, fg: "#2b2b2b", bg: "#f5f5f5", category: "minimal" },
   { name: "Inter + Krub", headingFont: "Inter", headingWeight: 700, bodyFont: "Krub", bodyWeight: 400, fg: "#2b2b2b", bg: "#f0ede8", category: "minimal" },
   { name: "Instrument Sans + Geist", headingFont: "Instrument Sans", headingWeight: 600, bodyFont: "Geist", bodyWeight: 400, fg: "#e0ddd8", bg: "#1b2838", category: "minimal" },
   { name: "Montserrat + Karla", headingFont: "Montserrat", headingWeight: 700, bodyFont: "Karla", bodyWeight: 400, fg: "#e8d8c5", bg: "#4a5a2b", category: "minimal" },
@@ -85,6 +92,8 @@ const PRESETS: PresetDef[] = [
   { name: "Shrikhand + Outfit", headingFont: "Shrikhand", headingWeight: 400, bodyFont: "Outfit", bodyWeight: 400, fg: "#1a1a18", bg: "#f0c840", category: "bold" },
 
   // ——— Warm: slab serifs, earthy, organic ———
+  { name: "Varela Round + Lora", headingFont: "Varela Round", headingWeight: 400, bodyFont: "Lora", bodyWeight: 400, fg: "#2a3038", bg: "#e0d8d0", category: "warm" },
+  { name: "Merriweather Sans + Merriweather", headingFont: "Merriweather Sans", headingWeight: 700, bodyFont: "Merriweather", bodyWeight: 400, fg: "#2a2a28", bg: "#eae8e2", category: "warm" },
   { name: "Nunito + Lora", headingFont: "Nunito", headingWeight: 700, bodyFont: "Lora", bodyWeight: 400, fg: "#e8d8c5", bg: "#6b4a2b", category: "warm" },
   { name: "Rokkitt + Inter", headingFont: "Rokkitt", headingWeight: 700, bodyFont: "Inter", bodyWeight: 400, fg: "#c8b898", bg: "#4f492e", category: "warm" },
   { name: "Zilla Slab + Inter", headingFont: "Zilla Slab", headingWeight: 700, bodyFont: "Inter", bodyWeight: 400, fg: "#e8e0d0", bg: "#6a4830", category: "warm" },
@@ -102,6 +111,7 @@ const PRESETS: PresetDef[] = [
   { name: "Eczar + Gentium Book Plus", headingFont: "Eczar", headingWeight: 700, bodyFont: "Gentium Book Plus", bodyWeight: 400, fg: "#f0e8d8", bg: "#5a6830", category: "heritage" },
 
   // ——— Literary: book-inspired, reading-focused ———
+  { name: "Alegreya Sans + Alegreya", headingFont: "Alegreya Sans", headingWeight: 700, bodyFont: "Alegreya", bodyWeight: 400, fg: "#2b2b1e", bg: "#e8dcc8", category: "literary" },
   { name: "Philosopher + Mulish", headingFont: "Philosopher", headingWeight: 700, bodyFont: "Mulish", bodyWeight: 400, fg: "#e8d8c5", bg: "#3a2b1b", category: "literary" },
   { name: "Lora + Montserrat", headingFont: "Lora", headingWeight: 700, bodyFont: "Montserrat", bodyWeight: 400, fg: "#2a3038", bg: "#e0d8d0", category: "literary" },
   { name: "Vollkorn + Lato", headingFont: "Vollkorn", headingWeight: 700, bodyFont: "Lato", bodyWeight: 400, fg: "#3a2a1e", bg: "#f0e8d8", category: "literary" },
