@@ -97,7 +97,7 @@ export function BaseSettings() {
   const setScaleRatio = useTypographyStore((s) => s.setScaleRatio)
   const setScaleRatioPreset = useTypographyStore((s) => s.setScaleRatioPreset)
   return (
-    <div className="flex">
+    <div className="relative flex before:pointer-events-none before:absolute before:inset-y-0 before:-right-4 before:w-6 before:bg-gradient-to-r before:from-transparent before:via-black/[0.03] before:to-black/[0.07] dark:before:via-white/[0.02] dark:before:to-white/[0.04] before:shadow-[inset_-2px_0_4px_rgba(0,0,0,0.06)] dark:before:shadow-[inset_-2px_0_4px_rgba(0,0,0,0.3)] before:z-0">
       {/* Base Size column */}
       <div className="flex flex-1 min-w-0 flex-col gap-2 pt-3 pb-1 pr-2">
         <div className="flex items-center justify-center gap-1">

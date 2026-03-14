@@ -53,6 +53,7 @@ function createLabel(doc: Document, el: HTMLElement, opacity: string, colors: Co
   const label = doc.createElement("div");
   label.textContent = getElementLabel(el);
   label.setAttribute("data-ts-label", "true");
+  label.contentEditable = "false";
   Object.assign(label.style, {
     position: "absolute",
     top: "-18px",
@@ -73,6 +74,7 @@ function createLabel(doc: Document, el: HTMLElement, opacity: string, colors: Co
     fontStyle: "normal",
     textDecoration: "none",
     wordSpacing: "normal",
+    userSelect: "none",
     opacity,
   });
   return label;

@@ -77,6 +77,18 @@ export function generatePreviewCSS(config: TypographyConfig): string {
   lines.push(`a, a:visited, a:hover, a:active { color: inherit; text-decoration: underline; }`);
   lines.push(`.ill svg path:not([fill]), .ill svg circle:not([fill]), .ill svg rect:not([fill]), .ill svg polygon:not([fill]), .ill svg ellipse:not([fill]) { fill: currentColor; }`);
   const hc = config.headingsGroup.color;
+  lines.push(`#ill-hero { position: relative; overflow: visible; }`);
+  lines.push(`#ill-hero::before {`);
+  lines.push(`  content: "";`);
+  lines.push(`  position: absolute;`);
+  lines.push(`  inset: 10%;`);
+  lines.push(`  border-radius: 50%;`);
+  lines.push(`  background: radial-gradient(circle, color-mix(in srgb, ${hexToOklchString(hc)} 20%, transparent) 0%, color-mix(in srgb, ${hexToOklchString(hc)} 14%, transparent) 15%, color-mix(in srgb, ${hexToOklchString(hc)} 8%, transparent) 30%, color-mix(in srgb, ${hexToOklchString(hc)} 3%, transparent) 50%, transparent 70%);`);
+  lines.push(`  filter: blur(30px);`);
+  lines.push(`  pointer-events: none;`);
+  lines.push(`  z-index: 0;`);
+  lines.push(`}`);
+  lines.push(`#ill-hero > * { position: relative; z-index: 1; }`);
   const st = computeSceneTones(config.backgroundColor, config.headingsGroup.color);
   lines.push(`:root { --bg-color: ${hexToOklchString(config.backgroundColor)}; --tone-base: ${hexToOklchString(hc)}; --tone-1: ${st.tone1}; --tone-2: ${st.tone2}; --scene-tone-1: ${st.tone1}; --scene-tone-2: ${st.tone2}; --scene-tone-3: ${st.tone3}; }`);
   lines.push("");
@@ -96,6 +108,21 @@ export function generatePreviewCSS(config: TypographyConfig): string {
     lines.push(`  color: ${hexToOklchString(style.color)};`);
     lines.push(`  text-transform: ${style.textTransform};`);
     lines.push("}");
+    lines.push("");
+  }
+
+  if (config.scaleRatio >= 1.414) {
+    lines.push(`#hero { display: flex !important; flex-direction: column !important; align-items: center !important; text-align: center !important; max-width: 100% !important; padding: 5rem 1.5rem 5rem !important; }`);
+    lines.push(`#hero > div:first-child { max-width: 900px; }`);
+    lines.push(`#hero p { margin-left: auto !important; margin-right: auto !important; }`);
+    lines.push(`#hero > div:first-child > div:last-child { justify-content: center; }`);
+    lines.push(`#ill-hero { display: none !important; }`);
+    lines.push("");
+  } else if (config.scaleRatio > 1.2) {
+    lines.push(`#hero { grid-template-columns: 1.4fr 0.6fr !important; gap: 2rem !important; }`);
+    lines.push("");
+  } else if (config.scaleRatio > 1.125) {
+    lines.push(`#ill-hero { transform: scale(0.85); transform-origin: center center; }`);
     lines.push("");
   }
 

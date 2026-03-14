@@ -32,7 +32,7 @@ export function Sidebar({ children }: SidebarProps) {
           <div className="absolute top-0 right-0 bottom-0 w-px bg-border z-[1]" />
           <div
             ref={scrollRef}
-            className="relative z-[2] h-full overflow-y-auto flex flex-col -mr-3 pr-3 sidebar-scroll"
+            className="relative z-[2] h-full overflow-y-auto overflow-x-clip flex flex-col -mr-3 pr-3 sidebar-scroll"
           >{children}</div>
           {/* Portal target — outside scroll container, overflow visible */}
           <div

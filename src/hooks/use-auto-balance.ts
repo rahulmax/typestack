@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 import { useTypographyStore } from "@/store/typography-store";
 import { resolveFontMetrics } from "@/lib/font-metrics";
 import { computeAutoBalance } from "@/lib/auto-balance";
-import { hexToOklch } from "@/lib/color-utils";
 import { ALL_ELEMENTS, HEADING_ELEMENTS, DISPLAY_ELEMENTS, BODY_ELEMENTS, SCALE_POSITIONS } from "@/types/typography";
 import type { TypographyElement } from "@/types/typography";
 
@@ -21,7 +20,6 @@ export function useAutoBalance() {
   const bodyWeight = useTypographyStore((s) => s.bodyGroup.fontWeight);
   const baseFontSize = useTypographyStore((s) => s.baseFontSize);
   const scaleRatio = useTypographyStore((s) => s.scaleRatio);
-  const backgroundColor = useTypographyStore((s) => s.backgroundColor);
   const overrides = useTypographyStore((s) => s.overrides);
   const setElementOverride = useTypographyStore((s) => s.setElementOverride);
   const clearElementOverride = useTypographyStore((s) => s.clearElementOverride);
@@ -51,7 +49,6 @@ export function useAutoBalance() {
 
       if (cancelled) return;
 
-      const isDarkMode = hexToOklch(backgroundColor).l <= 0.4;
       const newAutoBalanced = new Set<TypographyElement>();
 
       for (const element of ALL_ELEMENTS) {
@@ -88,7 +85,7 @@ export function useAutoBalance() {
           fontSize,
           baseFontSize,
           scaleRatio,
-          isDarkMode,
+          false,
           isUppercase,
           baseWeight,
           isBody,
@@ -98,7 +95,6 @@ export function useAutoBalance() {
           lineHeight: balanced.lineHeight,
           letterSpacing: balanced.letterSpacing,
           wordSpacing: balanced.wordSpacing,
-          fontWeight: balanced.suggestedWeight,
         });
 
         newAutoBalanced.add(element);
@@ -121,6 +117,5 @@ export function useAutoBalance() {
     bodyWeight,
     baseFontSize,
     scaleRatio,
-    backgroundColor,
   ]);
 }

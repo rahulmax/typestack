@@ -71,7 +71,7 @@ function Slider({
           </span>
           <div className="absolute inset-y-0 left-14 right-1 flex items-center justify-evenly pointer-events-none z-0">
             {Array.from({ length: TICK_COUNT }, (_, i) => (
-              <span key={i} className="h-4 w-px bg-stone-400/40 dark:bg-stone-600/20" />
+              <span key={i} className="h-4 w-px bg-stone-400/20 dark:bg-stone-600/10" />
             ))}
           </div>
           <SliderPrimitive.Root
@@ -105,9 +105,19 @@ function Slider({
                     "shadow-[0_2px_4px_rgba(0,0,0,0.3),0_4px_8px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.15),inset_0_-1px_0_rgba(0,0,0,0.1)]"
                   )}
                 >
+                  <div className="absolute left-1.5 top-1/2 -translate-y-1/2 flex gap-[2px] pointer-events-none">
+                    {Array.from({ length: 2 }, (_, i) => (
+                      <span key={i} className="block h-1.5 w-px bg-stone-400/30 dark:bg-white/25" />
+                    ))}
+                  </div>
                   <span className="font-[family-name:var(--font-host-grotesk)] text-sm font-semibold tabular-nums pointer-events-none text-stone-900 dark:text-white slider-embossed-text">
                     {displayValue}
                   </span>
+                  <div className="absolute right-1.5 top-1/2 -translate-y-1/2 flex gap-[2px] pointer-events-none">
+                    {Array.from({ length: 2 }, (_, i) => (
+                      <span key={i} className="block h-1.5 w-px bg-stone-400/30 dark:bg-white/25" />
+                    ))}
+                  </div>
                 </SliderPrimitive.Thumb>
               )
             })}
