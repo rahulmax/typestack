@@ -16,11 +16,13 @@ function Slider({
   label,
   formatValue,
   disabledText,
+  onReset,
   ...props
 }: React.ComponentProps<typeof SliderPrimitive.Root> & {
   label?: string
   formatValue?: (v: number) => string
   disabledText?: string
+  onReset?: () => void
 }) {
   const _values = React.useMemo(
     () =>
@@ -50,6 +52,7 @@ function Slider({
         className
       )}
       data-disabled={props.disabled || undefined}
+      onDoubleClick={onReset}
     >
       {isDisabledText ? (
         <>

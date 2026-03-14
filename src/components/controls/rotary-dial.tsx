@@ -163,9 +163,10 @@ interface RotaryDialProps {
   value: number
   onChange: (value: number) => void
   onPresetChange?: (presetName: string) => void
+  onReset?: () => void
 }
 
-export const RotaryDial = memo(function RotaryDial({ value, onChange, onPresetChange }: RotaryDialProps) {
+export const RotaryDial = memo(function RotaryDial({ value, onChange, onPresetChange, onReset }: RotaryDialProps) {
   const knobRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const dragRef = useRef<{ startY: number; startIndex: number } | null>(null)
@@ -265,7 +266,7 @@ export const RotaryDial = memo(function RotaryDial({ value, onChange, onPresetCh
   )
 
   return (
-    <div ref={containerRef} className="relative" style={{ height: SVG_H, marginRight: -16 }}>
+    <div ref={containerRef} className="relative" style={{ height: SVG_H, marginRight: -16 }} onDoubleClick={onReset}>
       {/* Tick lines + labels with hit areas */}
       <svg
         className="absolute top-0"

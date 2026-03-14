@@ -44,7 +44,7 @@ function SampleTextSelector({ fgColor, bgColor }: { fgColor: string; bgColor: st
 
   const controlStyle: React.CSSProperties = {
     color: fgColor,
-    backgroundColor: bgColor,
+    background: bgColor,
     borderColor: `color-mix(in srgb, ${fgColor} 25%, transparent)`,
   };
 

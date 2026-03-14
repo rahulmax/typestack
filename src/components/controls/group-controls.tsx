@@ -80,6 +80,7 @@ export function GroupControls({
             disabled={disabled}
             disabledText={disabled ? "auto" : undefined}
             formatValue={(v) => String(v)}
+            onReset={() => onUpdate({ fontWeight: defaults.fontWeight })}
           />
         </div>
 
@@ -103,6 +104,7 @@ export function GroupControls({
             step={0.05}
             disabled={disabled}
             disabledText={disabled ? "auto" : undefined}
+            onReset={() => onUpdate({ lineHeight: defaults.lineHeight })}
           />
         </div>
 
@@ -127,6 +129,7 @@ export function GroupControls({
             disabled={disabled}
             disabledText={disabled ? "auto" : undefined}
             formatValue={(v) => v.toFixed(3)}
+            onReset={() => onUpdate({ letterSpacing: defaults.letterSpacing })}
           />
         </div>
 
@@ -151,6 +154,7 @@ export function GroupControls({
             disabled={disabled}
             disabledText={disabled ? "auto" : undefined}
             formatValue={(v) => v.toFixed(2)}
+            onReset={() => onUpdate({ wordSpacing: defaults.wordSpacing })}
           />
         </div>
       </div>

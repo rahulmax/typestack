@@ -11,7 +11,7 @@ const VSLIDER_MIN = 8
 const VSLIDER_MAX = 32
 const TICK_COUNT = 10
 
-function VerticalBaseSlider({ value, onChange, height }: { value: number; onChange: (v: number) => void; height: number }) {
+function VerticalBaseSlider({ value, onChange, onReset, height }: { value: number; onChange: (v: number) => void; onReset?: () => void; height: number }) {
   const trackRef = useRef<HTMLDivElement>(null)
   const [pressing, setPressing] = useState(false)
 
@@ -54,6 +54,7 @@ function VerticalBaseSlider({ value, onChange, height }: { value: number; onChan
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
+      onDoubleClick={onReset}
     >
       {/* Ticks */}
       <div className="absolute inset-x-0 top-4 bottom-4 flex flex-col items-center justify-evenly pointer-events-none">
@@ -108,7 +109,7 @@ export function BaseSettings() {
           </button>
         </div>
         <div className="relative z-10 flex justify-center">
-          <VerticalBaseSlider value={baseFontSize} onChange={setBaseFontSize} height={184} />
+          <VerticalBaseSlider value={baseFontSize} onChange={setBaseFontSize} onReset={() => setBaseFontSize(DEFAULT_CONFIG.baseFontSize)} height={184} />
         </div>
       </div>
       <div className="w-[3px] min-w-[3px] flex-shrink-0 self-stretch bg-gradient-to-r from-stone-300 via-stone-200 to-stone-100 shadow-[inset_1px_0_2px_rgba(0,0,0,0.12),1px_0_0_rgba(255,255,255,0.5)] dark:from-stone-900 dark:via-stone-800 dark:to-stone-700 dark:shadow-[inset_1px_0_2px_rgba(0,0,0,0.6),1px_0_0_rgba(255,255,255,0.04)]" />
@@ -125,6 +126,7 @@ export function BaseSettings() {
             value={scaleRatio}
             onChange={setScaleRatio}
             onPresetChange={setScaleRatioPreset}
+            onReset={() => { setScaleRatio(DEFAULT_CONFIG.scaleRatio); setScaleRatioPreset(DEFAULT_CONFIG.scaleRatioPreset) }}
           />
         </div>
       </div>

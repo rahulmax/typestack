@@ -36,6 +36,7 @@ export function MobileSettings() {
             max={20}
             step={1}
             formatValue={(v) => `${v}px`}
+            onReset={() => updateMobile({ baseFontSize: defaults.baseFontSize })}
           />
         </div>
 
@@ -57,6 +58,7 @@ export function MobileSettings() {
             min={1.05}
             max={1.5}
             step={0.005}
+            onReset={() => updateMobile({ scaleRatio: defaults.scaleRatio })}
           />
         </div>
       </div>

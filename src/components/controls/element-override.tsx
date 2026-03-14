@@ -84,6 +84,7 @@ function ElementRow({ element }: { element: TypographyElement }) {
                 max={900}
                 step={100}
                 formatValue={(v) => String(v)}
+                onReset={() => clearField("fontWeight")}
               />
             </div>
 
@@ -105,6 +106,7 @@ function ElementRow({ element }: { element: TypographyElement }) {
                 min={0.8}
                 max={2.5}
                 step={0.05}
+                onReset={() => clearField("lineHeight")}
               />
             </div>
 
@@ -127,6 +129,7 @@ function ElementRow({ element }: { element: TypographyElement }) {
                 max={0.2}
                 step={0.005}
                 formatValue={(v) => v.toFixed(3)}
+                onReset={() => clearField("letterSpacing")}
               />
             </div>
 
@@ -149,6 +152,7 @@ function ElementRow({ element }: { element: TypographyElement }) {
                 max={0.5}
                 step={0.01}
                 formatValue={(v) => v.toFixed(2)}
+                onReset={() => clearField("wordSpacing")}
               />
             </div>
           </div>
