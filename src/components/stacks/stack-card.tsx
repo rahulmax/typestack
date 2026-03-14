@@ -57,6 +57,15 @@ export function StackCard({
             }}
           >
             {headingFont}
+            <span className="opacity-30"> & </span>
+            <span
+              style={{
+                fontFamily: `"${bodyFont}", sans-serif`,
+                fontWeight: config.bodyGroup.fontWeight,
+              }}
+            >
+              {bodyFont}
+            </span>
           </p>
           <p
             className="mt-2 text-sm leading-relaxed"

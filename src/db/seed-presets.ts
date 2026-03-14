@@ -29,6 +29,8 @@ const PRESETS: PresetDef[] = [
   { name: "Newsreader + Inter", headingFont: "Newsreader", headingWeight: 700, bodyFont: "Inter", bodyWeight: 400, category: "editorial" },
   { name: "Noto Serif Display + Be Vietnam Pro", headingFont: "Noto Serif Display", headingWeight: 700, bodyFont: "Be Vietnam Pro", bodyWeight: 400, category: "editorial" },
   { name: "Libre Caslon Text + Libre Franklin", headingFont: "Libre Caslon Text", headingWeight: 700, bodyFont: "Libre Franklin", bodyWeight: 400, category: "editorial" },
+  { name: "Oswald + EB Garamond", headingFont: "Oswald", headingWeight: 700, bodyFont: "EB Garamond", bodyWeight: 400, category: "editorial" },
+  { name: "Lustria + Lato", headingFont: "Lustria", headingWeight: 400, bodyFont: "Lato", bodyWeight: 400, category: "editorial" },
 
   // ——— Luxury: premium, Didone, fashion-inspired ———
   { name: "Unica One + Crimson Text", headingFont: "Unica One", headingWeight: 400, bodyFont: "Crimson Text", bodyWeight: 400, category: "luxury" },
@@ -37,6 +39,7 @@ const PRESETS: PresetDef[] = [
   { name: "Playfair Display + Montserrat", headingFont: "Playfair Display", headingWeight: 700, bodyFont: "Montserrat", bodyWeight: 400, category: "luxury" },
   { name: "Bodoni Moda + DM Sans", headingFont: "Bodoni Moda", headingWeight: 700, bodyFont: "DM Sans", bodyWeight: 400, category: "luxury" },
   { name: "Cormorant Garamond + Fira Sans", headingFont: "Cormorant Garamond", headingWeight: 600, bodyFont: "Fira Sans", bodyWeight: 400, category: "luxury" },
+  { name: "Cormorant Garamond + Proza Libre", headingFont: "Cormorant Garamond", headingWeight: 600, bodyFont: "Proza Libre", bodyWeight: 400, category: "luxury" },
 
   // ——— Elegant: refined, thin, sophisticated ———
   { name: "Rosario + Crimson Text", headingFont: "Rosario", headingWeight: 700, bodyFont: "Crimson Text", bodyWeight: 400, category: "elegant" },
@@ -47,6 +50,8 @@ const PRESETS: PresetDef[] = [
   { name: "Italiana + Bellota Text", headingFont: "Italiana", headingWeight: 400, bodyFont: "Bellota Text", bodyWeight: 400, category: "elegant" },
   { name: "Instrument Serif + Instrument Sans", headingFont: "Instrument Serif", headingWeight: 400, bodyFont: "Instrument Sans", bodyWeight: 400, category: "elegant" },
   { name: "Fraunces + Epilogue", headingFont: "Fraunces", headingWeight: 700, bodyFont: "Epilogue", bodyWeight: 400, category: "elegant" },
+  { name: "Halant + Nunito Sans", headingFont: "Halant", headingWeight: 600, bodyFont: "Nunito Sans", bodyWeight: 400, category: "elegant" },
+  { name: "Lora + Merriweather", headingFont: "Lora", headingWeight: 700, bodyFont: "Merriweather", bodyWeight: 400, category: "elegant" },
 
   // ——— Minimal: clean, restrained, geometric sans ———
   { name: "Montserrat + Arvo", headingFont: "Montserrat", headingWeight: 700, bodyFont: "Arvo", bodyWeight: 400, category: "minimal" },
@@ -68,6 +73,7 @@ const PRESETS: PresetDef[] = [
   { name: "Space Mono + Plus Jakarta Sans", headingFont: "Space Mono", headingWeight: 700, bodyFont: "Plus Jakarta Sans", bodyWeight: 400, category: "tech" },
   { name: "Syne + Inter", headingFont: "Syne", headingWeight: 700, bodyFont: "Inter", bodyWeight: 400, category: "tech" },
   { name: "Ubuntu + Rokkitt", headingFont: "Ubuntu", headingWeight: 700, bodyFont: "Rokkitt", bodyWeight: 400, category: "tech" },
+  { name: "Ubuntu + Open Sans", headingFont: "Ubuntu", headingWeight: 700, bodyFont: "Open Sans", bodyWeight: 400, category: "tech" },
   { name: "Sora", headingFont: "Sora", headingWeight: 700, bodyFont: "Sora", bodyWeight: 400, category: "tech" },
   { name: "Manrope", headingFont: "Manrope", headingWeight: 700, bodyFont: "Manrope", bodyWeight: 400, category: "tech" },
   { name: "Funnel Display + Inter", headingFont: "Funnel Display", headingWeight: 700, bodyFont: "Inter", bodyWeight: 400, category: "tech" },
@@ -107,6 +113,8 @@ const PRESETS: PresetDef[] = [
   { name: "Lancelot + Poppins", headingFont: "Lancelot", headingWeight: 400, bodyFont: "Poppins", bodyWeight: 400, category: "heritage" },
   { name: "Libre Baskerville + Source Sans 3", headingFont: "Libre Baskerville", headingWeight: 700, bodyFont: "Source Sans 3", bodyWeight: 400, category: "heritage" },
   { name: "Eczar + Gentium Book Plus", headingFont: "Eczar", headingWeight: 700, bodyFont: "Gentium Book Plus", bodyWeight: 400, category: "heritage" },
+  { name: "Quattrocento + Quattrocento Sans", headingFont: "Quattrocento", headingWeight: 700, bodyFont: "Quattrocento Sans", bodyWeight: 400, category: "heritage" },
+  { name: "Quattrocento + Fanwood Text", headingFont: "Quattrocento", headingWeight: 700, bodyFont: "Fanwood Text", bodyWeight: 400, category: "heritage" },
 
   // ——— Literary: book-inspired, reading-focused ———
   { name: "Alegreya Sans + Alegreya", headingFont: "Alegreya Sans", headingWeight: 700, bodyFont: "Alegreya", bodyWeight: 400, category: "literary" },
@@ -123,6 +131,9 @@ const PRESETS: PresetDef[] = [
   { name: "Roboto Serif + Instrument Sans", headingFont: "Roboto Serif", headingWeight: 700, bodyFont: "Instrument Sans", bodyWeight: 400, category: "corporate" },
   { name: "Lexend + Source Serif 4", headingFont: "Lexend", headingWeight: 700, bodyFont: "Source Serif 4", bodyWeight: 400, category: "corporate" },
   { name: "Albert Sans + Lora", headingFont: "Albert Sans", headingWeight: 700, bodyFont: "Lora", bodyWeight: 400, category: "corporate" },
+  { name: "Montserrat + Hind", headingFont: "Montserrat", headingWeight: 700, bodyFont: "Hind", bodyWeight: 400, category: "corporate" },
+  { name: "Montserrat + Crimson Text", headingFont: "Montserrat", headingWeight: 700, bodyFont: "Crimson Text", bodyWeight: 400, category: "corporate" },
+  { name: "Open Sans + Open Sans Condensed", headingFont: "Open Sans", headingWeight: 700, bodyFont: "Open Sans Condensed", bodyWeight: 400, category: "corporate" },
 
   // ——— Creative: artistic, unusual, boundary-pushing ———
   { name: "Arima Madurai + Mulish", headingFont: "Arima Madurai", headingWeight: 700, bodyFont: "Mulish", bodyWeight: 400, category: "creative" },
