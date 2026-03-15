@@ -23,6 +23,8 @@ The `.pen` file is a JSON document with a top-level `variables` object. Each var
 - `fontWeight.<element>` — number (e.g. 700)
 - `lineHeight.<element>` — number, unitless ratio (e.g. 1.2)
 - `letterSpacing.<element>` — number, em value (e.g. 0.02)
+- `wordSpacing.<element>` — number, em value (e.g. 0)
+- `textTransform.<element>` — string, "none" or "uppercase"
 
 ### Example output
 
@@ -36,7 +38,9 @@ The `.pen` file is a JSON document with a top-level `variables` object. Each var
     "fontSize.p": { "type": "number", "value": 1 },
     "fontWeight.h1": { "type": "number", "value": 700 },
     "lineHeight.h1": { "type": "number", "value": 1.2 },
-    "letterSpacing.h1": { "type": "number", "value": 0 }
+    "letterSpacing.h1": { "type": "number", "value": 0 },
+    "wordSpacing.h1": { "type": "number", "value": 0 },
+    "textTransform.eyebrow": { "type": "string", "value": "uppercase" }
   }
 }
 ```
@@ -58,7 +62,7 @@ Location: `src/lib/pen-export.ts`
 2. Filter out display elements
 3. Build variables object:
    - Two string variables for font families
-   - Four number variables per element (fontSize, fontWeight, lineHeight, letterSpacing)
+   - Six variables per element (fontSize, fontWeight, lineHeight, letterSpacing, wordSpacing as number; textTransform as string)
 4. Return `JSON.stringify({ variables }, null, 2)`
 
 ## Component: `PenExport`
@@ -74,4 +78,12 @@ Follows the `FigmaJSONExport` pattern exactly:
 
 ## Export Dialog Change
 
-Add `{ value: "pen", label: "Pencil" }` to the `TABS` array and render `<PenExport />` when the tab is active.
+Add `{ value: "pen", label: "Pencil" }` to the `TABS` array and render `<PenExport />` when the tab is active. Update `DialogDescription` to mention Pencil.
+
+## Testing
+
+Unit test for `generatePenFile()` in vitest covering:
+- Correct variable names and types
+- Display element filtering
+- Font family string variables present
+- All per-element token categories present
