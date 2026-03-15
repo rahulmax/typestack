@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback, useRef } from "react"
+import { useState, useCallback, useRef, useReducer } from "react"
 import {
   Popover,
   PopoverContent,
@@ -12,6 +12,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { Grid3x3, CircleDot, Plus, RectangleVertical, Slash, Hash, Minus, Diamond, Ban } from "lucide-react"
+import { ContrastMeter } from "./contrast-meter"
 import { HexColorPicker } from "react-colorful"
 import { HexRgbInput } from "@/components/controls/color-picker/hex-rgb-input"
 import { TailwindPalette } from "@/components/controls/color-picker/tailwind-palette"
@@ -104,6 +105,7 @@ const PATTERN_TOOLTIPS: Record<string, string> = {
 }
 
 export function SidebarToolbar() {
+  const [pulseKey, bump] = useReducer((n: number) => n + 1, 0)
   const colorsRef = useRef<HTMLDivElement>(null)
   const headingColor = useTypographyStore((s) => s.headingsGroup.color)
   const bodyColor = useTypographyStore((s) => s.bodyGroup.color)
@@ -123,6 +125,7 @@ export function SidebarToolbar() {
 
   const handleReverse = useCallback(() => {
     setColors(backgroundColor, backgroundColor, headingColor)
+    bump()
   }, [backgroundColor, headingColor, setColors])
 
   return (
@@ -178,6 +181,10 @@ export function SidebarToolbar() {
             </TooltipTrigger>
             <TooltipContent>Swap foreground / background</TooltipContent>
           </Tooltip>
+        </div>
+        {/* Contrast Meter */}
+        <div className="mt-2">
+          <ContrastMeter pulse={pulseKey} />
         </div>
       </div>
 

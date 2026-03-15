@@ -163,14 +163,22 @@ function ElementRow({ element }: { element: TypographyElement }) {
                 type="button"
                 onClick={() => {
                   const s = useTypographyStore.getState();
-                  const cur = s.overrides[element];
+                  const cur = { ...s.overrides[element] };
                   const next = isUppercase ? "none" : "uppercase";
-                  useTypographyStore.setState({
-                    overrides: {
-                      ...s.overrides,
-                      [element]: { ...cur, isOverridden: true, textTransform: next },
-                    },
-                  });
+                  if (next === defaultTransform) {
+                    delete cur.textTransform;
+                    const hasAny = Object.keys(cur).some((k) => k !== "isOverridden");
+                    useTypographyStore.setState({
+                      overrides: { ...s.overrides, [element]: { ...cur, isOverridden: hasAny } },
+                    });
+                  } else {
+                    useTypographyStore.setState({
+                      overrides: {
+                        ...s.overrides,
+                        [element]: { ...cur, isOverridden: true, textTransform: next },
+                      },
+                    });
+                  }
                 }}
                 className={`hw-btn flex-1 ${isUppercase ? "" : "opacity-50"}`}
                 data-active={isUppercase}

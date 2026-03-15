@@ -48,7 +48,7 @@ function relativeLuminance(r: number, g: number, b: number): number {
   return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
 }
 
-function contrastRatio(
+export function contrastRatio(
   rgb1: [number, number, number],
   rgb2: [number, number, number]
 ): number {

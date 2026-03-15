@@ -45,7 +45,7 @@ export function StackCard({
     >
       {/* Preview area — fixed height for uniform grid */}
       <div
-        className="flex h-[260px] flex-col gap-4 overflow-hidden px-5 pb-5 pt-5 transition-colors duration-300"
+        className="flex h-[280px] flex-col gap-4 overflow-hidden px-5 pb-6 pt-5 transition-colors duration-300"
         style={{ backgroundColor: bg, color: fg }}
       >
         <div className="shrink-0">
@@ -56,16 +56,7 @@ export function StackCard({
               fontWeight: config.headingsGroup.fontWeight,
             }}
           >
-            {headingFont}
-            <span className="opacity-30"> & </span>
-            <span
-              style={{
-                fontFamily: `"${bodyFont}", sans-serif`,
-                fontWeight: config.bodyGroup.fontWeight,
-              }}
-            >
-              {bodyFont}
-            </span>
+            {headingFont === bodyFont ? headingFont : `${headingFont} & ${bodyFont}`}
           </p>
           <p
             className="mt-2 text-sm leading-relaxed"
@@ -103,23 +94,17 @@ export function StackCard({
 
       {/* Info bar — slides up on hover */}
       <div
-        className="absolute inset-x-0 bottom-0 flex items-center justify-between backdrop-blur-sm px-4 py-2 transition-all duration-300 ease-out translate-y-full group-hover:translate-y-0"
+        className="absolute inset-x-0 bottom-0 flex items-center justify-end backdrop-blur-sm px-4 py-2 transition-all duration-300 ease-out translate-y-full group-hover:translate-y-0"
         style={{ backgroundColor: `color-mix(in srgb, ${bg} 88%, transparent)` }}
       >
-        <span
-          className="text-xs font-medium truncate max-w-[180px]"
-          style={{ color: fg }}
-        >
-          {stack.name}
-        </span>
         <div className="flex items-center gap-0.5">
           <Button
             variant="ghost"
             size="sm"
             className="h-7 w-7 p-0"
             onClick={(e) => {
-              e.stopPropagation();
-              onLike(stack);
+              e.stopPropagation()
+              onLike(stack)
             }}
           >
             <Heart
@@ -130,18 +115,13 @@ export function StackCard({
               }`}
             />
           </Button>
-          {stack.likesCount > 0 && (
-            <span className="text-[10px] text-neutral-400 tabular-nums">
-              {stack.likesCount}
-            </span>
-          )}
           <Button
             variant="ghost"
             size="sm"
             className="h-7 w-7 p-0"
             onClick={(e) => {
-              e.stopPropagation();
-              onSave(stack);
+              e.stopPropagation()
+              onSave(stack)
             }}
           >
             <Bookmark

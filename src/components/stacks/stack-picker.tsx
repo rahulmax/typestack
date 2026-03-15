@@ -129,7 +129,7 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
         <PopoverTrigger asChild>
           <button
             type="button"
-            className="hw-btn flex !h-12 flex-1 min-w-0 items-center !justify-between !rounded-[4px] px-3 !text-base text-left"
+            className="hw-display cassette-eject-trigger flex-1 min-w-0 !justify-between text-base text-left"
           >
             <span className="truncate">
               {hasCustomName ? (
@@ -149,7 +149,7 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
             </svg>
           </button>
         </PopoverTrigger>
-        <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0 surface-noise hw-module-panel" align="start">
+        <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0 surface-noise hw-module-panel cassette-eject" align="start">
           <span className="hw-bolt hw-bolt-tl" />
           <span className="hw-bolt hw-bolt-tr" />
           <span className="hw-bolt hw-bolt-bl" />
@@ -237,15 +237,10 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
         <TooltipTrigger asChild>
           <button
             type="button"
-            onClick={handleRandomStack}
-            disabled={randomLoading}
-            className="hw-btn !h-12 !w-12 shrink-0 !rounded-[4px]"
+            onClick={() => { if (!randomLoading) handleRandomStack() }}
+            className={`hw-btn !h-12 !w-12 shrink-0 !rounded-[4px] ${randomLoading ? "hw-btn-glow-green" : ""}`}
           >
-            {randomLoading ? (
-              <span className="block h-2 w-2 rounded-full bg-green-500 dark:bg-green-400 animate-blink-fast shadow-[0_0_4px_theme(colors.green.500),0_0_8px_theme(colors.green.500/50%)] dark:shadow-[0_0_6px_theme(colors.green.400),0_0_12px_theme(colors.green.400/60%)]" />
-            ) : (
-              <Shuffle className="size-4" />
-            )}
+            <Shuffle className="size-4" />
           </button>
         </TooltipTrigger>
         <TooltipContent>Random preset</TooltipContent>

@@ -76,7 +76,7 @@ export function FontPicker({
           ref={triggerRef}
           type="button"
           onClick={calcOffset}
-          className="hw-btn flex h-8 flex-1 min-w-0 items-center !justify-between !rounded-[4px] px-3 text-sm text-left"
+          className="hw-display !h-8 flex-1 min-w-0 !justify-between !text-sm text-left"
           style={{ fontFamily: currentFont }}
         >
           <span className="truncate">{currentFont}</span>

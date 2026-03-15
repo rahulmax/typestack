@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useCallback, useState } from "react"
+import { useRef, useCallback } from "react"
 import { RotateCcw } from "lucide-react"
 import { Label } from "@/components/ui/label"
 import { RotaryDial } from "./rotary-dial"
@@ -13,8 +13,6 @@ const TICK_COUNT = 10
 
 function VerticalBaseSlider({ value, onChange, onReset, height }: { value: number; onChange: (v: number) => void; onReset?: () => void; height: number }) {
   const trackRef = useRef<HTMLDivElement>(null)
-  const [pressing, setPressing] = useState(false)
-
   const yToValue = useCallback((y: number) => {
     const pct = 1 - Math.max(0, Math.min(1, y / height))
     return Math.round(pct * (VSLIDER_MAX - VSLIDER_MIN) + VSLIDER_MIN)
@@ -25,7 +23,6 @@ function VerticalBaseSlider({ value, onChange, onReset, height }: { value: numbe
     const track = trackRef.current
     if (!track) return
     ;(e.target as HTMLElement).setPointerCapture(e.pointerId)
-    setPressing(true)
     const rect = track.getBoundingClientRect()
     onChange(yToValue(e.clientY - rect.top))
   }, [onChange, yToValue])
@@ -38,13 +35,9 @@ function VerticalBaseSlider({ value, onChange, onReset, height }: { value: numbe
     onChange(yToValue(e.clientY - rect.top))
   }, [onChange, yToValue])
 
-  const handlePointerUp = useCallback(() => {
-    setPressing(false)
-  }, [])
-
   const pct = (value - VSLIDER_MIN) / (VSLIDER_MAX - VSLIDER_MIN)
   const thumbY = (1 - pct) * height
-  const atLimit = pressing && (value <= VSLIDER_MIN || value >= VSLIDER_MAX)
+  const atLimit = value <= VSLIDER_MIN || value >= VSLIDER_MAX
 
   return (
     <div
@@ -53,7 +46,6 @@ function VerticalBaseSlider({ value, onChange, onReset, height }: { value: numbe
       style={{ width: 108, height }}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
       onDoubleClick={onReset}
     >
       {/* Ticks */}
@@ -64,10 +56,8 @@ function VerticalBaseSlider({ value, onChange, onReset, height }: { value: numbe
       </div>
       {/* Thumb */}
       <div
-        className={`absolute left-[2px] right-[2px] flex items-center justify-center rounded-[4px] shadow-[0_2px_4px_rgba(0,0,0,0.3),0_4px_8px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.15),inset_0_-1px_0_rgba(0,0,0,0.1)] transition-colors duration-150 ${
-          atLimit
-            ? "bg-amber-600 active:bg-amber-700 dark:bg-amber-500 dark:active:bg-amber-400"
-            : "bg-stone-300 active:bg-stone-200 dark:bg-stone-900 dark:active:bg-stone-950"
+        className={`absolute left-[2px] right-[2px] flex items-center justify-center rounded-[4px] shadow-[0_2px_4px_rgba(0,0,0,0.3),0_4px_8px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.15),inset_0_-1px_0_rgba(0,0,0,0.1)] transition-colors duration-150 bg-stone-300 active:bg-stone-200 dark:bg-stone-900 dark:active:bg-stone-950 ${
+          atLimit ? "active:!bg-orange-500 dark:active:!bg-orange-400" : ""
         }`}
         style={{ height: 32, top: Math.max(2, Math.min(height - 34, thumbY - 16)) }}
       >
@@ -98,7 +88,7 @@ export function BaseSettings() {
   const setScaleRatio = useTypographyStore((s) => s.setScaleRatio)
   const setScaleRatioPreset = useTypographyStore((s) => s.setScaleRatioPreset)
   return (
-    <div className="relative flex before:pointer-events-none before:absolute before:inset-y-0 before:-right-4 before:w-6 before:bg-gradient-to-r before:from-transparent before:via-black/[0.03] before:to-black/[0.07] dark:before:via-white/[0.02] dark:before:to-white/[0.04] before:shadow-[inset_-2px_0_4px_rgba(0,0,0,0.06)] dark:before:shadow-[inset_-2px_0_4px_rgba(0,0,0,0.3)] before:z-0">
+    <div className="relative flex before:pointer-events-none before:absolute before:inset-y-0 before:-right-4 before:w-6 before:bg-gradient-to-r before:from-transparent before:to-white dark:before:via-white/[0.02] dark:before:to-white/[0.04] dark:before:shadow-[inset_-2px_0_4px_rgba(0,0,0,0.3)] before:z-0">
       {/* Base Size column */}
       <div className="flex flex-1 min-w-0 flex-col gap-2 pt-3 pb-1 pr-2">
         <div className="flex items-center justify-center gap-1">
