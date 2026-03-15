@@ -26,5 +26,9 @@ export function generatePenFile(config: TypographyConfig): string {
     variables[`textTransform.${s.element}`] = { type: 'string', value: s.textTransform }
   }
 
-  return JSON.stringify({ variables }, null, 2)
+  return JSON.stringify({
+    version: '2.8',
+    variables,
+    children: [],
+  }, null, 2)
 }

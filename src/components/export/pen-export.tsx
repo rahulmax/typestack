@@ -33,7 +33,7 @@ export function PenExport() {
     const url = URL.createObjectURL(blob)
     const a = document.createElement("a")
     a.href = url
-    a.download = "typestax-typography.pen"
+    a.download = "typestax-typography.lib.pen"
     a.click()
     URL.revokeObjectURL(url)
     toast.success("Pencil file downloaded")

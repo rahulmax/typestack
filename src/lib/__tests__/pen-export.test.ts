@@ -8,9 +8,11 @@ describe('generatePenFile', () => {
   const parsed = JSON.parse(output)
   const vars = parsed.variables
 
-  test('produces valid JSON with variables key', () => {
+  test('produces valid .pen document structure', () => {
     expect(() => JSON.parse(output)).not.toThrow()
+    expect(parsed.version).toBe('2.8')
     expect(parsed).toHaveProperty('variables')
+    expect(parsed.children).toEqual([])
   })
 
   test('includes font family string variables', () => {
