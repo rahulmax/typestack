@@ -12,7 +12,15 @@ describe('generatePenFile', () => {
     expect(() => JSON.parse(output)).not.toThrow()
     expect(parsed.version).toBe('2.8')
     expect(parsed).toHaveProperty('variables')
-    expect(parsed.children).toEqual([])
+    expect(parsed.children).toHaveLength(1)
+    expect(parsed.children[0].id).toBe('type-scale')
+    expect(parsed.children[0].type).toBe('frame')
+  })
+
+  test('type scale frame contains rows for each non-display element', () => {
+    const rowsFrame = parsed.children[0].children.find((c: { id: string }) => c.id === 'rows')
+    expect(rowsFrame).toBeDefined()
+    expect(rowsFrame.children).toHaveLength(9) // h1-h6 + p + eyebrow + small
   })
 
   test('includes font family string variables', () => {
