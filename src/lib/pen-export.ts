@@ -208,6 +208,49 @@ function buildTypeScaleFrame(
   }
 }
 
+function buildTextComponent(
+  style: ResolvedElementStyle,
+  config: TypographyConfig,
+  yOffset: number,
+): PenNode {
+  const family = isHeadingLike(style.element)
+    ? config.headingsGroup.fontFamily
+    : config.bodyGroup.fontFamily
+
+  const label = style.element === 'p' ? 'Paragraph'
+    : style.element === 'eyebrow' ? 'Eyebrow'
+    : style.element === 'small' ? 'Small'
+    : style.element.toUpperCase()
+
+  return {
+    id: `comp-${style.element}`,
+    type: 'frame',
+    name: label,
+    reusable: true,
+    x: 1400,
+    y: yOffset,
+    width: 600,
+    layout: 'vertical',
+    children: [
+      {
+        id: `comp-text-${style.element}`,
+        type: 'text',
+        name: `${label} Text`,
+        content: sampleText(style.element),
+        fontSize: style.fontSize,
+        fontFamily: family,
+        fontWeight: style.fontWeight,
+        lineHeight: style.lineHeight,
+        letterSpacing: style.letterSpacing,
+        wordSpacing: style.wordSpacing,
+        fill: style.color,
+        textGrowth: 'fixed-width',
+        width: 'fill_container',
+      },
+    ],
+  }
+}
+
 export function generatePenFile(config: TypographyConfig): string {
   const styles = computeScale(config).filter(
     (s) => !DISPLAY_ELEMENTS.includes(s.element)
@@ -227,9 +270,16 @@ export function generatePenFile(config: TypographyConfig): string {
     variables[`textTransform.${s.element}`] = { type: 'string', value: s.textTransform }
   }
 
+  const components = styles.map((s, i) =>
+    buildTextComponent(s, config, i * 120)
+  )
+
   return JSON.stringify({
     version: '2.8',
     variables,
-    children: [buildTypeScaleFrame(styles, config)],
+    children: [
+      buildTypeScaleFrame(styles, config),
+      ...components,
+    ],
   }, null, 2)
 }

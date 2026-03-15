@@ -12,7 +12,6 @@ describe('generatePenFile', () => {
     expect(() => JSON.parse(output)).not.toThrow()
     expect(parsed.version).toBe('2.8')
     expect(parsed).toHaveProperty('variables')
-    expect(parsed.children).toHaveLength(1)
     expect(parsed.children[0].id).toBe('type-scale')
     expect(parsed.children[0].type).toBe('frame')
   })
@@ -21,6 +20,14 @@ describe('generatePenFile', () => {
     const rowsFrame = parsed.children[0].children.find((c: { id: string }) => c.id === 'rows')
     expect(rowsFrame).toBeDefined()
     expect(rowsFrame.children).toHaveLength(9) // h1-h6 + p + eyebrow + small
+  })
+
+  test('includes reusable text components for each element', () => {
+    const components = parsed.children.filter((c: { reusable?: boolean }) => c.reusable)
+    expect(components).toHaveLength(9)
+    expect(components[0].name).toBe('H1')
+    expect(components[0].children[0].type).toBe('text')
+    expect(components[0].children[0].fontSize).toBeGreaterThan(16)
   })
 
   test('includes font family string variables', () => {
