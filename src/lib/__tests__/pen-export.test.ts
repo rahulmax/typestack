@@ -30,15 +30,10 @@ describe('generatePenFile', () => {
     expect(components[0].children[0].fontSize).toBeGreaterThan(16)
   })
 
-  test('includes font family string variables', () => {
-    expect(vars['font.heading']).toEqual({
-      type: 'string',
-      value: DEFAULT_CONFIG.headingsGroup.fontFamily,
-    })
-    expect(vars['font.body']).toEqual({
-      type: 'string',
-      value: DEFAULT_CONFIG.bodyGroup.fontFamily,
-    })
+  test('does not include string variables', () => {
+    expect(vars['font.heading']).toBeUndefined()
+    expect(vars['font.body']).toBeUndefined()
+    expect(vars['textTransform.h1']).toBeUndefined()
   })
 
   test('includes fontSize number variables for non-display elements', () => {
@@ -63,8 +58,9 @@ describe('generatePenFile', () => {
     }
   })
 
-  test('includes textTransform as string variables', () => {
-    expect(vars['textTransform.h1']).toEqual({ type: 'string', value: 'none' })
-    expect(vars['textTransform.eyebrow']).toEqual({ type: 'string', value: 'uppercase' })
+  test('only exports number variables', () => {
+    for (const v of Object.values(vars) as { type: string }[]) {
+      expect(v.type).toBe('number')
+    }
   })
 })

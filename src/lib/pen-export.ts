@@ -256,10 +256,7 @@ export function generatePenFile(config: TypographyConfig): string {
     (s) => !DISPLAY_ELEMENTS.includes(s.element)
   )
 
-  const variables: Record<string, PenVariable> = {
-    'font.heading': { type: 'string', value: config.headingsGroup.fontFamily },
-    'font.body': { type: 'string', value: config.bodyGroup.fontFamily },
-  }
+  const variables: Record<string, PenVariable> = {}
 
   for (const s of styles) {
     variables[`fontSize.${s.element}`] = { type: 'number', value: parseFloat(s.fontSizeRem.toFixed(4)) }
@@ -267,7 +264,6 @@ export function generatePenFile(config: TypographyConfig): string {
     variables[`lineHeight.${s.element}`] = { type: 'number', value: s.lineHeight }
     variables[`letterSpacing.${s.element}`] = { type: 'number', value: s.letterSpacing }
     variables[`wordSpacing.${s.element}`] = { type: 'number', value: s.wordSpacing }
-    variables[`textTransform.${s.element}`] = { type: 'string', value: s.textTransform }
   }
 
   const components = styles.map((s, i) =>
