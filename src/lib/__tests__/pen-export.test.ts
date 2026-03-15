@@ -1,7 +1,6 @@
 import { describe, test, expect } from 'vitest'
 import { generatePenFile } from '../pen-export'
 import { DEFAULT_CONFIG } from '@/data/default-config'
-import { DISPLAY_ELEMENTS } from '@/types/typography'
 
 describe('generatePenFile', () => {
   const output = generatePenFile(DEFAULT_CONFIG)
@@ -16,6 +15,18 @@ describe('generatePenFile', () => {
     expect(parsed.children[0].type).toBe('frame')
   })
 
+  test('exports font family variables using Pencil convention', () => {
+    expect(vars['--font-primary']).toEqual({
+      type: 'string',
+      value: DEFAULT_CONFIG.headingsGroup.fontFamily,
+    })
+    expect(vars['--font-secondary']).toEqual({
+      type: 'string',
+      value: DEFAULT_CONFIG.bodyGroup.fontFamily,
+    })
+    expect(Object.keys(vars)).toHaveLength(2)
+  })
+
   test('type scale frame contains rows for each non-display element', () => {
     const rowsFrame = parsed.children[0].children.find((c: { id: string }) => c.id === 'rows')
     expect(rowsFrame).toBeDefined()
@@ -28,39 +39,5 @@ describe('generatePenFile', () => {
     expect(components[0].name).toBe('H1')
     expect(components[0].children[0].type).toBe('text')
     expect(components[0].children[0].fontSize).toBeGreaterThan(16)
-  })
-
-  test('does not include string variables', () => {
-    expect(vars['font.heading']).toBeUndefined()
-    expect(vars['font.body']).toBeUndefined()
-    expect(vars['textTransform.h1']).toBeUndefined()
-  })
-
-  test('includes fontSize number variables for non-display elements', () => {
-    expect(vars['fontSize.h1']).toBeDefined()
-    expect(vars['fontSize.h1'].type).toBe('number')
-    expect(typeof vars['fontSize.h1'].value).toBe('number')
-    expect(vars['fontSize.p']).toBeDefined()
-    expect(vars['fontSize.small']).toBeDefined()
-  })
-
-  test('excludes display elements', () => {
-    for (const el of DISPLAY_ELEMENTS) {
-      expect(vars[`fontSize.${el}`]).toBeUndefined()
-    }
-  })
-
-  test('includes all per-element token categories', () => {
-    const categories = ['fontSize', 'fontWeight', 'lineHeight', 'letterSpacing', 'wordSpacing']
-    for (const cat of categories) {
-      expect(vars[`${cat}.h1`]).toBeDefined()
-      expect(vars[`${cat}.h1`].type).toBe('number')
-    }
-  })
-
-  test('only exports number variables', () => {
-    for (const v of Object.values(vars) as { type: string }[]) {
-      expect(v.type).toBe('number')
-    }
   })
 })
