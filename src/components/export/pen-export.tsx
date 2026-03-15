@@ -29,11 +29,15 @@ export function PenExport() {
   }
 
   const handleDownload = () => {
+    const heading = store.headingsGroup.fontFamily.replace(/\s+/g, '-')
+    const body = store.bodyGroup.fontFamily.replace(/\s+/g, '-')
+    const slug = heading === body ? heading : `${heading}+${body}`
+
     const blob = new Blob([pen], { type: "application/json" })
     const url = URL.createObjectURL(blob)
     const a = document.createElement("a")
     a.href = url
-    a.download = "typestax-typography.lib.pen"
+    a.download = `${slug}.lib.pen`
     a.click()
     URL.revokeObjectURL(url)
     toast.success("Pencil file downloaded")
