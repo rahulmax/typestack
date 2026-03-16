@@ -1,10 +1,13 @@
 "use client";
 
+import { useRef, useEffect, useContext, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { RotateCcw } from "lucide-react";
 import { useTypographyStore, isHeadingElement } from "@/store/typography-store";
 import { useUIStore } from "@/store/ui-store";
+import { SidebarOverflowContext } from "@/components/layout/sidebar";
 import type { TypographyElement, GroupProperties } from "@/types/typography";
 import { HEADING_ELEMENTS, DISPLAY_ELEMENTS, OPTIONAL_ELEMENTS, BODY_ELEMENTS } from "@/types/typography";
 
@@ -22,24 +25,14 @@ function ElementRow({ element }: { element: TypographyElement }) {
     store.setElementOverride(element, props);
   };
 
-  const showCapsToggle =
-    HEADING_ELEMENTS.includes(element) ||
-    DISPLAY_ELEMENTS.includes(element) ||
-    element === "eyebrow";
-
   const fontWeight = override.fontWeight ?? group.fontWeight;
   const lineHeight = override.lineHeight ?? group.lineHeight;
   const letterSpacing = override.letterSpacing ?? group.letterSpacing;
   const wordSpacing = override.wordSpacing ?? group.wordSpacing;
-  const defaultTransform = element === "eyebrow" ? "uppercase" : "none";
-  const currentTransform = override.textTransform ?? defaultTransform;
-  const isUppercase = currentTransform === "uppercase";
-
   const hasFontWeightOverride = override.fontWeight !== undefined && override.fontWeight !== group.fontWeight;
   const hasLineHeightOverride = override.lineHeight !== undefined && override.lineHeight !== group.lineHeight;
   const hasLetterSpacingOverride = override.letterSpacing !== undefined && override.letterSpacing !== group.letterSpacing;
   const hasWordSpacingOverride = override.wordSpacing !== undefined && override.wordSpacing !== group.wordSpacing;
-  const hasCapsOverride = override.textTransform !== undefined && override.textTransform !== defaultTransform;
 
   const clearField = (field: keyof GroupProperties) => {
     const s = useTypographyStore.getState();
@@ -51,18 +44,8 @@ function ElementRow({ element }: { element: TypographyElement }) {
     });
   };
 
-  const clearCaps = () => {
-    const s = useTypographyStore.getState();
-    const cur = { ...s.overrides[element] };
-    delete cur.textTransform;
-    const hasAny = Object.keys(cur).some((k) => k !== "isOverridden");
-    useTypographyStore.setState({
-      overrides: { ...s.overrides, [element]: { ...cur, isOverridden: hasAny } },
-    });
-  };
-
   return (
-    <div className={`${!isEnabled ? "opacity-50" : ""}`}>
+    <div className={`pr-[30px] ${!isEnabled ? "opacity-50" : ""}`}>
       <div className="flex flex-col gap-3 pt-3">
           <div className="grid grid-cols-2 gap-x-5 gap-y-4">
             <div className="flex flex-col gap-1.5">
@@ -157,42 +140,6 @@ function ElementRow({ element }: { element: TypographyElement }) {
             </div>
           </div>
 
-          {showCapsToggle && (
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => {
-                  const s = useTypographyStore.getState();
-                  const cur = { ...s.overrides[element] };
-                  const next = isUppercase ? "none" : "uppercase";
-                  if (next === defaultTransform) {
-                    delete cur.textTransform;
-                    const hasAny = Object.keys(cur).some((k) => k !== "isOverridden");
-                    useTypographyStore.setState({
-                      overrides: { ...s.overrides, [element]: { ...cur, isOverridden: hasAny } },
-                    });
-                  } else {
-                    useTypographyStore.setState({
-                      overrides: {
-                        ...s.overrides,
-                        [element]: { ...cur, isOverridden: true, textTransform: next },
-                      },
-                    });
-                  }
-                }}
-                className={`hw-btn flex-1 ${isUppercase ? "" : "opacity-50"}`}
-                data-active={isUppercase}
-                style={{ height: 36 }}
-              >
-                <span className="text-xs">ALL CAPS</span>
-              </button>
-              {hasCapsOverride && (
-                <button type="button" onClick={clearCaps} className="text-muted-foreground hover:text-foreground p-1">
-                  <RotateCcw className="size-3" />
-                </button>
-              )}
-            </div>
-          )}
         </div>
     </div>
   );
@@ -222,6 +169,124 @@ const BUTTON_STYLES: React.CSSProperties[] = ALL_OVERRIDE_ELEMENTS.map((_, i) =>
   }
 })
 
+function CapsSwitch({ element, anchorRef }: { element: TypographyElement; anchorRef: React.RefObject<HTMLDivElement | null> }) {
+  const override = useTypographyStore((s) => s.overrides[element] ?? { isOverridden: false })
+  const defaultTransform = element === "eyebrow" ? "uppercase" : "none"
+  const currentTransform = override.textTransform ?? defaultTransform
+  const isUppercase = currentTransform === "uppercase"
+  const ctx = useContext(SidebarOverflowContext)
+  const grooveRef = useRef<HTMLDivElement>(null)
+  const btnContainerRef = useRef<HTMLDivElement>(null)
+
+  const showCapsToggle =
+    HEADING_ELEMENTS.includes(element) ||
+    DISPLAY_ELEMENTS.includes(element) ||
+    element === "eyebrow"
+
+  const updatePosition = useCallback(() => {
+    if (!anchorRef.current || !ctx?.portalRef.current) return
+    const anchorRect = anchorRef.current.getBoundingClientRect()
+    const portalRect = ctx.portalRef.current.getBoundingClientRect()
+    const topY = anchorRect.top - portalRect.top + 36
+    if (grooveRef.current) grooveRef.current.style.top = `${topY}px`
+    if (btnContainerRef.current) btnContainerRef.current.style.top = `${topY}px`
+  }, [anchorRef, ctx])
+
+  useEffect(() => {
+    updatePosition()
+    requestAnimationFrame(updatePosition)
+    const scroll = ctx?.scrollRef.current
+    if (!scroll) return
+    scroll.addEventListener("scroll", updatePosition, { passive: true })
+    return () => scroll.removeEventListener("scroll", updatePosition)
+  }, [updatePosition, ctx])
+
+  const toggle = useCallback(() => {
+    const s = useTypographyStore.getState()
+    const cur = { ...s.overrides[element] }
+    const next = isUppercase ? "none" : "uppercase"
+    if (next === defaultTransform) {
+      delete cur.textTransform
+      const hasAny = Object.keys(cur).some((k) => k !== "isOverridden")
+      useTypographyStore.setState({
+        overrides: { ...s.overrides, [element]: { ...cur, isOverridden: hasAny } },
+      })
+    } else {
+      useTypographyStore.setState({
+        overrides: {
+          ...s.overrides,
+          [element]: { ...cur, isOverridden: true, textTransform: next },
+        },
+      })
+    }
+  }, [element, isUppercase, defaultTransform])
+
+  if (!showCapsToggle || !ctx?.portalRef.current) return null
+
+  return createPortal(
+    <>
+      {/* Groove — flush right inside sidebar, clickable */}
+      <div
+        ref={grooveRef}
+        className="caps-switch-groove absolute pointer-events-auto cursor-pointer"
+        style={{ right: 0 }}
+        onMouseDown={toggle}
+      >
+        <div
+          className="caps-switch-indicator"
+          style={{ opacity: isUppercase ? 1 : 0 }}
+        />
+        <span
+          className="caps-switch-off-label"
+          style={{
+            fontFamily: 'var(--font-host-grotesk), system-ui, sans-serif',
+            fontSize: 7,
+            fontWeight: 600,
+            letterSpacing: '1.5px',
+          }}
+        >
+          OFF
+        </span>
+      </div>
+      {/* Button — outside sidebar */}
+      <div
+        ref={btnContainerRef}
+        className="pointer-events-auto absolute z-20"
+        style={{ right: -3 }}
+      >
+      <button
+        type="button"
+        onMouseDown={toggle}
+        className={`caps-switch-thumb ${isUppercase ? "caps-switch-on" : "caps-switch-off"}`}
+      >
+        {/* gripper = */}
+        <div className="flex flex-col gap-[3px] pointer-events-none">
+          <span className="block w-2 h-px bg-stone-400/15 dark:bg-white/12" />
+          <span className="block w-2 h-px bg-stone-400/15 dark:bg-white/12" />
+        </div>
+        <span
+          className="caps-switch-label"
+          style={{
+            fontFamily: 'var(--font-host-grotesk), system-ui, sans-serif',
+            fontSize: 9,
+            fontWeight: 700,
+            letterSpacing: '2px',
+          }}
+        >
+          CAPS
+        </span>
+        {/* gripper = */}
+        <div className="flex flex-col gap-[3px] pointer-events-none">
+          <span className="block w-2 h-px bg-stone-400/15 dark:bg-white/12" />
+          <span className="block w-2 h-px bg-stone-400/15 dark:bg-white/12" />
+        </div>
+      </button>
+    </div>
+    </>,
+    ctx.portalRef.current
+  )
+}
+
 export function ElementOverridePanel() {
   const expandedElement = useUIStore((s) => s.expandedElement);
   const setExpandedElement = useUIStore((s) => s.setExpandedElement);
@@ -230,8 +295,10 @@ export function ElementOverridePanel() {
     ? expandedElement
     : null;
 
+  const capsAnchorRef = useRef<HTMLDivElement>(null);
+
   return (
-    <div className="flex flex-col gap-4">
+    <div className="relative flex flex-col gap-4">
       <h3 className="text-sm font-semibold">Per-Element Overrides</h3>
       <div className="hw-btn-group flex">
         {ALL_OVERRIDE_ELEMENTS.map((el, i) => {
@@ -262,7 +329,12 @@ export function ElementOverridePanel() {
           );
         })}
       </div>
-      {activeEl && <ElementRow element={activeEl as TypographyElement} />}
+      {activeEl && (
+        <div ref={capsAnchorRef} className="relative">
+          <ElementRow element={activeEl as TypographyElement} />
+          <CapsSwitch element={activeEl as TypographyElement} anchorRef={capsAnchorRef} />
+        </div>
+      )}
     </div>
   );
 }

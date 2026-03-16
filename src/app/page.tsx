@@ -169,7 +169,7 @@ export default function Home() {
               />
             </div>
             <div className="module-groove" />
-            <div className="relative z-[2] px-4 py-4">
+            <div className="relative z-[2] px-4 py-4 overflow-x-visible">
               <ElementOverridePanel />
             </div>
             <div className="module-groove" />

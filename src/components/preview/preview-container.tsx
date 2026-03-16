@@ -14,7 +14,7 @@ export function PreviewContainer() {
   if (viewport === "scale") {
     return (
       <div className="flex h-full flex-col">
-        <div className="flex-1 overflow-auto bg-muted p-2 md:p-4">
+        <div className="flex-1 overflow-auto bg-background p-2 md:p-4">
           <div className="hidden md:block">
             <BrowserChrome>
               <TypeScaleView />
@@ -30,7 +30,7 @@ export function PreviewContainer() {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex-1 overflow-hidden bg-muted">
+      <div className="flex-1 overflow-hidden bg-background">
         {viewport === "mobile" ? (
           <MobileChrome>
             <PreviewIframe bodyHTML={getTemplateHTML(activeTab)} mobile />
