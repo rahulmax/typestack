@@ -17,6 +17,10 @@ interface UIStore {
   isDirty: boolean;
   scalePanelCollapsed: boolean;
   gridPattern: GridPatternType;
+  patternRotation: number;
+  patternScale: number;
+  patternOpacity: number;
+  patternSpacing: number;
 
   setViewport: (viewport: ViewportSize) => void;
   setActiveTab: (tab: PreviewTab) => void;
@@ -25,6 +29,10 @@ interface UIStore {
   setDirty: (dirty: boolean) => void;
   setScalePanelCollapsed: (collapsed: boolean) => void;
   setGridPattern: (pattern: GridPatternType) => void;
+  setPatternRotation: (rotation: number) => void;
+  setPatternScale: (scale: number) => void;
+  setPatternOpacity: (opacity: number) => void;
+  setPatternSpacing: (spacing: number) => void;
   cycleGridPattern: () => void;
 }
 
@@ -44,6 +52,10 @@ export const useUIStore = create<UIStore>()((set) => ({
   isDirty: false,
   scalePanelCollapsed: false,
   gridPattern: null,
+  patternRotation: 0,
+  patternScale: 1,
+  patternOpacity: 100,
+  patternSpacing: 0,
 
   setViewport: (viewport) => set({ viewport }),
   setActiveTab: (tab) => set({ activeTab: tab }),
@@ -52,6 +64,10 @@ export const useUIStore = create<UIStore>()((set) => ({
   setDirty: (dirty) => set({ isDirty: dirty }),
   setScalePanelCollapsed: (collapsed) => set({ scalePanelCollapsed: collapsed }),
   setGridPattern: (pattern) => set({ gridPattern: pattern }),
+  setPatternRotation: (rotation) => set({ patternRotation: rotation }),
+  setPatternScale: (scale) => set({ patternScale: scale }),
+  setPatternOpacity: (opacity) => set({ patternOpacity: opacity }),
+  setPatternSpacing: (spacing) => set({ patternSpacing: spacing }),
   cycleGridPattern: () =>
     set((state) => {
       const all: GridPatternType[] = [null, ...GRID_PATTERN_TYPES];

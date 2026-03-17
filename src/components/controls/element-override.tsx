@@ -8,6 +8,7 @@ import { RotateCcw } from "lucide-react";
 import { useTypographyStore, isHeadingElement } from "@/store/typography-store";
 import { useUIStore } from "@/store/ui-store";
 import { SidebarOverflowContext } from "@/components/layout/sidebar";
+import { AnimateExpand } from "@/components/ui/animate-expand";
 import type { TypographyElement, GroupProperties } from "@/types/typography";
 import { HEADING_ELEMENTS, DISPLAY_ELEMENTS, OPTIONAL_ELEMENTS, BODY_ELEMENTS } from "@/types/typography";
 
@@ -181,25 +182,60 @@ function CapsSwitch({ element, anchorRef }: { element: TypographyElement; anchor
   const showCapsToggle =
     HEADING_ELEMENTS.includes(element) ||
     DISPLAY_ELEMENTS.includes(element) ||
-    element === "eyebrow"
+    element === "eyebrow" ||
+    element === "p" ||
+    element === "small"
+
+  const grooveOnly = element === "p" || element === "small"
+
+  const lastGoodY = useRef<number | null>(null)
+
+  const applyPosition = useCallback((topY: number) => {
+    lastGoodY.current = topY
+    if (grooveRef.current) grooveRef.current.style.top = `${topY}px`
+    if (btnContainerRef.current) btnContainerRef.current.style.top = `${topY}px`
+  }, [])
 
   const updatePosition = useCallback(() => {
     if (!anchorRef.current || !ctx?.portalRef.current) return
     const anchorRect = anchorRef.current.getBoundingClientRect()
+    // Skip if anchor collapsed (animation in progress) — keep last good position
+    if (anchorRect.height < 10) return
     const portalRect = ctx.portalRef.current.getBoundingClientRect()
     const topY = anchorRect.top - portalRect.top + 36
-    if (grooveRef.current) grooveRef.current.style.top = `${topY}px`
-    if (btnContainerRef.current) btnContainerRef.current.style.top = `${topY}px`
-  }, [anchorRef, ctx])
+    applyPosition(topY)
+  }, [anchorRef, ctx, applyPosition])
 
+  // Continuously track position via ResizeObserver + scroll + rAF during mount
   useEffect(() => {
-    updatePosition()
-    requestAnimationFrame(updatePosition)
+    const anchor = anchorRef.current
     const scroll = ctx?.scrollRef.current
-    if (!scroll) return
-    scroll.addEventListener("scroll", updatePosition, { passive: true })
-    return () => scroll.removeEventListener("scroll", updatePosition)
-  }, [updatePosition, ctx])
+    if (!anchor) return
+
+    // Initial positioning with rAF polling for animation duration
+    let raf: number
+    let elapsed = 0
+    const tick = () => {
+      updatePosition()
+      elapsed += 16
+      if (elapsed < 500) raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+
+    // ResizeObserver catches layout shifts after animation settles
+    const ro = new ResizeObserver(() => updatePosition())
+    ro.observe(anchor)
+
+    if (scroll) {
+      scroll.addEventListener("scroll", updatePosition, { passive: true })
+    }
+
+    return () => {
+      cancelAnimationFrame(raf)
+      ro.disconnect()
+      if (scroll) scroll.removeEventListener("scroll", updatePosition)
+    }
+  }, [updatePosition, anchorRef, ctx])
 
   const toggle = useCallback(() => {
     const s = useTypographyStore.getState()
@@ -248,11 +284,11 @@ function CapsSwitch({ element, anchorRef }: { element: TypographyElement; anchor
           OFF
         </span>
       </div>
-      {/* Button — outside sidebar */}
+      {/* Button — outside sidebar (hidden for groove-only elements) */}
       <div
         ref={btnContainerRef}
         className="pointer-events-auto absolute z-20"
-        style={{ right: -3 }}
+        style={{ right: -3, display: grooveOnly ? 'none' : undefined }}
       >
       <button
         type="button"
@@ -329,11 +365,15 @@ export function ElementOverridePanel() {
           );
         })}
       </div>
-      {activeEl && (
+      <AnimateExpand open={!!activeEl}>
         <div ref={capsAnchorRef} className="relative">
-          <ElementRow element={activeEl as TypographyElement} />
-          <CapsSwitch element={activeEl as TypographyElement} anchorRef={capsAnchorRef} />
+          {activeEl && (
+            <ElementRow element={activeEl as TypographyElement} />
+          )}
         </div>
+      </AnimateExpand>
+      {activeEl && (
+        <CapsSwitch element={activeEl as TypographyElement} anchorRef={capsAnchorRef} />
       )}
     </div>
   );

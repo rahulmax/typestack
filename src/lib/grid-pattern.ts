@@ -7,42 +7,65 @@ import { isBgDark } from "./color-utils";
  */
 export function getGridPatternUrl(
   pattern: GridPatternType,
-  backgroundColor: string
+  backgroundColor: string,
+  rotation: number = 0,
+  opacity: number = 100,
+  spacing: number = 0
 ): string | null {
   if (pattern === null) return null;
 
   const dark = isBgDark(backgroundColor);
-  const stroke = dark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.06)";
-  const fill = dark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.06)";
+  const a = opacity / 100;
+  const stroke = dark ? `rgba(255,255,255,${0.07 * a})` : `rgba(0,0,0,${0.06 * a})`;
+  const fill = dark ? `rgba(255,255,255,${0.07 * a})` : `rgba(0,0,0,${0.06 * a})`;
 
-  let svg: string;
+  let inner: string;
+  let w: number;
+  let h: number;
 
   switch (pattern) {
     case "square":
-      svg = `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><rect width="40" height="40" fill="none" stroke="${stroke}" stroke-width="1"/></svg>`;
+      w = 40; h = 40;
+      inner = `<rect width="40" height="40" fill="none" stroke="${stroke}" stroke-width="1"/>`;
       break;
     case "dots":
-      svg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><circle cx="12" cy="12" r="1.5" fill="${fill}"/></svg>`;
+      w = 24; h = 24;
+      inner = `<circle cx="12" cy="12" r="1.5" fill="${fill}"/>`;
       break;
     case "plus":
-      svg = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path d="M16 10v12M10 16h12" stroke="${stroke}" stroke-width="1" fill="none"/></svg>`;
+      w = 32; h = 32;
+      inner = `<path d="M16 10v12M10 16h12" stroke="${stroke}" stroke-width="1" fill="none"/>`;
       break;
     case "tallrect":
-      svg = `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="48"><rect width="28" height="48" fill="none" stroke="${stroke}" stroke-width="1"/></svg>`;
+      w = 28; h = 48;
+      inner = `<rect width="28" height="48" fill="none" stroke="${stroke}" stroke-width="1"/>`;
       break;
     case "diagonal":
-      svg = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><path d="M-4 4l8-8M0 16l16-16M12 20l8-8" stroke="${stroke}" stroke-width="1" fill="none"/></svg>`;
+      w = 16; h = 16;
+      inner = `<path d="M-4 4l8-8M0 16l16-16M12 20l8-8" stroke="${stroke}" stroke-width="1" fill="none"/>`;
       break;
     case "crosshatch":
-      svg = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><path d="M-4 4l8-8M0 16l16-16M12 20l8-8M20 4l-8-8M16 16L0-0M4 20l-8-8" stroke="${stroke}" stroke-width="1" fill="none"/></svg>`;
+      w = 16; h = 16;
+      inner = `<path d="M-4 4l8-8M0 16l16-16M12 20l8-8M20 4l-8-8M16 16L0-0M4 20l-8-8" stroke="${stroke}" stroke-width="1" fill="none"/>`;
       break;
     case "hlines":
-      svg = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="12"><line x1="0" y1="11.5" x2="16" y2="11.5" stroke="${stroke}" stroke-width="1"/></svg>`;
+      w = 16; h = 12;
+      inner = `<line x1="0" y1="11.5" x2="16" y2="11.5" stroke="${stroke}" stroke-width="1"/>`;
       break;
     case "diamond":
-      svg = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path d="M16 0l16 16-16 16L0 16z" fill="none" stroke="${stroke}" stroke-width="1"/></svg>`;
+      w = 32; h = 32;
+      inner = `<path d="M16 0l16 16-16 16L0 16z" fill="none" stroke="${stroke}" stroke-width="1"/>`;
       break;
   }
+
+  const sw = w + spacing;
+  const sh = h + spacing;
+  const ox = spacing / 2;
+  const oy = spacing / 2;
+  const transform = rotation !== 0
+    ? ` transform="translate(${ox},${oy}) rotate(${rotation} ${w / 2} ${h / 2})"`
+    : spacing !== 0 ? ` transform="translate(${ox},${oy})"` : '';
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${sw}" height="${sh}"><g${transform}>${inner}</g></svg>`;
 
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;
 }

@@ -70,7 +70,7 @@ function Slider({
       ) : (
         <>
           <span className="absolute left-2 top-1/2 -translate-y-1/2 font-[family-name:var(--font-oswald)] text-xs font-extralight text-stone-400 dark:text-stone-500/50 tabular-nums select-none z-0">
-            {Number.isInteger(min) && min >= 10 ? min : min.toFixed(1)}
+            {formatValue ? formatValue(min) : Number.isInteger(min) && Math.abs(min) >= 10 ? min : min.toFixed(1)}
           </span>
           <div className="absolute inset-y-0 left-14 right-1 flex items-center justify-evenly pointer-events-none z-0">
             {Array.from({ length: TICK_COUNT }, (_, i) => (

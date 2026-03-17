@@ -244,6 +244,45 @@ export const RotaryDial = memo(function RotaryDial({ value, onChange, onPresetCh
     >
       {/* Outer ring */}
       <div className="absolute inset-0 rounded-full bg-gradient-to-b from-stone-200 to-stone-400 dark:from-stone-700 dark:to-stone-900 ring-1 ring-stone-400/30 dark:ring-stone-600/50" style={OUTER_RING_STYLE} />
+      {/* Gripper notches */}
+      <div className="absolute inset-0 rounded-full pointer-events-none overflow-hidden">
+        {Array.from({ length: 120 }, (_, i) => {
+          const deg = (i / 120) * 360
+          const rad = ((deg - 90) * Math.PI) / 180
+          const r = KNOB_SIZE / 2 - 0.5
+          const cx = KNOB_SIZE / 2
+          const x = cx + r * Math.cos(rad)
+          const y = cx + r * Math.sin(rad)
+          const perpRad = rad + Math.PI / 2
+          const off = 0.6
+          return (
+            <div key={i}>
+              <div
+                className="absolute"
+                style={{
+                  width: 1,
+                  height: 7,
+                  left: x - 0.5 + Math.cos(perpRad) * off,
+                  top: y - 3.5 + Math.sin(perpRad) * off,
+                  transform: `rotate(${deg}deg)`,
+                  background: 'rgba(0,0,0,0.1)',
+                }}
+              />
+              <div
+                className="absolute"
+                style={{
+                  width: 1,
+                  height: 7,
+                  left: x - 0.5 - Math.cos(perpRad) * off,
+                  top: y - 3.5 - Math.sin(perpRad) * off,
+                  transform: `rotate(${deg}deg)`,
+                  background: 'rgba(255,255,255,0.08)',
+                }}
+              />
+            </div>
+          )
+        })}
+      </div>
       {/* Knob face */}
       <div
         className="absolute inset-[3px] rounded-full cursor-grab active:cursor-grabbing bg-gradient-to-b from-stone-100 to-stone-300 dark:from-stone-800 dark:to-stone-950"

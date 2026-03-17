@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { hexToOklch, oklchToHex } from "@/lib/color-utils";
 
 interface HexRgbInputProps {
@@ -49,29 +48,28 @@ export function HexRgbInput({ color, onChange }: HexRgbInputProps) {
     }
   };
 
-  const numClass = "h-6 text-[9px] tracking-tight tabular-nums px-1 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none";
+  const numClass = "h-7 text-[18px]! tabular-nums px-0 bg-transparent! border-none! ring-0! shadow-none! outline-none focus-visible:ring-0! [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none";
 
   return (
-    <div className="flex items-end gap-1">
-      {/* Hex */}
-      <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-        <Label className="text-[10px] text-muted-foreground">Hex</Label>
-        <Input
-          value={hex}
-          onChange={(e) => handleHexChange(e.target.value)}
-          className="h-6 w-full font-mono text-[9px] tracking-tight px-1"
-          maxLength={7}
-        />
+    <div className="flex flex-col gap-1">
+      {/* Labels row — outside the LCD panel */}
+      <div className="flex items-end">
+        <span className="min-w-0 flex-1 pl-2 text-xs font-medium text-muted-foreground">HEX</span>
+        <span className="min-w-0 flex-[1.5] pl-2 text-xs font-medium text-muted-foreground">RGB</span>
+        <span className="min-w-0 flex-[2] text-xs font-medium text-muted-foreground">LCH</span>
       </div>
-      {/* RGB */}
-      {rgb && (
-        <div className="flex min-w-0 flex-[1.5] flex-col gap-0.5">
-          <div className="flex">
-            {(["r", "g", "b"] as const).map((ch) => (
-              <Label key={ch} className="flex-1 text-center text-[10px] uppercase text-muted-foreground">{ch}</Label>
-            ))}
-          </div>
-          <div className="flex input-group">
+      {/* LCD panel — inputs only */}
+      <div className="vfd-readout">
+        <div className="min-w-0 flex-1">
+          <Input
+            value={hex.replace('#', '')}
+            onChange={(e) => handleHexChange(`#${e.target.value.replace('#', '')}`)}
+            className={`w-full ${numClass}`}
+            maxLength={6}
+          />
+        </div>
+        {rgb && (
+          <div className="flex min-w-0 flex-[1.5]">
             {(["r", "g", "b"] as const).map((ch) => (
               <Input
                 key={ch}
@@ -86,21 +84,13 @@ export function HexRgbInput({ color, onChange }: HexRgbInputProps) {
                     onChange(rgbToHex(newRgb.r, newRgb.g, newRgb.b));
                   }
                 }}
-                className={`min-w-0 flex-1 ${numClass}`}
+                className={`min-w-0 flex-1 text-center ${numClass}`}
               />
             ))}
           </div>
-        </div>
-      )}
-      {/* OKLCH */}
-      {oklch && (
-        <div className="flex min-w-0 flex-[2] flex-col gap-0.5">
-          <div className="flex">
-            {(["L", "C", "H"] as const).map((ch) => (
-              <Label key={ch} className="flex-1 text-center text-[10px] uppercase text-muted-foreground">{ch}</Label>
-            ))}
-          </div>
-          <div className="flex input-group">
+        )}
+        {oklch && (
+          <div className="flex min-w-0 flex-[2]">
             <Input
               type="number"
               min={0}
@@ -111,7 +101,7 @@ export function HexRgbInput({ color, onChange }: HexRgbInputProps) {
                 const v = parseFloat(e.target.value);
                 if (!isNaN(v)) onChange(oklchToHex(v, oklch.c, oklch.h));
               }}
-              className={`min-w-0 flex-1 ${numClass}`}
+              className={`min-w-0 flex-1 text-center ${numClass}`}
             />
             <Input
               type="number"
@@ -123,7 +113,7 @@ export function HexRgbInput({ color, onChange }: HexRgbInputProps) {
                 const v = parseFloat(e.target.value);
                 if (!isNaN(v)) onChange(oklchToHex(oklch.l, v, oklch.h));
               }}
-              className={`min-w-0 flex-1 ${numClass}`}
+              className={`min-w-0 flex-1 text-center ${numClass}`}
             />
             <Input
               type="number"
@@ -135,11 +125,11 @@ export function HexRgbInput({ color, onChange }: HexRgbInputProps) {
                 const v = parseFloat(e.target.value);
                 if (!isNaN(v)) onChange(oklchToHex(oklch.l, oklch.c, v));
               }}
-              className={`min-w-0 flex-1 ${numClass}`}
+              className={`min-w-0 flex-1 text-center ${numClass}`}
             />
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

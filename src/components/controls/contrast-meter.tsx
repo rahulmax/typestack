@@ -79,7 +79,8 @@ function VUGauge({
   const warnThreshold = redUpTo === 4 ? 4.5 : 3
   const isWarn = wcagRatio < warnThreshold
   const isCritical = wcagRatio < 3
-  const ledColor = isCritical ? "#dd2222" : "#dd8822"
+  const isGood = wcagRatio >= 6
+  const ledColor = isCritical ? "#dd2222" : isWarn ? "#dd8822" : "#332a1a"
 
   const needleRef = useRef<SVGLineElement>(null)
   const glowRef = useRef<SVGLineElement>(null)
@@ -193,6 +194,13 @@ function VUGauge({
           <stop offset="70%" stopColor="#dd2222" stopOpacity="0.04" />
           <stop offset="100%" stopColor="#dd2222" stopOpacity="0" />
         </radialGradient>
+        {/* LED halo — green */}
+        <radialGradient id={`${idPrefix}-led-halo-green`} cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#22cc44" stopOpacity="0.25" />
+          <stop offset="30%" stopColor="#22cc44" stopOpacity="0.1" />
+          <stop offset="70%" stopColor="#22cc44" stopOpacity="0.03" />
+          <stop offset="100%" stopColor="#22cc44" stopOpacity="0" />
+        </radialGradient>
         {/* Glass overlay */}
         <linearGradient id={`${idPrefix}-glass`} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="white" stopOpacity="0.07" />
@@ -251,8 +259,21 @@ function VUGauge({
         >
           CONTRAST
         </text>
+        <text
+          x={PX}
+          y={SURFACE_Y - 10}
+          className="contrast-meter-inner-text"
+          fontSize="6"
+          textAnchor="middle"
+          fontWeight="700"
+          letterSpacing="2"
+          fontFamily="var(--font-host-grotesk), system-ui, sans-serif"
+          opacity={isGood ? 0.7 : 0.2}
+        >
+          AA
+        </text>
 
-        {/* Warning LED — top right corner */}
+        {/* Warning LED — top left corner */}
         {isWarn && (
           <circle
             cx={15}

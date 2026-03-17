@@ -11,7 +11,10 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { Grid3x3, CircleDot, Plus, RectangleVertical, Slash, Hash, Minus, Diamond, Ban } from "lucide-react"
+import { Grid3x3, CircleDot, Plus, RectangleVertical, Slash, Hash, Minus, Diamond, Ban, RotateCcw } from "lucide-react"
+import { Slider } from "@/components/ui/slider"
+import { MiniKnob } from "./mini-knob"
+import { AnimateExpand } from "@/components/ui/animate-expand"
 import { ContrastMeter } from "./contrast-meter"
 import { HexColorPicker } from "react-colorful"
 import { HexRgbInput } from "@/components/controls/color-picker/hex-rgb-input"
@@ -116,6 +119,12 @@ export function SidebarToolbar() {
   const setBackgroundColor = useTypographyStore((s) => s.setBackgroundColor)
   const gridPattern = useUIStore((s) => s.gridPattern)
   const setGridPattern = useUIStore((s) => s.setGridPattern)
+  const patternRotation = useUIStore((s) => s.patternRotation)
+  const setPatternRotation = useUIStore((s) => s.setPatternRotation)
+const patternOpacity = useUIStore((s) => s.patternOpacity)
+  const setPatternOpacity = useUIStore((s) => s.setPatternOpacity)
+  const patternSpacing = useUIStore((s) => s.patternSpacing)
+  const setPatternSpacing = useUIStore((s) => s.setPatternSpacing)
   const { resolvedTheme } = useTheme()
 
   const handleRandom = useCallback(() => {
@@ -188,9 +197,11 @@ export function SidebarToolbar() {
         </div>
       </div>
 
+      <div className="module-groove -mx-4" />
+
       {/* Background Pattern — inline grid */}
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center justify-between">
+      <div className="flex flex-col">
+        <div className="flex items-center justify-between mb-2">
           <h3 className="text-sm font-semibold">Background Pattern</h3>
           <span className="text-xs text-muted-foreground">{gridPattern ? PATTERN_TOOLTIPS[gridPattern] : "None"}</span>
         </div>
@@ -226,6 +237,70 @@ export function SidebarToolbar() {
             </Tooltip>
           ))}
         </div>
+        <AnimateExpand open={!!gridPattern}>
+          <div className="flex gap-7 mt-3 items-center">
+            {/* Sliders — left 70% */}
+            <div className="flex-1 flex flex-col gap-2">
+              <div className="flex flex-col gap-1">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1">
+                    <span className="text-xs font-medium text-muted-foreground">Opacity</span>
+                    {patternOpacity !== 100 && (
+                      <button type="button" onClick={() => setPatternOpacity(100)} className="text-muted-foreground hover:text-foreground">
+                        <RotateCcw className="size-2.5" />
+                      </button>
+                    )}
+                  </div>
+                  <span className="text-xs tabular-nums text-muted-foreground">{Math.round(patternOpacity)}%</span>
+                </div>
+                <Slider
+                  min={0}
+                  max={100}
+                  step={10}
+                  value={[patternOpacity]}
+                  onValueChange={([v]) => setPatternOpacity(v)}
+                  formatValue={(v) => `${Math.round(v)}%`}
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1">
+                    <span className="text-xs font-medium text-muted-foreground">Spacing</span>
+                    {patternSpacing !== 0 && (
+                      <button type="button" onClick={() => setPatternSpacing(0)} className="text-muted-foreground hover:text-foreground">
+                        <RotateCcw className="size-2.5" />
+                      </button>
+                    )}
+                  </div>
+                  <span className="text-xs tabular-nums text-muted-foreground">{Math.round(patternSpacing)}px</span>
+                </div>
+                <Slider
+                  min={0}
+                  max={40}
+                  step={1}
+                  value={[patternSpacing]}
+                  onValueChange={([v]) => setPatternSpacing(v)}
+                  formatValue={(v) => `${Math.round(v)}px`}
+                />
+              </div>
+            </div>
+            {/* Orientation knob — right, overhanging sidebar edge */}
+            <div className="flex-shrink-0 -mr-6 mt-1">
+              <MiniKnob
+                value={patternRotation}
+                min={-180}
+                max={180}
+                infinite
+                step={1}
+                snapPoints={[-180, -135, -90, -45, 0, 45, 90, 135, 180]}
+                label="Orientation"
+                counterValue={`${Math.abs(Math.round(patternRotation))}`.padStart(3, '0')}
+                onChange={setPatternRotation}
+                onReset={() => setPatternRotation(0)}
+              />
+            </div>
+          </div>
+        </AnimateExpand>
       </div>
 
     </div>
