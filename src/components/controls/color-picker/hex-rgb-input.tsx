@@ -31,6 +31,12 @@ function rgbToHex(r: number, g: number, b: number): string {
   );
 }
 
+function mixedCaseHex(hex: string): string {
+  return hex.replace(/[a-fA-F]/g, (ch) =>
+    'bd'.includes(ch.toLowerCase()) ? ch.toLowerCase() : ch.toUpperCase()
+  )
+}
+
 export function HexRgbInput({ color, onChange }: HexRgbInputProps) {
   const [hex, setHex] = useState(color);
 
@@ -62,7 +68,7 @@ export function HexRgbInput({ color, onChange }: HexRgbInputProps) {
       <div className="vfd-readout">
         <div className="min-w-0 flex-1">
           <Input
-            value={hex.replace('#', '')}
+            value={mixedCaseHex(hex.replace('#', ''))}
             onChange={(e) => handleHexChange(`#${e.target.value.replace('#', '')}`)}
             className={`w-full ${numClass}`}
             maxLength={6}

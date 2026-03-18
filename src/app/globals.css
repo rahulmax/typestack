@@ -2,12 +2,13 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-/* DS-Digital 7-segment LCD typeface */
+/* 7-segment display typeface (torinak.com/font/7-segment, SIL OFL) */
 @font-face {
-  font-family: 'DS-Digital';
-  src: url('/fonts/DS-DIGII.TTF') format('truetype');
+  font-family: '7segment';
+  src: url('/fonts/7segment.woff') format('woff'),
+       url('/fonts/7segment.ttf') format('truetype');
   font-weight: normal;
-  font-style: italic;
+  font-style: normal;
   font-display: swap;
 }
 
@@ -667,7 +668,7 @@
   padding: 4px 6px;
   border-radius: 6px;
   overflow: hidden;
-  font-family: 'DS-Digital', monospace;
+  font-family: '7segment', monospace;
 
   background: oklch(0.13 0.005 140);
   border: 1px solid oklch(0.22 0.01 140);
@@ -707,7 +708,7 @@
 /* LCD digit values — green on black */
 .vfd-readout input,
 .vfd-readout .vfd-value {
-  font-family: 'DS-Digital', monospace !important;
+  font-family: '7segment', monospace !important;
   color: oklch(0.75 0.18 145);
   text-shadow:
     0 0 4px oklch(0.65 0.16 145 / 50%),

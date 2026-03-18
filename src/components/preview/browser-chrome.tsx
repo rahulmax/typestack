@@ -1,10 +1,11 @@
 "use client";
 
-import { ALargeSmall, Laptop, Tablet, Smartphone, Globe, AlignLeft } from "lucide-react";
+import { ALargeSmall, BookType, Laptop, Tablet, Smartphone, Globe, AlignLeft } from "lucide-react";
 import { useUIStore, type ViewportSize, type PreviewTab } from "@/store/ui-store";
 
 const VIEWPORTS: { value: ViewportSize; icon: typeof Laptop }[] = [
   { value: "scale", icon: ALargeSmall },
+  { value: "style", icon: BookType },
   { value: "laptop", icon: Laptop },
   { value: "tablet", icon: Tablet },
   { value: "mobile", icon: Smartphone },
@@ -25,12 +26,12 @@ export function BrowserChrome({ children, tablet }: BrowserChromeProps) {
   const setViewport = useUIStore((s) => s.setViewport);
   const activeTab = useUIStore((s) => s.activeTab);
   const setActiveTab = useUIStore((s) => s.setActiveTab);
-  const isScale = viewport === "scale";
+  const isScale = viewport === "scale" || viewport === "style";
 
   return (
     <div
       className="mx-auto transition-all duration-300"
-      style={tablet ? { width: 768 } : viewport === "laptop" ? { minWidth: 1024, width: "100%" } : { width: "100%" }}
+      style={tablet ? { width: 768 } : viewport === "laptop" ? { minWidth: 1024, width: "100%" } : viewport === "style" ? { maxWidth: 1280, width: "100%" } : { width: "100%" }}
     >
       <div className="overflow-hidden rounded-lg shadow-md border border-border">
         {/* Title bar */}
@@ -45,7 +46,7 @@ export function BrowserChrome({ children, tablet }: BrowserChromeProps) {
             <div className="flex items-center gap-0.5 rounded-full bg-background px-2 py-1">
               {VIEWPORTS.map(({ value, icon: Icon }, i) => (
                 <span key={value} className="flex items-center">
-                  {i === 1 && <span className="mx-1 h-4 w-px bg-border" />}
+                  {i === 2 && <span className="mx-1 h-4 w-px bg-border" />}
                   <button
                     type="button"
                     onClick={() => setViewport(value)}

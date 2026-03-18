@@ -11,7 +11,7 @@ export function TemplateTabs() {
   const activeTab = useUIStore((s) => s.activeTab);
   const setActiveTab = useUIStore((s) => s.setActiveTab);
   const viewport = useUIStore((s) => s.viewport);
-  const isScale = viewport === "scale";
+  const isScale = viewport === "scale" || viewport === "style";
 
   return (
     <div className={`flex gap-1.5 ${isScale ? "opacity-40 pointer-events-none" : ""}`}>

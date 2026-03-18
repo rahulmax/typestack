@@ -28,7 +28,7 @@ export function MobileChrome({ children }: MobileChromeProps) {
   const setActiveTab = useUIStore((s) => s.setActiveTab);
   const bgColor = useTypographyStore((s) => s.backgroundColor);
   const dark = isBgDark(bgColor);
-  const isScale = viewport === "scale";
+  const isScale = viewport === "scale" || viewport === "style";
 
   return (
     <div className="flex h-full items-start justify-center pt-2">

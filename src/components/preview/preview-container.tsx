@@ -4,6 +4,7 @@ import { PreviewIframe } from "./preview-iframe";
 import { BrowserChrome } from "./browser-chrome";
 import { MobileChrome } from "./mobile-chrome";
 import { TypeScaleView } from "./type-scale-view";
+import { StyleCards } from "./style-cards";
 import { useUIStore } from "@/store/ui-store";
 import { getTemplateHTML } from "./templates/template-registry";
 
@@ -22,6 +23,23 @@ export function PreviewContainer() {
           </div>
           <div className="md:hidden">
             <TypeScaleView />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (viewport === "style") {
+    return (
+      <div className="flex h-full flex-col">
+        <div className="flex-1 overflow-auto bg-background p-2 md:p-4">
+          <div className="hidden md:block">
+            <BrowserChrome>
+              <StyleCards />
+            </BrowserChrome>
+          </div>
+          <div className="md:hidden">
+            <StyleCards />
           </div>
         </div>
       </div>

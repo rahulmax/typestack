@@ -7,11 +7,13 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useEffect, useState } from "react";
-import { Undo2, Redo2, RotateCcw, Sun, Moon } from "lucide-react";
+import { Undo2, Redo2, RotateCcw, Sun, Moon, SkipBack, SkipForward } from "lucide-react";
 import { useTypographyStore } from "@/store/typography-store";
 import { useStore } from "zustand";
 import { useTheme } from "next-themes";
 import { Show, UserButton, SignInButton } from "@clerk/nextjs";
+import { fetchStacks, type Stack } from "@/lib/stacks-api";
+import { useUIStore } from "@/store/ui-store";
 
 interface HeaderProps {
   onExportClick: () => void;
@@ -25,10 +27,31 @@ export function Header({
   onBrowseStacks,
 }: HeaderProps) {
   const resetConfig = useTypographyStore((s) => s.resetConfig);
+  const loadConfig = useTypographyStore((s) => s.loadConfig);
+  const setCurrentStack = useUIStore((s) => s.setCurrentStack);
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [stacks, setStacks] = useState<Stack[]>([]);
+  const [stackIndex, setStackIndex] = useState(-1);
 
   useEffect(() => setMounted(true), []);
+
+  useEffect(() => {
+    fetchStacks('all').then((data) => {
+      if (data.length > 0) setStacks(data);
+    }).catch(() => {})
+  }, []);
+
+  const navigateStack = (direction: 'prev' | 'next') => {
+    if (stacks.length === 0) return;
+    const newIndex = direction === 'next'
+      ? (stackIndex + 1) % stacks.length
+      : (stackIndex - 1 + stacks.length) % stacks.length;
+    const stack = stacks[newIndex];
+    loadConfig(stack.config);
+    setCurrentStack(stack.id, stack.name);
+    setStackIndex(newIndex);
+  };
 
   const { undo, redo, pastStates, futureStates } = useStore(
     useTypographyStore.temporal
@@ -45,13 +68,31 @@ export function Header({
       </div>
 
       {/* Center: browse button (offset by half sidebar width so it centers in the preview area) */}
-      <div className="absolute inset-x-0 flex justify-center pointer-events-none z-[2]" style={{ paddingLeft: 180 }}>
+      <div className="absolute inset-x-0 flex items-center justify-center gap-1.5 pointer-events-none z-[2]" style={{ paddingLeft: 180 }}>
+        <button
+          type="button"
+          onClick={() => navigateStack('prev')}
+          disabled={stacks.length === 0}
+          className="hw-btn hidden sm:inline-flex pointer-events-auto"
+          style={{ height: 36, width: 36, padding: 0, justifyContent: 'center' }}
+        >
+          <SkipBack className="size-3.5" />
+        </button>
         <button type="button" onClick={onBrowseStacks} className="hw-btn hidden sm:inline-flex text-sm pointer-events-auto" style={{ height: 36, padding: '0 16px' }}>
           <svg viewBox="0 0 16 16" fill="currentColor" className="size-3.5">
             <polygon points="8 3 14 10 2 10" />
             <rect x="2" y="12" width="12" height="1.5" rx="0.5" />
           </svg>
           Browse Typeface Combos
+        </button>
+        <button
+          type="button"
+          onClick={() => navigateStack('next')}
+          disabled={stacks.length === 0}
+          className="hw-btn hidden sm:inline-flex pointer-events-auto"
+          style={{ height: 36, width: 36, padding: 0, justifyContent: 'center' }}
+        >
+          <SkipForward className="size-3.5" />
         </button>
       </div>
 
