@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/tooltip"
 import { Grid3x3, CircleDot, Plus, RectangleVertical, Slash, Hash, Minus, Diamond, Ban, RotateCcw } from "lucide-react"
 import { Slider } from "@/components/ui/slider"
-import { MiniKnob } from "./mini-knob"
 import { AnimateExpand } from "@/components/ui/animate-expand"
 import { ContrastMeter } from "./contrast-meter"
 import { HexColorPicker } from "react-colorful"
@@ -119,8 +118,7 @@ export function SidebarToolbar() {
   const setBackgroundColor = useTypographyStore((s) => s.setBackgroundColor)
   const gridPattern = useUIStore((s) => s.gridPattern)
   const setGridPattern = useUIStore((s) => s.setGridPattern)
-  const patternRotation = useUIStore((s) => s.patternRotation)
-  const setPatternRotation = useUIStore((s) => s.setPatternRotation)
+
 const patternOpacity = useUIStore((s) => s.patternOpacity)
   const setPatternOpacity = useUIStore((s) => s.setPatternOpacity)
   const patternSpacing = useUIStore((s) => s.patternSpacing)
@@ -238,10 +236,8 @@ const patternOpacity = useUIStore((s) => s.patternOpacity)
           ))}
         </div>
         <AnimateExpand open={!!gridPattern}>
-          <div className="flex gap-7 mt-3 items-center">
-            {/* Sliders — left 70% */}
-            <div className="flex-1 flex flex-col gap-2">
-              <div className="flex flex-col gap-1">
+          <div className="flex gap-3 mt-3 items-end">
+              <div className="flex-1 flex flex-col gap-1">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1">
                     <span className="text-xs font-medium text-muted-foreground">Opacity</span>
@@ -262,7 +258,7 @@ const patternOpacity = useUIStore((s) => s.patternOpacity)
                   formatValue={(v) => `${Math.round(v)}%`}
                 />
               </div>
-              <div className="flex flex-col gap-1">
+              <div className="flex-1 flex flex-col gap-1">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1">
                     <span className="text-xs font-medium text-muted-foreground">Spacing</span>
@@ -283,22 +279,6 @@ const patternOpacity = useUIStore((s) => s.patternOpacity)
                   formatValue={(v) => `${Math.round(v)}px`}
                 />
               </div>
-            </div>
-            {/* Orientation knob — right, overhanging sidebar edge */}
-            <div className="flex-shrink-0 -mr-6 mt-1">
-              <MiniKnob
-                value={patternRotation}
-                min={-180}
-                max={180}
-                infinite
-                step={1}
-                snapPoints={[-180, -135, -90, -45, 0, 45, 90, 135, 180]}
-                label="Orientation"
-                counterValue={`${Math.abs(Math.round(patternRotation))}`.padStart(3, '0')}
-                onChange={setPatternRotation}
-                onReset={() => setPatternRotation(0)}
-              />
-            </div>
           </div>
         </AnimateExpand>
       </div>
