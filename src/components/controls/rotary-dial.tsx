@@ -260,23 +260,23 @@ export const RotaryDial = memo(function RotaryDial({ value, onChange, onPresetCh
               <div
                 className="absolute"
                 style={{
-                  width: 1,
-                  height: 7,
-                  left: x - 0.5 + Math.cos(perpRad) * off,
-                  top: y - 3.5 + Math.sin(perpRad) * off,
+                  width: '1px',
+                  height: '7px',
+                  left: `${(x - 0.5 + Math.cos(perpRad) * off).toFixed(2)}px`,
+                  top: `${(y - 3.5 + Math.sin(perpRad) * off).toFixed(2)}px`,
                   transform: `rotate(${deg}deg)`,
-                  background: 'rgba(0,0,0,0.1)',
+                  backgroundColor: 'rgba(0,0,0,0.1)',
                 }}
               />
               <div
                 className="absolute"
                 style={{
-                  width: 1,
-                  height: 7,
-                  left: x - 0.5 - Math.cos(perpRad) * off,
-                  top: y - 3.5 - Math.sin(perpRad) * off,
+                  width: '1px',
+                  height: '7px',
+                  left: `${(x - 0.5 - Math.cos(perpRad) * off).toFixed(2)}px`,
+                  top: `${(y - 3.5 - Math.sin(perpRad) * off).toFixed(2)}px`,
                   transform: `rotate(${deg}deg)`,
-                  background: 'rgba(255,255,255,0.08)',
+                  backgroundColor: 'rgba(255,255,255,0.08)',
                 }}
               />
             </div>

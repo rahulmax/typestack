@@ -18,8 +18,8 @@ const WEIGHT_LABELS: { weight: number; label: string }[] = [
   { weight: 300, label: 'Light' },
 ]
 
-const HEADING_SAMPLE = 'The FBI struggled to find good hackers because of marijuana rules and regulations'
-const BODY_SAMPLE = 'When the FBI needed to hire hackers to build out its cyber crime division in 2014, it would not hire anyone who had smoked weed in the past three years. A lot of hackers liked to smoke weed. The agency eventually relaxed its hiring policy after struggling to fill critical cybersecurity roles across multiple departments.'
+const HEADING_SAMPLE = 'Typography is the craft of endowing language with visual form'
+const BODY_SAMPLE = 'Letters are symbols which turn matter into spirit. A text is a sequence of words. A text stays the same from one moment to another. The letters of the alphabet are a set of visible signs or characters used to represent sounds in speech.'
 const TITLE_SAMPLE = 'The Outermost House'
 const LEAD_SAMPLE = 'In a world older and more complete than ours they move finished and complete, gifted with extensions of the senses we have lost or never attained, living by voices we shall never hear.'
 const PARAGRAPH_SAMPLE = 'They are not brethren; they are not underlings; they are other nations, caught with ourselves in the net of life and time, fellow prisoners of the splendor and travail of the earth.'
@@ -157,7 +157,6 @@ export function StyleCards() {
       >
         <div className="mx-auto max-w-[1200px] px-10 pb-12 pt-10">
         <h1
-          className="line-clamp-2 overflow-hidden"
           style={{
             fontFamily: `'${headingFont}', sans-serif`,
             fontWeight: styles.h1?.fontWeight ?? headingsGroup.fontWeight,

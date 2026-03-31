@@ -13,6 +13,7 @@ import { SidebarToolbar } from "@/components/controls/sidebar-toolbar";
 import { ColorPicker } from "@/components/controls/color-picker/color-picker";
 import { PreviewContainer } from "@/components/preview/preview-container";
 import { ExportDialog } from "@/components/export/export-dialog";
+import { MobileNotice } from "@/components/layout/mobile-notice";
 
 import { useTypographyStore } from "@/store/typography-store";
 import { useURLSync } from "@/store/middleware/url-sync";
@@ -129,7 +130,9 @@ export default function Home() {
 
   return (
     <>
-      <AppShell
+      <MobileNotice />
+      <div className="hidden lg:block">
+        <AppShell
         header={
           <Header
             onExportClick={handleExportClick}
@@ -208,6 +211,7 @@ export default function Home() {
         color={currentColorForPicker}
         onChange={handleColorChange}
       />
+      </div>
     </>
   );
 }
