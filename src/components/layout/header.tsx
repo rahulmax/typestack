@@ -64,7 +64,18 @@ export function Header({
       {/* Left: logo + strapline */}
       <div className="relative z-[2] flex items-center gap-2 shrink-0">
         <span className="text-lg font-bold tracking-tight">TypeStax</span>
-        <span className="hidden sm:inline text-xs text-muted-foreground/60 tracking-wide translate-y-px">Harmonious Type Stacks</span>
+        <span className="hidden sm:inline text-xs text-muted-foreground/60 tracking-wide translate-y-px">
+          Harmonious Type Stacks{" "}
+          <span className="text-muted-foreground/40">•</span>{" "}
+          <a
+            href="https://rahulmax.com"
+            target="_blank"
+            rel="noreferrer"
+            className="pointer-events-auto transition-colors hover:text-foreground"
+          >
+            built by rahulmax
+          </a>
+        </span>
       </div>
 
       {/* Center: browse button (offset by half sidebar width so it centers in the preview area) */}
