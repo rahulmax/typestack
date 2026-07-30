@@ -31,7 +31,8 @@ export function BrowserChrome({ children, tablet }: BrowserChromeProps) {
   return (
     <div
       className="mx-auto transition-all duration-300"
-      style={tablet ? { width: 768 } : viewport === "laptop" ? { minWidth: 1024, width: "100%" } : viewport === "style" ? { maxWidth: 1280, width: "100%" } : { width: "100%" }}
+      // tablet: 770 = 768px iframe viewport + 2px frame border, so the mobile media query doesn't match
+      style={tablet ? { width: 770 } : viewport === "laptop" ? { minWidth: 1024, width: "100%" } : viewport === "style" ? { maxWidth: 1280, width: "100%" } : { width: "100%" }}
     >
       <div className="overflow-hidden rounded-lg shadow-md border border-border">
         {/* Title bar */}
