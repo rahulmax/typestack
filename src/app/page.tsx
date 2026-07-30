@@ -186,7 +186,7 @@ export default function Home() {
             <div className="module-groove" />
             <div className="flex flex-col items-end gap-0.5 px-4 py-6">
               <span className="text-sm font-bold tracking-tight text-stone-400 dark:text-stone-600" style={{ fontFamily: 'var(--font-host-grotesk), system-ui, sans-serif', textShadow: '0 -1px 0 rgba(0,0,0,0.15), 0 1px 0 rgba(255,255,255,0.1)' }}>TypeStax</span>
-              <span className="text-[8px] font-semibold uppercase tracking-[0.2em] text-stone-400 dark:text-stone-600" style={{ fontFamily: 'var(--font-host-grotesk), system-ui, sans-serif' }}>MADE BY RAHULMAX</span>
+              <a href="https://rahulmax.com" target="_blank" rel="noreferrer" className="text-[8px] font-semibold uppercase tracking-[0.2em] text-stone-400 dark:text-stone-600 transition-colors hover:text-stone-500 dark:hover:text-stone-400" style={{ fontFamily: 'var(--font-host-grotesk), system-ui, sans-serif' }}>MADE BY RAHULMAX</a>
             </div>
           </Sidebar>
         }
