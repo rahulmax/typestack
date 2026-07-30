@@ -28,9 +28,9 @@ const oswald = Oswald({
 });
 
 export const metadata: Metadata = {
-  title: "TypeStax — Type Scale Generator",
+  title: "TypeStax: A type scale generator that feels like vintage audio hardware",
   description:
-    "An enhanced type scale generator with per-element editing, Google Fonts, live previews, and Figma export.",
+    "Build harmonious type scales on a skeuomorphic analog control panel. Per-element editing, Google Fonts, live previews, and Figma export.",
 };
 
 export default function RootLayout({
