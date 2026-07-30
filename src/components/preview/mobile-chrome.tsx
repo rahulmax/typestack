@@ -31,10 +31,19 @@ export function MobileChrome({ children }: MobileChromeProps) {
   const isScale = viewport === "scale" || viewport === "style";
 
   return (
-    <div className="flex h-full items-start justify-center pt-2">
+    <div className="flex h-full flex-col items-center gap-2 pt-2">
+      <div className="flex items-center gap-1.5">
+        <span className="hw-selector-led" />
+        <span
+          className="text-[9px] font-semibold uppercase tracking-[0.2em] text-muted-foreground/60"
+          style={{ fontFamily: "var(--font-host-grotesk), system-ui, sans-serif" }}
+        >
+          Scale set in Mobile Settings
+        </span>
+      </div>
       <div
-        className="relative flex flex-col overflow-hidden rounded-t-[40px] border-[3px] border-b-0 border-border shadow-lg"
-        style={{ width: 375, maxWidth: "100%", height: "calc(100% - 0.5rem)", backgroundColor: bgColor }}
+        className="relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-t-[40px] border-[3px] border-b-0 border-border shadow-lg"
+        style={{ width: 375, maxWidth: "100%", backgroundColor: bgColor }}
       >
         {/* Dynamic island area — overlays content */}
         <div className="relative z-10 flex items-center justify-center gap-2 py-1.5">
