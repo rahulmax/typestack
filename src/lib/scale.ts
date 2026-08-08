@@ -5,9 +5,17 @@ import type {
   GroupProperties,
 } from "@/types/typography";
 import { SCALE_POSITIONS, ALL_ELEMENTS, HEADING_ELEMENTS, DISPLAY_ELEMENTS } from "@/types/typography";
+import { ELEMENT_DEFAULTS } from "@/data/element-defaults";
 
 function isHeadingOrDisplay(element: TypographyElement): boolean {
   return HEADING_ELEMENTS.includes(element) || DISPLAY_ELEMENTS.includes(element);
+}
+
+function applyElementDefaults(element: TypographyElement, resolved: ResolvedElementStyle): void {
+  const defaults = ELEMENT_DEFAULTS[element];
+  if (!defaults) return;
+  if (defaults.letterSpacing !== undefined) resolved.letterSpacing = defaults.letterSpacing;
+  if (defaults.textTransform !== undefined) resolved.textTransform = defaults.textTransform;
 }
 
 export function computeFontSize(
@@ -46,11 +54,7 @@ export function resolveElementStyles(
     textTransform: "none",
   };
 
-  // Eyebrow baseline: always uppercase with ample letter-spacing
-  if (element === "eyebrow") {
-    resolved.textTransform = "uppercase";
-    resolved.letterSpacing = 0.2;
-  }
+  applyElementDefaults(element, resolved);
 
   const override = config.overrides[element];
   if (override?.isOverridden) {
@@ -97,10 +101,7 @@ export function resolveElementStylesMobile(
     textTransform: "none",
   };
 
-  if (element === "eyebrow") {
-    resolved.textTransform = "uppercase";
-    resolved.letterSpacing = 0.2;
-  }
+  applyElementDefaults(element, resolved);
 
   const override = config.overrides[element];
   if (override?.isOverridden) {

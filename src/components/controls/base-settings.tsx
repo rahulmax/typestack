@@ -8,7 +8,7 @@ import { DEFAULT_CONFIG } from "@/data/default-config"
 import { useTypographyStore } from "@/store/typography-store"
 
 const VSLIDER_MIN = 8
-const VSLIDER_MAX = 32
+const VSLIDER_MAX = 24
 const TICK_COUNT = 10
 
 function VerticalBaseSlider({ value, onChange, onReset, height }: { value: number; onChange: (v: number) => void; onReset?: () => void; height: number }) {

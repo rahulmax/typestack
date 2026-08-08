@@ -1,6 +1,6 @@
 import { describe, test, expect } from 'vitest'
-import { computeFontSize, computeScale, computeMobileScale, resolveElementStyles } from '../scale'
-import { DEFAULT_CONFIG } from '@/data/default-config'
+import { computeFontSize, computeScale, computeMobileScale, resolveElementStyles, resolveElementStylesMobile } from '../scale'
+import { DEFAULT_CONFIG, normalizeConfig } from '@/data/default-config'
 import { ALL_ELEMENTS, SCALE_POSITIONS } from '@/types/typography'
 import type { TypographyConfig } from '@/types/typography'
 
@@ -79,10 +79,44 @@ describe('computeScale', () => {
 })
 
 describe('resolveElementStyles', () => {
-  test('eyebrow defaults to uppercase with 0.2 letter-spacing', () => {
+  test('eyebrow defaults to uppercase with 0.08 letter-spacing', () => {
     const style = resolveElementStyles('eyebrow', DEFAULT_CONFIG)
     expect(style.textTransform).toBe('uppercase')
-    expect(style.letterSpacing).toBe(0.2)
+    expect(style.letterSpacing).toBe(0.08)
+  })
+
+  test('mobile eyebrow resolves to the same tracking as desktop', () => {
+    const desktop = resolveElementStyles('eyebrow', DEFAULT_CONFIG)
+    const mobile = resolveElementStylesMobile('eyebrow', DEFAULT_CONFIG)
+    expect(mobile.letterSpacing).toBe(desktop.letterSpacing)
+    expect(mobile.textTransform).toBe(desktop.textTransform)
+  })
+
+  test('an explicit eyebrow override beats the element default', () => {
+    const config: TypographyConfig = {
+      ...DEFAULT_CONFIG,
+      overrides: {
+        ...DEFAULT_CONFIG.overrides,
+        eyebrow: { isOverridden: true, letterSpacing: 0.15 },
+      },
+    }
+    expect(resolveElementStyles('eyebrow', config).letterSpacing).toBe(0.15)
+    expect(resolveElementStylesMobile('eyebrow', config).letterSpacing).toBe(0.15)
+  })
+
+  test('element defaults do not leak to other body elements', () => {
+    for (const element of ['p', 'small'] as const) {
+      const style = resolveElementStyles(element, DEFAULT_CONFIG)
+      expect(style.letterSpacing).toBe(DEFAULT_CONFIG.bodyGroup.letterSpacing)
+      expect(style.textTransform).toBe('none')
+    }
+  })
+
+  test('a stored config with a full overrides map still resolves eyebrow to 0.08', () => {
+    const config = normalizeConfig(
+      JSON.parse(JSON.stringify({ ...DEFAULT_CONFIG, baseFontSize: 18 }))
+    )
+    expect(resolveElementStyles('eyebrow', config).letterSpacing).toBe(0.08)
   })
 
   test('overrides are applied when isOverridden is true', () => {

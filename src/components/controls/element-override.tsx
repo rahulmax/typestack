@@ -11,6 +11,7 @@ import { SidebarOverflowContext } from "@/components/layout/sidebar";
 import { AnimateExpand } from "@/components/ui/animate-expand";
 import type { TypographyElement, GroupProperties } from "@/types/typography";
 import { HEADING_ELEMENTS, DISPLAY_ELEMENTS, OPTIONAL_ELEMENTS, BODY_ELEMENTS } from "@/types/typography";
+import { ELEMENT_DEFAULTS } from "@/data/element-defaults";
 
 function ElementRow({ element }: { element: TypographyElement }) {
   const store = useTypographyStore();
@@ -28,11 +29,12 @@ function ElementRow({ element }: { element: TypographyElement }) {
 
   const fontWeight = override.fontWeight ?? group.fontWeight;
   const lineHeight = override.lineHeight ?? group.lineHeight;
-  const letterSpacing = override.letterSpacing ?? group.letterSpacing;
+  const baseLetterSpacing = ELEMENT_DEFAULTS[element]?.letterSpacing ?? group.letterSpacing;
+  const letterSpacing = override.letterSpacing ?? baseLetterSpacing;
   const wordSpacing = override.wordSpacing ?? group.wordSpacing;
   const hasFontWeightOverride = override.fontWeight !== undefined && override.fontWeight !== group.fontWeight;
   const hasLineHeightOverride = override.lineHeight !== undefined && override.lineHeight !== group.lineHeight;
-  const hasLetterSpacingOverride = override.letterSpacing !== undefined && override.letterSpacing !== group.letterSpacing;
+  const hasLetterSpacingOverride = override.letterSpacing !== undefined && override.letterSpacing !== baseLetterSpacing;
   const hasWordSpacingOverride = override.wordSpacing !== undefined && override.wordSpacing !== group.wordSpacing;
 
   const clearField = (field: keyof GroupProperties) => {
