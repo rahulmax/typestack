@@ -12,6 +12,7 @@ import { AnimateExpand } from "@/components/ui/animate-expand";
 import type { TypographyElement, GroupProperties } from "@/types/typography";
 import { HEADING_ELEMENTS, DISPLAY_ELEMENTS, OPTIONAL_ELEMENTS, BODY_ELEMENTS } from "@/types/typography";
 import { ELEMENT_DEFAULTS } from "@/data/element-defaults";
+import { ELEMENT_LETTER_SPACING_RANGE } from "@/data/default-config";
 
 function ElementRow({ element }: { element: TypographyElement }) {
   const store = useTypographyStore();
@@ -111,8 +112,8 @@ function ElementRow({ element }: { element: TypographyElement }) {
               <Slider
                 value={[letterSpacing]}
                 onValueChange={([v]) => handleOverride({ letterSpacing: v })}
-                min={-0.1}
-                max={0.2}
+                min={ELEMENT_LETTER_SPACING_RANGE[0]}
+                max={ELEMENT_LETTER_SPACING_RANGE[1]}
                 step={0.005}
                 formatValue={(v) => v.toFixed(3)}
                 onReset={() => clearField("letterSpacing")}

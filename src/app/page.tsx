@@ -6,6 +6,7 @@ import { Header } from "@/components/layout/header";
 import { Sidebar } from "@/components/layout/sidebar";
 import { BaseSettings } from "@/components/controls/base-settings";
 import { GroupControls } from "@/components/controls/group-controls";
+import { HEADINGS_LETTER_SPACING_RANGE, BODY_LETTER_SPACING_RANGE } from "@/data/default-config";
 import { ElementOverridePanel } from "@/components/controls/element-override";
 import { MobileSettings } from "@/components/controls/mobile-settings";
 import { SidebarToolbar } from "@/components/controls/sidebar-toolbar";
@@ -155,6 +156,7 @@ export default function Home() {
                 title="Headings"
                 group={headingsGroup}
                 onUpdate={updateHeadingsGroup}
+                letterSpacingRange={HEADINGS_LETTER_SPACING_RANGE}
                 disabled={autoBalanceHeadings}
                 autoBalance={autoBalanceHeadings}
                 onAutoBalanceChange={setAutoBalanceHeadings}
@@ -166,6 +168,7 @@ export default function Home() {
                 title="Body"
                 group={bodyGroup}
                 onUpdate={updateBodyGroup}
+                letterSpacingRange={BODY_LETTER_SPACING_RANGE}
                 disabled={autoBalanceBody}
                 autoBalance={autoBalanceBody}
                 onAutoBalanceChange={setAutoBalanceBody}

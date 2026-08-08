@@ -3,7 +3,7 @@
 import { RotateCcw } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { DEFAULT_CONFIG } from "@/data/default-config";
+import { DEFAULT_CONFIG, MOBILE_BASE_FONT_SIZE_RANGE } from "@/data/default-config";
 import { useTypographyStore } from "@/store/typography-store";
 
 const defaults = DEFAULT_CONFIG.mobile;
@@ -32,8 +32,8 @@ export function MobileSettings() {
           <Slider
             value={[mobile.baseFontSize]}
             onValueChange={([v]) => updateMobile({ baseFontSize: v })}
-            min={10}
-            max={20}
+            min={MOBILE_BASE_FONT_SIZE_RANGE[0]}
+            max={MOBILE_BASE_FONT_SIZE_RANGE[1]}
             step={1}
             formatValue={(v) => `${v}px`}
             onReset={() => updateMobile({ baseFontSize: defaults.baseFontSize })}
