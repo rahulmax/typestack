@@ -4,11 +4,10 @@ import { useRef, useCallback } from "react"
 import { RotateCcw } from "lucide-react"
 import { Label } from "@/components/ui/label"
 import { RotaryDial } from "./rotary-dial"
-import { DEFAULT_CONFIG } from "@/data/default-config"
+import { DEFAULT_CONFIG, BASE_FONT_SIZE_RANGE } from "@/data/default-config"
 import { useTypographyStore } from "@/store/typography-store"
 
-const VSLIDER_MIN = 8
-const VSLIDER_MAX = 32
+const [VSLIDER_MIN, VSLIDER_MAX] = BASE_FONT_SIZE_RANGE
 const TICK_COUNT = 10
 
 function VerticalBaseSlider({ value, onChange, onReset, height }: { value: number; onChange: (v: number) => void; onReset?: () => void; height: number }) {

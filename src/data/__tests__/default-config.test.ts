@@ -52,6 +52,40 @@ describe('normalizeConfig', () => {
     expect(config.mobile.breakpointWidth).toBe(DEFAULT_CONFIG.mobile.breakpointWidth)
   })
 
+  test('clamps a stored base font size into the slider range', () => {
+    expect(normalizeConfig({ baseFontSize: 30 }).baseFontSize).toBe(24)
+    expect(normalizeConfig({ baseFontSize: 4 }).baseFontSize).toBe(8)
+    expect(normalizeConfig({ mobile: { baseFontSize: 26 } }).mobile.baseFontSize).toBe(20)
+  })
+
+  test('clamps group letter-spacing into the per-group ranges', () => {
+    const config = normalizeConfig({
+      headingsGroup: { letterSpacing: -0.2 },
+      bodyGroup: { letterSpacing: 0.2 },
+    })
+    expect(config.headingsGroup.letterSpacing).toBe(-0.08)
+    expect(config.bodyGroup.letterSpacing).toBe(0.1)
+  })
+
+  test('clamps element override letter-spacing and leaves untouched overrides alone', () => {
+    const config = normalizeConfig({
+      overrides: {
+        ...DEFAULT_CONFIG.overrides,
+        h1: { isOverridden: true, letterSpacing: 0.2 },
+        h2: { isOverridden: true, fontWeight: 900 },
+      },
+    })
+    expect(config.overrides.h1.letterSpacing).toBe(0.15)
+    expect(config.overrides.h2.letterSpacing).toBeUndefined()
+    expect(config.overrides.h2.fontWeight).toBe(900)
+    expect(config.overrides.p.isOverridden).toBe(false)
+  })
+
+  test('falls back to the default when a bounded field is not a number', () => {
+    const config = normalizeConfig({ baseFontSize: 'huge' as unknown as number })
+    expect(config.baseFontSize).toBe(DEFAULT_CONFIG.baseFontSize)
+  })
+
   test('handles stale config with missing fields', () => {
     const stale = {
       baseFontSize: 18,

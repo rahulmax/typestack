@@ -16,6 +16,7 @@ interface GroupControlsProps {
   title: string
   group: GroupProperties
   onUpdate: (props: Partial<GroupProperties>) => void
+  letterSpacingRange: [number, number]
   disabled?: boolean
   autoBalance?: boolean
   onAutoBalanceChange?: (enabled: boolean) => void
@@ -25,6 +26,7 @@ export function GroupControls({
   title,
   group,
   onUpdate,
+  letterSpacingRange,
   disabled,
   autoBalance,
   onAutoBalanceChange,
@@ -123,8 +125,8 @@ export function GroupControls({
           <Slider
             value={[group.letterSpacing]}
             onValueChange={([v]) => onUpdate({ letterSpacing: v })}
-            min={-0.1}
-            max={0.2}
+            min={letterSpacingRange[0]}
+            max={letterSpacingRange[1]}
             step={0.005}
             disabled={disabled}
             disabledText={disabled ? "auto" : undefined}
