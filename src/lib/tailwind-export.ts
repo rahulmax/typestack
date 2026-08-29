@@ -5,8 +5,8 @@ import { buildFontImports } from "./google-fonts";
 
 function isHeadingLike(element: string): boolean {
   return (
-    HEADING_ELEMENTS.includes(element as any) ||
-    DISPLAY_ELEMENTS.includes(element as any)
+    HEADING_ELEMENTS.includes(element as TypographyElement) ||
+    DISPLAY_ELEMENTS.includes(element as TypographyElement)
   );
 }
 

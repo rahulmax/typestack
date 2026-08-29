@@ -175,8 +175,6 @@ export const useTypographyStore = create<TypographyStore>()(
     {
       name: "typestack-typography",
       partialize: (state) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { autoBalance, autoBalanceHeadings, autoBalanceBody, enabledElements, ...rest } = state;
         return rest;
       },

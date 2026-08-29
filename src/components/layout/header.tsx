@@ -6,7 +6,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { Undo2, Redo2, RotateCcw, Sun, Moon, SkipBack, SkipForward } from "lucide-react";
 import { useTypographyStore } from "@/store/typography-store";
 import { useStore } from "zustand";
@@ -21,6 +21,8 @@ interface HeaderProps {
   onBrowseStacks: () => void;
 }
 
+const subscribeNoop = () => () => {};
+
 export function Header({
   onExportClick,
   onShareClick,
@@ -30,11 +32,12 @@ export function Header({
   const loadConfig = useTypographyStore((s) => s.loadConfig);
   const setCurrentStack = useUIStore((s) => s.setCurrentStack);
   const { resolvedTheme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
   const [stacks, setStacks] = useState<Stack[]>([]);
   const [stackIndex, setStackIndex] = useState(-1);
 
-  useEffect(() => setMounted(true), []);
+  // Hydration guard: false on the server and during hydration, true after.
+  // Avoids the cascading render of setting state from an effect.
+  const mounted = useSyncExternalStore(subscribeNoop, () => true, () => false);
 
   useEffect(() => {
     fetchStacks('all').then((data) => {
