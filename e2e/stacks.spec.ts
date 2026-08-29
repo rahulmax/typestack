@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { signIn, openBrowseDialog, createStack, switchFilter } from './helpers'
+import { openBrowseDialog, createStack, switchFilter } from './helpers'
 
 test.describe('Stack management', () => {
   const STACK_NAME = `E2E Test Stack ${Date.now()}`
@@ -85,7 +85,6 @@ test.describe('Stack management', () => {
 
     // Save first preset
     const firstCard = page.locator('[role="dialog"] [role="button"]').filter({ has: page.locator('p') }).first()
-    const stackName = await firstCard.locator('span.text-xs.font-medium').textContent()
     await firstCard.hover()
     await page.waitForTimeout(300)
     await firstCard.locator('button:has(svg.lucide-bookmark)').click()

@@ -19,9 +19,19 @@ const SAMPLE_PARAGRAPH = 'Typography is the art and technique of arranging type 
 const SAMPLE_EYEBROW = 'THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG'
 const SAMPLE_SMALL = 'The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs.'
 
+/** Document schema version emitted by this exporter. */
+const PEN_VERSION = '2.17'
+
 const META_FONT_SIZE = 11
 const META_LABEL_FONT_SIZE = 13
 const META_COL_WIDTH = 140
+
+/** Font family variables, following the Pencil design-system convention. */
+const FONT_PRIMARY_VAR = '--font-primary'
+const FONT_SECONDARY_VAR = '--font-secondary'
+
+/** Chrome (labels, meta readouts) is deliberately not part of the exported scale. */
+const CHROME_FONT_FAMILY = 'Inter'
 
 function sampleText(element: string): string {
   if (element === 'p') return SAMPLE_PARAGRAPH
@@ -35,6 +45,36 @@ function isHeadingLike(element: string): boolean {
     HEADING_ELEMENTS.includes(element as TypographyElement) ||
     DISPLAY_ELEMENTS.includes(element as TypographyElement)
   ) && element !== 'eyebrow'
+}
+
+/**
+ * pen.dev types `fontWeight` as a string. A numeric weight is silently discarded
+ * by the file loader and falls back to `normal`, so every weight must be stringified.
+ */
+function penFontWeight(weight: number): string {
+  return String(weight)
+}
+
+/**
+ * TypeStax stores letter-spacing in em; pen.dev measures it in pixels.
+ * Returns undefined for zero so the default is left off the node.
+ */
+function penLetterSpacing(letterSpacingEm: number, fontSize: number): number | undefined {
+  const px = letterSpacingEm * fontSize
+  return px === 0 ? undefined : px
+}
+
+/**
+ * Resolve a style's family to a `$variable` reference when it still matches its
+ * group, so the exported document is driven by the two font variables.
+ */
+function penFontFamily(style: ResolvedElementStyle, config: TypographyConfig): string {
+  const heading = isHeadingLike(style.element)
+  const groupFamily = heading
+    ? config.headingsGroup.fontFamily
+    : config.bodyGroup.fontFamily
+  if (style.fontFamily !== groupFamily) return style.fontFamily
+  return heading ? `$${FONT_PRIMARY_VAR}` : `$${FONT_SECONDARY_VAR}`
 }
 
 function buildMetaColumn(style: ResolvedElementStyle): PenNode {
@@ -51,8 +91,8 @@ function buildMetaColumn(style: ResolvedElementStyle): PenNode {
         type: 'text',
         content: style.element,
         fontSize: META_LABEL_FONT_SIZE,
-        fontFamily: 'Inter',
-        fontWeight: 700,
+        fontFamily: CHROME_FONT_FAMILY,
+        fontWeight: '700',
         fill: style.color,
         textGrowth: 'auto',
       },
@@ -61,8 +101,8 @@ function buildMetaColumn(style: ResolvedElementStyle): PenNode {
         type: 'text',
         content: `${style.fontSizeRem.toFixed(3)}rem`,
         fontSize: META_FONT_SIZE,
-        fontFamily: 'Inter',
-        fontWeight: 400,
+        fontFamily: CHROME_FONT_FAMILY,
+        fontWeight: '400',
         fill: style.color,
         opacity: 0.55,
         textGrowth: 'auto',
@@ -72,8 +112,8 @@ function buildMetaColumn(style: ResolvedElementStyle): PenNode {
         type: 'text',
         content: `${style.fontSize.toFixed(1)}px`,
         fontSize: META_FONT_SIZE,
-        fontFamily: 'Inter',
-        fontWeight: 400,
+        fontFamily: CHROME_FONT_FAMILY,
+        fontWeight: '400',
         fill: style.color,
         opacity: 0.55,
         textGrowth: 'auto',
@@ -83,8 +123,8 @@ function buildMetaColumn(style: ResolvedElementStyle): PenNode {
         type: 'text',
         content: `w${style.fontWeight}`,
         fontSize: META_FONT_SIZE,
-        fontFamily: 'Inter',
-        fontWeight: 400,
+        fontFamily: CHROME_FONT_FAMILY,
+        fontWeight: '400',
         fill: style.color,
         opacity: 0.55,
         textGrowth: 'auto',
@@ -97,20 +137,17 @@ function buildSampleColumn(
   style: ResolvedElementStyle,
   config: TypographyConfig,
 ): PenNode {
-  const family = isHeadingLike(style.element)
-    ? config.headingsGroup.fontFamily
-    : config.bodyGroup.fontFamily
+  const letterSpacing = penLetterSpacing(style.letterSpacing, style.fontSize)
 
   return {
     id: `sample-${style.element}`,
     type: 'text',
     content: sampleText(style.element),
     fontSize: style.fontSize,
-    fontFamily: family,
-    fontWeight: style.fontWeight,
+    fontFamily: penFontFamily(style, config),
+    fontWeight: penFontWeight(style.fontWeight),
     lineHeight: style.lineHeight,
-    letterSpacing: style.letterSpacing,
-
+    ...(letterSpacing !== undefined ? { letterSpacing } : {}),
     fill: style.color,
     textGrowth: 'fixed-width',
     width: 'fill_container',
@@ -169,8 +206,8 @@ function buildTypeScaleFrame(
             type: 'text',
             content: 'Type Scale',
             fontSize: 14,
-            fontFamily: 'Inter',
-            fontWeight: 600,
+            fontFamily: CHROME_FONT_FAMILY,
+            fontWeight: '600',
             fill: config.headingsGroup.color,
             textGrowth: 'auto',
           },
@@ -179,8 +216,8 @@ function buildTypeScaleFrame(
             type: 'text',
             content: `${subtitle}  ·  ${config.baseFontSize}px base  ·  ${config.scaleRatio} ratio`,
             fontSize: 12,
-            fontFamily: 'Inter',
-            fontWeight: 400,
+            fontFamily: CHROME_FONT_FAMILY,
+            fontWeight: '400',
             fill: config.bodyGroup.color,
             opacity: 0.6,
             textGrowth: 'auto',
@@ -213,9 +250,7 @@ function buildTextComponent(
   config: TypographyConfig,
   yOffset: number,
 ): PenNode {
-  const family = isHeadingLike(style.element)
-    ? config.headingsGroup.fontFamily
-    : config.bodyGroup.fontFamily
+  const letterSpacing = penLetterSpacing(style.letterSpacing, style.fontSize)
 
   const label = style.element === 'p' ? 'Paragraph'
     : style.element === 'eyebrow' ? 'Eyebrow'
@@ -229,7 +264,9 @@ function buildTextComponent(
     reusable: true,
     x: 1400,
     y: yOffset,
-    width: 600,
+    // fit_content, not a fixed width: the component's text grows on one line, and
+    // instances that need wrapping set fill_container on both the ref and the text.
+    width: 'fit_content',
     layout: 'vertical',
     children: [
       {
@@ -238,14 +275,14 @@ function buildTextComponent(
         name: `${label} Text`,
         content: sampleText(style.element),
         fontSize: style.fontSize,
-        fontFamily: family,
-        fontWeight: style.fontWeight,
+        fontFamily: penFontFamily(style, config),
+        fontWeight: penFontWeight(style.fontWeight),
         lineHeight: style.lineHeight,
-        letterSpacing: style.letterSpacing,
-    
+        ...(letterSpacing !== undefined ? { letterSpacing } : {}),
         fill: style.color,
-        textGrowth: 'fixed-width',
-        width: 'fill_container',
+        // 'auto' (no width) is the safe default: an instance sized fit_content
+        // would collapse to zero against a descendant using fill_container.
+        textGrowth: 'auto',
       },
     ],
   }
@@ -283,11 +320,24 @@ function textNode(
     }
   }
 
-  // When width is 'auto', also set textGrowth to 'auto' on the text node
-  // and use fit_content on the ref frame
+  // Overriding fontSize rescales the em-based tracking the component was built with.
+  if (typeof textProps.fontSize === 'number') {
+    const letterSpacing = penLetterSpacing(style.letterSpacing, textProps.fontSize)
+    if (letterSpacing !== undefined) textProps.letterSpacing = letterSpacing
+  }
+
+  if (typeof textProps.fontWeight === 'number') {
+    textProps.fontWeight = penFontWeight(textProps.fontWeight)
+  }
+
+  // 'auto' is shorthand for a self-sized instance: fit_content on the ref, and the
+  // component's own auto-growing text left untouched. Anything else fills its
+  // parent, which means the text has to wrap at the instance width.
   if (refProps.width === 'auto') {
     refProps.width = 'fit_content'
-    textProps.textGrowth = textProps.textGrowth ?? 'auto'
+  } else {
+    textProps.textGrowth = 'fixed-width'
+    textProps.width = 'fill_container'
   }
 
   return {
@@ -353,14 +403,14 @@ function buildWebsitePreview(
         justifyContent: 'space_between',
         alignItems: 'center',
         children: [
-          textNode(`${idPrefix}-nav-brand`, 'TypeStax', h4, config, { width: 'auto', textGrowth: 'auto', fontWeight: 700, fontSize: h4.fontSize * 0.8 }),
+          textNode(`${idPrefix}-nav-brand`, 'TypeStax', h4, config, { width: 'auto', fontWeight: 700, fontSize: h4.fontSize * 0.8 }),
           {
             id: `${idPrefix}-nav-links`,
             type: 'frame',
             layout: 'horizontal',
             gap: 16,
             children: ['Features', 'Pricing', 'Docs'].map((t, i) =>
-              textNode(`${idPrefix}-nav-${i}`, t, small, config, { width: 'auto', textGrowth: 'auto' })
+              textNode(`${idPrefix}-nav-${i}`, t, small, config, { width: 'auto' })
             ),
           },
         ],
@@ -426,16 +476,16 @@ function buildWebsitePreview(
         justifyContent: 'space_around',
         children: [
           { id: `${idPrefix}-stat-1`, type: 'frame', layout: 'vertical', gap: 4, alignItems: isMobile ? 'start' : 'center', children: [
-            textNode(`${idPrefix}-stat-1-n`, '12', h2, config, { width: 'auto', textGrowth: 'auto' }),
-            textNode(`${idPrefix}-stat-1-l`, 'Scale Ratios', small, config, { width: 'auto', textGrowth: 'auto', opacity: 0.6 }),
+            textNode(`${idPrefix}-stat-1-n`, '12', h2, config, { width: 'auto' }),
+            textNode(`${idPrefix}-stat-1-l`, 'Scale Ratios', small, config, { width: 'auto', opacity: 0.6 }),
           ]},
           { id: `${idPrefix}-stat-2`, type: 'frame', layout: 'vertical', gap: 4, alignItems: isMobile ? 'start' : 'center', children: [
-            textNode(`${idPrefix}-stat-2-n`, '9', h2, config, { width: 'auto', textGrowth: 'auto' }),
-            textNode(`${idPrefix}-stat-2-l`, 'Type Elements', small, config, { width: 'auto', textGrowth: 'auto', opacity: 0.6 }),
+            textNode(`${idPrefix}-stat-2-n`, '9', h2, config, { width: 'auto' }),
+            textNode(`${idPrefix}-stat-2-l`, 'Type Elements', small, config, { width: 'auto', opacity: 0.6 }),
           ]},
           { id: `${idPrefix}-stat-3`, type: 'frame', layout: 'vertical', gap: 4, alignItems: isMobile ? 'start' : 'center', children: [
-            textNode(`${idPrefix}-stat-3-n`, '5', h2, config, { width: 'auto', textGrowth: 'auto' }),
-            textNode(`${idPrefix}-stat-3-l`, 'Export Formats', small, config, { width: 'auto', textGrowth: 'auto', opacity: 0.6 }),
+            textNode(`${idPrefix}-stat-3-n`, '5', h2, config, { width: 'auto' }),
+            textNode(`${idPrefix}-stat-3-l`, 'Export Formats', small, config, { width: 'auto', opacity: 0.6 }),
           ]},
         ],
       },
@@ -450,8 +500,8 @@ function buildWebsitePreview(
         padding: [isMobile ? 40 : 64, pad, isMobile ? 40 : 64, pad],
         alignItems: 'center',
         children: [
-          textNode(`${idPrefix}-cta-h2`, 'Start building your type scale', h2, config, { width: 'auto', textGrowth: 'auto' }),
-          textNode(`${idPrefix}-cta-p`, 'Free to use. No account required.', p, config, { width: 'auto', textGrowth: 'auto', opacity: 0.7 }),
+          textNode(`${idPrefix}-cta-h2`, 'Start building your type scale', h2, config, { textAlign: 'center' }),
+          textNode(`${idPrefix}-cta-p`, 'Free to use. No account required.', p, config, { textAlign: 'center', opacity: 0.7 }),
         ],
       },
       // Footer
@@ -463,8 +513,8 @@ function buildWebsitePreview(
         padding: [16, pad, 16, pad],
         justifyContent: 'space_between',
         children: [
-          textNode(`${idPrefix}-footer-l`, '© 2026 TypeStax', small, config, { width: 'auto', textGrowth: 'auto', opacity: 0.5 }),
-          textNode(`${idPrefix}-footer-r`, 'Made with TypeStax', small, config, { width: 'auto', textGrowth: 'auto', opacity: 0.5 }),
+          textNode(`${idPrefix}-footer-l`, '© 2026 TypeStax', small, config, { width: 'auto', opacity: 0.5 }),
+          textNode(`${idPrefix}-footer-r`, 'Made with TypeStax', small, config, { width: 'auto', opacity: 0.5 }),
         ],
       },
     ],
@@ -516,28 +566,28 @@ function buildBlogPreview(
         children: [
           // Header
           textNode(`${idPrefix}-blog-eyebrow`, 'DESIGN SYSTEMS', eyebrow, config, { opacity: 0.8, fontSize: eyebrow.fontSize }),
-          { id: `${idPrefix}-blog-spacer-1`, type: 'rectangle', width: 'fill_container', height: 12, fill: 'transparent' },
+          { id: `${idPrefix}-blog-spacer-1`, type: 'rectangle', width: 'fill_container', height: 12 },
           textNode(`${idPrefix}-blog-h1`, 'The Art of Typographic Hierarchy', h1, config, {}),
-          { id: `${idPrefix}-blog-spacer-2`, type: 'rectangle', width: 'fill_container', height: 8, fill: 'transparent' },
+          { id: `${idPrefix}-blog-spacer-2`, type: 'rectangle', width: 'fill_container', height: 8 },
           textNode(`${idPrefix}-blog-intro`, 'How a well-crafted type scale can transform the readability and aesthetics of your digital products.', p, config, { opacity: 0.85 }),
-          { id: `${idPrefix}-blog-spacer-3`, type: 'rectangle', width: 'fill_container', height: 8, fill: 'transparent' },
+          { id: `${idPrefix}-blog-spacer-3`, type: 'rectangle', width: 'fill_container', height: 8 },
           textNode(`${idPrefix}-blog-meta`, 'By Sarah Chen  ·  March 3, 2026  ·  8 min read', small, config, { opacity: 0.6 }),
-          { id: `${idPrefix}-blog-spacer-4`, type: 'rectangle', width: 'fill_container', height: 32, fill: 'transparent' },
+          { id: `${idPrefix}-blog-spacer-4`, type: 'rectangle', width: 'fill_container', height: 32 },
           divider(`${idPrefix}-blog-div-1`, config.headingsGroup.color),
-          { id: `${idPrefix}-blog-spacer-5`, type: 'rectangle', width: 'fill_container', height: 32, fill: 'transparent' },
+          { id: `${idPrefix}-blog-spacer-5`, type: 'rectangle', width: 'fill_container', height: 32 },
           // Body
           textNode(`${idPrefix}-blog-p1`, 'Typography is the foundation of good design. When we talk about typographic hierarchy, we\'re referring to the system of organizing text to establish an order of importance, helping readers navigate content efficiently and intuitively.', p, config, {}),
-          { id: `${idPrefix}-blog-spacer-6`, type: 'rectangle', width: 'fill_container', height: 24, fill: 'transparent' },
+          { id: `${idPrefix}-blog-spacer-6`, type: 'rectangle', width: 'fill_container', height: 24 },
           textNode(`${idPrefix}-blog-h2`, 'Understanding Scale Ratios', h2, config, {}),
-          { id: `${idPrefix}-blog-spacer-7`, type: 'rectangle', width: 'fill_container', height: 12, fill: 'transparent' },
+          { id: `${idPrefix}-blog-spacer-7`, type: 'rectangle', width: 'fill_container', height: 12 },
           textNode(`${idPrefix}-blog-p2`, 'A type scale is a sequence of font sizes that relate to each other through a consistent mathematical ratio. The most common ratios are drawn from music — like the Minor Third (1.200) or the Perfect Fourth (1.333).', p, config, {}),
-          { id: `${idPrefix}-blog-spacer-8`, type: 'rectangle', width: 'fill_container', height: 16, fill: 'transparent' },
+          { id: `${idPrefix}-blog-spacer-8`, type: 'rectangle', width: 'fill_container', height: 16 },
           textNode(`${idPrefix}-blog-p3`, 'These ratios create natural harmony between sizes, much like musical intervals create harmony between notes. The key is choosing a ratio that provides enough contrast between levels without being too dramatic.', p, config, {}),
-          { id: `${idPrefix}-blog-spacer-9`, type: 'rectangle', width: 'fill_container', height: 24, fill: 'transparent' },
+          { id: `${idPrefix}-blog-spacer-9`, type: 'rectangle', width: 'fill_container', height: 24 },
           textNode(`${idPrefix}-blog-h3`, 'Choosing the Right Ratio', h3, config, {}),
-          { id: `${idPrefix}-blog-spacer-10`, type: 'rectangle', width: 'fill_container', height: 12, fill: 'transparent' },
+          { id: `${idPrefix}-blog-spacer-10`, type: 'rectangle', width: 'fill_container', height: 12 },
           textNode(`${idPrefix}-blog-p4`, 'For body-heavy content like articles and documentation, a tighter ratio like Minor Third (1.200) or Major Second (1.125) works well. For marketing pages where you need dramatic headings, a wider ratio like Perfect Fourth (1.333) or higher creates more visual impact.', p, config, {}),
-          { id: `${idPrefix}-blog-spacer-11`, type: 'rectangle', width: 'fill_container', height: 24, fill: 'transparent' },
+          { id: `${idPrefix}-blog-spacer-11`, type: 'rectangle', width: 'fill_container', height: 24 },
           // Blockquote
           {
             id: `${idPrefix}-blog-quote`,
@@ -546,26 +596,28 @@ function buildBlogPreview(
             width: 'fill_container',
             gap: 8,
             padding: [0, 0, 0, 24],
-            stroke: { align: 'inside', thickness: { top: 0, right: 0, bottom: 0, left: 3 }, fill: config.headingsGroup.color },
+            stroke: config.headingsGroup.color,
+            strokeWidth: { left: 3 },
+            strokeAlignment: 'inner',
             children: [
               textNode(`${idPrefix}-blog-quote-t`, '"The type scale is to typography what the color palette is to visual design — it\'s the foundational system that everything else builds upon."', p, config, { fontStyle: 'italic' }),
               textNode(`${idPrefix}-blog-quote-a`, '— Tim Brown, Head of Typography at Adobe', small, config, { opacity: 0.6 }),
             ],
           },
-          { id: `${idPrefix}-blog-spacer-12`, type: 'rectangle', width: 'fill_container', height: 24, fill: 'transparent' },
+          { id: `${idPrefix}-blog-spacer-12`, type: 'rectangle', width: 'fill_container', height: 24 },
           textNode(`${idPrefix}-blog-h2b`, 'Mobile Considerations', h2, config, {}),
-          { id: `${idPrefix}-blog-spacer-13`, type: 'rectangle', width: 'fill_container', height: 12, fill: 'transparent' },
+          { id: `${idPrefix}-blog-spacer-13`, type: 'rectangle', width: 'fill_container', height: 12 },
           textNode(`${idPrefix}-blog-p5`, 'Mobile screens demand a different approach. Headings that look grand on desktop can overwhelm a small screen. Use a tighter ratio for mobile and adjust your base font size to maintain readability.', p, config, {}),
-          { id: `${idPrefix}-blog-spacer-14`, type: 'rectangle', width: 'fill_container', height: 24, fill: 'transparent' },
+          { id: `${idPrefix}-blog-spacer-14`, type: 'rectangle', width: 'fill_container', height: 24 },
           textNode(`${idPrefix}-blog-h4`, 'Key Takeaways', h4, config, {}),
-          { id: `${idPrefix}-blog-spacer-15`, type: 'rectangle', width: 'fill_container', height: 8, fill: 'transparent' },
+          { id: `${idPrefix}-blog-spacer-15`, type: 'rectangle', width: 'fill_container', height: 8 },
           textNode(`${idPrefix}-blog-take1`, '1. Start with a clear base font size (typically 16px for web).', p, config, {}),
           textNode(`${idPrefix}-blog-take2`, '2. Choose a ratio that matches your content type.', p, config, {}),
           textNode(`${idPrefix}-blog-take3`, '3. Test with real content, not just lorem ipsum.', p, config, {}),
           textNode(`${idPrefix}-blog-take4`, '4. Always design for mobile separately.', p, config, {}),
-          { id: `${idPrefix}-blog-spacer-16`, type: 'rectangle', width: 'fill_container', height: 24, fill: 'transparent' },
+          { id: `${idPrefix}-blog-spacer-16`, type: 'rectangle', width: 'fill_container', height: 24 },
           textNode(`${idPrefix}-blog-h5`, 'Further Reading', h5, config, {}),
-          { id: `${idPrefix}-blog-spacer-17`, type: 'rectangle', width: 'fill_container', height: 8, fill: 'transparent' },
+          { id: `${idPrefix}-blog-spacer-17`, type: 'rectangle', width: 'fill_container', height: 8 },
           textNode(`${idPrefix}-blog-further`, 'Explore more about type scales at typescale.com and learn about fluid typography techniques for responsive design.', small, config, {}),
         ],
       },
@@ -581,8 +633,8 @@ export function generatePenFile(config: TypographyConfig): string {
   )
 
   const variables: Record<string, PenVariable> = {
-    '--font-primary': { type: 'string', value: config.headingsGroup.fontFamily },
-    '--font-secondary': { type: 'string', value: config.bodyGroup.fontFamily },
+    [FONT_PRIMARY_VAR]: { type: 'string', value: config.headingsGroup.fontFamily },
+    [FONT_SECONDARY_VAR]: { type: 'string', value: config.bodyGroup.fontFamily },
   }
 
   const components = styles.map((s, i) =>
@@ -603,7 +655,7 @@ export function generatePenFile(config: TypographyConfig): string {
   ]
 
   return JSON.stringify({
-    version: '2.8',
+    version: PEN_VERSION,
     variables,
     children: [
       buildTypeScaleFrame(styles, config),

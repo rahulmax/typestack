@@ -1,7 +1,7 @@
 import { describe, test, expect } from 'vitest'
 import { computeFontSize, computeScale, computeMobileScale, resolveElementStyles, resolveElementStylesMobile } from '../scale'
 import { DEFAULT_CONFIG, normalizeConfig } from '@/data/default-config'
-import { ALL_ELEMENTS, SCALE_POSITIONS } from '@/types/typography'
+import { ALL_ELEMENTS } from '@/types/typography'
 import type { TypographyConfig } from '@/types/typography'
 
 describe('computeFontSize', () => {

@@ -39,7 +39,7 @@ const FILTER_LABELS: { value: Filter; label: string }[] = [
 
 const CATEGORIES = [
   "editorial", "luxury", "elegant", "minimal", "tech", "bold",
-  "warm", "heritage", "literary", "corporate", "creative", "playful", "romantic",
+  "warm", "heritage", "literary", "corporate", "creative",
 ] as const;
 
 interface BrowseStacksDialogProps {

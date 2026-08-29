@@ -1,10 +1,12 @@
 import { describe, test, expect } from 'vitest'
 import { generateTokensStudioJSON } from '../figma-tokens'
 import { DEFAULT_CONFIG } from '@/data/default-config'
-import { ALL_ELEMENTS } from '@/types/typography'
+import { ALL_ELEMENTS, DISPLAY_ELEMENTS } from '@/types/typography'
 
 describe('generateTokensStudioJSON', () => {
   const output = generateTokensStudioJSON(DEFAULT_CONFIG)
+  // Bulk exports omit the opt-in display elements.
+  const EXPORTED = ALL_ELEMENTS.filter((el) => !DISPLAY_ELEMENTS.includes(el))
 
   test('produces valid JSON', () => {
     expect(() => JSON.parse(output)).not.toThrow()
@@ -16,18 +18,18 @@ describe('generateTokensStudioJSON', () => {
     expect(tokens.fontFamilies.body.value).toBe(DEFAULT_CONFIG.bodyGroup.fontFamily)
   })
 
-  test('includes font sizes for all elements', () => {
+  test('includes font sizes for all exported elements', () => {
     const tokens = JSON.parse(output)
-    for (const el of ALL_ELEMENTS) {
+    for (const el of EXPORTED) {
       expect(tokens.fontSizes[el]).toBeDefined()
       expect(tokens.fontSizes[el].value).toContain('rem')
       expect(tokens.fontSizes[el].type).toBe('fontSizes')
     }
   })
 
-  test('includes font weights for all elements', () => {
+  test('includes font weights for all exported elements', () => {
     const tokens = JSON.parse(output)
-    for (const el of ALL_ELEMENTS) {
+    for (const el of EXPORTED) {
       expect(tokens.fontWeights[el]).toBeDefined()
       expect(tokens.fontWeights[el].type).toBe('fontWeights')
     }

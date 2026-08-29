@@ -1,11 +1,14 @@
 import { describe, test, expect } from 'vitest'
 import { generateCSS, generatePreviewCSS } from '../css-generator'
 import { DEFAULT_CONFIG } from '@/data/default-config'
-import { ALL_ELEMENTS } from '@/types/typography'
+import { ALL_ELEMENTS, DISPLAY_ELEMENTS } from '@/types/typography'
 import type { TypographyConfig } from '@/types/typography'
 
 describe('generateCSS', () => {
   const css = generateCSS(DEFAULT_CONFIG)
+  // Display elements are opt-in per user and live in the store, not the config,
+  // so bulk exports deliberately omit them (see elementSelector for the per-element path).
+  const EXPORTED = ALL_ELEMENTS.filter((el) => !DISPLAY_ELEMENTS.includes(el))
 
   test('includes :root block with custom properties', () => {
     expect(css).toContain(':root {')
@@ -15,8 +18,8 @@ describe('generateCSS', () => {
     expect(css).toContain('--ts-font-body:')
   })
 
-  test('includes CSS variable for every element', () => {
-    for (const el of ALL_ELEMENTS) {
+  test('includes CSS variable for every exported element', () => {
+    for (const el of EXPORTED) {
       expect(css).toContain(`--ts-${el}:`)
     }
   })
@@ -37,9 +40,15 @@ describe('generateCSS', () => {
     expect(css).toContain(`--ts-scale-ratio: ${DEFAULT_CONFIG.mobile.scaleRatio}`)
   })
 
-  test('display elements use class selector', () => {
-    expect(css).toContain('.display-1 {')
-    expect(css).toContain('.display-2 {')
+  test('display elements are omitted from bulk export', () => {
+    for (const el of DISPLAY_ELEMENTS) {
+      expect(css).not.toContain(`--ts-${el}:`)
+      expect(css).not.toContain(`.${el} {`)
+    }
+  })
+
+  test('class-selector elements use a class', () => {
+    expect(css).toContain('.eyebrow {')
   })
 
   test('heading elements use tag selector', () => {

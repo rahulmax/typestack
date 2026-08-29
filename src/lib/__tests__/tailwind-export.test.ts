@@ -1,7 +1,14 @@
 import { describe, test, expect } from 'vitest'
 import { generateTailwindCSS, generateTailwindConfig } from '../tailwind-export'
 import { DEFAULT_CONFIG } from '@/data/default-config'
-import { ALL_ELEMENTS } from '@/types/typography'
+import { ALL_ELEMENTS, DISPLAY_ELEMENTS } from '@/types/typography'
+
+// Bulk exports omit the opt-in display elements.
+const EXPORTED = ALL_ELEMENTS.filter((el) => !DISPLAY_ELEMENTS.includes(el))
+
+// The v3 output is a `/* ... */` font-import prologue, then a `//` header line,
+// then the JSON body starting on its own line.
+const configJSON = (out: string) => JSON.parse(out.slice(out.indexOf('\n{') + 1))
 
 describe('generateTailwindCSS (v4)', () => {
   const css = generateTailwindCSS(DEFAULT_CONFIG)
@@ -16,8 +23,8 @@ describe('generateTailwindCSS (v4)', () => {
     expect(css).toContain('--font-body:')
   })
 
-  test('includes text size token for every element', () => {
-    for (const el of ALL_ELEMENTS) {
+  test('includes text size token for every exported element', () => {
+    for (const el of EXPORTED) {
       expect(css).toContain(`--text-${el}:`)
     }
   })
@@ -43,30 +50,26 @@ describe('generateTailwindConfig (v3)', () => {
   })
 
   test('includes valid JSON after comment', () => {
-    const json = output.replace(/^\/\/.*\n/, '')
-    const parsed = JSON.parse(json)
+    const parsed = configJSON(output)
     expect(parsed).toBeDefined()
   })
 
   test('includes font families', () => {
-    const json = output.replace(/^\/\/.*\n/, '')
-    const parsed = JSON.parse(json)
+    const parsed = configJSON(output)
     expect(parsed.fontFamily.heading[0]).toContain(DEFAULT_CONFIG.headingsGroup.fontFamily)
     expect(parsed.fontFamily.body[0]).toContain(DEFAULT_CONFIG.bodyGroup.fontFamily)
   })
 
-  test('includes font size entries for all elements', () => {
-    const json = output.replace(/^\/\/.*\n/, '')
-    const parsed = JSON.parse(json)
-    for (const el of ALL_ELEMENTS) {
+  test('includes font size entries for all exported elements', () => {
+    const parsed = configJSON(output)
+    for (const el of EXPORTED) {
       expect(parsed.fontSize[el]).toBeDefined()
       expect(parsed.fontSize[el][0]).toContain('rem')
     }
   })
 
   test('font size entries include line-height and letter-spacing', () => {
-    const json = output.replace(/^\/\/.*\n/, '')
-    const parsed = JSON.parse(json)
+    const parsed = configJSON(output)
     const h1 = parsed.fontSize.h1
     expect(h1[1].lineHeight).toBeDefined()
     expect(h1[1].letterSpacing).toBeDefined()
