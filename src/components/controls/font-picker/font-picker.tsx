@@ -20,6 +20,8 @@ import { fetchFontOptions, filterFontsByCategory, loadFontFull } from "@/lib/fon
 import type { FontCategory } from "@/types/google-fonts"
 import type { FontOption } from "@/types/fonts"
 
+const normalize = (value: string) => value.toLowerCase().replace(/[^a-z0-9]/g, "")
+
 interface FontPickerProps {
   currentFont: string
   onSelectFont: (family: string) => void
@@ -59,8 +61,12 @@ export function FontPicker({
   const [adobeFonts, googleFonts] = useMemo(() => {
     let result = filterFontsByCategory(fonts, category)
     if (search) {
-      const q = search.toLowerCase()
-      result = result.filter((f) => f.family.toLowerCase().includes(q))
+      // Kit families are slugs, so "Sofia Pro" has to match "sofia-pro":
+      // compare on letters and digits alone.
+      const q = normalize(search)
+      result = result.filter(
+        (f) => normalize(f.family).includes(q) || normalize(f.label).includes(q)
+      )
     }
     return [
       result.filter((f) => f.source === "adobe"),

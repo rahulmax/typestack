@@ -11,6 +11,8 @@ export type FontSource = "google" | "adobe";
  */
 export interface FontOption {
   family: string;
+  /** Human-readable name for display. The family string stays the CSS identifier. */
+  label: string;
   category: FontCategory;
   source: FontSource;
   /** Weights the source can actually serve, ascending. */

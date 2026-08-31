@@ -17,6 +17,12 @@ describe('parseKit', () => {
     expect(kit.families.find((f) => f.family === 'source-code-pro')?.category).toBe('monospace')
   })
 
+  test('titles the slug for display while keeping it as the CSS identifier', () => {
+    const family = kit.families.find((f) => f.family === 'source-code-pro')
+    expect(family?.label).toBe('Source Code Pro')
+    expect(family?.family).toBe('source-code-pro')
+  })
+
   test('collects the weights a family actually ships', () => {
     expect(kit.families.find((f) => f.family === 'adobe-clean')?.weights).toEqual([400, 700])
   })

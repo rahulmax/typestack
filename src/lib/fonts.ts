@@ -24,6 +24,7 @@ function toFontOption(family: string, variants: string[], category: string): Fon
   const weights = [...new Set(variants.map((v) => Number(v.replace("italic", "")) || 400))];
   return {
     family,
+    label: family,
     category: category as FontCategory,
     source: "google",
     weights: weights.sort((a, b) => a - b),

@@ -15,6 +15,18 @@ export function getKitId(): string | undefined {
   return process.env.NEXT_PUBLIC_ADOBE_FONTS_KIT_ID || undefined;
 }
 
+/**
+ * Kits identify families by CSS slug only -- the display names live behind the
+ * account API, which needs a secret we can't ship. Title-casing the slug gets
+ * "sofia-pro" to "Sofia Pro", which is what a designer expects to read.
+ */
+function labelFromSlug(slug: string): string {
+  return slug
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
 /** Maps a CSS generic family, which is all the kit tells us, onto our categories. */
 function categoryFromGeneric(generic: string): FontCategory {
   switch (generic) {
@@ -63,6 +75,7 @@ export function parseKit(id: string, js: string): AdobeKit {
   const families: FontOption[] = [...weightsByFamily.keys()]
     .map((family) => ({
       family,
+      label: labelFromSlug(family),
       category: categories.get(family) ?? "sans-serif",
       source: "adobe" as const,
       weights: [...weightsByFamily.get(family)!].sort((a, b) => a - b),

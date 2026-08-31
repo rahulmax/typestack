@@ -32,7 +32,7 @@ export const FontPickerItem = memo(function FontPickerItem({
       }`}
     >
       <span style={{ fontFamily: `'${font.family}', ${font.category}` }}>
-        {font.family}
+        {font.label}
       </span>
       {font.source === "adobe" ? (
         <span className="hw-font-source">Adobe</span>
