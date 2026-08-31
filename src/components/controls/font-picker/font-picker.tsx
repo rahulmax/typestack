@@ -16,8 +16,9 @@ import {
 import { FontPickerItem } from "./font-picker-item"
 import { FontCategoryFilter } from "./font-category-filter"
 import { useFontLoader } from "./use-font-loader"
-import { fetchGoogleFonts, filterFontsByCategory, loadFontFull } from "@/lib/google-fonts"
-import type { GoogleFont, FontCategory } from "@/types/google-fonts"
+import { fetchFontOptions, filterFontsByCategory, loadFontFull } from "@/lib/fonts"
+import type { FontCategory } from "@/types/google-fonts"
+import type { FontOption } from "@/types/fonts"
 
 interface FontPickerProps {
   currentFont: string
@@ -29,7 +30,7 @@ export function FontPicker({
   onSelectFont,
 }: FontPickerProps) {
   const [open, setOpen] = useState(false)
-  const [fonts, setFonts] = useState<GoogleFont[]>([])
+  const [fonts, setFonts] = useState<FontOption[]>([])
   const [category, setCategory] = useState<FontCategory | "all">("all")
   const [search, setSearch] = useState("")
   const { observe } = useFontLoader()
@@ -49,18 +50,22 @@ export function FontPicker({
 
   useEffect(() => {
     if (!open || fonts.length > 0) return
-    fetchGoogleFonts()
+    fetchFontOptions()
       .then(setFonts)
       .catch(console.error)
   }, [open, fonts.length])
 
-  const filtered = useMemo(() => {
+  // Kit fonts are a small curated set, so only the catalog list is capped.
+  const [adobeFonts, googleFonts] = useMemo(() => {
     let result = filterFontsByCategory(fonts, category)
     if (search) {
       const q = search.toLowerCase()
       result = result.filter((f) => f.family.toLowerCase().includes(q))
     }
-    return result.slice(0, 200)
+    return [
+      result.filter((f) => f.source === "adobe"),
+      result.filter((f) => f.source === "google").slice(0, 200),
+    ]
   }, [fonts, category, search])
 
   const handleSelect = useCallback((family: string) => {
@@ -113,8 +118,22 @@ export function FontPicker({
                 </div>
               )}
               <CommandEmpty>No fonts found.</CommandEmpty>
-              <CommandGroup>
-                {filtered.map((font) => (
+              {adobeFonts.length > 0 && (
+                <CommandGroup heading="Adobe Fonts">
+                  {adobeFonts.map((font) => (
+                    <FontPickerItem
+                      key={font.family}
+                      font={font}
+                      isSelected={font.family === currentFont}
+                      onSelect={handleSelect}
+                      observeRef={observe}
+                      showCategory={category === "all"}
+                    />
+                  ))}
+                </CommandGroup>
+              )}
+              <CommandGroup heading={adobeFonts.length > 0 ? "Google Fonts" : undefined}>
+                {googleFonts.map((font) => (
                   <FontPickerItem
                     key={font.family}
                     font={font}

@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useTypographyStore } from "@/store/typography-store";
-import { loadFontFull } from "@/lib/google-fonts";
+import { loadFontFull } from "@/lib/fonts";
 
 export function useActiveFontLoader() {
   const headingFont = useTypographyStore((s) => s.headingsGroup.fontFamily);

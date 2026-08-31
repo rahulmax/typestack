@@ -4,6 +4,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { ADOBE_KIT_ELEMENT_ID, getKitCssUrl } from "@/lib/adobe-fonts";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -38,8 +39,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Rendered server-side so kit fonts are painted with the first frame, in the
+  // app, the gallery and the showcase alike -- no client resolution step.
+  const adobeKitCss = getKitCssUrl();
+
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {adobeKitCss && (
+          <link id={ADOBE_KIT_ELEMENT_ID} rel="stylesheet" href={adobeKitCss} />
+        )}
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${hostGrotesk.variable} ${oswald.variable} antialiased`}
       >

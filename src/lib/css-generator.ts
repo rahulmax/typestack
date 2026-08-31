@@ -2,7 +2,7 @@ import type { TypographyConfig, TypographyElement, ResolvedElementStyle } from "
 import { computeScale, computeMobileScale } from "./scale";
 import { HEADING_ELEMENTS, DISPLAY_ELEMENTS } from "@/types/typography";
 import { computeSceneTones, hexToOklchString } from "./color-utils";
-import { buildFontImports } from "./google-fonts";
+import { buildFontImports, getFontStack } from "./fonts";
 
 function isHeadingLike(element: string): boolean {
   return (HEADING_ELEMENTS.includes(element as TypographyElement) || DISPLAY_ELEMENTS.includes(element as TypographyElement)) && element !== "eyebrow";
@@ -51,8 +51,8 @@ export function generateCSS(config: TypographyConfig): string {
   lines.push(":root {");
   lines.push(`  --ts-base-size: ${config.baseFontSize}px;`);
   lines.push(`  --ts-scale-ratio: ${config.scaleRatio};`);
-  lines.push(`  --ts-font-heading: '${config.headingsGroup.fontFamily}', sans-serif;`);
-  lines.push(`  --ts-font-body: '${config.bodyGroup.fontFamily}', sans-serif;`);
+  lines.push(`  --ts-font-heading: ${getFontStack(config.headingsGroup.fontFamily)};`);
+  lines.push(`  --ts-font-body: ${getFontStack(config.bodyGroup.fontFamily)};`);
 
   for (const style of desktop) {
     lines.push(`  --ts-${style.element}: ${style.fontSizeRem.toFixed(4)}rem;`);
@@ -88,7 +88,7 @@ export function generatePreviewCSS(config: TypographyConfig): string {
   const lines: string[] = [];
 
   lines.push("* { margin: 0; padding: 0; box-sizing: border-box; }");
-  lines.push(`body { background: ${hexToOklchString(config.backgroundColor)}; color: ${hexToOklchString(config.bodyGroup.color)}; padding: 2rem; font-family: '${config.bodyGroup.fontFamily}', sans-serif; }`);
+  lines.push(`body { background: ${hexToOklchString(config.backgroundColor)}; color: ${hexToOklchString(config.bodyGroup.color)}; padding: 2rem; font-family: ${getFontStack(config.bodyGroup.fontFamily)}; }`);
   lines.push(`a, a:visited, a:hover, a:active { color: inherit; text-decoration: underline; }`);
   lines.push(`.ill svg path:not([fill]), .ill svg circle:not([fill]), .ill svg rect:not([fill]), .ill svg polygon:not([fill]), .ill svg ellipse:not([fill]) { fill: currentColor; }`);
   const hc = config.headingsGroup.color;
@@ -115,7 +115,7 @@ export function generatePreviewCSS(config: TypographyConfig): string {
     const selector = elementSelector(style.element);
     lines.push(`${selector} {`);
     lines.push(`  font-size: ${style.fontSizeRem.toFixed(4)}rem;`);
-    lines.push(`  font-family: '${family}', sans-serif;`);
+    lines.push(`  font-family: ${getFontStack(family)};`);
     lines.push(`  font-weight: ${style.fontWeight};`);
     lines.push(`  line-height: ${style.lineHeight};`);
     lines.push(`  letter-spacing: ${style.letterSpacing}em;`);

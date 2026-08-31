@@ -20,6 +20,24 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Fonts
+
+Google Fonts work with no configuration. To also offer Adobe Fonts, create a
+[web project](https://fonts.adobe.com/my_fonts#web_projects-section), add the
+app's domains to its allowlist (including `localhost` for development), and set:
+
+```
+NEXT_PUBLIC_ADOBE_FONTS_KIT_ID=your_kit_id
+```
+
+Kit families then appear in the font picker under "Adobe Fonts", with real
+metrics read from the kit's OpenType builds.
+
+A web project only serves fonts to the domains on its own allowlist, so a kit
+cannot be shared. Exported CSS therefore carries a `YOUR_KIT_ID` placeholder for
+the consumer to replace with a kit of their own — this app's kit ID never
+reaches an export.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

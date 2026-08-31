@@ -1,6 +1,7 @@
 import type { Font } from "opentype.js";
 import { FONT_METRICS_TABLE } from "@/data/font-metrics-table";
 import { parse as parseFont } from "opentype.js";
+import { fetchAdobeKit, getAdobeFontUrl } from "./adobe-fonts";
 
 export interface FontMetrics {
   unitsPerEm: number;
@@ -68,7 +69,7 @@ export async function resolveFontMetrics(
     return bundled;
   }
 
-  // 3. Runtime parse from Google Fonts
+  // 3. Runtime parse from the font's own source
   try {
     const metrics = await fetchAndParseFont(fontFamily);
     setCachedMetrics(fontFamily, metrics);
@@ -82,6 +83,17 @@ export async function resolveFontMetrics(
 }
 
 async function fetchAndParseFont(fontFamily: string): Promise<FontMetrics> {
+  await fetchAdobeKit();
+
+  // Adobe serves an uncompressed OpenType build of every face alongside the
+  // woff2, which opentype.js can read directly -- no CSS hop needed.
+  const adobeUrl = getAdobeFontUrl(fontFamily);
+  if (adobeUrl) {
+    const res = await fetch(adobeUrl);
+    if (!res.ok) throw new Error(`Adobe face unavailable for ${fontFamily}`);
+    return extractMetricsFromFont(parseFont(await res.arrayBuffer()));
+  }
+
   const cssUrl = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(fontFamily)}:wght@400&display=swap`;
   const cssRes = await fetch(cssUrl, {
     headers: { "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" },

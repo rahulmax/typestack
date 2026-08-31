@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import type { Stack } from "@/lib/stacks-api";
+import { loadFontFull } from "@/lib/fonts";
 
 export function useFontLoader(stacks: Stack[]) {
   const loadedRef = useRef(new Set<string>());
@@ -14,11 +15,7 @@ export function useFontLoader(stacks: Stack[]) {
     for (const family of families) {
       if (loadedRef.current.has(family)) continue;
       loadedRef.current.add(family);
-
-      const link = document.createElement("link");
-      link.rel = "stylesheet";
-      link.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(family)}:wght@400;700&display=swap`;
-      document.head.appendChild(link);
+      loadFontFull(family, [400, 700]);
     }
   }, [stacks]);
 }

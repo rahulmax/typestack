@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useCallback } from "react";
-import { loadFontPreview } from "@/lib/google-fonts";
+import { loadFontPreview } from "@/lib/fonts";
 
 export function useFontLoader() {
   const observerRef = useRef<IntersectionObserver | null>(null);
