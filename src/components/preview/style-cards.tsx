@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 import { ArrowRight } from 'lucide-react'
 import { useComputedScale } from '@/hooks/use-computed-scale'
 import { useTypographyStore } from '@/store/typography-store'
+import { getFontLabel, getFontStack } from '@/lib/fonts'
 import type { ResolvedElementStyle } from '@/types/typography'
 
 const CHARSET_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -74,17 +75,17 @@ function WeightSpecimen({
           <p
             className="text-sm font-medium"
             style={{
-              fontFamily: `'${fontFamily}', sans-serif`,
+              fontFamily: getFontStack(fontFamily),
               fontWeight: weight,
               color,
             }}
           >
-            {fontFamily}
+            {getFontLabel(fontFamily)}
           </p>
           <p
             className="mt-1 text-xs leading-relaxed"
             style={{
-              fontFamily: `'${fontFamily}', sans-serif`,
+              fontFamily: getFontStack(fontFamily),
               fontWeight: weight,
               color,
             }}
@@ -158,7 +159,7 @@ export function StyleCards() {
         <div className="mx-auto max-w-[1200px] px-10 pb-12 pt-10">
         <h1
           style={{
-            fontFamily: `'${headingFont}', sans-serif`,
+            fontFamily: getFontStack(headingFont),
             fontWeight: styles.h1?.fontWeight ?? headingsGroup.fontWeight,
             fontSize: styles.h1 ? `${Math.min(styles.h1.fontSizeRem, 3.5)}rem` : '3rem',
             lineHeight: styles.h1?.lineHeight ?? headingsGroup.lineHeight,
@@ -173,7 +174,7 @@ export function StyleCards() {
         <p
           className="mt-6 line-clamp-3 overflow-hidden"
           style={{
-            fontFamily: `'${bodyFont}', sans-serif`,
+            fontFamily: getFontStack(bodyFont),
             fontWeight: styles.p?.fontWeight ?? bodyGroup.fontWeight,
             fontSize: styles.p
               ? `${Math.max(styles.p.fontSizeRem * 1.5, 1.25)}rem`
@@ -198,29 +199,29 @@ export function StyleCards() {
           <h2
             className="mt-4 text-2xl"
             style={{
-              fontFamily: `'${headingFont}', sans-serif`,
+              fontFamily: getFontStack(headingFont),
               fontWeight: headingsGroup.fontWeight,
               color: headingColor,
             }}
           >
-            {headingFont}
+            {getFontLabel(headingFont)}
           </h2>
           {headingFont !== bodyFont && (
             <p
               className="mt-0.5 text-sm"
               style={{
-                fontFamily: `'${bodyFont}', sans-serif`,
+                fontFamily: getFontStack(bodyFont),
                 color: `color-mix(in srgb, ${bodyColor} 60%, transparent)`,
               }}
             >
-              {bodyFont}
+              {getFontLabel(bodyFont)}
             </p>
           )}
 
           <div
             className="mt-6 select-none"
             style={{
-              fontFamily: `'${headingFont}', sans-serif`,
+              fontFamily: getFontStack(headingFont),
               fontWeight: headingsGroup.fontWeight,
               fontSize: '8rem',
               lineHeight: 1,
@@ -252,7 +253,7 @@ export function StyleCards() {
           <TypeRow label="Title" color={bodyColor}>
             <p
               style={{
-                fontFamily: `'${headingFont}', sans-serif`,
+                fontFamily: getFontStack(headingFont),
                 fontWeight: styles.h1?.fontWeight ?? headingsGroup.fontWeight,
                 fontSize: styles.h1
                   ? `${Math.min(styles.h1.fontSizeRem * 0.65, 2.5)}rem`
@@ -269,7 +270,7 @@ export function StyleCards() {
           <TypeRow label="Lead" color={bodyColor}>
             <p
               style={{
-                fontFamily: `'${bodyFont}', sans-serif`,
+                fontFamily: getFontStack(bodyFont),
                 fontWeight: styles.p?.fontWeight ?? bodyGroup.fontWeight,
                 fontSize: styles.h3
                   ? `${Math.min(styles.h3.fontSizeRem * 0.75, 1.125)}rem`
@@ -286,7 +287,7 @@ export function StyleCards() {
           <TypeRow label="Paragraph" color={bodyColor}>
             <p
               style={{
-                fontFamily: `'${bodyFont}', sans-serif`,
+                fontFamily: getFontStack(bodyFont),
                 fontWeight: styles.p?.fontWeight ?? bodyGroup.fontWeight,
                 fontSize: styles.p
                   ? `${styles.p.fontSizeRem}rem`
@@ -303,7 +304,7 @@ export function StyleCards() {
           <TypeRow label="Quote" color={bodyColor}>
             <p
               style={{
-                fontFamily: `'${bodyFont}', sans-serif`,
+                fontFamily: getFontStack(bodyFont),
                 fontWeight: styles.p?.fontWeight ?? bodyGroup.fontWeight,
                 fontSize: styles.p
                   ? `${styles.p.fontSizeRem * 1.1}rem`
@@ -323,7 +324,7 @@ export function StyleCards() {
               <span
                 className="inline-flex items-center gap-1.5"
                 style={{
-                  fontFamily: `'${bodyFont}', sans-serif`,
+                  fontFamily: getFontStack(bodyFont),
                   fontWeight: 500,
                   fontSize: styles.p
                     ? `${styles.p.fontSizeRem}rem`
@@ -336,7 +337,7 @@ export function StyleCards() {
               <span
                 className="inline-flex items-center gap-1.5"
                 style={{
-                  fontFamily: `'${bodyFont}', sans-serif`,
+                  fontFamily: getFontStack(bodyFont),
                   fontWeight: 500,
                   fontSize: styles.p
                     ? `${styles.p.fontSizeRem}rem`
@@ -356,7 +357,7 @@ export function StyleCards() {
                 type="button"
                 className="inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm"
                 style={{
-                  fontFamily: `'${bodyFont}', sans-serif`,
+                  fontFamily: getFontStack(bodyFont),
                   fontWeight: 500,
                   color: headingColor,
                   borderColor: `color-mix(in srgb, ${headingColor} 30%, transparent)`,
@@ -370,7 +371,7 @@ export function StyleCards() {
                 type="button"
                 className="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm"
                 style={{
-                  fontFamily: `'${bodyFont}', sans-serif`,
+                  fontFamily: getFontStack(bodyFont),
                   fontWeight: 500,
                   color: backgroundColor,
                   backgroundColor: headingColor,

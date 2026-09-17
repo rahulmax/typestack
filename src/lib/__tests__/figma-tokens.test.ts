@@ -18,6 +18,16 @@ describe('generateTokensStudioJSON', () => {
     expect(tokens.fontFamilies.body.value).toBe(DEFAULT_CONFIG.bodyGroup.fontFamily)
   })
 
+  test('names kit families as the fonts are named in Figma', () => {
+    const tokens = JSON.parse(
+      generateTokensStudioJSON({
+        ...DEFAULT_CONFIG,
+        headingsGroup: { ...DEFAULT_CONFIG.headingsGroup, fontFamily: 'futura-pt' },
+      })
+    )
+    expect(tokens.fontFamilies.heading.value).toBe('Futura PT')
+  })
+
   test('includes font sizes for all exported elements', () => {
     const tokens = JSON.parse(output)
     for (const el of EXPORTED) {

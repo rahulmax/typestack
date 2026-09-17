@@ -16,7 +16,7 @@ import {
 import { FontPickerItem } from "./font-picker-item"
 import { FontCategoryFilter } from "./font-category-filter"
 import { useFontLoader } from "./use-font-loader"
-import { fetchFontOptions, filterFontsByCategory, loadFontFull } from "@/lib/fonts"
+import { fetchFontOptions, filterFontsByCategory, getFontLabel, getFontStack, loadFontFull } from "@/lib/fonts"
 import type { FontCategory } from "@/types/google-fonts"
 import type { FontOption } from "@/types/fonts"
 
@@ -88,9 +88,9 @@ export function FontPicker({
           type="button"
           onClick={calcOffset}
           className="hw-display !h-8 flex-1 min-w-0 !justify-between !text-sm text-left"
-          style={{ fontFamily: currentFont }}
+          style={{ fontFamily: getFontStack(currentFont) }}
         >
-          <span className="truncate">{currentFont}</span>
+          <span className="truncate">{getFontLabel(currentFont)}</span>
           <svg viewBox="0 0 16 16" fill="currentColor" className="size-3 shrink-0 opacity-50 ml-2">
             <polygon points="8 3 14 10 2 10" />
             <rect x="2" y="12" width="12" height="1.5" rx="0.5" />

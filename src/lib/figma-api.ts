@@ -1,6 +1,7 @@
 import type { TypographyConfig, TypographyElement } from "@/types/typography";
 import { computeScale } from "./scale";
 import { DISPLAY_ELEMENTS } from "@/types/typography";
+import { getFontLabel } from "./fonts";
 
 interface FigmaVariable {
   name: string;
@@ -17,13 +18,13 @@ export function buildFigmaVariables(
   variables.push({
     name: "typography/font-family/heading",
     resolvedType: "STRING",
-    valuesByMode: { Desktop: config.headingsGroup.fontFamily },
+    valuesByMode: { Desktop: getFontLabel(config.headingsGroup.fontFamily) },
   });
 
   variables.push({
     name: "typography/font-family/body",
     resolvedType: "STRING",
-    valuesByMode: { Desktop: config.bodyGroup.fontFamily },
+    valuesByMode: { Desktop: getFontLabel(config.bodyGroup.fontFamily) },
   });
 
   for (const style of desktop) {

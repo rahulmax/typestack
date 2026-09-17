@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest'
-import { parseKit } from '../adobe-fonts'
+import { isKitSlug, labelFromSlug, parseKit } from '../adobe-fonts'
 
 // Trimmed from a real use.typekit.net kit payload: the `c` array that pairs a
 // `.tk-` helper class with its font stack, and `fc` entries for each @font-face.
@@ -34,5 +34,22 @@ describe('parseKit', () => {
 
   test('reports a kit whose payload shape it cannot read as empty', () => {
     expect(parseKit('abc1234', 'window.Typekit.config={};').families).toEqual([])
+  })
+})
+
+describe('labelFromSlug', () => {
+  test('keeps foundry and format tokens in capitals, as Adobe names them', () => {
+    expect(labelFromSlug('futura-pt')).toBe('Futura PT')
+    expect(labelFromSlug('p22-mackinac-pro')).toBe('P22 Mackinac Pro')
+    expect(labelFromSlug('ff-tisa-web-pro')).toBe('FF Tisa Web Pro')
+  })
+})
+
+describe('isKitSlug', () => {
+  test('tells kit slugs from Google family names by shape alone', () => {
+    expect(isKitSlug('neue-haas-grotesk-display')).toBe(true)
+    expect(isKitSlug('ivymode')).toBe(true)
+    expect(isKitSlug('Inter')).toBe(false)
+    expect(isKitSlug('Source Serif 4')).toBe(false)
   })
 })

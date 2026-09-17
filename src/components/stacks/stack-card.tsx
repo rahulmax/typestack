@@ -4,6 +4,7 @@ import { Heart, Bookmark } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Stack } from "@/lib/stacks-api";
 import { PANGRAMS } from "@/data/pangrams";
+import { getFontLabel, getFontStack } from "@/lib/fonts";
 
 interface StackCardProps {
   stack: Stack;
@@ -52,16 +53,18 @@ export function StackCard({
           <p
             className="text-2xl leading-tight"
             style={{
-              fontFamily: `"${headingFont}", sans-serif`,
+              fontFamily: getFontStack(headingFont),
               fontWeight: config.headingsGroup.fontWeight,
             }}
           >
-            {headingFont === bodyFont ? headingFont : `${headingFont} & ${bodyFont}`}
+            {headingFont === bodyFont
+              ? getFontLabel(headingFont)
+              : `${getFontLabel(headingFont)} & ${getFontLabel(bodyFont)}`}
           </p>
           <p
             className="mt-2 text-sm leading-relaxed"
             style={{
-              fontFamily: `"${bodyFont}", sans-serif`,
+              fontFamily: getFontStack(bodyFont),
               fontWeight: config.bodyGroup.fontWeight,
               color: body,
             }}
@@ -73,7 +76,7 @@ export function StackCard({
           <p
             className="text-sm leading-snug font-bold"
             style={{
-              fontFamily: `"${headingFont}", sans-serif`,
+              fontFamily: getFontStack(headingFont),
               fontWeight: config.headingsGroup.fontWeight,
             }}
           >
@@ -82,7 +85,7 @@ export function StackCard({
           <p
             className="mt-1 text-xs leading-relaxed line-clamp-3"
             style={{
-              fontFamily: `"${bodyFont}", sans-serif`,
+              fontFamily: getFontStack(bodyFont),
               fontWeight: config.bodyGroup.fontWeight,
               color: body,
             }}

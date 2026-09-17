@@ -2,6 +2,7 @@ import type { TypographyConfig, TypographyElement } from '@/types/typography'
 import { computeScale } from './scale'
 import { DISPLAY_ELEMENTS, HEADING_ELEMENTS } from '@/types/typography'
 import type { ResolvedElementStyle } from '@/types/typography'
+import { getFontLabel } from './fonts'
 
 interface PenVariable {
   type: 'string' | 'number'
@@ -73,7 +74,7 @@ function penFontFamily(style: ResolvedElementStyle, config: TypographyConfig): s
   const groupFamily = heading
     ? config.headingsGroup.fontFamily
     : config.bodyGroup.fontFamily
-  if (style.fontFamily !== groupFamily) return style.fontFamily
+  if (style.fontFamily !== groupFamily) return getFontLabel(style.fontFamily)
   return heading ? `$${FONT_PRIMARY_VAR}` : `$${FONT_SECONDARY_VAR}`
 }
 
@@ -176,8 +177,8 @@ function buildTypeScaleFrame(
   styles: ResolvedElementStyle[],
   config: TypographyConfig,
 ): PenNode {
-  const headingFont = config.headingsGroup.fontFamily
-  const bodyFont = config.bodyGroup.fontFamily
+  const headingFont = getFontLabel(config.headingsGroup.fontFamily)
+  const bodyFont = getFontLabel(config.bodyGroup.fontFamily)
   const subtitle = headingFont === bodyFont
     ? headingFont
     : `${headingFont} / ${bodyFont}`
@@ -633,8 +634,8 @@ export function generatePenFile(config: TypographyConfig): string {
   )
 
   const variables: Record<string, PenVariable> = {
-    [FONT_PRIMARY_VAR]: { type: 'string', value: config.headingsGroup.fontFamily },
-    [FONT_SECONDARY_VAR]: { type: 'string', value: config.bodyGroup.fontFamily },
+    [FONT_PRIMARY_VAR]: { type: 'string', value: getFontLabel(config.headingsGroup.fontFamily) },
+    [FONT_SECONDARY_VAR]: { type: 'string', value: getFontLabel(config.bodyGroup.fontFamily) },
   }
 
   const components = styles.map((s, i) =>

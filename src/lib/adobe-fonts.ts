@@ -16,14 +16,29 @@ export function getKitId(): string | undefined {
 }
 
 /**
+ * Kit families are CSS slugs ("proxima-nova"); Google families are title-cased
+ * names ("Proxima Nova"). The shape alone says which namespace a family is in,
+ * before -- or without -- a kit ever loading.
+ */
+export function isKitSlug(family: string): boolean {
+  return /^[a-z0-9]+(-[a-z0-9]+)*$/.test(family);
+}
+
+/** Foundry and format tokens that Adobe's own family names keep in capitals. */
+const UPPERCASE_TOKENS = new Set(["ff", "itc", "lt", "p22", "pt", "urw"]);
+
+/**
  * Kits identify families by CSS slug only -- the display names live behind the
  * account API, which needs a secret we can't ship. Title-casing the slug gets
- * "sofia-pro" to "Sofia Pro", which is what a designer expects to read.
+ * "sofia-pro" to "Sofia Pro" and "futura-pt" to "Futura PT", which is what a
+ * designer expects to read and what desktop-synced fonts are named in Figma.
  */
-function labelFromSlug(slug: string): string {
+export function labelFromSlug(slug: string): string {
   return slug
     .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .map((word) =>
+      UPPERCASE_TOKENS.has(word) ? word.toUpperCase() : word.charAt(0).toUpperCase() + word.slice(1),
+    )
     .join(" ");
 }
 

@@ -15,6 +15,8 @@ import {
   getLoadedKit,
   isAdobeFamily,
   isKitResolved,
+  isKitSlug,
+  labelFromSlug,
   loadAdobeKitCSS,
 } from "./adobe-fonts";
 
@@ -97,9 +99,37 @@ export function getFontCategory(family: string): FontCategory {
   return (GOOGLE_CATEGORIES.get(family) as FontCategory) ?? "sans-serif";
 }
 
+/** Our categories that aren't CSS generic families, mapped to the nearest one that is. */
+const CSS_GENERICS: Record<FontCategory, string> = {
+  "sans-serif": "sans-serif",
+  serif: "serif",
+  monospace: "monospace",
+  handwriting: "cursive",
+  display: "sans-serif",
+};
+
 /** A CSS font stack whose generic fallback matches the family's own category. */
 export function getFontStack(family: string): string {
-  return `'${family}', ${getFontCategory(family)}`;
+  return `'${family}', ${CSS_GENERICS[getFontCategory(family)]}`;
+}
+
+/** The name a designer reads, and the name a desktop-synced font has in Figma or Pencil. */
+export function getFontLabel(family: string): string {
+  return isKitSlug(family) ? labelFromSlug(family) : family;
+}
+
+/**
+ * Whether this app can actually render a family. A kit family only renders when
+ * it is in the kit this deployment serves; anything else falls through to
+ * Google, as before.
+ */
+export function canRenderFamily(family: string): boolean {
+  return !isKitSlug(family) || isAdobeFamily(family);
+}
+
+/** Settles once kit membership is known, so `canRenderFamily` answers truthfully. */
+export async function resolveFontSources(): Promise<void> {
+  await fetchAdobeKit();
 }
 
 /**

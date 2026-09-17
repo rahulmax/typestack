@@ -5,7 +5,7 @@ vi.mock('../adobe-fonts', async (importOriginal) => ({
   isAdobeFamily: (family: string) => family === 'proxima-nova',
 }))
 
-const { buildFontImports } = await import('../fonts')
+const { buildFontImports, canRenderFamily, getFontLabel, getFontStack } = await import('../fonts')
 
 describe('buildFontImports', () => {
   test('imports Google families directly', () => {
@@ -36,5 +36,34 @@ describe('buildFontImports', () => {
     )
     expect(lines.filter((l) => l.includes('use.typekit.net'))).toHaveLength(1)
     expect(lines.some((l) => l.includes('fonts.googleapis.com'))).toBe(true)
+  })
+})
+
+describe('getFontLabel', () => {
+  test('names kit families the way a designer reads them', () => {
+    expect(getFontLabel('proxima-nova')).toBe('Proxima Nova')
+  })
+
+  test('leaves Google families untouched', () => {
+    expect(getFontLabel('Source Serif 4')).toBe('Source Serif 4')
+  })
+})
+
+describe('getFontStack', () => {
+  test('falls back to a real CSS generic family', () => {
+    expect(getFontStack('Playfair Display')).toBe("'Playfair Display', serif")
+    // "display" is our category, not a CSS keyword
+    expect(getFontStack('Gabarito')).toBe("'Gabarito', sans-serif")
+  })
+})
+
+describe('canRenderFamily', () => {
+  test('renders Google families and families in the served kit', () => {
+    expect(canRenderFamily('Inter')).toBe(true)
+    expect(canRenderFamily('proxima-nova')).toBe(true)
+  })
+
+  test('refuses kit families this deployment does not serve', () => {
+    expect(canRenderFamily('freight-text-pro')).toBe(false)
   })
 })

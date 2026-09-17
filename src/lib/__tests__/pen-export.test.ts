@@ -43,6 +43,16 @@ describe('generatePenFile', () => {
     expect(Object.keys(vars)).toHaveLength(2)
   })
 
+  test('names kit families as the fonts are named on the desktop', () => {
+    const kitVars = JSON.parse(
+      generatePenFile({
+        ...DEFAULT_CONFIG,
+        bodyGroup: { ...DEFAULT_CONFIG.bodyGroup, fontFamily: 'freight-text-pro' },
+      })
+    ).variables
+    expect(kitVars['--font-secondary'].value).toBe('Freight Text Pro')
+  })
+
   test('type scale frame contains rows for each non-display element', () => {
     const rowsFrame = parsed.children[0].children.find((c: { id: string }) => c.id === 'rows')
     expect(rowsFrame).toBeDefined()
