@@ -4,7 +4,7 @@ import { Heart, Bookmark } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Stack } from "@/lib/stacks-api";
 import { PANGRAMS } from "@/data/pangrams";
-import { getFontLabel, getFontStack } from "@/lib/fonts";
+import { getFontLabel, getFontSource, getFontStack } from "@/lib/fonts";
 
 interface StackCardProps {
   stack: Stack;
@@ -34,6 +34,7 @@ export function StackCard({
   const fg = cardFg;
   const body = cardBodyColor ?? cardFg;
   const bg = cardBg;
+  const usesKit = getFontSource(headingFont) === "adobe" || getFontSource(bodyFont) === "adobe";
 
   return (
     <div
@@ -49,6 +50,12 @@ export function StackCard({
         className="flex h-[280px] flex-col gap-4 overflow-hidden px-5 pb-6 pt-5 transition-colors duration-300"
         style={{ backgroundColor: bg, color: fg }}
       >
+        {usesKit && (
+          <span className="hw-font-source-tag absolute right-4 top-4">
+            <span className="hw-font-source-led" />
+            Adobe
+          </span>
+        )}
         <div className="shrink-0">
           <p
             className="text-2xl leading-tight"

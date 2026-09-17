@@ -1,5 +1,5 @@
 import type { FontCategory } from "@/types/google-fonts";
-import type { FontOption } from "@/types/fonts";
+import type { FontOption, FontSource } from "@/types/fonts";
 import { POPULAR_FONTS } from "@/data/popular-fonts";
 import {
   fetchGoogleFonts,
@@ -125,6 +125,11 @@ export function getFontLabel(family: string): string {
  */
 export function canRenderFamily(family: string): boolean {
   return !isKitSlug(family) || isAdobeFamily(family);
+}
+
+/** Where a family's files come from, read from its shape so no kit needs to load. */
+export function getFontSource(family: string): FontSource {
+  return isKitSlug(family) ? "adobe" : "google";
 }
 
 /** Settles once kit membership is known, so `canRenderFamily` answers truthfully. */
