@@ -32,7 +32,7 @@ const KNOWN_LABELS: Record<string, string> = {
 };
 
 /** Foundry and format tokens that Adobe's own family names keep in capitals. */
-const UPPERCASE_TOKENS = new Set(["ff", "itc", "lt", "p22", "pt", "urw"]);
+const UPPERCASE_TOKENS = new Set(["cf", "ff", "itc", "lt", "p22", "pt", "urw"]);
 
 /**
  * Kits identify families by CSS slug only -- the display names live behind the

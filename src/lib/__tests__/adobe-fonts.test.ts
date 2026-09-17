@@ -42,6 +42,7 @@ describe('labelFromSlug', () => {
     expect(labelFromSlug('futura-pt')).toBe('Futura PT')
     expect(labelFromSlug('p22-mackinac-pro')).toBe('P22 Mackinac Pro')
     expect(labelFromSlug('ff-tisa-web-pro')).toBe('FF Tisa Web Pro')
+    expect(labelFromSlug('manifold-extd-cf')).toBe('Manifold Extd CF')
   })
 
   test('uses the real name where title-casing cannot reach it', () => {
