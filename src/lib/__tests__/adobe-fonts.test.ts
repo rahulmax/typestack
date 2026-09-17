@@ -43,6 +43,11 @@ describe('labelFromSlug', () => {
     expect(labelFromSlug('p22-mackinac-pro')).toBe('P22 Mackinac Pro')
     expect(labelFromSlug('ff-tisa-web-pro')).toBe('FF Tisa Web Pro')
   })
+
+  test('uses the real name where title-casing cannot reach it', () => {
+    expect(labelFromSlug('ivymode')).toBe('IvyMode')
+    expect(labelFromSlug('ivypresto-display')).toBe('IvyPresto Display')
+  })
 })
 
 describe('isKitSlug', () => {

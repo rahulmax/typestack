@@ -28,9 +28,11 @@ export function StackCard({
   onSave,
 }: StackCardProps) {
   const { config } = stack;
-  if (!config?.headingsGroup || !config?.bodyGroup) return null;
-  const headingFont = config.headingsGroup.fontFamily;
-  const bodyFont = config.bodyGroup.fontFamily;
+  const headingFont = config?.headingsGroup?.fontFamily;
+  const bodyFont = config?.bodyGroup?.fontFamily;
+  // The preset-version marker row has an empty config, which slim fetches turn
+  // into groups with no family -- there is nothing to draw.
+  if (!headingFont || !bodyFont) return null;
   const fg = cardFg;
   const body = cardBodyColor ?? cardFg;
   const bg = cardBg;
@@ -58,7 +60,7 @@ export function StackCard({
         )}
         <div className="shrink-0">
           <p
-            className="text-2xl leading-tight"
+            className={`text-2xl leading-tight ${usesKit ? "pr-12" : ""}`}
             style={{
               fontFamily: getFontStack(headingFont),
               fontWeight: config.headingsGroup.fontWeight,

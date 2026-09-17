@@ -128,22 +128,27 @@ export function BrowseStacksDialog({
 
   useFontLoader(renderableStacks);
 
-  // Derive available categories from loaded stacks
+  const sourceStacks = useMemo(
+    () =>
+      !hasKitStacks || sourceFilter === "all"
+        ? renderableStacks
+        : renderableStacks.filter((s) => stackSource(s) === sourceFilter),
+    [renderableStacks, sourceFilter, hasKitStacks]
+  );
+
+  // Derive available categories from the stacks the source switch lets through
   const availableCategories = useMemo(() => {
     const cats = new Set<string>();
-    for (const s of renderableStacks) {
+    for (const s of sourceStacks) {
       if (s.category) cats.add(s.category);
     }
     return CATEGORIES.filter((c) => cats.has(c));
-  }, [renderableStacks]);
+  }, [sourceStacks]);
 
   const filteredStacks = useMemo(() => {
-    return renderableStacks.filter(
-      (s) =>
-        (!categoryFilter || s.category === categoryFilter) &&
-        (!hasKitStacks || sourceFilter === "all" || stackSource(s) === sourceFilter)
-    );
-  }, [renderableStacks, categoryFilter, sourceFilter, hasKitStacks]);
+    if (!categoryFilter) return sourceStacks;
+    return sourceStacks.filter((s) => s.category === categoryFilter);
+  }, [sourceStacks, categoryFilter]);
 
   const handleSelect = async (stack: Stack) => {
     try {
@@ -293,7 +298,7 @@ export function BrowseStacksDialog({
                     <button
                       key={value}
                       type="button"
-                      onClick={() => setSourceFilter(value)}
+                      onClick={() => { setSourceFilter(value); setCategoryFilter(null); }}
                       className="hw-btn hw-selector-btn"
                       data-active={sourceFilter === value}
                       aria-pressed={sourceFilter === value}

@@ -113,9 +113,10 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
       setRandomLoading(true)
       const [stacks] = await Promise.all([fetchStacks("all"), resolveFontSources()])
       // Never shuffle onto a kit preset this deployment can't render
-      const data = stacks.filter((s) =>
-        canRenderFamily(s.config.headingsGroup.fontFamily) && canRenderFamily(s.config.bodyGroup.fontFamily)
-      )
+      const data = stacks.filter((s) => {
+        const families = [s.config?.headingsGroup?.fontFamily, s.config?.bodyGroup?.fontFamily]
+        return families.every((family) => !!family && canRenderFamily(family))
+      })
       if (data.length === 0) { setRandomLoading(false); return }
       const stack = data[Math.floor(Math.random() * data.length)]
       loadConfig(stack.config)

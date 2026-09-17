@@ -24,6 +24,13 @@ export function isKitSlug(family: string): boolean {
   return /^[a-z0-9]+(-[a-z0-9]+)*$/.test(family);
 }
 
+/** Families whose real names title-casing can't reach, keyed by slug. */
+const KNOWN_LABELS: Record<string, string> = {
+  ivymode: "IvyMode",
+  "ivypresto-display": "IvyPresto Display",
+  "ivypresto-text": "IvyPresto Text",
+};
+
 /** Foundry and format tokens that Adobe's own family names keep in capitals. */
 const UPPERCASE_TOKENS = new Set(["ff", "itc", "lt", "p22", "pt", "urw"]);
 
@@ -34,6 +41,7 @@ const UPPERCASE_TOKENS = new Set(["ff", "itc", "lt", "p22", "pt", "urw"]);
  * designer expects to read and what desktop-synced fonts are named in Figma.
  */
 export function labelFromSlug(slug: string): string {
+  if (KNOWN_LABELS[slug]) return KNOWN_LABELS[slug];
   return slug
     .split("-")
     .map((word) =>
