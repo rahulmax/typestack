@@ -57,10 +57,10 @@ export function PreviewContainer() {
           </BrowserChrome>
         </div>
         {viewport === "mobile" && (
-          // Anchored bottom-right; the bottom 20% of the phone runs off the container and is clipped
+          // Anchored bottom-right; the bottom ~9% of the phone runs off the container and is clipped
           <div
             className="pointer-events-none absolute bottom-0 right-8 z-20 w-[375px] max-w-[calc(100%-2rem)]"
-            style={{ height: "min(780px, 88%)", transform: "translateY(20%)" }}
+            style={{ height: "min(780px, 88%)", transform: "translateY(9%)" }}
           >
             <div className="pointer-events-auto h-full">
               <MobileChrome>

@@ -76,87 +76,87 @@ export const docsTemplate: PreviewTemplate = {
 
 <div class="dx">
   <div class="dx-top">
-    <h6>Meridian</h6>
-    <small>Guides</small><small>API</small><small>Changelog</small>
-    <div class="dx-search"><small>Search docs</small><small>&#8984;K</small></div>
-    <small class="dx-pill">v3.2</small>
+    <h6>Almanac</h6>
+    <small>Rites</small><small>Instruments</small><small>Errata</small>
+    <div class="dx-search"><small>Search the Annex</small><small>&#8984;K</small></div>
+    <small class="dx-pill">Vol. 7.2</small>
   </div>
 
   <div class="dx-grid">
     <nav class="dx-nav">
-      <span class="eyebrow">Getting started</span>
-      <small>Introduction</small>
-      <small data-on>Installation</small>
-      <small>Quick start</small>
-      <span class="eyebrow">Core concepts</span>
-      <small>Projects</small>
-      <small>Environments</small>
-      <small>Webhooks</small>
+      <span class="eyebrow">First consultations</span>
+      <small>Preface</small>
+      <small data-on>Calibration</small>
+      <small>Before you arrive</small>
+      <span class="eyebrow">Core doctrines</span>
+      <small>The conditional tide</small>
+      <small>Unlit rooms</small>
+      <small>Retroactive oaths</small>
       <span class="eyebrow">Reference</span>
-      <small>REST API</small>
-      <small>Command line</small>
-      <small>Configuration</small>
+      <small>The Seven Charts</small>
+      <small>The tidal console</small>
+      <small>Ledger settings</small>
     </nav>
 
     <main class="dx-main">
-      <div class="dx-crumbs"><small>Docs</small><small>/</small><small>Getting started</small><small>/</small><small>Installation</small></div>
-      <h1>Installation</h1>
-      <p class="dx-lead">Install the Meridian command line tool, connect it to your account, and deploy a first project in a few minutes.</p>
+      <div class="dx-crumbs"><small>Annex</small><small>/</small><small>First consultations</small><small>/</small><small>Calibration</small></div>
+      <h1>Calibrating the Inverse Almanac</h1>
+      <p class="dx-lead">Align the Almanac to a tide that has not yet occurred, register it with the Concordance, and consult a first entry before it has been composed.</p>
 
-      <div class="dx-callout"><b><small>i</small></b><div><h6>Before you begin</h6><p>You need Node 20 or newer and a Meridian account. Free accounts work for everything on this page.</p></div></div>
+      <div class="dx-callout"><b><small>i</small></b><div><h6>Before you begin</h6><p>You need a Provost&rsquo;s seal of the seventh grade and one unlit room. A room already lit may be used if it consents.</p></div></div>
 
-      <h2>Install the CLI</h2>
-      <p>The CLI is distributed as a single package. Install it globally so the <span class="dx-mono"><small>meridian</small></span> command is available in every project.</p>
+      <h2>Seat the instrument</h2>
+      <p>The Almanac is delivered folded into its own past. Seat it on the lower sill so that the <span class="dx-mono"><small>ebb-gauge</small></span> faces the sea-wall that has not been built, and speak the registry oath aloud.</p>
       <div class="dx-code">
-        <div class="dx-code-bar"><small>Terminal</small><small>Copy</small></div>
-        <pre><small>pnpm add -g @meridian/cli
-meridian --version</small></pre>
+        <div class="dx-code-bar"><small>Tidal console</small><small>Repeat</small></div>
+        <pre><small>concord seat --almanac inverse
+concord oath --tense anterior</small></pre>
       </div>
 
-      <h3>Sign in</h3>
-      <p>Run the login command and follow the prompt in your browser. Your credentials are stored in the system keychain.</p>
+      <h3>Enter the registry</h3>
+      <p>Run the oath and wait beside the doorway. Your standing is entered in the ledger of Oriel Taskane, which will confirm it upon completion of the interval.</p>
 
-      <h4>Using a token instead</h4>
-      <p>In CI, skip the browser flow and export a token before running any command.</p>
-      <h5>Scopes</h5>
-      <p>Tokens are limited to the scopes you grant them.</p>
-      <h6>Rotating tokens</h6>
-      <p>Rotate tokens every ninety days, or immediately if one is exposed.</p>
+      <h4>Using a proxy adept</h4>
+      <p>When the Concordance cannot attend, dispatch an adept to be present on your behalf, and to forget it in the correct order.</p>
+      <h5>Grades</h5>
+      <p>Proxies are limited to the grade you have not yet been awarded.</p>
+      <h6>Rotating proxies</h6>
+      <p>Replace proxies every ninety tides, or at once should one recall the occasion.</p>
 
-      <div class="dx-callout"><b><small>!</small></b><div><h6>Heads up</h6><p>Tokens are shown once. Copy yours somewhere safe before closing the dialog.</p></div></div>
+      <div class="dx-callout"><b><small>!</small></b><div><h6>Caution</h6><p>An oath is spoken once. Speak it twice and the second becomes the first, retroactively.</p></div></div>
 
-      <h2>Configuration options</h2>
-      <p>Create a <span class="dx-mono"><small>meridian.json</small></span> at the root of your project to override the defaults.</p>
+      <h2>Almanac settings</h2>
+      <p>Write an <span class="dx-mono"><small>almanac.toml</small></span> beside the sill to override the defaults of the current tide.</p>
       <div class="dx-tablewrap">
         <table class="dx-table">
-          <thead><tr><th><small><b>Option</b></small></th><th><small><b>Type</b></small></th><th><small><b>Default</b></small></th><th><small><b>Description</b></small></th></tr></thead>
+          <thead><tr><th><small><b>Setting</b></small></th><th><small><b>Kind</b></small></th><th><small><b>Default</b></small></th><th><small><b>Effect</b></small></th></tr></thead>
           <tbody>
-            <tr><td><small class="dx-mono">region</small></td><td><small>string</small></td><td><small>auto</small></td><td><small>Where builds run.</small></td></tr>
-            <tr><td><small class="dx-mono">retries</small></td><td><small>number</small></td><td><small>3</small></td><td><small>Attempts before a deploy fails.</small></td></tr>
-            <tr><td><small class="dx-mono">telemetry</small></td><td><small>boolean</small></td><td><small>true</small></td><td><small>Share anonymous usage data.</small></td></tr>
+            <tr><td><small class="dx-mono">tide</small></td><td><small>ordinal</small></td><td><small>third</small></td><td><small>Which tide is consulted.</small></td></tr>
+            <tr><td><small class="dx-mono">deferrals</small></td><td><small>integer</small></td><td><small>7</small></td><td><small>Times an entry may postpone itself.</small></td></tr>
+            <tr><td><small class="dx-mono">recall</small></td><td><small>paradox</small></td><td><small>true</small></td><td><small>Remember only what has not happened.</small></td></tr>
           </tbody>
         </table>
       </div>
 
-      <h2>Next steps</h2>
+      <h2>Next rites</h2>
       <div class="dx-steps">
-        <div class="dx-step"><b><small>1</small></b><div><h5>Create a project</h5><p>Run <span class="dx-mono"><small>meridian init</small></span> in an empty folder.</p></div></div>
-        <div class="dx-step"><b><small>2</small></b><div><h5>Deploy</h5><p>Push your first build with a single command and watch it go live.</p></div></div>
+        <div class="dx-step"><b><small>1</small></b><div><h5>Open a ledger</h5><p>Run <span class="dx-mono"><small>concord open</small></span> in an unlit room.</p></div></div>
+        <div class="dx-step"><b><small>2</small></b><div><h5>Consult</h5><p>Open the first entry, then compose it, and note the discrepancy.</p></div></div>
       </div>
 
       <div class="dx-pager">
-        <div><small>Previous</small><h6 style="margin: 0.2rem 0 0;">Introduction</h6></div>
-        <div><small>Next</small><h6 style="margin: 0.2rem 0 0;">Quick start</h6></div>
+        <div><small>Previous</small><h6 style="margin: 0.2rem 0 0;">Preface</h6></div>
+        <div><small>Next</small><h6 style="margin: 0.2rem 0 0;">Before you arrive</h6></div>
       </div>
     </main>
 
     <aside class="dx-toc">
-      <span class="eyebrow">On this page</span>
-      <small data-on>Install the CLI</small>
-      <small class="sub">Sign in</small>
-      <small class="sub">Using a token</small>
-      <small>Configuration options</small>
-      <small>Next steps</small>
+      <span class="eyebrow">On this leaf</span>
+      <small data-on>Seat the instrument</small>
+      <small class="sub">Enter the registry</small>
+      <small class="sub">Using a proxy adept</small>
+      <small>Almanac settings</small>
+      <small>Next rites</small>
     </aside>
   </div>
 </div>

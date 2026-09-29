@@ -67,28 +67,28 @@ export const editorialTemplate: PreviewTemplate = {
 <div class="ed">
   <hr class="ed-rule-thick" style="margin: 0;" />
   <div class="ed-mast">
-    <small>Autumn Issue &middot; No. 14</small>
-    <h6>The Quarterly Review</h6>
-    <small>Subscribe</small>
+    <small>Ebb Issue &middot; No. 14</small>
+    <h6>The Veyl Quarterly</h6>
+    <small>Petition</small>
   </div>
   <hr class="ed-rule" style="margin: 0;" />
   <div class="ed-nav">
-    <small>Essays</small><small>Design</small><small>Culture</small><small>Interviews</small><small>Archive</small>
+    <small>Essays</small><small>Cartography</small><small>Almanacs</small><small>Testimonies</small><small>Annex</small>
   </div>
   <hr class="ed-rule" style="margin: 0;" />
 
   <header class="ed-open">
     <div>
-      <span class="eyebrow" style="display: block; margin-bottom: 1rem;">Feature &middot; Design</span>
-      <h1 class="display-1">The quiet grammar of everyday things</h1>
-      <p class="ed-dek">Why the best-set page is the one you never notice, and what a century of typesetters can still teach the people who build screens.</p>
+      <span class="eyebrow" style="display: block; margin-bottom: 1rem;">Feature &middot; The Annex</span>
+      <h1 class="display-1">The city that filed itself under Later</h1>
+      <p class="ed-dek">How Veyl went under without ever having been above, and what the Hollow Concordance owes to a flood that arrived only in the minutes.</p>
       <div class="ed-byline">
-        <small>Words by <b>Marguerite Hale</b></small><small>&middot;</small><small>Photographs by Ines Okafor</small><small>&middot;</small><small>14 min read</small>
+        <small>Words by <b>Adept Ilse Varrow</b></small><small>&middot;</small><small>Drawings by the Provost of Unlit Rooms</small><small>&middot;</small><small>a full ebb of attendance</small>
       </div>
     </div>
     <figure class="ed-figure">
       <div class="ill" data-max-h="300px"></div>
-      <small>Above: a proof sheet from the 1961 reprint, annotated by hand.</small>
+      <small>Above: a plate from the Inverse Almanac, coloured by hand before it was drawn.</small>
     </figure>
   </header>
 
@@ -96,44 +96,44 @@ export const editorialTemplate: PreviewTemplate = {
 
   <div class="ed-body">
     <article class="ed-cols">
-      <p>There is a moment, in every good book, when the reader forgets they are reading. The letters recede, the margins hold their breath, and the sentence simply arrives. Typographers call this transparency, and it is the hardest thing in the trade to achieve, because it is made entirely of decisions nobody will ever see.</p>
-      <p>Consider the humble paragraph. Its size, its leading, the length of its line: each is a small negotiation between the eye and the page. Get them right and the text feels inevitable. Get one wrong and the whole thing begins to itch, though the reader could not tell you why.</p>
-      <h2>A scale is a promise</h2>
-      <p>The old printers worked from a fixed cabinet of sizes. Six point, eight, ten, twelve: a ladder with only so many rungs. That limit was a gift. It forced every headline, caption and folio to belong to the same family, and the pages that resulted have a calm that no amount of freedom has managed to reproduce.</p>
+      <p>There is a moment, in the history of every drowned place, when the water is said to have arrived. The tidal grammarians of Veyl maintain that no such moment occurred, and that the city was submerged by an administrative decision taken in its own future, ratified retroactively, and never quite communicated to the streets.</p>
+      <p>Consider the Sea-Wall, built to keep out a flood that had not yet been recorded. Its masons worked from a description of the wall they would have built had the flood been foreseen, and the wall, aware of its own hypothesis, has held ever since against nothing whatever.</p>
+      <h2>A ledger is a debt</h2>
+      <p>Oriel Taskane understood this. Her ledger enumerated what the city would owe if it were ever solvent, and the Concordance has honoured every line in advance, drawing on an account that opens only when it is closed. The arrangement is generally described as prudent, and occasionally as grammatical.</p>
       <blockquote class="ed-pull">
-        <p class="display-3">&ldquo;Good type is invisible; great type is felt.&rdquo;</p>
-        <small>Beatrice Warde, <em>The Crystal Goblet</em></small>
+        <p class="display-3">&ldquo;An archive is the future, pardoned in advance.&rdquo;</p>
+        <small>The Provost of Unlit Rooms, <em>Marginalia to the Fourth Almanac</em></small>
       </blockquote>
-      <p>A modular scale restores that ladder. Choose a ratio, choose a base, and every size in the document is now a relative of every other. The headline is not merely bigger than the caption; it is bigger by a known, repeatable amount, and the eye learns to trust it.</p>
-      <h3>The measure of a line</h3>
-      <p>Somewhere between forty-five and seventy-five characters, a line of text becomes comfortable. Shorter and the eye lurches from row to row; longer and it loses its place on the return. Columns, the magazine's oldest trick, exist to keep lines inside that window.</p>
-      <h4>On rhythm</h4>
-      <p>Vertical rhythm is the same idea turned ninety degrees. When every block sits on a shared baseline, the page acquires a pulse, and pulse is what separates a layout from a pile of text.</p>
-      <h5>A note on colour</h5>
-      <p>Ink on paper is never quite black. Screens, freed from the constraint, often overshoot into pure contrast. Soften it a little and the page breathes.</p>
+      <p>The Inverse Almanac completes the arrangement. Each of its forty-one entries records an event in the tense that precedes it, so that consultation becomes a form of prophecy conducted backward, and prophecy a form of housekeeping. Nothing in the almanac has occurred; everything in it has been filed.</p>
+      <h3>The interval between tides</h3>
+      <p>Between the ebb and the flood lies an hour the Concordance declares annulled. It is held that whatever transpires in that hour is discharged in advance, and the grammarians are accordingly obliged to be elsewhere, which they achieve by remaining precisely where they are.</p>
+      <h4>On the Seventh Cartography</h4>
+      <p>The seventh chart of the coast was drawn from the water&rsquo;s point of view, and it shows the city as the flood will remember it: enlarged, tender, and slightly overdue.</p>
+      <h5>A note on the unlit rooms</h5>
+      <p>There are rooms in Veyl that decline to be entered, and in declining they have acquired the only certain address in the city.</p>
     </article>
 
     <aside class="ed-side">
-      <h5>By the numbers</h5>
-      <div class="ed-stat"><h3>1.25</h3><small>The ratio most often chosen for long-form reading, the major third.</small></div>
-      <div class="ed-stat"><h3>66</h3><small>Characters per line, the classic ideal measure.</small></div>
-      <div class="ed-stat"><h3>1.5</h3><small>A comfortable line height for body copy in the wild.</small></div>
-      <h6 style="margin-top: 1.5rem;">Further reading</h6>
-      <p><small>Robert Bringhurst, <em>The Elements of Typographic Style</em>; Ellen Lupton, <em>Thinking with Type</em>.</small></p>
+      <h5>By the tallies</h5>
+      <div class="ed-stat"><h3>41</h3><small>Entries in the Inverse Almanac, none yet occurred.</small></div>
+      <div class="ed-stat"><h3>907</h3><small>Years the Concordance has spent awaiting its own founding.</small></div>
+      <div class="ed-stat"><h3>&minus;3</h3><small>Hours owed by the Sea-Wall to the tide it anticipated.</small></div>
+      <h6 style="margin-top: 1.5rem;">Further marginalia</h6>
+      <p><small>Taskane, <em>The Unentered Ledger</em>; Varrow, <em>Gloss on a Tide Not Yet Drawn</em>.</small></p>
     </aside>
   </div>
 
   <section style="margin-top: 3rem;">
     <hr class="ed-rule-thick" style="margin: 0 0 1rem;" />
-    <h5>Continue reading</h5>
+    <h5>Continue in the Annex</h5>
     <div class="ed-more">
-      <div><span class="eyebrow">Essay</span><h4>Why serifs came back</h4><p><small>A short history of the return of the humble bracketed foot.</small></p></div>
-      <div><span class="eyebrow">Interview</span><h4>Forty years of setting other people's words</h4><p><small>A compositor on the craft of staying out of the way.</small></p></div>
-      <div><span class="eyebrow">Culture</span><h4>The last sign painter on Canal Street</h4><p><small>Ladders, enamel and a very steady hand.</small></p></div>
+      <div><span class="eyebrow">Essay</span><h4>Why the Provost sits in the dark</h4><p><small>A brief account of the audience that concludes before it begins.</small></p></div>
+      <div><span class="eyebrow">Testimony</span><h4>Forty years cataloguing what did not happen</h4><p><small>A grammarian on the courtesy of the unrecorded.</small></p></div>
+      <div><span class="eyebrow">Almanacs</span><h4>The last tidewarden of the Third Sea-Wall</h4><p><small>Ladders, lamps and an unpaid interval.</small></p></div>
     </div>
   </section>
 
-  <div class="ed-foot"><small>&copy; 2026 The Quarterly Review</small><small>Set in the fonts you chose</small></div>
+  <div class="ed-foot"><small>&copy; The Veyl Quarterly, issued in arrears</small><small>Bound on the far side of the tide</small></div>
 </div>
 
 ${illustrationScript}
