@@ -10,7 +10,7 @@ import type {
   MobileConfig,
 } from "@/types/typography";
 import { HEADING_ELEMENTS, DISPLAY_ELEMENTS, OPTIONAL_ELEMENTS } from "@/types/typography";
-import { DEFAULT_CONFIG, normalizeConfig } from "@/data/default-config";
+import { DEFAULT_COLORS, DEFAULT_CONFIG, normalizeConfig } from "@/data/default-config";
 import { pickRandomPangram } from "@/data/pangrams";
 import { findPresetByValue } from "@/data/scale-ratios";
 
@@ -160,19 +160,16 @@ export const useTypographyStore = create<TypographyStore>()(
           };
         }),
 
-      resetConfig: (dark) => set((state) => ({
-        ...DEFAULT_CONFIG,
-        sampleText: pickRandomPangram(state.sampleText),
-        ...(dark ? {
-          headingsGroup: { ...DEFAULT_CONFIG.headingsGroup, color: '#e5e5e5' },
-          bodyGroup: { ...DEFAULT_CONFIG.bodyGroup, color: '#d4d4d4' },
-          backgroundColor: '#171717',
-        } : {
-          headingsGroup: { ...DEFAULT_CONFIG.headingsGroup, color: '#2e2e2e' },
-          bodyGroup: { ...DEFAULT_CONFIG.bodyGroup, color: '#3a3a3a' },
-          backgroundColor: '#f5f5f5',
-        }),
-      })),
+      resetConfig: (dark) => set((state) => {
+        const colors = DEFAULT_COLORS[dark ? "dark" : "light"];
+        return {
+          ...DEFAULT_CONFIG,
+          sampleText: pickRandomPangram(state.sampleText),
+          headingsGroup: { ...DEFAULT_CONFIG.headingsGroup, color: colors.heading },
+          bodyGroup: { ...DEFAULT_CONFIG.bodyGroup, color: colors.body },
+          backgroundColor: colors.background,
+        };
+      }),
     }),
     {
       name: "typestack-typography",
