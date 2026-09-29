@@ -107,6 +107,19 @@ describe('generatePreviewCSS', () => {
     expect(css).toContain('color-mix(in oklab, var(--ill-primary)')
   })
 
+  test('hero glow fades out on mid-lightness pages', () => {
+    const withBg = (backgroundColor: string) => generatePreviewCSS({ ...DEFAULT_CONFIG, backgroundColor })
+    // #666 is OKLCH L ~0.51, squarely mid-grey
+    expect(withBg('#666666')).not.toContain('#ill-hero::before')
+    expect(withBg('#666666')).toContain('#ill-hero > *')
+    expect(withBg('#111111')).toContain('var(--ill-primary) 26%')
+    expect(withBg('#fafafa')).toContain('var(--ill-primary) 26%')
+    // #3a3a3a is L ~0.34: inside the ramp, so the glow is present but weaker
+    const peak = Number(withBg('#3a3a3a').match(/var\(--ill-primary\) ([\d.]+)%/)?.[1])
+    expect(peak).toBeGreaterThan(0)
+    expect(peak).toBeLessThan(26)
+  })
+
   test('no hero layout override at default scale (1.2)', () => {
     const css = generatePreviewCSS(DEFAULT_CONFIG)
     expect(css).not.toContain('#hero { display: flex')

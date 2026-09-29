@@ -1,7 +1,7 @@
 import type { TypographyConfig, TypographyElement, ResolvedElementStyle } from "@/types/typography";
 import { computeScale, computeMobileScale } from "./scale";
 import { HEADING_ELEMENTS, DISPLAY_ELEMENTS } from "@/types/typography";
-import { computeIllustrationPalette, hexToOklchString } from "./color-utils";
+import { computeIllustrationPalette, hexToOklch, hexToOklchString } from "./color-utils";
 import { buildFontImports, getFontStack } from "./fonts";
 
 function isHeadingLike(element: string): boolean {
@@ -93,18 +93,23 @@ export function generatePreviewCSS(config: TypographyConfig): string {
   lines.push(`.ill svg path:not([fill]), .ill svg circle:not([fill]), .ill svg rect:not([fill]), .ill svg polygon:not([fill]), .ill svg ellipse:not([fill]) { fill: var(--ill-ink, currentColor); }`);
   const hc = config.headingsGroup.color;
   const ill = computeIllustrationPalette(config.backgroundColor, hc, config.bodyGroup.color);
-  const glow = (pct: number) => `color-mix(in oklab, var(--ill-primary) ${pct}%, transparent)`;
+  // On mid-lightness pages the primary sits too close to the page, so the glow reads as a dull disc.
+  // Fade it out from full strength at L <= 0.25 / >= 0.75 to nothing between 0.4 and 0.6.
+  const glowStrength = Math.min(1, Math.max(0, (Math.abs(hexToOklch(config.backgroundColor).l - 0.5) - 0.1) / 0.15));
+  const glow = (pct: number) => `color-mix(in oklab, var(--ill-primary) ${Math.round(pct * glowStrength * 10) / 10}%, transparent)`;
   lines.push(`#ill-hero { position: relative; overflow: visible; }`);
-  lines.push(`#ill-hero::before {`);
-  lines.push(`  content: "";`);
-  lines.push(`  position: absolute;`);
-  lines.push(`  inset: 10%;`);
-  lines.push(`  border-radius: 50%;`);
-  lines.push(`  background: radial-gradient(circle, ${glow(26)} 0%, ${glow(18)} 15%, ${glow(10)} 30%, ${glow(4)} 50%, transparent 70%);`);
-  lines.push(`  filter: blur(30px);`);
-  lines.push(`  pointer-events: none;`);
-  lines.push(`  z-index: 0;`);
-  lines.push(`}`);
+  if (glowStrength > 0) {
+    lines.push(`#ill-hero::before {`);
+    lines.push(`  content: "";`);
+    lines.push(`  position: absolute;`);
+    lines.push(`  inset: 10%;`);
+    lines.push(`  border-radius: 50%;`);
+    lines.push(`  background: radial-gradient(circle, ${glow(26)} 0%, ${glow(18)} 15%, ${glow(10)} 30%, ${glow(4)} 50%, transparent 70%);`);
+    lines.push(`  filter: blur(30px);`);
+    lines.push(`  pointer-events: none;`);
+    lines.push(`  z-index: 0;`);
+    lines.push(`}`);
+  }
   lines.push(`#ill-hero > * { position: relative; z-index: 1; }`);
   const illVars = Object.entries(ill).map(([role, value]) => `--ill-${role}: ${value};`).join(" ");
   // --tone-* / --scene-tone-* are the pre-role names, kept as aliases for templates that still use them
