@@ -83,6 +83,30 @@ describe('generatePreviewCSS', () => {
     expect(css).toContain('--scene-tone-1:')
   })
 
+  test('includes illustration role variables', () => {
+    const css = generatePreviewCSS(DEFAULT_CONFIG)
+    for (const role of ['ink', 'primary', 'secondary', 'accent', 'highlight', 'surface']) {
+      expect(css).toMatch(new RegExp(`--ill-${role}: oklch\\(`))
+    }
+  })
+
+  test('keeps the old tone names as aliases of the role variables', () => {
+    const css = generatePreviewCSS(DEFAULT_CONFIG)
+    expect(css).toContain('--tone-1: var(--ill-primary)')
+    expect(css).toContain('--tone-2: var(--ill-secondary)')
+    expect(css).toContain('--scene-tone-3: var(--ill-highlight)')
+  })
+
+  test('unfilled illustration paths use the ink role', () => {
+    const css = generatePreviewCSS(DEFAULT_CONFIG)
+    expect(css).toContain('fill: var(--ill-ink, currentColor)')
+  })
+
+  test('hero glow is tinted from the illustration palette', () => {
+    const css = generatePreviewCSS(DEFAULT_CONFIG)
+    expect(css).toContain('color-mix(in oklab, var(--ill-primary)')
+  })
+
   test('no hero layout override at default scale (1.2)', () => {
     const css = generatePreviewCSS(DEFAULT_CONFIG)
     expect(css).not.toContain('#hero { display: flex')
