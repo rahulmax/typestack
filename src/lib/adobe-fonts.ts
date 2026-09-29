@@ -30,6 +30,12 @@ const KNOWN_LABELS: Record<string, string> = {
   "mrs-eaves-xl-serif": "Mrs Eaves XL Serif",
   "ivypresto-display": "IvyPresto Display",
   "ivypresto-text": "IvyPresto Text",
+  // CSS names that stray from the family name.
+  "canada-type-gibson": "Gibson",
+  "ff-meta-serif-web-pro": "FF Meta Serif Pro",
+  "lemonde-journal": "Le Monde Journal Std",
+  "lemonde-sans": "Le Monde Sans Std",
+  orpheuspro: "Orpheus Pro",
 };
 
 /** Foundry and format tokens that Adobe's own family names keep in capitals. */
