@@ -6,13 +6,12 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Laptop, Tablet, Smartphone } from "lucide-react";
+import { Laptop, Smartphone } from "lucide-react";
 import { useUIStore, type ViewportSize } from "@/store/ui-store";
 import type { LucideIcon } from "lucide-react";
 
 const VIEWPORTS: { value: ViewportSize; label: string; icon: LucideIcon }[] = [
   { value: "laptop", label: "Laptop", icon: Laptop },
-  { value: "tablet", label: "Tablet", icon: Tablet },
   { value: "mobile", label: "Mobile", icon: Smartphone },
 ];
 

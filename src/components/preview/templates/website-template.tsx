@@ -1,4 +1,6 @@
+import { Globe } from "lucide-react";
 import type { PreviewTemplate } from "./types";
+import { illustrationScript } from "./illustration-script";
 
 const border = `1px solid color-mix(in srgb, currentColor 20%, transparent)`;
 const borderLight = `1px solid color-mix(in srgb, currentColor 10%, transparent)`;
@@ -6,6 +8,7 @@ const borderLight = `1px solid color-mix(in srgb, currentColor 10%, transparent)
 export const websiteTemplate: PreviewTemplate = {
   id: "website",
   name: "Website",
+  icon: Globe,
   html: `
 <style>
   /* Tablet */
@@ -196,7 +199,7 @@ export const websiteTemplate: PreviewTemplate = {
 <!-- SPLIT SECTION: ILLUSTRATION LEFT, TEXT RIGHT -->
 <section id="split-1" style="max-width: 1024px; margin: 0 auto; padding: 0 1.5rem 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
   <div>
-    <div class="ill" id="ill-split-1" style="display: flex; align-items: center; justify-content: center; min-height: 240px; border: ${borderLight}; border-radius: 16px; padding: 2rem; background: color-mix(in srgb, currentColor 3%, transparent);"></div>
+    <div class="ill" id="ill-split-1" style="display: flex; align-items: center; justify-content: center; min-height: 240px; border: ${borderLight}; border-radius: 16px; padding: 2rem; background: var(--ill-surface);"></div>
     <small style="display: block; margin-top: 0.5rem; font-size: 0.65em; text-align: center;">Illustration by <a href="https://www.getillustrations.com" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">getillustrations.com</a></small>
   </div>
   <div>
@@ -239,7 +242,7 @@ export const websiteTemplate: PreviewTemplate = {
     </div>
   </div>
   <div>
-    <div class="ill" id="ill-split-2" style="display: flex; align-items: center; justify-content: center; min-height: 240px; border: ${borderLight}; border-radius: 16px; padding: 2rem; background: color-mix(in srgb, currentColor 3%, transparent);"></div>
+    <div class="ill" id="ill-split-2" style="display: flex; align-items: center; justify-content: center; min-height: 240px; border: ${borderLight}; border-radius: 16px; padding: 2rem; background: var(--ill-surface);"></div>
     <small style="display: block; margin-top: 0.5rem; font-size: 0.65em; text-align: center;">Illustration by <a href="https://www.getillustrations.com" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">getillustrations.com</a></small>
   </div>
 </section>
@@ -340,33 +343,6 @@ export const websiteTemplate: PreviewTemplate = {
   </div>
 </footer>
 
-<!-- ILLUSTRATION INJECTION SCRIPT -->
-<script>
-(function() {
-  var total = 24;
-  var nums = [];
-  for (var j = 1; j <= total; j++) nums.push(j);
-  for (var k = nums.length - 1; k > 0; k--) {
-    var r = Math.floor(Math.random() * (k + 1));
-    var tmp = nums[k]; nums[k] = nums[r]; nums[r] = tmp;
-  }
-
-  var slots = document.querySelectorAll('.ill');
-  slots.forEach(function(slot, i) {
-    var n = nums[i % total];
-    fetch('/ill/ill-' + n + '.svg')
-      .then(function(r) { return r.text(); })
-      .then(function(svg) {
-        slot.innerHTML = svg;
-        var svgEl = slot.querySelector('svg');
-        if (svgEl) {
-          svgEl.style.width = '100%';
-          svgEl.style.height = 'auto';
-          svgEl.style.maxHeight = slot.dataset.maxH || '320px';
-        }
-      });
-  });
-})();
-</script>
+${illustrationScript}
 `,
 };

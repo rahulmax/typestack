@@ -46,18 +46,27 @@ export function PreviewContainer() {
     );
   }
 
+  // laptop and mobile share the same desktop base; mobile adds a phone overlay
+  const html = getTemplateHTML(activeTab);
   return (
     <div className="flex h-full flex-col">
-      <div className="flex-1 overflow-hidden bg-background">
-        {viewport === "mobile" ? (
-          <MobileChrome>
-            <PreviewIframe bodyHTML={getTemplateHTML(activeTab)} mobile />
-          </MobileChrome>
-        ) : (
-          <div className="h-full overflow-auto p-4">
-            <BrowserChrome tablet={viewport === "tablet"}>
-              <PreviewIframe bodyHTML={getTemplateHTML(activeTab)} />
-            </BrowserChrome>
+      <div className="relative flex-1 overflow-hidden bg-background">
+        <div className="h-full overflow-auto p-4">
+          <BrowserChrome>
+            <PreviewIframe bodyHTML={html} />
+          </BrowserChrome>
+        </div>
+        {viewport === "mobile" && (
+          // Anchored bottom-right; the bottom 20% of the phone runs off the container and is clipped
+          <div
+            className="pointer-events-none absolute bottom-0 right-8 z-20 w-[375px] max-w-[calc(100%-2rem)]"
+            style={{ height: "min(780px, 88%)", transform: "translateY(20%)" }}
+          >
+            <div className="pointer-events-auto h-full">
+              <MobileChrome>
+                <PreviewIframe bodyHTML={html} mobile />
+              </MobileChrome>
+            </div>
           </div>
         )}
       </div>

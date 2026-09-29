@@ -1,8 +1,10 @@
+import { AlignLeft } from "lucide-react";
 import type { PreviewTemplate } from "./types";
 
 export const blogTemplate: PreviewTemplate = {
   id: "blog",
   name: "Blog",
+  icon: AlignLeft,
   html: `
 <style>
   @media (max-width: 768px) {

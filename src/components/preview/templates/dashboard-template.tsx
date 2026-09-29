@@ -1,3 +1,4 @@
+import { LayoutDashboard } from "lucide-react";
 import type { PreviewTemplate } from "./types";
 
 const border = `1px solid color-mix(in srgb, currentColor 12%, transparent)`;
@@ -29,6 +30,7 @@ const selectBox = `${input} appearance: none; padding-right: 2em; background-ima
 export const dashboardTemplate: PreviewTemplate = {
   id: "dashboard",
   name: "Dashboard",
+  icon: LayoutDashboard,
   html: `
 <style>
   @media (max-width: 900px) {
