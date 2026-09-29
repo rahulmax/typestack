@@ -164,6 +164,17 @@ function setupEditableListeners(
   });
 }
 
+function applyBody(doc: Document, bodyHTML: string) {
+  doc.body.innerHTML = bodyHTML;
+  makeEditable(doc);
+  // Re-run any inline scripts (e.g. illustration injection)
+  doc.body.querySelectorAll("script").forEach((old) => {
+    const s = doc.createElement("script");
+    s.textContent = old.textContent;
+    old.replaceWith(s);
+  });
+}
+
 interface PreviewIframeProps {
   bodyHTML: string;
   mobile?: boolean;
@@ -214,11 +225,17 @@ export function PreviewIframe({ bodyHTML, mobile }: PreviewIframeProps) {
 
   // Build srcdoc only on initial mount or when fonts/viewport change.
   // Template and CSS updates go through effects to avoid full iframe reloads.
-  const srcdoc = useMemo(
-    () => buildDoc(css, bodyHTML, fontLinks, mobile),
+  // Remember which body the srcdoc was built with: a template switch while the
+  // iframe is still loading lands on the old document and must be re-applied.
+  const built = useMemo(
+    () => ({ html: buildDoc(css, bodyHTML, fontLinks, mobile), body: bodyHTML }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [fontLinks, mobile]
   );
+  const bodyRef = useRef(bodyHTML);
+  bodyRef.current = bodyHTML;
+  const cssRef = useRef(css);
+  cssRef.current = css;
 
   // Incremental CSS update (no iframe reload)
   useEffect(() => {
@@ -234,14 +251,7 @@ export function PreviewIframe({ bodyHTML, mobile }: PreviewIframeProps) {
   useEffect(() => {
     const doc = iframeRef.current?.contentDocument;
     if (!doc) return;
-    doc.body.innerHTML = bodyHTML;
-    makeEditable(doc);
-    // Re-run any inline scripts (e.g. illustration injection)
-    doc.body.querySelectorAll("script").forEach((old) => {
-      const s = doc.createElement("script");
-      s.textContent = old.textContent;
-      old.replaceWith(s);
-    });
+    applyBody(doc, bodyHTML);
   }, [bodyHTML]);
 
   // Update font links when fonts change
@@ -280,6 +290,9 @@ export function PreviewIframe({ bodyHTML, mobile }: PreviewIframeProps) {
   const handleLoad = () => {
     const doc = iframeRef.current?.contentDocument;
     if (!doc) return;
+    const styleEl = doc.getElementById("typestack-styles");
+    if (styleEl) styleEl.textContent = cssRef.current;
+    if (bodyRef.current !== built.body) applyBody(doc, bodyRef.current);
     makeEditable(doc);
     setupEditableListeners(doc, colorsRef, handleElementFocus);
   };
@@ -287,7 +300,7 @@ export function PreviewIframe({ bodyHTML, mobile }: PreviewIframeProps) {
   return (
     <iframe
       ref={iframeRef}
-      srcDoc={srcdoc}
+      srcDoc={built.html}
       className="h-full w-full border-0"
       style={mobile ? undefined : { minHeight: "calc(100vh - 10rem)" }}
       title="Typography Preview"

@@ -14,10 +14,10 @@ export function MobileChrome({ children }: MobileChromeProps) {
 
   return (
     <div className="flex h-full flex-col items-center gap-2 pt-2">
-      <div className="flex items-center gap-1.5">
+      <div className="flex items-center gap-1.5 rounded-full border border-border bg-muted px-2.5 py-1 shadow-sm">
         <span className="hw-selector-led" />
         <span
-          className="text-[9px] font-semibold uppercase tracking-[0.2em] text-muted-foreground/60"
+          className="text-[9px] font-semibold uppercase tracking-[0.2em] text-muted-foreground"
           style={{ fontFamily: "var(--font-host-grotesk), system-ui, sans-serif" }}
         >
           Scale set in Mobile Settings
