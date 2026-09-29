@@ -1,5 +1,6 @@
 import type { TypographyConfig, TypographyElement, ElementOverride } from "@/types/typography";
 import { ALL_ELEMENTS } from "@/types/typography";
+import { DEFAULT_PANGRAM } from "./pangrams";
 
 /**
  * Bounds for every control whose range is narrower than the values a stored
@@ -91,6 +92,12 @@ function normalizeOverrides(raw: unknown): Record<TypographyElement, ElementOver
   return result;
 }
 
+/** Default page colours per app theme: near-black on white, near-white on black. */
+export const DEFAULT_COLORS = {
+  light: { heading: "#0a0a0a", body: "#1c1c1c", background: "#ffffff" },
+  dark: { heading: "#fafafa", body: "#e8e8e8", background: "#0c0c0c" },
+} as const;
+
 export const DEFAULT_CONFIG: TypographyConfig = {
   baseFontSize: 16,
   scaleRatioPreset: "Minor Third",
@@ -101,7 +108,7 @@ export const DEFAULT_CONFIG: TypographyConfig = {
     lineHeight: 1.2,
     letterSpacing: -0.02,
     wordSpacing: 0,
-    color: "#2e2e2e",
+    color: DEFAULT_COLORS.light.heading,
   },
   bodyGroup: {
     fontFamily: "Inter",
@@ -109,7 +116,7 @@ export const DEFAULT_CONFIG: TypographyConfig = {
     lineHeight: 1.6,
     letterSpacing: 0,
     wordSpacing: 0,
-    color: "#3a3a3a",
+    color: DEFAULT_COLORS.light.body,
   },
   overrides: buildOverrides(),
   mobile: {
@@ -117,6 +124,6 @@ export const DEFAULT_CONFIG: TypographyConfig = {
     scaleRatio: 1.15,
     breakpointWidth: 768,
   },
-  backgroundColor: "#f5f5f5",
-  sampleText: "The quick brown fox jumps over the lazy dog",
+  backgroundColor: DEFAULT_COLORS.light.background,
+  sampleText: DEFAULT_PANGRAM,
 };

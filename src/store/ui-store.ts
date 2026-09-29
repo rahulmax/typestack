@@ -2,8 +2,15 @@
 
 import { create } from "zustand";
 
-export type ViewportSize = "scale" | "style" | "laptop" | "tablet" | "mobile";
-export type PreviewTab = "website" | "blog";
+// "mobile" = the laptop preview with a phone overlay on top
+export type ViewportSize = "scale" | "style" | "laptop" | "mobile";
+export type PreviewTab =
+  | "website"
+  | "blog"
+  | "magazine"
+  | "docs"
+  | "swiss"
+  | "newsletter";
 
 export const GRID_PATTERN_TYPES = ["square", "dots", "plus", "tallrect", "diagonal", "crosshatch", "hlines", "diamond"] as const;
 export type GridPatternType = (typeof GRID_PATTERN_TYPES)[number] | null;
@@ -40,7 +47,6 @@ export const VIEWPORT_WIDTHS: Record<ViewportSize, string> = {
   scale: "100%",
   style: "100%",
   laptop: "1440px",
-  tablet: "768px",
   mobile: "375px",
 };
 

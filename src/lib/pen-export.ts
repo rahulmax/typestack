@@ -3,6 +3,7 @@ import { computeScale } from './scale'
 import { DISPLAY_ELEMENTS, HEADING_ELEMENTS } from '@/types/typography'
 import type { ResolvedElementStyle } from '@/types/typography'
 import { getFontLabel } from './fonts'
+import { PANGRAMS } from '@/data/pangrams'
 
 interface PenVariable {
   type: 'string' | 'number'
@@ -15,10 +16,10 @@ interface PenNode {
   [key: string]: unknown
 }
 
-const SAMPLE_HEADING = 'The quick brown fox jumps over the lazy dog'
+const SAMPLE_HEADING = PANGRAMS[0].text
 const SAMPLE_PARAGRAPH = 'Typography is the art and technique of arranging type to make written language legible, readable, and appealing when displayed. The arrangement of type involves selecting typefaces, point sizes, line lengths, line-spacing, and letter-spacing.'
-const SAMPLE_EYEBROW = 'THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG'
-const SAMPLE_SMALL = 'The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs.'
+const SAMPLE_EYEBROW = PANGRAMS[1].text.toUpperCase()
+const SAMPLE_SMALL = `${PANGRAMS[2].text}. ${PANGRAMS[0].text}.`
 
 /** Document schema version emitted by this exporter. */
 const PEN_VERSION = '2.17'

@@ -1,101 +1,39 @@
 "use client";
 
-import { ALargeSmall, Laptop, Tablet, Smartphone, Globe, AlignLeft } from "lucide-react";
-import { useUIStore, type ViewportSize, type PreviewTab } from "@/store/ui-store";
 import { useTypographyStore } from "@/store/typography-store";
 import { isBgDark } from "@/lib/color-utils";
-
-const VIEWPORTS: { value: ViewportSize; icon: typeof Laptop }[] = [
-  { value: "scale", icon: ALargeSmall },
-  { value: "laptop", icon: Laptop },
-  { value: "tablet", icon: Tablet },
-  { value: "mobile", icon: Smartphone },
-];
-
-const TEMPLATES: { value: PreviewTab; icon: typeof Globe }[] = [
-  { value: "website", icon: Globe },
-  { value: "blog", icon: AlignLeft },
-];
 
 interface MobileChromeProps {
   children: React.ReactNode;
 }
 
+// Device frame only: the desktop chrome's toggle and tabs drive the content.
 export function MobileChrome({ children }: MobileChromeProps) {
-  const viewport = useUIStore((s) => s.viewport);
-  const setViewport = useUIStore((s) => s.setViewport);
-  const activeTab = useUIStore((s) => s.activeTab);
-  const setActiveTab = useUIStore((s) => s.setActiveTab);
   const bgColor = useTypographyStore((s) => s.backgroundColor);
   const dark = isBgDark(bgColor);
-  const isScale = viewport === "scale" || viewport === "style";
 
   return (
     <div className="flex h-full flex-col items-center gap-2 pt-2">
-      <div className="flex items-center gap-1.5">
+      <div className="flex items-center gap-1.5 rounded-full border border-border bg-muted px-2.5 py-1 shadow-sm">
         <span className="hw-selector-led" />
         <span
-          className="text-[9px] font-semibold uppercase tracking-[0.2em] text-muted-foreground/60"
+          className="text-[9px] font-semibold uppercase tracking-[0.2em] text-muted-foreground"
           style={{ fontFamily: "var(--font-host-grotesk), system-ui, sans-serif" }}
         >
           Scale set in Mobile Settings
         </span>
       </div>
       <div
-        className="relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-t-[40px] border-[3px] border-b-0 border-border shadow-lg"
+        className="relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-t-[40px] border-[3px] border-b-0 border-border shadow-[0_24px_60px_-8px_rgba(0,0,0,0.45),0_8px_20px_rgba(0,0,0,0.25)]"
         style={{ width: 375, maxWidth: "100%", backgroundColor: bgColor }}
       >
-        {/* Dynamic island area — overlays content */}
-        <div className="relative z-10 flex items-center justify-center gap-2 py-1.5">
-          <div
-            className="flex items-center gap-0.5 rounded-full px-2 py-1"
-            style={{ backgroundColor: dark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.06)" }}
-          >
-            {VIEWPORTS.map(({ value, icon: Icon }, i) => (
-              <span key={value} className="flex items-center">
-                {i === 1 && <span className="mx-1 h-4 w-px" style={{ backgroundColor: dark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.1)" }} />}
-                <button
-                  type="button"
-                  onClick={() => setViewport(value)}
-                  className="rounded-full p-2 transition-colors"
-                  style={{
-                    color: viewport === value
-                      ? (dark ? "rgba(255,255,255,0.9)" : "rgba(0,0,0,0.7)")
-                      : (dark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.25)"),
-                  }}
-                >
-                  <Icon className="size-4" />
-                </button>
-              </span>
-            ))}
-          </div>
-          <div
-            className="flex items-center gap-0.5 rounded-full px-2 py-1 transition-opacity"
-            style={{
-              backgroundColor: dark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.06)",
-              opacity: isScale ? 0.4 : 1,
-              pointerEvents: isScale ? "none" : undefined,
-            }}
-          >
-            {TEMPLATES.map(({ value, icon: Icon }) => (
-              <button
-                key={value}
-                type="button"
-                onClick={() => setActiveTab(value)}
-                disabled={isScale}
-                className="rounded-full p-2 transition-colors"
-                style={{
-                  color: activeTab === value
-                    ? (dark ? "rgba(255,255,255,0.9)" : "rgba(0,0,0,0.7)")
-                    : (dark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.25)"),
-                }}
-              >
-                <Icon className="size-3.5" />
-              </button>
-            ))}
-          </div>
-        </div>
-        {/* Content */}
+        {/* Dynamic island, overlaying the page */}
+        <div
+          className="pointer-events-none absolute left-1/2 top-2 z-10 h-[22px] w-[84px] -translate-x-1/2 rounded-full"
+          style={{ backgroundColor: dark ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.85)" }}
+        />
+        {/* Status bar spacer so page content starts below the island */}
+        <div className="h-8 shrink-0" />
         <div className="min-h-0 flex-1">{children}</div>
       </div>
     </div>

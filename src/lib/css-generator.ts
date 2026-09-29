@@ -1,7 +1,7 @@
 import type { TypographyConfig, TypographyElement, ResolvedElementStyle } from "@/types/typography";
 import { computeScale, computeMobileScale } from "./scale";
 import { HEADING_ELEMENTS, DISPLAY_ELEMENTS } from "@/types/typography";
-import { computeSceneTones, hexToOklchString } from "./color-utils";
+import { computeIllustrationPalette, hexToOklch, hexToOklchString } from "./color-utils";
 import { buildFontImports, getFontStack } from "./fonts";
 
 function isHeadingLike(element: string): boolean {
@@ -90,22 +90,30 @@ export function generatePreviewCSS(config: TypographyConfig): string {
   lines.push("* { margin: 0; padding: 0; box-sizing: border-box; }");
   lines.push(`body { background: ${hexToOklchString(config.backgroundColor)}; color: ${hexToOklchString(config.bodyGroup.color)}; padding: 2rem; font-family: ${getFontStack(config.bodyGroup.fontFamily)}; }`);
   lines.push(`a, a:visited, a:hover, a:active { color: inherit; text-decoration: underline; }`);
-  lines.push(`.ill svg path:not([fill]), .ill svg circle:not([fill]), .ill svg rect:not([fill]), .ill svg polygon:not([fill]), .ill svg ellipse:not([fill]) { fill: currentColor; }`);
+  lines.push(`.ill svg path:not([fill]), .ill svg circle:not([fill]), .ill svg rect:not([fill]), .ill svg polygon:not([fill]), .ill svg ellipse:not([fill]) { fill: var(--ill-ink, currentColor); }`);
   const hc = config.headingsGroup.color;
+  const ill = computeIllustrationPalette(config.backgroundColor, hc, config.bodyGroup.color);
+  // On mid-lightness pages the primary sits too close to the page, so the glow reads as a dull disc.
+  // Fade it out from full strength at L <= 0.25 / >= 0.75 to nothing between 0.4 and 0.6.
+  const glowStrength = Math.min(1, Math.max(0, (Math.abs(hexToOklch(config.backgroundColor).l - 0.5) - 0.1) / 0.15));
+  const glow = (pct: number) => `color-mix(in oklab, var(--ill-primary) ${Math.round(pct * glowStrength * 10) / 10}%, transparent)`;
   lines.push(`#ill-hero { position: relative; overflow: visible; }`);
-  lines.push(`#ill-hero::before {`);
-  lines.push(`  content: "";`);
-  lines.push(`  position: absolute;`);
-  lines.push(`  inset: 10%;`);
-  lines.push(`  border-radius: 50%;`);
-  lines.push(`  background: radial-gradient(circle, color-mix(in srgb, ${hexToOklchString(hc)} 20%, transparent) 0%, color-mix(in srgb, ${hexToOklchString(hc)} 14%, transparent) 15%, color-mix(in srgb, ${hexToOklchString(hc)} 8%, transparent) 30%, color-mix(in srgb, ${hexToOklchString(hc)} 3%, transparent) 50%, transparent 70%);`);
-  lines.push(`  filter: blur(30px);`);
-  lines.push(`  pointer-events: none;`);
-  lines.push(`  z-index: 0;`);
-  lines.push(`}`);
+  if (glowStrength > 0) {
+    lines.push(`#ill-hero::before {`);
+    lines.push(`  content: "";`);
+    lines.push(`  position: absolute;`);
+    lines.push(`  inset: 10%;`);
+    lines.push(`  border-radius: 50%;`);
+    lines.push(`  background: radial-gradient(circle, ${glow(26)} 0%, ${glow(18)} 15%, ${glow(10)} 30%, ${glow(4)} 50%, transparent 70%);`);
+    lines.push(`  filter: blur(30px);`);
+    lines.push(`  pointer-events: none;`);
+    lines.push(`  z-index: 0;`);
+    lines.push(`}`);
+  }
   lines.push(`#ill-hero > * { position: relative; z-index: 1; }`);
-  const st = computeSceneTones(config.backgroundColor, config.headingsGroup.color);
-  lines.push(`:root { --bg-color: ${hexToOklchString(config.backgroundColor)}; --tone-base: ${hexToOklchString(hc)}; --tone-1: ${st.tone1}; --tone-2: ${st.tone2}; --scene-tone-1: ${st.tone1}; --scene-tone-2: ${st.tone2}; --scene-tone-3: ${st.tone3}; }`);
+  const illVars = Object.entries(ill).map(([role, value]) => `--ill-${role}: ${value};`).join(" ");
+  // --tone-* / --scene-tone-* are the pre-role names, kept as aliases for templates that still use them
+  lines.push(`:root { --bg-color: ${hexToOklchString(config.backgroundColor)}; --tone-base: ${hexToOklchString(hc)}; ${illVars} --tone-1: var(--ill-primary); --tone-2: var(--ill-secondary); --scene-tone-1: var(--ill-primary); --scene-tone-2: var(--ill-secondary); --scene-tone-3: var(--ill-highlight); }`);
   lines.push("");
 
   for (const style of desktop) {
