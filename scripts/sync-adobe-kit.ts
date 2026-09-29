@@ -50,6 +50,8 @@ interface ApiKitFamily {
   slug: string;
   variations: (string | { fvd: string })[];
   subset: string;
+  /** What the kit's CSS calls the family, which presets use. Not always the slug. */
+  css_names?: string[];
 }
 
 class NotFoundError extends Error {}
@@ -128,12 +130,19 @@ interface Planned {
   slug: string;
   variations: string[];
   subset?: string;
+  cssNames?: string[];
   action: "add" | "update" | "keep" | "remove" | "untouched";
   before?: string[];
 }
 
+/**
+ * The kit repeats an fvd when two of a family's fonts share it -- Gibson's Light
+ * and Book are both n3 -- so compare distinct styles, not raw lists.
+ */
 function sameSet(a: string[], b: string[]): boolean {
-  return a.length === b.length && a.every((v) => b.includes(v));
+  const setA = new Set(a);
+  const setB = new Set(b);
+  return setA.size === setB.size && [...setA].every((v) => setB.has(v));
 }
 
 async function resolve(entry: KitFamilyEntry): Promise<{ family: ApiFamily; variations: string[] } | string> {
@@ -182,6 +191,7 @@ async function plan(): Promise<Planned[]> {
       slug: family.slug,
       variations,
       subset: existing?.subset,
+      cssNames: existing?.css_names,
       before,
       action: !before ? "add" : sameSet(before, variations) ? "keep" : "update",
     });
@@ -195,6 +205,7 @@ async function plan(): Promise<Planned[]> {
       slug: f.slug,
       variations: kitVariations(f),
       subset: f.subset,
+      cssNames: f.css_names,
       action: prune ? "remove" : "untouched",
     });
   }
@@ -227,8 +238,12 @@ function report(planned: Planned[]): void {
     console.log(`\n? = in the kit but not in scripts/adobe-kit.ts. Kept; pass --prune to remove.`);
   }
 
-  // Preset families are kit slugs; any the kit won't carry hides its preset.
-  const served = new Set(planned.filter((p) => p.action !== "remove").map((p) => p.slug));
+  // Presets name families by CSS name, which is usually the slug but not always
+  // (Le Monde Journal Std is "lemonde-journal"); a family just being added has
+  // no CSS name yet, so its slug stands in.
+  const served = new Set(
+    planned.filter((p) => p.action !== "remove").flatMap((p) => [p.slug, ...(p.cssNames ?? [])]),
+  );
   const presetSlugs = new Set(PRESETS.flatMap((p) => [p.headingFont, p.bodyFont]).filter(isKitSlug));
   const unserved = [...presetSlugs].filter((slug) => !served.has(slug));
   if (unserved.length) {

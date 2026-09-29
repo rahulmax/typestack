@@ -52,6 +52,9 @@ describe('labelFromSlug', () => {
     expect(labelFromSlug('ivymode')).toBe('IvyMode')
     expect(labelFromSlug('ivypresto-display')).toBe('IvyPresto Display')
     expect(labelFromSlug('mrs-eaves-xl-serif')).toBe('Mrs Eaves XL Serif')
+    expect(labelFromSlug('lemonde-journal')).toBe('Le Monde Journal Std')
+    expect(labelFromSlug('orpheuspro')).toBe('Orpheus Pro')
+    expect(labelFromSlug('canada-type-gibson')).toBe('Gibson')
   })
 })
 
