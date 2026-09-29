@@ -1,5 +1,6 @@
 import type { TypographyConfig, TypographyElement, ElementOverride } from "@/types/typography";
 import { ALL_ELEMENTS } from "@/types/typography";
+import { DEFAULT_PANGRAM } from "./pangrams";
 
 /**
  * Bounds for every control whose range is narrower than the values a stored
@@ -118,5 +119,5 @@ export const DEFAULT_CONFIG: TypographyConfig = {
     breakpointWidth: 768,
   },
   backgroundColor: "#f5f5f5",
-  sampleText: "The quick brown fox jumps over the lazy dog",
+  sampleText: DEFAULT_PANGRAM,
 };

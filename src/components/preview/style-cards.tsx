@@ -10,27 +10,27 @@ import type { ResolvedElementStyle, TypographyElement } from '@/types/typography
 const CHARSET_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz'
 const CHARSET_FIGURES = '0123456789 !?&@#$%*()“”'
 
-const HEADING_SAMPLE = 'The craft of visual language'
-const TITLE_SAMPLE = 'The Outermost House'
-const LEAD_SAMPLE = 'They move finished and complete, gifted with senses we have lost.'
-const PARAGRAPH_SAMPLE = 'They are not brethren; they are not underlings; they are other nations, caught with ourselves in the net of life and time.'
-const QUOTE_SAMPLE = '“We need another and a wiser and perhaps a more mystical concept of animals.”'
+const HEADING_SAMPLE = 'Veyl, remembered in advance'
+const TITLE_SAMPLE = 'The Inverse Almanac'
+const LEAD_SAMPLE = 'Adept Varrow entered the tide before it rose, and was paid in arrears.'
+const PARAGRAPH_SAMPLE = 'The Concordance holds that every street of Veyl was first a rumour of the sea, and the sea a ledger no one has yet balanced.'
+const QUOTE_SAMPLE = '\u201CWhat the Provost of Unlit Rooms forgot, the almanac had already remembered twice.\u201D'
 
 const MAX_SCALE_ROW_REM = 3.75
 
 const SCALE_ROWS: { element: TypographyElement; label: string; sample: string }[] = [
-  { element: 'display-1', label: 'Display 1', sample: 'Letters into spirit' },
-  { element: 'display-2', label: 'Display 2', sample: 'Letters into spirit' },
-  { element: 'display-3', label: 'Display 3', sample: 'Letters into spirit' },
-  { element: 'h1', label: 'Heading 1', sample: 'Letters into spirit' },
-  { element: 'h2', label: 'Heading 2', sample: 'Letters into spirit' },
-  { element: 'h3', label: 'Heading 3', sample: 'Letters are symbols which turn matter into spirit' },
-  { element: 'h4', label: 'Heading 4', sample: 'Letters are symbols which turn matter into spirit' },
-  { element: 'h5', label: 'Heading 5', sample: 'Letters are symbols which turn matter into spirit' },
-  { element: 'h6', label: 'Heading 6', sample: 'Letters are symbols which turn matter into spirit' },
-  { element: 'p', label: 'Paragraph', sample: 'A text is a sequence of words, and a text stays the same from one moment to another.' },
-  { element: 'small', label: 'Small', sample: 'A text is a sequence of words, and a text stays the same from one moment to another.' },
-  { element: 'eyebrow', label: 'Eyebrow', sample: 'Eyebrow label' },
+  { element: 'display-1', label: 'Display 1', sample: 'The missing ledger' },
+  { element: 'display-2', label: 'Display 2', sample: 'The missing ledger' },
+  { element: 'display-3', label: 'Display 3', sample: 'The missing ledger' },
+  { element: 'h1', label: 'Heading 1', sample: 'The missing ledger' },
+  { element: 'h2', label: 'Heading 2', sample: 'The missing ledger' },
+  { element: 'h3', label: 'Heading 3', sample: 'Tidal grammarians catalogue what has not yet occurred' },
+  { element: 'h4', label: 'Heading 4', sample: 'Tidal grammarians catalogue what has not yet occurred' },
+  { element: 'h5', label: 'Heading 5', sample: 'Tidal grammarians catalogue what has not yet occurred' },
+  { element: 'h6', label: 'Heading 6', sample: 'Tidal grammarians catalogue what has not yet occurred' },
+  { element: 'p', label: 'Paragraph', sample: 'The Seventh Cartography maps only the places a map has already erased.' },
+  { element: 'small', label: 'Small', sample: 'The Seventh Cartography maps only the places a map has already erased.' },
+  { element: 'eyebrow', label: 'Eyebrow', sample: 'Veyl / Fragment IV' },
 ]
 
 const PAIRING_LEVELS = [
@@ -39,26 +39,26 @@ const PAIRING_LEVELS = [
   { element: 'h4', label: 'Heading 4 over paragraph', max: 1.375 },
 ] as const
 const PAIRING_TITLES = {
-  h2: 'A page begins with a voice',
-  h3: 'Contrast without conflict',
-  h4: 'One family, two jobs',
+  h2: 'The city that filed its flood',
+  h3: 'Debts owed to tomorrow',
+  h4: 'The Provost of Unlit Rooms',
 } as const
-const PAIRING_BODY = 'The heading sets the tone and the text carries the argument. Weight, proportion and colour keep the two apart while the shared grid holds them together.'
+const PAIRING_BODY = 'What the Concordance has not yet recorded, the Almanac records twice; between the two entries lies Veyl, and whatever the tide has agreed to forget.'
 
-const ARTICLE_EYEBROW = 'Essay'
-const ARTICLE_TITLE = 'On setting type for the long read'
-const ARTICLE_STANDFIRST = 'Good text type disappears. The reader sees the argument, not the letters, and it is the designer\u2019s job to make that possible.'
+const ARTICLE_EYEBROW = 'Fragment'
+const ARTICLE_TITLE = 'On the ledger of Oriel Taskane'
+const ARTICLE_STANDFIRST = 'No one has seen the ledger, yet every debt in Veyl is settled against it, in a currency not yet minted.'
 const ARTICLE_PARAGRAPHS = [
-  'Body text is where a typeface earns its keep. Headlines can be forgiven a little eccentricity, but paragraphs are read for minutes at a time, and every small irregularity in colour, spacing or rhythm is felt long before it is noticed.',
-  'Set the measure first. Somewhere between forty-five and seventy-five characters a line keeps the eye moving without losing its place on the return. Then choose the leading to suit the face: a generous x-height wants more air, a compact one less.',
-  'Only then look at the pairing. A heading face and a text face should differ enough to be clearly two voices, and agree enough to sound like one house. Contrast of weight and proportion does more work here than contrast of style.',
+  'The tidal grammarians of the Hollow Concordance do not record what has occurred; they record what will have been said of it. Each morning Adept Ilse Varrow descends to the flooded stacks and files, under the rubric of tomorrow, a tide that already recedes.',
+  'Oriel Taskane, they insist, never lost the ledger. The ledger lost Taskane, a leaf at a time, until only the edges remained and the edges began to keep accounts of their own, in a hand nobody in Veyl could claim.',
+  'Ask the Provost of Unlit Rooms where the ledger is kept and you will be shown a door, and behind the door a second door, and behind that the first, which by then the Seventh Cartography has redrawn as an island.',
 ]
 const ARTICLE_SMALL = [
-  'Captions, notes and interface text live at the bottom of the scale, where letterforms are pushed hardest. Open apertures, sturdy serifs and a slightly wider fit keep them legible at small sizes on screens of every density.',
-  'Check the figures too. Tabular numerals line up in tables, oldstyle figures sit quietly in running text, and the difference shows most clearly at small sizes where a lining figure can shout.',
-  'When a page holds several sizes, the ratio between them matters more than any single value. A steady scale gives each level a clear job and lets the eye find its way without being told where to look.',
+  'The Inverse Almanac lists eclipses that have been cancelled, harvests that fed no one and a single feast day, unobserved, whose date is revised each time it is remembered.',
+  'Cartographers of the Seventh school draw the coast last, and only from the water, since the shore, they maintain, is the sea’s opinion of itself.',
+  'Every ledger in Veyl closes with the same entry: a sum carried forward into a year that the Concordance has, with some reluctance, declined to name.',
 ]
-const PULL_QUOTE = '\u201CGood typography is invisible; great typography is felt.\u201D'
+const PULL_QUOTE = '\u201CAn absence, properly indexed, is the most exact of archives.\u201D'
 
 const GLYPH_SETS: { label: string; glyphs: string }[] = [
   { label: 'Capitals', glyphs: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },

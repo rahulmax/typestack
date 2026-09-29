@@ -16,7 +16,7 @@ interface StackCardProps {
   onSave: (stack: Stack) => void;
 }
 
-const BODY_TEXT = `${PANGRAMS[2].text}. ${PANGRAMS[3].text}. ${PANGRAMS[4].text}. ${PANGRAMS[5].text}. ${PANGRAMS[0].text}.`;
+const BODY_TEXT = `${PANGRAMS[1].text}. ${PANGRAMS[2].text}. ${PANGRAMS[3].text}. ${PANGRAMS[4].text}. ${PANGRAMS[6].text}.`;
 
 export function StackCard({
   stack,
@@ -78,7 +78,7 @@ export function StackCard({
               color: body,
             }}
           >
-            {PANGRAMS[0].text}.
+            {PANGRAMS[5].text}.
           </p>
         </div>
         <div className="min-h-0 flex-1" style={{ borderTop: `1px solid color-mix(in srgb, ${fg} 12%, transparent)`, paddingTop: "0.75rem" }}>
@@ -89,7 +89,7 @@ export function StackCard({
               fontWeight: config.headingsGroup.fontWeight,
             }}
           >
-            {PANGRAMS[1].text}
+            {PANGRAMS[0].text}
           </p>
           <p
             className="mt-1 text-xs leading-relaxed line-clamp-3"

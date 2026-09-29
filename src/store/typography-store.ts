@@ -11,6 +11,7 @@ import type {
 } from "@/types/typography";
 import { HEADING_ELEMENTS, DISPLAY_ELEMENTS, OPTIONAL_ELEMENTS } from "@/types/typography";
 import { DEFAULT_CONFIG, normalizeConfig } from "@/data/default-config";
+import { pickRandomPangram } from "@/data/pangrams";
 import { findPresetByValue } from "@/data/scale-ratios";
 
 interface TypographyStore extends TypographyConfig {
@@ -159,8 +160,9 @@ export const useTypographyStore = create<TypographyStore>()(
           };
         }),
 
-      resetConfig: (dark) => set({
+      resetConfig: (dark) => set((state) => ({
         ...DEFAULT_CONFIG,
+        sampleText: pickRandomPangram(state.sampleText),
         ...(dark ? {
           headingsGroup: { ...DEFAULT_CONFIG.headingsGroup, color: '#e5e5e5' },
           bodyGroup: { ...DEFAULT_CONFIG.bodyGroup, color: '#d4d4d4' },
@@ -170,7 +172,7 @@ export const useTypographyStore = create<TypographyStore>()(
           bodyGroup: { ...DEFAULT_CONFIG.bodyGroup, color: '#3a3a3a' },
           backgroundColor: '#f5f5f5',
         }),
-      }),
+      })),
     }),
     {
       name: "typestack-typography",
