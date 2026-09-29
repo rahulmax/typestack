@@ -4,7 +4,7 @@ import { useRef, useEffect, useMemo, useCallback } from "react";
 import { usePreviewStyles } from "@/hooks/use-preview-styles";
 import { useTypographyStore } from "@/store/typography-store";
 import { useUIStore } from "@/store/ui-store";
-import { getFontLinkUrl } from "@/lib/google-fonts";
+import { getFontLinkUrls } from "@/lib/fonts";
 import type { TypographyElement } from "@/types/typography";
 
 const EDITABLE_SELECTOR = "h1,h2,h3,h4,h5,h6,p,blockquote,.eyebrow";
@@ -204,10 +204,11 @@ export function PreviewIframe({ bodyHTML, mobile }: PreviewIframeProps) {
   }, [setExpandedElement]);
 
   const fontLinks = useMemo(
-    () => [
-      getFontLinkUrl(headingFont, [100, 200, 300, 400, 500, 600, 700, 800, 900]),
-      getFontLinkUrl(bodyFont, [100, 200, 300, 400, 500, 600, 700, 800, 900]),
-    ],
+    () =>
+      getFontLinkUrls(
+        [headingFont, bodyFont],
+        [100, 200, 300, 400, 500, 600, 700, 800, 900]
+      ),
     [headingFont, bodyFont]
   );
 

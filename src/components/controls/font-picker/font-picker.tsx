@@ -16,8 +16,11 @@ import {
 import { FontPickerItem } from "./font-picker-item"
 import { FontCategoryFilter } from "./font-category-filter"
 import { useFontLoader } from "./use-font-loader"
-import { fetchGoogleFonts, filterFontsByCategory, loadFontFull } from "@/lib/google-fonts"
-import type { GoogleFont, FontCategory } from "@/types/google-fonts"
+import { fetchFontOptions, filterFontsByCategory, getFontLabel, getFontStack, loadFontFull } from "@/lib/fonts"
+import type { FontCategory } from "@/types/google-fonts"
+import type { FontOption } from "@/types/fonts"
+
+const normalize = (value: string) => value.toLowerCase().replace(/[^a-z0-9]/g, "")
 
 interface FontPickerProps {
   currentFont: string
@@ -29,7 +32,7 @@ export function FontPicker({
   onSelectFont,
 }: FontPickerProps) {
   const [open, setOpen] = useState(false)
-  const [fonts, setFonts] = useState<GoogleFont[]>([])
+  const [fonts, setFonts] = useState<FontOption[]>([])
   const [category, setCategory] = useState<FontCategory | "all">("all")
   const [search, setSearch] = useState("")
   const { observe } = useFontLoader()
@@ -49,18 +52,26 @@ export function FontPicker({
 
   useEffect(() => {
     if (!open || fonts.length > 0) return
-    fetchGoogleFonts()
+    fetchFontOptions()
       .then(setFonts)
       .catch(console.error)
   }, [open, fonts.length])
 
-  const filtered = useMemo(() => {
+  // Kit fonts are a small curated set, so only the catalog list is capped.
+  const [adobeFonts, googleFonts] = useMemo(() => {
     let result = filterFontsByCategory(fonts, category)
     if (search) {
-      const q = search.toLowerCase()
-      result = result.filter((f) => f.family.toLowerCase().includes(q))
+      // Kit families are slugs, so "Sofia Pro" has to match "sofia-pro":
+      // compare on letters and digits alone.
+      const q = normalize(search)
+      result = result.filter(
+        (f) => normalize(f.family).includes(q) || normalize(f.label).includes(q)
+      )
     }
-    return result.slice(0, 200)
+    return [
+      result.filter((f) => f.source === "adobe"),
+      result.filter((f) => f.source === "google").slice(0, 200),
+    ]
   }, [fonts, category, search])
 
   const handleSelect = useCallback((family: string) => {
@@ -77,9 +88,9 @@ export function FontPicker({
           type="button"
           onClick={calcOffset}
           className="hw-display !h-8 flex-1 min-w-0 !justify-between !text-sm text-left"
-          style={{ fontFamily: currentFont }}
+          style={{ fontFamily: getFontStack(currentFont) }}
         >
-          <span className="truncate">{currentFont}</span>
+          <span className="truncate">{getFontLabel(currentFont)}</span>
           <svg viewBox="0 0 16 16" fill="currentColor" className="size-3 shrink-0 opacity-50 ml-2">
             <polygon points="8 3 14 10 2 10" />
             <rect x="2" y="12" width="12" height="1.5" rx="0.5" />
@@ -113,8 +124,22 @@ export function FontPicker({
                 </div>
               )}
               <CommandEmpty>No fonts found.</CommandEmpty>
-              <CommandGroup>
-                {filtered.map((font) => (
+              {adobeFonts.length > 0 && (
+                <CommandGroup heading="Adobe Fonts">
+                  {adobeFonts.map((font) => (
+                    <FontPickerItem
+                      key={font.family}
+                      font={font}
+                      isSelected={font.family === currentFont}
+                      onSelect={handleSelect}
+                      observeRef={observe}
+                      showCategory={category === "all"}
+                    />
+                  ))}
+                </CommandGroup>
+              )}
+              <CommandGroup heading={adobeFonts.length > 0 ? "Google Fonts" : undefined}>
+                {googleFonts.map((font) => (
                   <FontPickerItem
                     key={font.family}
                     font={font}

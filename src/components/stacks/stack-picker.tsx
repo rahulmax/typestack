@@ -13,6 +13,7 @@ import {
   type Stack,
 } from "@/lib/stacks-api";
 import { useTypographyStore } from "@/store/typography-store";
+import { canRenderFamily, getFontLabel, getFontStack, resolveFontSources } from "@/lib/fonts";
 import { useUIStore } from "@/store/ui-store";
 import {
   Library,
@@ -110,7 +111,12 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
   const handleRandomStack = useCallback(async () => {
     try {
       setRandomLoading(true)
-      const data = await fetchStacks("all")
+      const [stacks] = await Promise.all([fetchStacks("all"), resolveFontSources()])
+      // Never shuffle onto a kit preset this deployment can't render
+      const data = stacks.filter((s) => {
+        const families = [s.config?.headingsGroup?.fontFamily, s.config?.bodyGroup?.fontFamily]
+        return families.every((family) => !!family && canRenderFamily(family))
+      })
       if (data.length === 0) { setRandomLoading(false); return }
       const stack = data[Math.floor(Math.random() * data.length)]
       loadConfig(stack.config)
@@ -136,9 +142,9 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
                 <>{currentStackName}{isDirty && " *"}</>
               ) : (
                 <>
-                  <span style={{ fontFamily: headingFont }}>{headingFont}</span>
+                  <span style={{ fontFamily: getFontStack(headingFont) }}>{getFontLabel(headingFont)}</span>
                   <span className="text-muted-foreground/50"> + </span>
-                  <span style={{ fontFamily: bodyFont }}>{bodyFont}</span>
+                  <span style={{ fontFamily: getFontStack(bodyFont) }}>{getFontLabel(bodyFont)}</span>
                   {isDirty && " *"}
                 </>
               )}

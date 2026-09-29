@@ -10,6 +10,7 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx src/db/migrate.ts",
     "db:seed": "tsx src/db/seed.ts",
+    "kit:sync": "tsx --env-file=.env.local scripts/sync-adobe-kit.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
@@ -37,12 +38,6 @@
     "tailwind-merge": "^3.5.0",
     "zundo": "^2.3.0",
     "zustand": "^5.0.11"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "better-sqlite3",
-      "esbuild"
-    ]
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",

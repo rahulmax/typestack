@@ -1,4 +1,4 @@
-import type { GoogleFont, GoogleFontsApiResponse, FontCategory } from "@/types/google-fonts";
+import type { GoogleFont, GoogleFontsApiResponse } from "@/types/google-fonts";
 import { POPULAR_FONTS } from "@/data/popular-fonts";
 
 const METADATA_URL = "https://www.googleapis.com/webfonts/v1/webfonts";
@@ -31,14 +31,6 @@ export async function fetchGoogleFonts(): Promise<GoogleFont[]> {
   return cachedFonts;
 }
 
-export function filterFontsByCategory(
-  fonts: GoogleFont[],
-  category: FontCategory | "all"
-): GoogleFont[] {
-  if (category === "all") return fonts;
-  return fonts.filter((f) => f.category === category);
-}
-
 export function loadFontPreview(family: string): void {
   const id = `gf-preview-${family.replace(/\s+/g, "-")}`;
   if (document.getElementById(id)) return;
@@ -67,14 +59,7 @@ export function getFontLinkUrl(family: string, weights: number[] = [400, 700]): 
   return `https://fonts.googleapis.com/css2?family=${encodeURIComponent(family)}:ital,wght@${weightStr}&display=swap`;
 }
 
-export function buildFontImports(families: Map<string, Set<number>>): string[] {
-  const imports: string[] = []
-  for (const [family, weights] of families) {
-    const sorted = [...weights].sort((a, b) => a - b)
-    const wghtList = sorted.map((w) => `0,${w};1,${w}`).join(";")
-    imports.push(
-      `@import url('https://fonts.googleapis.com/css2?family=${encodeURIComponent(family)}:ital,wght@${wghtList}&display=swap');`
-    )
-  }
-  return imports
+export function buildGoogleImport(family: string, weights: number[]): string {
+  const wghtList = weights.map((w) => `0,${w};1,${w}`).join(";")
+  return `@import url('https://fonts.googleapis.com/css2?family=${encodeURIComponent(family)}:ital,wght@${wghtList}&display=swap');`
 }

@@ -1092,3 +1092,40 @@
     0 -1px 0 rgba(0, 0, 0, 0.3),
     0 -0.5px 0 rgba(255, 255, 255, 0.04);
 }
+/* Source tag on font-picker rows — marks a licensed family from an Adobe kit */
+.hw-font-source {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: oklch(0.62 0.11 65);
+}
+.dark .hw-font-source {
+  color: oklch(0.78 0.16 65);
+  text-shadow: 0 0 6px oklch(0.78 0.16 65 / 35%);
+}
+/* Amber LED dot for the Adobe source: dark until its selector is engaged */
+.hw-font-source-led {
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background: oklch(0.55 0.04 65);
+  box-shadow: inset 0 1px 1px oklch(0 0 0 / 35%);
+}
+[data-active="true"] .hw-font-source-led,
+.hw-font-source-tag .hw-font-source-led {
+  background: oklch(0.78 0.16 65);
+  box-shadow:
+    0 0 3px oklch(0.78 0.16 65 / 70%),
+    0 0 8px oklch(0.78 0.16 65 / 30%);
+}
+/* Source tag on stack cards. Cards wear the user's own colors, so the label
+   follows currentColor and only the LED carries the amber. */
+.hw-font-source-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, currentColor 70%, transparent);
+}

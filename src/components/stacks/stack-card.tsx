@@ -4,6 +4,7 @@ import { Heart, Bookmark } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Stack } from "@/lib/stacks-api";
 import { PANGRAMS } from "@/data/pangrams";
+import { getFontLabel, getFontSource, getFontStack } from "@/lib/fonts";
 
 interface StackCardProps {
   stack: Stack;
@@ -27,12 +28,15 @@ export function StackCard({
   onSave,
 }: StackCardProps) {
   const { config } = stack;
-  if (!config?.headingsGroup || !config?.bodyGroup) return null;
-  const headingFont = config.headingsGroup.fontFamily;
-  const bodyFont = config.bodyGroup.fontFamily;
+  const headingFont = config?.headingsGroup?.fontFamily;
+  const bodyFont = config?.bodyGroup?.fontFamily;
+  // The preset-version marker row has an empty config, which slim fetches turn
+  // into groups with no family -- there is nothing to draw.
+  if (!headingFont || !bodyFont) return null;
   const fg = cardFg;
   const body = cardBodyColor ?? cardFg;
   const bg = cardBg;
+  const usesKit = getFontSource(headingFont) === "adobe" || getFontSource(bodyFont) === "adobe";
 
   return (
     <div
@@ -48,20 +52,28 @@ export function StackCard({
         className="flex h-[280px] flex-col gap-4 overflow-hidden px-5 pb-6 pt-5 transition-colors duration-300"
         style={{ backgroundColor: bg, color: fg }}
       >
+        {usesKit && (
+          <span className="hw-font-source-tag absolute right-4 top-4">
+            <span className="hw-font-source-led" />
+            Adobe
+          </span>
+        )}
         <div className="shrink-0">
           <p
-            className="text-2xl leading-tight"
+            className={`text-2xl leading-tight ${usesKit ? "pr-12" : ""}`}
             style={{
-              fontFamily: `"${headingFont}", sans-serif`,
+              fontFamily: getFontStack(headingFont),
               fontWeight: config.headingsGroup.fontWeight,
             }}
           >
-            {headingFont === bodyFont ? headingFont : `${headingFont} & ${bodyFont}`}
+            {headingFont === bodyFont
+              ? getFontLabel(headingFont)
+              : `${getFontLabel(headingFont)} & ${getFontLabel(bodyFont)}`}
           </p>
           <p
             className="mt-2 text-sm leading-relaxed"
             style={{
-              fontFamily: `"${bodyFont}", sans-serif`,
+              fontFamily: getFontStack(bodyFont),
               fontWeight: config.bodyGroup.fontWeight,
               color: body,
             }}
@@ -73,7 +85,7 @@ export function StackCard({
           <p
             className="text-sm leading-snug font-bold"
             style={{
-              fontFamily: `"${headingFont}", sans-serif`,
+              fontFamily: getFontStack(headingFont),
               fontWeight: config.headingsGroup.fontWeight,
             }}
           >
@@ -82,7 +94,7 @@ export function StackCard({
           <p
             className="mt-1 text-xs leading-relaxed line-clamp-3"
             style={{
-              fontFamily: `"${bodyFont}", sans-serif`,
+              fontFamily: getFontStack(bodyFont),
               fontWeight: config.bodyGroup.fontWeight,
               color: body,
             }}

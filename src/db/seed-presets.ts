@@ -95,6 +95,23 @@ const PRESETS: PresetDef[] = [
   { name: "DM Serif Display + Manrope", headingFont: "DM Serif Display", headingWeight: 400, bodyFont: "Manrope", bodyWeight: 400, category: "creative" },
   { name: "Unbounded + DM Sans", headingFont: "Unbounded", headingWeight: 700, bodyFont: "DM Sans", bodyWeight: 400, category: "creative" },
   { name: "Fraunces + Space Grotesk", headingFont: "Fraunces", headingWeight: 700, bodyFont: "Space Grotesk", bodyWeight: 400, category: "creative" },
+
+  // ——— Adobe Fonts: kit CSS slugs, spread across the moods above ———
+  // These only appear when every family is in the kit this deployment serves,
+  // so the kit must carry each slug below for its preset to show. Keep them
+  // listed in scripts/adobe-kit.ts and `pnpm kit:sync` adds them.
+  { name: "Freight Display Pro + Proxima Nova", headingFont: "freight-display-pro", headingWeight: 700, bodyFont: "proxima-nova", bodyWeight: 400, category: "editorial" },
+  { name: "Minion Pro + Myriad Pro", headingFont: "minion-pro", headingWeight: 700, bodyFont: "myriad-pro", bodyWeight: 400, category: "editorial" },
+  { name: "IvyPresto Display + Neue Haas Grotesk Text", headingFont: "ivypresto-display", headingWeight: 400, bodyFont: "neue-haas-grotesk-text", bodyWeight: 400, category: "luxury" },
+  { name: "IvyMode + Sofia Pro", headingFont: "ivymode", headingWeight: 400, bodyFont: "sofia-pro", bodyWeight: 400, category: "elegant" },
+  { name: "Neue Haas Grotesk Display + Neue Haas Grotesk Text", headingFont: "neue-haas-grotesk-display", headingWeight: 600, bodyFont: "neue-haas-grotesk-text", bodyWeight: 400, category: "minimal" },
+  { name: "Roc Grotesk + Acumin Pro", headingFont: "roc-grotesk", headingWeight: 700, bodyFont: "acumin-pro", bodyWeight: 400, category: "tech" },
+  { name: "Degular Display + Degular", headingFont: "degular-display", headingWeight: 700, bodyFont: "degular", bodyWeight: 400, category: "bold" },
+  { name: "Museo Slab + Museo Sans", headingFont: "museo-slab", headingWeight: 700, bodyFont: "museo-sans", bodyWeight: 300, category: "warm" },
+  { name: "Adobe Garamond Pro + Brandon Grotesque", headingFont: "adobe-garamond-pro", headingWeight: 700, bodyFont: "brandon-grotesque", bodyWeight: 400, category: "heritage" },
+  { name: "Freight Big Pro + Freight Text Pro", headingFont: "freight-big-pro", headingWeight: 600, bodyFont: "freight-text-pro", bodyWeight: 400, category: "literary" },
+  { name: "Proxima Nova", headingFont: "proxima-nova", headingWeight: 700, bodyFont: "proxima-nova", bodyWeight: 400, category: "corporate" },
+  { name: "P22 Mackinac Pro + Futura PT", headingFont: "p22-mackinac-pro", headingWeight: 700, bodyFont: "futura-pt", bodyWeight: 400, category: "creative" },
 ];
 
 export function buildPresetConfig(preset: PresetDef): TypographyConfig {

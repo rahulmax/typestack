@@ -1,6 +1,7 @@
 import type { TypographyConfig } from "@/types/typography";
 import { computeScale } from "./scale";
 import { DISPLAY_ELEMENTS, HEADING_ELEMENTS } from "@/types/typography";
+import { getFontLabel } from "./fonts";
 
 export function generateTokensStudioJSON(config: TypographyConfig): string {
   const desktop = computeScale(config).filter(s => !DISPLAY_ELEMENTS.includes(s.element));
@@ -53,11 +54,11 @@ export function generateTokensStudioJSON(config: TypographyConfig): string {
   const tokens = {
     fontFamilies: {
       heading: {
-        value: config.headingsGroup.fontFamily,
+        value: getFontLabel(config.headingsGroup.fontFamily),
         type: "fontFamilies",
       },
       body: {
-        value: config.bodyGroup.fontFamily,
+        value: getFontLabel(config.bodyGroup.fontFamily),
         type: "fontFamilies",
       },
     },

@@ -27,6 +27,8 @@ import { useFontLoader } from "./use-gallery-fonts";
 import { Plus, Shuffle, ArrowLeftRight, X } from "lucide-react";
 import { generateRandomColorPair } from "@/lib/color-utils";
 import { useTheme } from "next-themes";
+import { canRenderFamily, getFontSource, resolveFontSources } from "@/lib/fonts";
+import type { FontSource } from "@/types/fonts";
 
 type Filter = "all" | "presets" | "community" | "mine" | "saved";
 
@@ -36,6 +38,22 @@ const FILTER_LABELS: { value: Filter; label: string }[] = [
   { value: "mine", label: "Mine" },
   { value: "saved", label: "Saved" },
 ];
+
+const FONT_SOURCE_LABELS: { value: "all" | FontSource; label: string }[] = [
+  { value: "all", label: "All fonts" },
+  { value: "google", label: "Google" },
+  { value: "adobe", label: "Adobe" },
+];
+
+function stackFamilies(stack: Stack): string[] {
+  return [stack.config?.headingsGroup?.fontFamily, stack.config?.bodyGroup?.fontFamily].filter(
+    (family): family is string => !!family
+  );
+}
+
+function stackSource(stack: Stack): FontSource {
+  return stackFamilies(stack).some((family) => getFontSource(family) === "adobe") ? "adobe" : "google";
+}
 
 const CATEGORIES = [
   "editorial", "luxury", "elegant", "minimal", "tech", "bold",
@@ -60,6 +78,8 @@ export function BrowseStacksDialog({
   const [stacks, setStacks] = useState<Stack[]>([]);
   const [filter, setFilter] = useState<Filter>("all");
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
+  const [sourceFilter, setSourceFilter] = useState<"all" | FontSource>("all");
+  const [sourcesKnown, setSourcesKnown] = useState(false);
   const [loading, setLoading] = useState(true);
   const loadConfig = useTypographyStore((s) => s.loadConfig);
   const setCurrentStack = useUIStore((s) => s.setCurrentStack);
@@ -87,21 +107,48 @@ export function BrowseStacksDialog({
     if (open) load();
   }, [open, load]);
 
-  useFontLoader(stacks);
+  useEffect(() => {
+    if (open) resolveFontSources().then(() => setSourcesKnown(true));
+  }, [open]);
 
-  // Derive available categories from loaded stacks
+  // A kit stack only shows once the kit is known to serve every family in it;
+  // until then, and on deployments without that kit, it would render in fallbacks.
+  const renderableStacks = useMemo(
+    () =>
+      stacks.filter((s) =>
+        sourcesKnown ? stackFamilies(s).every(canRenderFamily) : stackSource(s) === "google"
+      ),
+    [stacks, sourcesKnown]
+  );
+
+  const hasKitStacks = useMemo(
+    () => renderableStacks.some((s) => stackSource(s) === "adobe"),
+    [renderableStacks]
+  );
+
+  useFontLoader(renderableStacks);
+
+  const sourceStacks = useMemo(
+    () =>
+      !hasKitStacks || sourceFilter === "all"
+        ? renderableStacks
+        : renderableStacks.filter((s) => stackSource(s) === sourceFilter),
+    [renderableStacks, sourceFilter, hasKitStacks]
+  );
+
+  // Derive available categories from the stacks the source switch lets through
   const availableCategories = useMemo(() => {
     const cats = new Set<string>();
-    for (const s of stacks) {
+    for (const s of sourceStacks) {
       if (s.category) cats.add(s.category);
     }
     return CATEGORIES.filter((c) => cats.has(c));
-  }, [stacks]);
+  }, [sourceStacks]);
 
   const filteredStacks = useMemo(() => {
-    if (!categoryFilter) return stacks;
-    return stacks.filter((s) => s.category === categoryFilter);
-  }, [stacks, categoryFilter]);
+    if (!categoryFilter) return sourceStacks;
+    return sourceStacks.filter((s) => s.category === categoryFilter);
+  }, [sourceStacks, categoryFilter]);
 
   const handleSelect = async (stack: Stack) => {
     try {
@@ -228,20 +275,43 @@ export function BrowseStacksDialog({
           </DialogHeader>
 
           <div className="px-4 md:px-8 pt-3 md:pt-4 shrink-0 flex flex-col gap-2">
-            {/* Source filter */}
-            <div className="hw-btn-group flex w-fit">
-              {FILTER_LABELS.map(({ value, label }) => (
-                <button
-                  key={value}
-                  type="button"
-                  onClick={() => { setFilter(value); setCategoryFilter(null); }}
-                  className="hw-btn hw-selector-btn"
-                  data-active={filter === value}
-                  style={{ height: 34, padding: '0 16px', fontSize: 13 }}
-                >
-                  {label}
-                </button>
-              ))}
+            <div className="flex flex-wrap items-center gap-2">
+              {/* Source filter */}
+              <div className="hw-btn-group flex w-fit">
+                {FILTER_LABELS.map(({ value, label }) => (
+                  <button
+                    key={value}
+                    type="button"
+                    onClick={() => { setFilter(value); setCategoryFilter(null); }}
+                    className="hw-btn hw-selector-btn"
+                    data-active={filter === value}
+                    style={{ height: 34, padding: '0 16px', fontSize: 13 }}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+              {/* Font source — only once this deployment's kit has stacks to show */}
+              {hasKitStacks && (
+                <div className="hw-btn-group flex w-fit" role="group" aria-label="Font source">
+                  {FONT_SOURCE_LABELS.map(({ value, label }) => (
+                    <button
+                      key={value}
+                      type="button"
+                      onClick={() => { setSourceFilter(value); setCategoryFilter(null); }}
+                      className="hw-btn hw-selector-btn"
+                      data-active={sourceFilter === value}
+                      aria-pressed={sourceFilter === value}
+                      style={{ height: 34, padding: '0 16px', fontSize: 13 }}
+                    >
+                      <span className="inline-flex items-center gap-1.5">
+                        {value === "adobe" && <span className="hw-font-source-led" />}
+                        {label}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
             {/* Category filter */}
             {availableCategories.length > 0 && (

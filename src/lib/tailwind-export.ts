@@ -1,7 +1,7 @@
 import type { TypographyConfig, TypographyElement } from "@/types/typography";
 import { computeScale } from "./scale";
 import { HEADING_ELEMENTS, DISPLAY_ELEMENTS } from "@/types/typography";
-import { buildFontImports } from "./google-fonts";
+import { buildFontImports, getFontStack } from "./fonts";
 
 function isHeadingLike(element: string): boolean {
   return (
@@ -33,8 +33,8 @@ export function generateTailwindCSS(config: TypographyConfig): string {
   lines.push(...buildFontImports(collectFontFamilies(config, desktop)));
   lines.push("");
   lines.push("@theme {");
-  lines.push(`  --font-heading: '${config.headingsGroup.fontFamily}', sans-serif;`);
-  lines.push(`  --font-body: '${config.bodyGroup.fontFamily}', sans-serif;`);
+  lines.push(`  --font-heading: ${getFontStack(config.headingsGroup.fontFamily)};`);
+  lines.push(`  --font-body: ${getFontStack(config.bodyGroup.fontFamily)};`);
   lines.push("");
 
   for (const style of desktop) {
@@ -92,8 +92,8 @@ export function generateTailwindConfig(config: TypographyConfig): string {
 
   const themeExtend = {
     fontFamily: {
-      heading: [`'${config.headingsGroup.fontFamily}'`, "sans-serif"],
-      body: [`'${config.bodyGroup.fontFamily}'`, "sans-serif"],
+      heading: getFontStack(config.headingsGroup.fontFamily).split(", "),
+      body: getFontStack(config.bodyGroup.fontFamily).split(", "),
     },
     fontSize,
   };

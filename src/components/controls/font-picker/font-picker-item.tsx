@@ -2,10 +2,10 @@
 
 import { memo, useCallback } from "react"
 import { CommandItem } from "@/components/ui/command"
-import type { GoogleFont } from "@/types/google-fonts"
+import type { FontOption } from "@/types/fonts"
 
 interface FontPickerItemProps {
-  font: GoogleFont
+  font: FontOption
   isSelected: boolean
   onSelect: (family: string) => void
   observeRef: (el: HTMLElement | null) => void
@@ -32,10 +32,14 @@ export const FontPickerItem = memo(function FontPickerItem({
       }`}
     >
       <span style={{ fontFamily: `'${font.family}', ${font.category}` }}>
-        {font.family}
+        {font.label}
       </span>
-      {showCategory && (
-        <span className="text-[10px] text-muted-foreground/60">{font.category}</span>
+      {font.source === "adobe" ? (
+        <span className="hw-font-source">Adobe</span>
+      ) : (
+        showCategory && (
+          <span className="text-[10px] text-muted-foreground/60">{font.category}</span>
+        )
       )}
     </CommandItem>
   )
