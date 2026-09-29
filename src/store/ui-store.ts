@@ -7,7 +7,7 @@ export type ViewportSize = "scale" | "style" | "laptop" | "mobile";
 export type PreviewTab =
   | "website"
   | "blog"
-  | "editorial"
+  | "magazine"
   | "docs"
   | "swiss"
   | "newsletter";

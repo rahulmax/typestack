@@ -2,7 +2,7 @@ import type { PreviewTemplate } from "./types";
 import type { PreviewTab } from "@/store/ui-store";
 import { websiteTemplate } from "./website-template";
 import { blogTemplate } from "./blog-template";
-import { editorialTemplate } from "./editorial-template";
+import { magazineTemplate } from "./magazine-template";
 import { docsTemplate } from "./docs-template";
 import { swissTemplate } from "./swiss-template";
 import { newsletterTemplate } from "./newsletter-template";
@@ -11,7 +11,7 @@ import { newsletterTemplate } from "./newsletter-template";
 export const templateList: (PreviewTemplate & { id: PreviewTab })[] = [
   { ...websiteTemplate, id: "website" },
   { ...blogTemplate, id: "blog" },
-  { ...editorialTemplate, id: "editorial" },
+  { ...magazineTemplate, id: "magazine" },
   { ...docsTemplate, id: "docs" },
   { ...swissTemplate, id: "swiss" },
   { ...newsletterTemplate, id: "newsletter" },
