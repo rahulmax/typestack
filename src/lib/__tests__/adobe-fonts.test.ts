@@ -43,11 +43,15 @@ describe('labelFromSlug', () => {
     expect(labelFromSlug('p22-mackinac-pro')).toBe('P22 Mackinac Pro')
     expect(labelFromSlug('ff-tisa-web-pro')).toBe('FF Tisa Web Pro')
     expect(labelFromSlug('manifold-extd-cf')).toBe('Manifold Extd CF')
+    expect(labelFromSlug('din-2014')).toBe('DIN 2014')
+    expect(labelFromSlug('forma-djr-display')).toBe('Forma DJR Display')
+    expect(labelFromSlug('bodoni-urw')).toBe('Bodoni URW')
   })
 
   test('uses the real name where title-casing cannot reach it', () => {
     expect(labelFromSlug('ivymode')).toBe('IvyMode')
     expect(labelFromSlug('ivypresto-display')).toBe('IvyPresto Display')
+    expect(labelFromSlug('mrs-eaves-xl-serif')).toBe('Mrs Eaves XL Serif')
   })
 })
 

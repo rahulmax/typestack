@@ -112,6 +112,16 @@ const PRESETS: PresetDef[] = [
   { name: "Freight Big Pro + Freight Text Pro", headingFont: "freight-big-pro", headingWeight: 600, bodyFont: "freight-text-pro", bodyWeight: 400, category: "literary" },
   { name: "Proxima Nova", headingFont: "proxima-nova", headingWeight: 700, bodyFont: "proxima-nova", bodyWeight: 400, category: "corporate" },
   { name: "P22 Mackinac Pro + Futura PT", headingFont: "p22-mackinac-pro", headingWeight: 700, bodyFont: "futura-pt", bodyWeight: 400, category: "creative" },
+  { name: "Termina + Le Monde Livre Std", headingFont: "termina", headingWeight: 600, bodyFont: "le-monde-livre-std", bodyWeight: 400, category: "luxury" },
+  { name: "Bodoni URW + Area Normal", headingFont: "bodoni-urw", headingWeight: 700, bodyFont: "area-normal", bodyWeight: 400, category: "elegant" },
+  { name: "Kepler Std Display + Articulat CF", headingFont: "kepler-std-display", headingWeight: 500, bodyFont: "articulat-cf", bodyWeight: 400, category: "editorial" },
+  { name: "Orpheus Pro + Halyard Text", headingFont: "orpheus-pro", headingWeight: 400, bodyFont: "halyard-text", bodyWeight: 400, category: "elegant" },
+  { name: "Mrs Eaves XL Serif + Aktiv Grotesk", headingFont: "mrs-eaves-xl-serif", headingWeight: 700, bodyFont: "aktiv-grotesk", bodyWeight: 400, category: "heritage" },
+  { name: "Obviously + Tablet Gothic", headingFont: "obviously", headingWeight: 600, bodyFont: "tablet-gothic", bodyWeight: 400, category: "bold" },
+  { name: "DIN 2014 + Nimbus Sans", headingFont: "din-2014", headingWeight: 700, bodyFont: "nimbus-sans", bodyWeight: 400, category: "tech" },
+  { name: "Eurostile + Trade Gothic Next", headingFont: "eurostile", headingWeight: 700, bodyFont: "trade-gothic-next", bodyWeight: 400, category: "tech" },
+  { name: "Forma DJR Display + Input Mono", headingFont: "forma-djr-display", headingWeight: 500, bodyFont: "input-mono", bodyWeight: 400, category: "tech" },
+  { name: "Halyard Display + Halyard Text", headingFont: "halyard-display", headingWeight: 600, bodyFont: "halyard-text", bodyWeight: 400, category: "minimal" },
 ];
 
 export function buildPresetConfig(preset: PresetDef): TypographyConfig {

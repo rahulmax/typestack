@@ -27,12 +27,13 @@ export function isKitSlug(family: string): boolean {
 /** Families whose real names title-casing can't reach, keyed by slug. */
 const KNOWN_LABELS: Record<string, string> = {
   ivymode: "IvyMode",
+  "mrs-eaves-xl-serif": "Mrs Eaves XL Serif",
   "ivypresto-display": "IvyPresto Display",
   "ivypresto-text": "IvyPresto Text",
 };
 
 /** Foundry and format tokens that Adobe's own family names keep in capitals. */
-const UPPERCASE_TOKENS = new Set(["cf", "ff", "itc", "lt", "p22", "pt", "urw"]);
+const UPPERCASE_TOKENS = new Set(["cf", "din", "djr", "ff", "itc", "lt", "p22", "pt", "urw"]);
 
 /**
  * Kits identify families by CSS slug only -- the display names live behind the

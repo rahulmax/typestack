@@ -25,6 +25,31 @@ export const ADOBE_KIT: AdobeKitConfig = {
   families: [
     "manifold-extd-cf",
 
+    // Elegant and fancy: extended display grotesks, Didones, refined serifs.
+    "ambroise-std",
+    "area-normal",
+    "articulat-cf",
+    "bodoni-urw",
+    "kepler-std-display",
+    "le-monde-livre-std",
+    "mrs-eaves-xl-serif",
+    "obviously",
+    "orpheus-pro",
+    "termina",
+
+    // Tech and engineered: DIN, geometric and technical grotesks, a mono.
+    "aktiv-grotesk",
+    "din-2014",
+    "eurostile",
+    "forma-djr-display",
+    "halyard-display",
+    "halyard-text",
+    "input-mono",
+    "neue-kabel",
+    "nimbus-sans",
+    "tablet-gothic",
+    "trade-gothic-next",
+
     // Used by the Adobe presets in src/db/seed-presets.ts, which only show when
     // every family they name is in the kit.
     "acumin-pro",
