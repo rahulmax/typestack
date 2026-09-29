@@ -33,6 +33,27 @@ NEXT_PUBLIC_ADOBE_FONTS_KIT_ID=your_kit_id
 Kit families then appear in the font picker under "Adobe Fonts", with real
 metrics read from the kit's OpenType builds.
 
+Rather than adding families to the web project by hand, list them in
+`scripts/adobe-kit.ts` and run:
+
+```
+pnpm kit:sync --dry-run   # show what would change
+pnpm kit:sync             # update the kit and publish it
+```
+
+This adds missing families, sets each one to the styles configured in that file
+(every upright weight plus one italic by default), and publishes the kit. Families
+in the kit but not in the list are kept unless you pass `--prune`. It needs an API
+token from [fonts.adobe.com/account/tokens](https://fonts.adobe.com/account/tokens)
+in `.env.local`:
+
+```
+ADOBE_FONTS_API_TOKEN=your_token
+```
+
+The token can edit every kit on the account, so it must never get a
+`NEXT_PUBLIC_` prefix.
+
 A web project only serves fonts to the domains on its own allowlist, so a kit
 cannot be shared. Exported CSS therefore carries a `YOUR_KIT_ID` placeholder for
 the consumer to replace with a kit of their own — this app's kit ID never

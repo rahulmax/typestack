@@ -98,7 +98,8 @@ const PRESETS: PresetDef[] = [
 
   // ——— Adobe Fonts: kit CSS slugs, spread across the moods above ———
   // These only appear when every family is in the kit this deployment serves,
-  // so the kit must carry each slug below for its preset to show.
+  // so the kit must carry each slug below for its preset to show. Keep them
+  // listed in scripts/adobe-kit.ts and `pnpm kit:sync` adds them.
   { name: "Freight Display Pro + Proxima Nova", headingFont: "freight-display-pro", headingWeight: 700, bodyFont: "proxima-nova", bodyWeight: 400, category: "editorial" },
   { name: "Minion Pro + Myriad Pro", headingFont: "minion-pro", headingWeight: 700, bodyFont: "myriad-pro", bodyWeight: 400, category: "editorial" },
   { name: "IvyPresto Display + Neue Haas Grotesk Text", headingFont: "ivypresto-display", headingWeight: 400, bodyFont: "neue-haas-grotesk-text", bodyWeight: 400, category: "luxury" },
