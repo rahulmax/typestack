@@ -181,6 +181,186 @@ export interface NewsletterCopy {
   footer: Two<string>
 }
 
+/**
+ * A two-page book spread: a chapter opener on the left page, the chapter continuing on the right.
+ * Plain prose, no inline HTML. Paragraphs are about 380–480 characters each.
+ */
+export interface BookCopy {
+  /** The book's title, for the right-hand running head. 2–5 words. */
+  title: string
+  /** The author, for the left-hand running head. */
+  author: string
+  /** Chapter number as a word, e.g. 'Three'. */
+  chapter: string
+  /** 2–5 words. */
+  chapterTitle: string
+  /** One or two sentences, under 140 characters, no quote marks. */
+  epigraph: string
+  epigraphSource: string
+  /** Opening paragraphs on the left page. The first gets a drop cap and its first five words in small caps. */
+  verso: Two<string>
+  /** The chapter continuing on the right page. */
+  recto: Three<string>
+  /** After a section break on the right page. */
+  afterBreak: string
+  /** Page numbers, left then right, e.g. ['46', '47']. */
+  folios: Two<string>
+}
+
+/** A broadsheet front page. No images; all type. */
+export interface NewspaperCopy {
+  /** The paper's name, set huge across the top. 2–3 words, 12–22 characters. */
+  name: string
+  /** A short motto under the masthead, under 60 characters. */
+  motto: string
+  /** Three dateline cells: volume and number, full date, price. */
+  dateline: Three<string>
+  /** Top-left ear: weather or tide, under 40 characters. Top-right ear: a teaser, under 40 characters. */
+  ears: Two<string>
+  lead: {
+    /** 1–3 words set small above the headline. */
+    kicker: string
+    /** 6–11 words. */
+    headline: string
+    /** One sentence, under 140 characters. */
+    deck: string
+    byline: string
+    /** Place name for the dateline, e.g. 'VEYL'. Set in capitals. */
+    place: string
+    /** Four paragraphs of about 350–450 characters, set in three justified columns. */
+    body: Four<string>
+  }
+  /** A pull quote from the lead story, under 120 characters, no quote marks. */
+  quote: string
+  quoteSource: string
+  /** The second story in the right-hand rail. */
+  second: { kicker: string; headline: string; byline: string; body: Two<string> }
+  /** 'Inside' index: section titles with page numbers. Titles 1–4 words; pages 1–2 digits. */
+  index: Five<{ title: string; page: string }>
+  /** Four short news items across the foot of the page. Headline 3–7 words; body about 180–230 characters. */
+  briefs: Four<{ headline: string; body: string }>
+}
+
+/**
+ * Three typographic posters, each composed differently. No images.
+ * `a` is centred and classical; `b` is one giant word fitted across the poster;
+ * `c` is built around a huge numeral.
+ */
+export interface PostersCopy {
+  a: {
+    /** A short line at the top, e.g. 'Hollow Concordance presents'. Under 40 characters. */
+    top: string
+    /** 2–4 words, the event. */
+    title: string
+    /** One line under the title, under 50 characters. */
+    subtitle: string
+    /** Three short lines at the foot: date, venue, admission. Each under 36 characters. */
+    details: Three<string>
+  }
+  b: {
+    /** One word, 5–9 letters, fitted to the poster's width. */
+    word: string
+    /** A line set sideways along the edge, under 40 characters. */
+    side: string
+    /** Two lines at the foot, each under 36 characters. */
+    foot: Two<string>
+  }
+  c: {
+    /** 1–3 characters, e.g. '09' or '14'. Set enormous. */
+    numeral: string
+    /** What the numeral counts or dates, e.g. 'November' or 'nights'. One word. */
+    unit: string
+    /** 2–5 words. */
+    title: string
+    /** About 140–180 characters. */
+    body: string
+    /** Two tiny corner labels, each under 24 characters. */
+    corners: Two<string>
+  }
+}
+
+/** A 12-inch record: square front cover and a back cover with the track list. */
+export interface SleeveCopy {
+  /** The artist or ensemble. 1–4 words. */
+  artist: string
+  /** The album title. 1–5 words, under 32 characters. */
+  album: string
+  /** Record label name, 1–3 words. */
+  label: string
+  /** Catalogue number, e.g. 'LH-014'. */
+  catalogue: string
+  year: string
+  /** Track titles 1–5 words; times like '4:12'. */
+  sideA: Four<{ title: string; time: string }>
+  sideB: Four<{ title: string; time: string }>
+  /** Liner notes, about 280–340 characters. */
+  notes: string
+  /** Four short credit lines, 'Role: Name', each under 40 characters. */
+  credits: Four<string>
+}
+
+/** A printed menu card. Prices are plain numbers or short amounts, e.g. '6', '12.50', '3 tokens'. */
+export interface MenuCopy {
+  /** The house name, 1–3 words. */
+  name: string
+  /** Under 60 characters. */
+  tagline: string
+  /** Opening hours, under 50 characters. */
+  hours: string
+  /** Section titles 1–3 words; note under 60 characters; item names 1–5 words; desc under 90 characters. */
+  sections: Three<{ title: string; note: string; items: Four<{ name: string; desc: string; price: string }> }>
+  /** Two small lines at the foot: a house rule and an address. Each under 70 characters. */
+  footer: Two<string>
+}
+
+/** End credits of a short film, set on a centre gutter: roles to the left, names to the right. */
+export interface CreditsCopy {
+  /** e.g. 'Hollow Concordance presents'. Under 40 characters. */
+  presenter: string
+  /** The film title, 1–5 words. */
+  title: string
+  /** e.g. 'A film by Ilse Varrow'. */
+  byline: string
+  /** Roles are character names or jobs, 1–4 words; names are people, 2–3 words. */
+  cast: Six<{ role: string; name: string }>
+  crew: Six<{ role: string; name: string }>
+  /** Songs used: title, and a credit line under 50 characters. */
+  music: Two<{ title: string; credit: string }>
+  /** Four names or groups thanked, each under 36 characters. */
+  thanks: Four<string>
+  /** A closing card, 1–5 words. */
+  closing: string
+  /** A small legal or joke line, under 100 characters. */
+  legal: string
+}
+
+/**
+ * A literary journal page with two poems. Plain text, no inline HTML. Lines are 25–60 characters,
+ * written as poetry: concrete images, not rhyming doggerel.
+ */
+export interface PoemCopy {
+  /** The journal's name, 1–4 words. */
+  journal: string
+  /** e.g. 'No. 9, Winter'. */
+  issue: string
+  first: {
+    title: string
+    poet: string
+    /** Under 90 characters, no quote marks. */
+    epigraph: string
+    stanzas: Three<Four<string>>
+  }
+  second: {
+    title: string
+    poet: string
+    stanzas: Two<Three<string>>
+  }
+  /** Contributor notes for both poets together, about 200–260 characters. */
+  note: string
+  /** The page number. */
+  folio: string
+}
+
 export interface CopySet {
   id: string
   /** The world's name, shown small on the specimen page. */
@@ -192,4 +372,11 @@ export interface CopySet {
   docs: DocsCopy
   swiss: SwissCopy
   newsletter: NewsletterCopy
+  book: BookCopy
+  newspaper: NewspaperCopy
+  posters: PostersCopy
+  sleeve: SleeveCopy
+  menu: MenuCopy
+  credits: CreditsCopy
+  poem: PoemCopy
 }

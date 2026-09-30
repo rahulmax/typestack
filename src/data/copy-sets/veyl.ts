@@ -324,6 +324,229 @@ export const veyl: CopySet = {
     footer: ['Hollow Concordance, Veyl', 'Nr. 7 / the year after'],
   },
 
+  book: {
+    title: 'The Inverse Almanac',
+    author: 'Ilse Varrow',
+    chapter: 'Three',
+    chapterTitle: 'The Ledger Before the Debt',
+    epigraph: 'Every entry is true. Some of them have simply not happened yet.',
+    epigraphSource: 'Oriel Taskane, marginal note',
+    verso: [
+      'The first thing an adept learns in the Concordance is where to stand. The archive rises through nine floors of wet stone, and the tide climbs it twice a day, so every reading room has a high shelf and a low one. The low shelves hold the records of things already over. The high shelves hold the rest, and the rest is most of it.',
+      'I was given a stool, a lamp without oil, and the ledger of a fishmonger named Corrin Apse, who had not yet been born. My task was to read his debts aloud until I could say them without flinching. There were forty-one of them. The last was a boat he would borrow and sink, and it was entered in a very steady hand.',
+    ],
+    recto: [
+      'Taskane’s hand is steady everywhere. People who visit the archive expect a prophet’s scrawl, all urgency and blots, and are disappointed by a bookkeeper. She ruled her own columns. She dated each entry twice, once for the day she wrote it and once for the day it would fall due, and she never once crossed anything out.',
+      'The Provost of Unlit Rooms says that this is the whole difficulty. A ledger that is never wrong cannot be argued with, and a city that cannot argue with its ledger begins, slowly, to live inside it. He keeps the lower rooms dark so that nobody can read the high shelves by accident.',
+      'I did not believe him, the first winter. I read Corrin Apse’s ledger by the light of the corridor and learned his forty-one debts by heart, and when the tide came up I went on reading from the stairs with the water at my knees.',
+    ],
+    afterBreak: 'In spring a boy was born on Salt Lane and named Corrin, and his mother came to the archive to ask what he would owe. I told her I could not read in the dark. It was the first lie I told in the Concordance, and the Provost entered it for me.',
+    folios: ['46', '47'],
+  },
+
+  newspaper: {
+    name: 'The Veyl Ebb',
+    motto: 'All the news that has yet to happen',
+    dateline: ['Vol. CCXII, No. 41', 'Tuesday, 3 November', 'Two tide tokens'],
+    ears: ['Tide: high at 04.12, higher at noon', 'Inside: the Provost answers nobody'],
+    lead: {
+      kicker: 'The archive',
+      headline: 'Concordance to open its high shelves for the first time in a century',
+      deck: 'Adepts say the move is overdue. The Provost of Unlit Rooms says it is early, and has the minutes to prove it.',
+      byline: 'By Marro Quell, Archive Correspondent',
+      place: 'VEYL',
+      body: [
+        'The Hollow Concordance will open its high shelves to the public on the third of December, the archive confirmed last night, ending a century in which the records of things not yet happened could be read only by adepts, and only standing on a stool.',
+        'The decision was taken by the Adepts’ Council in a session that ran from dusk until slightly before it began. Adept Ilse Varrow, who proposed the motion, told the Ebb that a city has a right to know its debts. The Provost of Unlit Rooms, who opposed it, replied in writing that the city already does, and simply prefers not to look.',
+        'Visitors will be admitted in groups of nine, led by an adept, with the lamps lit. Readers may consult the ledgers of the living and the unborn but may not copy them, and may not read aloud any entry that falls due within the week. The tide will be closely watched.',
+        'Fishmongers on Salt Lane greeted the news with caution. Several said they would rather not know. One said he already knew, and had known since Thursday, and that it was about a boat.',
+      ],
+    },
+    quote: 'A city has a right to know its debts, even the ones it has not run up yet',
+    quoteSource: 'Adept Ilse Varrow',
+    second: {
+      kicker: 'Harbour',
+      headline: 'Seventh Cartography redraws the coast, again',
+      byline: 'By Tamsin Oar',
+      body: [
+        'The Seventh Cartography has issued its new chart of the Veyl coast, the fourth this year. The chart moves the harbour mouth forty yards east and adds a small island that sailors insist is not there.',
+        'The Cartography says the island is due in the spring. Harbour pilots have been asked to steer round it anyway, as a courtesy.',
+      ],
+    },
+    index: [
+      { title: 'Tides and almanac', page: '2' },
+      { title: 'Letters to the Provost', page: '4' },
+      { title: 'Debts falling due', page: '7' },
+      { title: 'Salt Lane market', page: '11' },
+      { title: 'Births, in advance', page: '14' },
+    ],
+    briefs: [
+      { headline: 'Lamp tax deferred again', body: 'The Council has postponed the lamp tax for a ninth year. Lamplighters, who are paid from it, have agreed to light nothing until it arrives, which most residents say they had not noticed.' },
+      { headline: 'Tidewall Hall reopens its doors', body: 'The hall reopens on Monday after repairs to the west wall. Visitors are asked to use the doors behind the doors, as the front ones now open onto the harbour at high water.' },
+      { headline: 'Unclaimed ledger found on stair', body: 'A ledger in a steady hand was found on the ninth stair of the archive at dawn. It is dated next spring. Its owner may collect it from the Provost, who says he is expecting them.' },
+      { headline: 'Ferry to run on the right tide', body: 'The night ferry will now leave on the third tide rather than the second. Passengers who arrived for the second tide last week are asked to come back yesterday.' },
+    ],
+  },
+
+  posters: {
+    a: {
+      top: 'The Hollow Concordance presents',
+      title: 'The Inverse Almanac',
+      subtitle: 'Forty-one entries, read aloud in advance',
+      details: ['3 November – 19 December', 'Tidewall Hall, Veyl', 'Admission by forgetting'],
+    },
+    b: {
+      word: 'Arrears',
+      side: 'A recital for the drowned and the unborn',
+      foot: ['Lower Gallery, 20.00', 'Lamps by request only'],
+    },
+    c: {
+      numeral: '41',
+      unit: 'debts',
+      title: 'The ledger of Corrin Apse',
+      body: 'Every debt of a fishmonger not yet born, read by the adepts in the order they fall due. The last is a boat. Please do not ask about the boat.',
+      corners: ['Concordance, 9th floor', 'Nightly at the ebb'],
+    },
+  },
+
+  sleeve: {
+    artist: 'The Tidewall Choir',
+    album: 'Songs for the High Shelves',
+    label: 'Concordance Recordings',
+    catalogue: 'HC-041',
+    year: '1207',
+    sideA: [
+      { title: 'The Ledger Opens', time: '3:48' },
+      { title: 'Salt Lane at Low Water', time: '4:12' },
+      { title: 'Forty-One', time: '5:03' },
+      { title: 'The Provost’s Lamp', time: '2:57' },
+    ],
+    sideB: [
+      { title: 'Births, in Advance', time: '4:26' },
+      { title: 'The Island Due in Spring', time: '3:34' },
+      { title: 'Nine Floors of Wet Stone', time: '6:10' },
+      { title: 'Ebb', time: '2:05' },
+    ],
+    notes: 'Recorded in the Lower Gallery over nine tides, with the lamps unlit and the water rising. The choir sang from the stairs and moved up a step with every verse. What you hear at the end of side two is the tide reaching the microphones, and the choir, very sensibly, leaving.',
+    credits: ['Conductor: Adept Ilse Varrow', 'Engineer: Tamsin Oar', 'Water: the third tide', 'Sleeve: the Seventh Cartography'],
+  },
+
+  menu: {
+    name: 'The Ninth Stair',
+    tagline: 'A reading room that serves supper, or the other way round',
+    hours: 'Open from the ebb until the flood',
+    sections: [
+      {
+        title: 'From the low shelves',
+        note: 'Dishes that have already happened',
+        items: [
+          { name: 'Salt Lane chowder', desc: 'Smoked cod, potato, a spoon of cream, bread for the bowl', price: '9' },
+          { name: 'Oysters, by the tide', desc: 'Six from the harbour mouth, wherever it is this week', price: '14' },
+          { name: 'Ledger loaf', desc: 'Dark rye, cultured butter, salt from the archive steps', price: '5' },
+          { name: 'Fishmonger’s pie', desc: 'Hake and leek under a lid of mash, served before you order', price: '12' },
+        ],
+      },
+      {
+        title: 'From the high shelves',
+        note: 'Dishes due in the spring',
+        items: [
+          { name: 'The island salad', desc: 'Samphire, pickled shallot, herbs from a place not yet charted', price: '8' },
+          { name: 'Deferred lamb', desc: 'Slow shoulder, white beans, a sauce agreed in advance', price: '18' },
+          { name: 'Corrin’s boat', desc: 'A whole grilled bream for two. It sinks well with white wine', price: '26' },
+          { name: 'Unlit rooms', desc: 'Black garlic, mushrooms and barley, eaten by candle', price: '15' },
+        ],
+      },
+      {
+        title: 'To drink',
+        note: 'Poured before you ask',
+        items: [
+          { name: 'Tidewall stout', desc: 'Brewed on the third floor, drunk on the ninth', price: '6' },
+          { name: 'Provost’s gin', desc: 'Juniper and kelp, served without a lamp', price: '9' },
+          { name: 'Almanac cordial', desc: 'Sea buckthorn and honey, no alcohol, some foresight', price: '4' },
+          { name: 'A glass of the ebb', desc: 'House white, whatever the tide brought in', price: '7' },
+        ],
+      },
+    ],
+    footer: ['Debts may be settled at a later date, which we have already noted', 'The Ninth Stair, Hollow Concordance, Veyl'],
+  },
+
+  credits: {
+    presenter: 'The Hollow Concordance presents',
+    title: 'Low Water',
+    byline: 'A film by Ilse Varrow',
+    cast: [
+      { role: 'The Adept', name: 'Ilse Varrow' },
+      { role: 'The Provost', name: 'Hesk Morrow' },
+      { role: 'Corrin Apse', name: 'Tobin Lark' },
+      { role: 'His mother', name: 'Wenna Apse' },
+      { role: 'The ferryman', name: 'Ardo Quell' },
+      { role: 'The tide', name: 'Itself' },
+    ],
+    crew: [
+      { role: 'Written by', name: 'Oriel Taskane' },
+      { role: 'Photography', name: 'Tamsin Oar' },
+      { role: 'Editor', name: 'Marro Quell' },
+      { role: 'Sound', name: 'The Tidewall Choir' },
+      { role: 'Charts', name: 'The Seventh Cartography' },
+      { role: 'Lamps', name: 'None, by request' },
+    ],
+    music: [
+      { title: 'Salt Lane at Low Water', credit: 'The Tidewall Choir, Concordance Recordings' },
+      { title: 'Ebb', credit: 'Written by Oriel Taskane, sung from the stairs' },
+    ],
+    thanks: ['The fishmongers of Salt Lane', 'The night ferry', 'Everyone who was not yet born', 'The ninth stair'],
+    closing: 'Entered in advance',
+    legal: 'No debts were incurred in the making of this film that had not already been recorded.',
+  },
+
+  poem: {
+    journal: 'The Tidewall Review',
+    issue: 'No. 9, Winter',
+    first: {
+      title: 'High Shelf',
+      poet: 'Ilse Varrow',
+      epigraph: 'for the Provost, who kept the lamps out',
+      stanzas: [
+        [
+          'I climbed the ninth stair with the water behind me',
+          'and a ledger open on my forearm like a sleeve,',
+          'reading the debts of a man who was still',
+          'a long way off, and walking slowly towards us.',
+        ],
+        [
+          'His hand was steady. Hers was steadier.',
+          'She had ruled the columns before the ink was made',
+          'and dated every loss twice, the way a mother',
+          'writes a name inside a coat she has not sewn.',
+        ],
+        [
+          'Below me the tide was reading the low shelves',
+          'one spine at a time, and finding nothing new.',
+          'I held the lamp that had no oil in it',
+          'and could not see the boat, and was glad.',
+        ],
+      ],
+    },
+    second: {
+      title: 'Ferry, Third Tide',
+      poet: 'Ardo Quell',
+      stanzas: [
+        [
+          'We leave when the water says so, not before,',
+          'with salt on the rail and the harbour mouth',
+          'moved forty yards east since Thursday.',
+        ],
+        [
+          'Nobody asks where the island went.',
+          'It is due in the spring. We steer round it',
+          'out of courtesy, the way you would a sleeper.',
+        ],
+      ],
+    },
+    note: 'Ilse Varrow is an adept of the Hollow Concordance and reads on the ninth floor. Ardo Quell has run the night ferry for thirty years and has never once left on the second tide.',
+    folio: '23',
+  },
+
   newsletter: {
     preheader: ['Twelve entries, three doctrines, one apology.', 'Attend in person'],
     name: 'The Concordance Bulletin',

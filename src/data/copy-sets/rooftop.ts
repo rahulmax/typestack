@@ -324,6 +324,229 @@ export const rooftop: CopySet = {
     footer: ['Rooftop Flora, Kessling', 'Survey Nr. 19 / pressed'],
   },
 
+  book: {
+    title: 'The Third Fern',
+    author: 'Ada Pell',
+    chapter: 'Six',
+    chapterTitle: 'A Gutter on Cooper Lane',
+    epigraph: 'A fern that grows in a gutter has no business surviving, and takes no notice.',
+    epigraphSource: 'Lionel Hask, in the margin of Ada’s notes',
+    verso: [
+      'From the number 6 tram the gutter of Number 9 Cooper Lane is a grey line under a grey sky, and for four years I took it for a shadow. Then one wet March the tram stopped for a cyclist and I saw that the line was green. It was one frond, no longer than my hand, curled at the tip like a question mark somebody had begun and thought better of. I got off at the next stop and walked back in the rain with my binoculars round my neck.',
+      'The house had three landlords, none of whom I could find. The tenant on the ground floor said the roof belonged to the man upstairs, and the man upstairs said it belonged to the bank. I asked politely at each door and was told, at the third, that I was standing on a doorstep with a pair of binoculars, which was true. I said I was a botanist. This was not quite true. I went home and wrote to Lionel Hask, who would know.',
+    ],
+    recto: [
+      'Lionel wrote back within the hour, which he never does. He said it would be a common hart’s-tongue, that they grow in every damp wall in the county, and that I was to stop wasting the Society’s time. He added a postscript in smaller writing asking whether the frond was entire at the margin or toothed. I read that twice, and then once more standing up. Nobody asks about the margin of a common fern.',
+      'We went on a Sunday, with the stepladder and the flask, and Wilf Aston to hold the bottom rung. The back stair rose behind a bakery and smelled of yeast and wet plaster. At the top the gutter ran along the parapet, thick with silt, and the frond was where I had left it, with four brothers fanned out at the corner like a hand of cards. Lionel took out his lens and said nothing for a long time.',
+      'Then he asked for the ruler. He measured the longest frond from base to tip, eighty-four millimetres, and wrote it on his cuff because he had forgotten his notebook. He turned the lens on the underside of a leaflet and looked at the small brown lines of spores, and I watched the back of his neck go slowly pink. He said it was entire at the margin, in the voice of a man reading out his own sentence.',
+    ],
+    afterBreak: 'We came down in silence and had tea in Wilf’s kitchen with the window open, without mentioning it. Only when the biscuits were gone did Lionel put down his cup and say that he would be writing to the Society, and that he would like it recorded that he had been provisionally right about a different fern. I said that was fine, and poured him more tea. I had waited four years. I could wait for a minute.',
+    folios: ['74', '75'],
+  },
+
+  newspaper: {
+    name: 'The Kessling Courier',
+    motto: 'News from the street and above it',
+    dateline: ['Vol. XC, No. 14', 'Saturday, 4 April', 'Seventy pence'],
+    ears: ['Rain by nine; showers on the roofs', 'Inside: the seed cake ruling'],
+    lead: {
+      kicker: 'Botany',
+      headline: 'Rare fern confirmed in Cooper Lane gutter after four-year dispute',
+      deck: 'The Rooftop Flora Society says the third gutter fern is real. Its senior member says he was always going to agree.',
+      byline: 'By Hana Prewitt, Local Affairs',
+      place: 'KESSLING',
+      body: [
+        'A rare fern has been confirmed growing in a gutter at Number 9 Cooper Lane, the Rooftop Flora Society announced on Thursday, ending a four-year disagreement between two of its members. The plant is the third known example in Kessling. A survey party measured the longest frond at eighty-four millimetres on Sunday, after climbing a back stair behind a bakery.',
+        'Ada Pell, 71, the Society’s founder, first reported the fern in 2021 after seeing it from the number 6 tram. She said the discovery had taken four years, a stepladder and two pairs of binoculars. “I have looked at that gutter through binoculars more often than I have looked at my own family,” she said. She added that the family had been very understanding.',
+        'Lionel Hask, the Society’s senior member, had maintained that the plant was a common hart’s-tongue. He said on Thursday that a close look at the spores under a hand lens had persuaded him otherwise. “I was provisionally right about a different fern,” Hask said. The Society’s treasurer, Bram Otley, said the minutes would record both views, in alphabetical order.',
+        'The owner of the building could not be reached. The three landlords listed for the property each said the gutter belonged to one of the others. The Society said the plant would not be moved, picked or named after anyone, and that its address would be withheld from the public register. Members asked walkers not to look up in a group, since it draws a crowd.',
+      ],
+    },
+    quote: 'I have looked at that gutter through binoculars more often than I have looked at my own family',
+    quoteSource: 'Ada Pell, founder of the Society',
+    second: {
+      kicker: 'Markets',
+      headline: 'Poppy on Fish Market roof is first record in eleven years',
+      byline: 'By Corin Tabb',
+      body: [
+        'A single red poppy has flowered on the roof of the Fish Market, the first recorded in Kessling for eleven years, according to the Rooftop Flora Society. Lionel Hask, who found it, said it had grown from a crack beside an extractor fan. Stallholders said they had seen it in May and assumed it was litter.',
+        'The plant will be photographed weekly until it drops its petals. Society members may climb the roof again with the market’s permission, which was granted on Friday in exchange for a card describing the fan.',
+      ],
+    },
+    index: [
+      { title: 'Roof reports', page: '2' },
+      { title: 'Letters', page: '5' },
+      { title: 'Parish and council', page: '8' },
+      { title: 'Market prices', page: '11' },
+      { title: 'Gutters and weather', page: '14' },
+    ],
+    briefs: [
+      { headline: 'Seed cake ruling upheld', body: 'The Society’s committee has upheld its ruling that caraway is compulsory in seed cake, after a fourth appeal from members. Six recipes were tested at the library on Tuesday. None agreed with any other, and all six were finished.' },
+      { headline: 'Library hall booked for herbarium', body: 'Kessling Library will host the Society’s herbarium drawers in Hall B for three weeks from the fifth of April. Entry is free. Visitors are asked not to breathe on the lichen, and to sign the book in pencil, in a neat hand.' },
+      { headline: 'Tram company to trim hedges', body: 'The tram company will trim the hedges along the number 6 line after complaints that they hide the view of Cooper Lane. The Society welcomed the move and asked that any moss on the hedges be left as it was found.' },
+      { headline: 'Stepladder lent to wedding again', body: 'The Society’s stepladder was lent to a wedding at Saint Ives Hall on Saturday for a photograph. It came back with confetti in the hinges. The hall’s manager asked whether it might be free for the summer.' },
+    ],
+  },
+
+  posters: {
+    a: {
+      top: 'Rooftop Flora Society presents',
+      title: 'The Third Fern',
+      subtitle: 'Four years, one stepladder, a great deal of tea',
+      details: ['5 – 27 April, Kessling', 'Library, Hall B', 'Admission free, sturdy shoes'],
+    },
+    b: {
+      word: 'Lichen',
+      side: 'Look up on the way to work',
+      foot: ['Cooper Lane, No. 9, 09.00', 'Bring a flask and a lens'],
+    },
+    c: {
+      numeral: '84',
+      unit: 'millimetres',
+      title: 'The longest frond',
+      body: 'Measured on a Sunday, base to tip, with a ruler that once belonged to a cartographer. The frond was entire at the margin, and the Society’s senior member went pink.',
+      corners: ['Herbarium card no. 47', 'Filed by street'],
+    },
+  },
+
+  sleeve: {
+    artist: 'The Hart’s-Tongues',
+    album: 'Entire at the Margin',
+    label: 'Pressed Leaf Records',
+    catalogue: 'PL-003',
+    year: '2023',
+    sideA: [
+      { title: 'Number 6 Tram', time: '3:52' },
+      { title: 'Green Line in the Gutter', time: '4:17' },
+      { title: 'Common Hart’s-Tongue', time: '3:05' },
+      { title: 'Forgotten by Three Landlords', time: '5:21' },
+    ],
+    sideB: [
+      { title: 'Ask Permission First', time: '2:49' },
+      { title: 'Seed Cake Variations', time: '4:38' },
+      { title: 'Eighty-Four Millimetres', time: '5:44' },
+      { title: 'A Roof Is a Garden', time: '3:27' },
+    ],
+    notes: 'Recorded in one afternoon in the members’ room above Kessling Library, with the windows open for the rain. Percussion is a stepladder, a ruler and a biscuit tin. The band insists that no plant was harmed, and points out that the fern on track seven can be heard growing, provided you stand very still and nobody is eating.',
+    credits: ['Vocals: Ada Pell', 'Ruler and tin: Wilf Aston', 'Harmonium: Lionel Hask', 'Sleeve: pressed by the Society'],
+  },
+
+  menu: {
+    name: 'The Fire Escape',
+    tagline: 'Tea and cake, a flight above the street',
+    hours: 'Open ten till dusk, Wednesday to Sunday',
+    sections: [
+      {
+        title: 'Tea',
+        note: 'Pots for one, for two or for a survey party',
+        items: [
+          { name: 'Builder’s pot', desc: 'Strong Assam in a brown pot with a chipped spout', price: '3' },
+          { name: 'Gutter green', desc: 'Sencha with a sprig of mint from the window box', price: '3.50' },
+          { name: 'Moss and honey', desc: 'Smoky lapsang, local honey, a slice of lemon', price: '3.50' },
+          { name: 'Chimney smoke', desc: 'Black tea over pine, for anyone who came up the stair wet', price: '3.80' },
+        ],
+      },
+      {
+        title: 'Cake',
+        note: 'Baked downstairs, recipes disputed',
+        items: [
+          { name: 'Seed cake, Ada’s', desc: 'Caraway, ground almond, baked to her mother’s rule', price: '3.50' },
+          { name: 'Seed cake, Lionel’s', desc: 'Less caraway, more lemon. He says it is the original', price: '3.50' },
+          { name: 'Parkin', desc: 'Ginger and treacle, dark and sticky, a good cake for climbing', price: '3.20' },
+          { name: 'Lemon drizzle', desc: 'Sharp and wet, best eaten standing on a stair', price: '3.40' },
+        ],
+      },
+      {
+        title: 'Savoury',
+        note: 'For those who have climbed the stair',
+        items: [
+          { name: 'Cheese scone', desc: 'Warm, split, butter and a slice of mature cheddar', price: '3' },
+          { name: 'Ploughman’s', desc: 'Cheddar, pickle, apple and a heel of bread, on a slate', price: '7.50' },
+          { name: 'Soup, on the rota', desc: 'Whatever the treasurer brought in. Today, pea and mint', price: '4.50' },
+          { name: 'Egg and cress roll', desc: 'Cress from the window box, eggs from a farm past the tram terminus', price: '4.20' },
+        ],
+      },
+    ],
+    footer: ['Please do not pick the plants. The cress is a separate matter', 'The Fire Escape, Old Mill, Kessling'],
+  },
+
+  credits: {
+    presenter: 'Rooftop Flora Society presents',
+    title: 'The Wrong Roof',
+    byline: 'A film by Wilf Aston',
+    cast: [
+      { role: 'Ada', name: 'Maren Coyle' },
+      { role: 'Lionel', name: 'Desmond Hale' },
+      { role: 'The landlord', name: 'Hugh Tarrant' },
+      { role: 'The tenant', name: 'Poppy Ellis' },
+      { role: 'The tram driver', name: 'Ivor Bell' },
+      { role: 'The fern', name: 'Itself' },
+    ],
+    crew: [
+      { role: 'Written by', name: 'Ada Pell' },
+      { role: 'Photography', name: 'Wilf Aston' },
+      { role: 'Editor', name: 'Nell Rowntree' },
+      { role: 'Sound', name: 'Bram Otley' },
+      { role: 'Botanical adviser', name: 'Lionel Hask' },
+      { role: 'Stepladder', name: 'Society property' },
+    ],
+    music: [
+      { title: 'Number 6 Tram', credit: 'The Hart’s-Tongues, Pressed Leaf Records' },
+      { title: 'A Roof Is a Garden', credit: 'Written by Ada Pell, sung in the rain' },
+    ],
+    thanks: ['Kessling Library', 'The number 6 tram', 'Three landlords, in absentia', 'Every fern, by first name'],
+    closing: 'Filed by street',
+    legal: 'No plants were picked in the making of this film. One stepladder was lent to a wedding.',
+  },
+
+  poem: {
+    journal: 'The Pressed Leaf Review',
+    issue: 'No. 19, Early Spring',
+    first: {
+      title: 'Hart’s-Tongue',
+      poet: 'Ada Pell',
+      epigraph: 'for Lionel, who asked about the margin',
+      stanzas: [
+        [
+          'From the tram it was a line of shadow',
+          'under the parapet, four years of shadow,',
+          'until the driver braked for a cyclist and it',
+          'turned green all at once, like a struck match.',
+        ],
+        [
+          'I climbed the back stair behind the bakery',
+          'with the ruler, the flask, the good ladder.',
+          'Silt in the gutter. Wet plaster. A smell',
+          'of yeast coming up through the soles of my shoes.',
+        ],
+        [
+          'Four brothers fanned at the corner like cards.',
+          'Lionel held the lens and did not speak.',
+          'Under each leaflet, small brown lines',
+          'of spores, ruled straight as a ledger.',
+        ],
+      ],
+    },
+    second: {
+      title: 'Bottom Rung',
+      poet: 'Wilf Aston',
+      stanzas: [
+        [
+          'I hold the bottom rung and look at boots.',
+          'Above me two people are not talking',
+          'in the way that people who agree do not talk.',
+        ],
+        [
+          'The tram goes by. Someone looks up at us,',
+          'the ladder, the flask, the pair of ankles,',
+          'and I wave, as if I were the one who found it.',
+        ],
+      ],
+    },
+    note: 'Ada Pell founded the Rooftop Flora Society and has recorded almost ninety species from trams and fire escapes. Wilf Aston photographs surveys, keeps the stepladder and has held the bottom rung on forty-one roofs. This is his first poem.',
+    folio: '27',
+  },
+
   newsletter: {
     preheader: ['Three finds, one fern, a small apology.', 'Read online'],
     name: 'The Rooftop Post',

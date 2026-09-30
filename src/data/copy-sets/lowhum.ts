@@ -324,6 +324,229 @@ export const lowhum: CopySet = {
     footer: ['Low Hum, below street level', 'Side B / Nr. 9'],
   },
 
+  book: {
+    title: 'The Quiet Pressing',
+    author: 'Nell Adeyemi-Gray',
+    chapter: 'Six',
+    chapterTitle: 'A Stool by the Speaker',
+    epigraph: 'A room is only quiet once everyone in it has stopped waiting for the next song.',
+    epigraphSource: 'Dot Pemberton, house rules',
+    verso: [
+      'The Duchess takes forty minutes to warm up, and Dot told me this on my first night as though it were a fire regulation. She set an egg timer on the shelf above the switch and turned it until it ticked. Then she handed me a cloth and pointed at the speaker stacks, which were taller than I was and had not been dusted, she said, since the last government. I started at the bottom, where the dust had gone soft like felt.',
+      'By the time the timer rang I had reached the second shelf and found a stool wedged behind the left stack, a low wooden one with a cracked leather top. I pulled it out to clean under it, and a folded receipt from 2017 dropped out of the split in the leather. Dot crossed the room faster than I had seen her move all evening, took the receipt, put the stool back exactly where it had been, and did not explain. I did not ask, and I finished the shelf.',
+    ],
+    recto: [
+      'The regulars came in from eight. There was a man called Marcus who took the end stool and unwrapped a sandwich from greaseproof paper, and a woman who never gave her name and ordered a soda water with a slice of lemon, cut lengthways. Nobody spoke above a murmur. Dot lowered the needle with two fingers, stepped back, and watched their faces, and I understood that she was not listening to the record at all.',
+      'The Duchess sulked through the first side. She was thin at the top and slow in the bass, and every few minutes a small wet click came from inside her, like a knuckle. Marcus lifted his glass a fraction each time it happened, the way you might acknowledge a colleague across a meeting. When the side ended nobody clapped. Somebody let out a breath, and the whole room seemed to lean an inch to the left.',
+      'At closing I asked Dot about the stool. She said it belonged to whoever made the records, and that he had been posting masters from a room above a fishmonger for three years and had never once come down to sit on it. I said that seemed a waste of a good stool. She said that was the point of keeping it empty, and that I should mind the cloth, because I had left it on the amplifier.',
+    ],
+    afterBreak: 'On Thursday an envelope came, stained brown at one corner, and inside it was a quarter-inch reel and a note about the hiss. Dot read the note twice and pinned it above the till, next to eleven others, all in the same careful hand. Then she put the reel on the machine and told me to fetch the egg timer, because we were going to hear it start to finish, and nobody, she said, was going to talk.',
+    folios: ['82', '83'],
+  },
+
+  newspaper: {
+    name: 'The Evening Static',
+    motto: 'Small news, delivered at low volume',
+    dateline: ['Vol. IX, No. 212', 'Thursday, 12 November', 'One pound'],
+    ears: ['Damp, with a chance of hiss', 'Inside: the Duchess, updated'],
+    lead: {
+      kicker: 'Nightlife',
+      headline: 'Basement bar’s valve amplifier the Duchess falls silent for repairs',
+      deck: 'The 2014 amplifier failed midway through a record on a wet Tuesday. The bar stayed open, and the regulars are talking.',
+      byline: 'By Nell Adeyemi-Gray, Arts Correspondent',
+      place: 'LEVEL FOUR',
+      body: [
+        'The Duchess, the valve amplifier at the centre of the Low Hum listening bar, stopped working at 21.40 on Tuesday, halfway through the second side of a record by Pell. Staff said the room was full, with twenty-six people present on a night the forecast had called unfit for travel. The needle was still moving when the sound ended, they said, and for four minutes nobody spoke.',
+        'Dot Pemberton, who has kept the amplifier since 2014, said the Duchess had shown signs for a week. “She was quieter than usual on Thursday and I put it down to the damp,” Pemberton said. “You cannot hurry a valve amplifier, and you cannot tell her what she missed.” An electrician who called on Wednesday said two valves and a transformer would need replacing.',
+        'The bar has stayed open. Records are being played on a portable turntable borrowed from the Sleeve Room and a pair of speakers brought from home by Marcus Ede, a regular since 2018. Ede said the arrangement was adequate and that he expected to be forgiven for saying so. Attendance on Wednesday was thirty-one, five more than on the night of the failure.',
+        'The label said no release would be delayed, and the next master from Pell is due by post on Thursday. Pemberton said the amplifier would be switched on again only when she was ready, which she expected to take until the end of the month, and possibly beyond it, depending on the valves. Organisers of the Level Four festival said the event would go ahead in spring, with or without her.',
+      ],
+    },
+    quote: 'You cannot hurry a valve amplifier, and you cannot tell her what she missed',
+    quoteSource: 'Dot Pemberton',
+    second: {
+      kicker: 'Car parks',
+      headline: 'Council resurfaces top deck, Level Four asks for the cracks back',
+      byline: 'By Ivo Marsh',
+      body: [
+        'Workers began resurfacing the top deck of the Kiln Street car park on Monday, a week after the council said it would do so in the spring. The deck has hosted the Level Four festival for six years, and its organisers say the crack by the third bay is part of the acoustics.',
+        'A council spokesman said the surface was unsafe and that a new one would be “quiet and level”. Organisers have asked for a photograph of the crack to be kept on file, and have offered to pay for a small plaque.',
+      ],
+    },
+    index: [
+      { title: 'Listings and late licences', page: '2' },
+      { title: 'Letters', page: '5' },
+      { title: 'Record reviews', page: '8' },
+      { title: 'Lost and found', page: '12' },
+      { title: 'Weather, by ear', page: '15' },
+    ],
+    briefs: [
+      { headline: 'Sleeve Room to be catalogued', body: 'The cupboard of covers below the bar is to be indexed for the first time. Dot Pemberton says the system will stay in her head, and that a volunteer may write down only the parts she is willing to say aloud.' },
+      { headline: 'Pell master arrives late, by hours', body: 'A quarter-inch reel reached the basement at 22.15 on Thursday, over three hours after the usual delivery. The accompanying note apologised for the delay and for the hiss, and described the second as intended.' },
+      { headline: 'Regular seat left empty again', body: 'The stool behind the left speaker stack went unoccupied for the nine hundredth night running, staff confirmed. A visitor asked to sit there on Saturday and was offered the end stool and a glass of water.' },
+      { headline: 'Egg timer stolen, then returned', body: 'The timer used to time the Duchess’s warm-up was taken from the bar on Friday and left on the step on Monday, set to forty minutes. The bar said no questions were asked and that the egg inside was fine.' },
+    ],
+  },
+
+  posters: {
+    a: {
+      top: 'Low Hum Records presents',
+      title: 'Pell, Played Once',
+      subtitle: 'Both sides, start to end, and no skipping',
+      details: ['Thursday 13 February, 21.00', 'The Sleeve Room, Low Hum', 'Standing room only'],
+    },
+    b: {
+      word: 'Amplify',
+      side: 'A listening evening for one amplifier',
+      foot: ['The Basement, Level Four', 'Doors open after forty minutes'],
+    },
+    c: {
+      numeral: '40',
+      unit: 'minutes',
+      title: 'The Duchess warms up',
+      body: 'She will not be hurried, cajoled or complimented in advance. Arrive early, sit down, and talk softly until the egg timer rings. The first record is always a quiet one.',
+      corners: ['Basement, below street', 'Thursdays, on the timer'],
+    },
+  },
+
+  sleeve: {
+    artist: 'Pell',
+    album: 'Forty Minutes to Warm',
+    label: 'Low Hum Records',
+    catalogue: 'LH-014',
+    year: '2019',
+    sideA: [
+      { title: 'Tea Stain', time: '4:21' },
+      { title: 'Wet Tuesday', time: '5:08' },
+      { title: 'The Egg Timer Rings', time: '3:36' },
+      { title: 'Stool for Nobody', time: '4:52' },
+    ],
+    sideB: [
+      { title: 'Left Speaker Behaves', time: '4:15' },
+      { title: 'Hiss, Signed', time: '2:47' },
+      { title: 'Room Above the Fishmonger', time: '6:33' },
+      { title: 'Run-Out', time: '3:02' },
+    ],
+    notes: 'Recorded in one night on a quarter-inch machine in a rented room, with the window open for the sound of the market packing up. Pell declined to hear it played back. The hiss is left in on purpose. The record is pressed in a run of three hundred, each one numbered by hand and never repeated.',
+    credits: ['Recorded by: Pell', 'Cut by: Dot Pemberton', 'Sleeve: Ivo Marsh', 'Tape: Marlow, quarter-inch'],
+  },
+
+  menu: {
+    name: 'The Basement Bar',
+    tagline: 'Small plates, low volume, one record per round',
+    hours: 'Doors at eight, last side at eleven',
+    sections: [
+      {
+        title: 'Small plates',
+        note: 'Quiet enough to eat over',
+        items: [
+          { name: 'Marinated olives', desc: 'Warm, with orange peel and thyme, in a dish you cannot rattle', price: '4' },
+          { name: 'Cheese toastie', desc: 'Cheddar and onion on sourdough, cut in four to share', price: '6' },
+          { name: 'Sardines on toast', desc: 'Tinned in Portugal, with lemon and a scrape of butter', price: '7' },
+          { name: 'Pickled things', desc: 'Whatever Dot has in jars this week, with rye crackers', price: '5' },
+        ],
+      },
+      {
+        title: 'Later',
+        note: 'For the second side',
+        items: [
+          { name: 'Duchess dip', desc: 'Roast garlic and white bean, slow, with flatbread', price: '6' },
+          { name: 'Level Four fries', desc: 'Thick cut, salted from a height, served in a paper cone', price: '5' },
+          { name: 'Midnight rarebit', desc: 'Stout, mustard and a strong cheese on a thick slice', price: '8' },
+          { name: 'Sleeve Room brownie', desc: 'Dark, dense, no nuts, cut into a square like a record', price: '5' },
+        ],
+      },
+      {
+        title: 'To drink',
+        note: 'Poured between tracks',
+        items: [
+          { name: 'Pell’s Thursday', desc: 'A dark beer from the brewery two streets over, poured slowly', price: '6' },
+          { name: 'House red', desc: 'A Rioja that has never been asked its opinion of the music', price: '7' },
+          { name: 'Hiss and lemon', desc: 'Soda water, lemon cut lengthways, ice, no straw', price: '3' },
+          { name: 'A quiet whisky', desc: 'A single measure of something Highland, without commentary', price: '9' },
+        ],
+      },
+    ],
+    footer: ['No talking over the first track of a new record', 'The Basement Bar, Low Hum, Kiln Street'],
+  },
+
+  credits: {
+    presenter: 'Low Hum Records presents',
+    title: 'Run-Out',
+    byline: 'A film by Nell Adeyemi-Gray',
+    cast: [
+      { role: 'The Keeper', name: 'Dot Pemberton' },
+      { role: 'The Regular', name: 'Marcus Ede' },
+      { role: 'The New Hire', name: 'Priya Kaur' },
+      { role: 'The Electrician', name: 'Osric Bell' },
+      { role: 'The Producer', name: 'Pell, by post' },
+      { role: 'The Amplifier', name: 'The Duchess' },
+    ],
+    crew: [
+      { role: 'Written by', name: 'Nell Adeyemi-Gray' },
+      { role: 'Photography', name: 'Ivo Marsh' },
+      { role: 'Editor', name: 'Sunita Rao' },
+      { role: 'Sound', name: 'Wren Halloran' },
+      { role: 'Cut by', name: 'Dot Pemberton' },
+      { role: 'Lighting', name: 'Low, by request' },
+    ],
+    music: [
+      { title: 'Tea Stain', credit: 'Pell, Low Hum Records' },
+      { title: 'Hiss, Signed', credit: 'Recorded in a room above a fishmonger' },
+    ],
+    thanks: ['The regulars of the end stool', 'Marlow Tapes', 'The Kiln Street car park', 'Whoever took the egg timer'],
+    closing: 'Side B ends here',
+    legal: 'No amplifier was harmed in the making of this film, though one was consulted at length.',
+  },
+
+  poem: {
+    journal: 'The Listening Room',
+    issue: 'No. 9, Winter',
+    first: {
+      title: 'Warm-Up',
+      poet: 'Nell Adeyemi-Gray',
+      epigraph: 'after forty minutes, a valve amplifier, and a stool',
+      stanzas: [
+        [
+          'The timer ticks like a small tin heart',
+          'above the switch. Dot does not look at it.',
+          'She wipes a glass that was clean at seven',
+          'and holds it up against the bulb, and waits.',
+        ],
+        [
+          'Behind the left stack, a stool with a split top,',
+          'its leather worn to the colour of tea.',
+          'Nobody sits. A coat is never laid on it.',
+          'The whole room curves around it like a river.',
+        ],
+        [
+          'When the bell goes, the first note comes up thin,',
+          'then thickens, as a street does when it rains.',
+          'Marcus lifts his glass a finger’s width.',
+          'Somewhere a valve glows orange, taking its time.',
+        ],
+      ],
+    },
+    second: {
+      title: 'Sleeve Room',
+      poet: 'Dot Pemberton',
+      stanzas: [
+        [
+          'Every cover hangs from a wire by one corner,',
+          'sorted by a system I have never written down.',
+          'Green spines, then blue, then the ones I forgot.',
+        ],
+        [
+          'Sometimes I stand here after closing and listen',
+          'to the paper move in the draught from the stairs,',
+          'a room full of quiet records, turning over.',
+        ],
+      ],
+    },
+    note: 'Nell Adeyemi-Gray writes the liner notes for Low Hum Records and keeps the mailing list. Dot Pemberton runs the bar, cuts the plates by hand, and has never before agreed to have a poem printed anywhere.',
+    folio: '31',
+  },
+
   newsletter: {
     preheader: ['Three records, one sulk, one apology from the Duchess.', 'Read in a quiet room'],
     name: 'The Low Hum Bulletin',

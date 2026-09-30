@@ -324,6 +324,229 @@ export const letterhouse: CopySet = {
     footer: ['Letterhouse, Marrow Street', 'Wet paint / Nr. 4'],
   },
 
+  book: {
+    title: 'A Ladder on Marrow Street',
+    author: 'Odile Marrow',
+    chapter: 'Four',
+    chapterTitle: 'The Second D',
+    epigraph: 'A line is straight when the street has stopped watching it.',
+    epigraphSource: 'Joss Bellamy, pencilled on the studio wall',
+    verso: [
+      'I was nineteen the summer I lettered HADDOCK, and the only thing I knew about paint was that it dripped. Marrow Street in July was a throat of heat and lorries. The fishmonger, a man called Bertil Osk, stood on the pavement in his apron and told me the word had to be read from the docks, which were three streets away and downhill. I said that would be fine. I had never been to the docks.',
+      'The ladder belonged to a chandler two doors down. He lent it without being asked, which I took for kindness until I saw how he watched it go up. It had eleven rungs and the sixth was a suggestion, and the whole thing leaned a little toward the road. I carried a pot of black, a pot of red, a pencil behind my ear and a hat that was not mine, and I climbed with my eyes on the window so I would not have to know how high I was.',
+    ],
+    recto: [
+      'The H went on well. Everyone says that about the first letter, and it is true, because you have not yet had time to be afraid of it. I pulled the left stem in one breath and the right in another and laid the bar between them like a plank across a ditch. Bertil came out, wiped his hands on his apron, looked up and said nothing, and I have been trying ever since to earn that particular nothing again.',
+      'By noon the sun had come round onto the glass and the enamel began to skin in the pot. A boy selling ices stopped to watch, then a woman with a birdcage, then two dockers who had come up to see what the noise was, which was me, dropping a brush. Sweat ran into my eyes and I pulled the next stem from memory. Somebody below read the letters aloud as I made them. At the second D he stopped, and I heard the silence and did not look down.',
+      'I finished at six with my forearms shaking. The sun had gone behind the Nine Lamps Hotel and the window turned into a dark blue mirror with red letters floating in it. My borrowed hat had gone somewhere in the afternoon. I came down the ladder counting rungs, and at the sixth, the suggestion, my foot found nothing and then found the chandler’s hand. He had been standing at the bottom all afternoon.',
+    ],
+    afterBreak: 'In the morning Bertil stood across the street with his coffee and read the window from the far kerb, moving his lips. He got as far as the second D, and it was a poor D, leaning like a man waiting for a tram. He nodded once. Then he went in and opened the shop, and that afternoon paid me in cash and one haddock. The word stood over his fish for thirty years, and I never asked to fix it.',
+    folios: ['58', '59'],
+  },
+
+  newspaper: {
+    name: 'The Marrow Gull',
+    motto: 'Read from across the road',
+    dateline: ['Vol. LXIV, No. 28', 'Friday, 12 July', 'Eighty pence'],
+    ears: ['Hot, loud, wind from the docks', 'Inside: the vinyl shop replies'],
+    lead: {
+      kicker: 'Signfest',
+      headline: 'Sixty windows to be painted in public as Signfest returns',
+      deck: 'The fourth Signfest opens on Thursday with gold leaf, a long-stroke contest and a rope to keep people off the wet parts.',
+      byline: 'By Nell Sturgis, Street Correspondent',
+      place: 'MARROW STREET',
+      body: [
+        'Marrow Street will close to traffic from Thursday for the fourth Signfest, four days in which sixty shop windows will be lettered by hand in front of anyone who cares to watch. Organisers said the programme is the longest yet, with eleven windows to be gilded on the first morning alone. The street council approved the closure on Tuesday by four votes to one.',
+        'Odile Marrow, who founded the festival and has owned Letterhouse since 1987, said the aim was simple. “People walk past a painted window every day and never see the person who made it,” she said. “For four days they can stand behind a rope and watch somebody breathe out and pull a line.” The rope, she added, is mainly there to keep elbows off the gold and children off the ladders.',
+        'Joss Bellamy, the festival’s organiser, said the Long Stroke contest would return on Saturday at the Harbour Bakery corner. Entrants must paint a fascia board in a single pull while a lorry passes, which last year’s winner, the apprentice Toby Wren, managed on his third attempt. Bellamy said a lorry had been booked and its driver briefed to be loud but consistent.',
+        'Stickfast Vinyl, across the road, has again been invited and again declined. Its owner, Rudi Kask, said in a statement that his shop would open as usual and that a sticker was perfectly good for people who had somewhere to be. Ms Marrow said the invitation stood, and that the gulls, who have judged the contest since it began, had not yet made up their minds.',
+      ],
+    },
+    quote: 'People walk past a painted window every day and never see the person who made it',
+    quoteSource: 'Odile Marrow, founder of Signfest',
+    second: {
+      kicker: 'Harbour',
+      headline: 'Gulls confirmed as judges of the Long Stroke',
+      byline: 'By Ines Calloway',
+      body: [
+        'The harbour council has confirmed that the gulls of Marrow Street will again judge the Long Stroke contest. The birds will assess each entry from the roof of the Nine Lamps Hotel, and their verdicts, the council said, will be treated as final, as they always are.',
+        'Entrants have been warned that a gull cannot be swayed by charm. Last year’s panel gave its top mark to a board it had already stood on. Anyone wishing to appeal should apply in writing, and stand well back.',
+      ],
+    },
+    index: [
+      { title: 'Signfest programme', page: '2' },
+      { title: 'Harbour and tides', page: '5' },
+      { title: 'Shopfront news', page: '8' },
+      { title: 'Letters', page: '11' },
+      { title: 'Weather and gulls', page: '14' },
+    ],
+    briefs: [
+      { headline: 'Nine Lamps Hotel repaints its sign', body: 'The Nine Lamps Hotel has commissioned a new fascia from Letterhouse, its first in forty years. The old board, which read NINE LAMPS with a small gap where a tenth might go, will be hung in the bar.' },
+      { headline: 'Tackle shop loses its anchor', body: 'Gulliver’s Tackle reports that the gilded anchor on its window was taken down on Monday for cleaning and has not been put back. The owner said a lorry was seen taking it to the docks on Tuesday. He hopes it has found a good home.' },
+      { headline: 'Café Bellows keeps late hours', body: 'Café Bellows will stay open until midnight during Signfest, serving a soup named after whichever apprentice is on the ladder. Monday’s soup was Toby, a leek and potato. Customers said it was thick and a little nervous.' },
+      { headline: 'Ladders wanted on Marrow Street', body: 'The festival asks residents to lend spare stepladders, to be labelled and returned. Organisers said every ladder borrowed before came back, except the chandler’s, which was later found standing in a window and left there.' },
+    ],
+  },
+
+  posters: {
+    a: {
+      top: 'Letterhouse presents',
+      title: 'The Sunday Alphabet',
+      subtitle: 'Twenty-six letters, drawn twice, painted once',
+      details: ['11 – 14 July, from nine', 'Marrow Street, the port', 'Admission free, behind the rope'],
+    },
+    b: {
+      word: 'Burnish',
+      side: 'A window read from across the road',
+      foot: ['Nine Lamps Hotel, 11.00', 'Mind the wet gold'],
+    },
+    c: {
+      numeral: '38',
+      unit: 'years',
+      title: 'One street, lettered',
+      body: 'Since 1987 Odile Marrow has lettered the shopfronts of Marrow Street, most of them twice. Come and see the first window, the fourth ampersand and a gull’s footprint.',
+      corners: ['Letterhouse, no. 14', 'Wet paint, always'],
+    },
+  },
+
+  sleeve: {
+    artist: 'The Wet Paint Trio',
+    album: 'Read From Across the Road',
+    label: 'Pounce Recordings',
+    catalogue: 'PR-014',
+    year: '2019',
+    sideA: [
+      { title: 'Haddock Blues', time: '3:41' },
+      { title: 'The Sixth Rung', time: '4:05' },
+      { title: 'Gold Leaf in Still Air', time: '5:12' },
+      { title: 'Second D', time: '2:48' },
+    ],
+    sideB: [
+      { title: 'Marrow Street, Noon', time: '3:56' },
+      { title: 'Things That Nearly Worked', time: '4:31' },
+      { title: 'The Rope', time: '3:12' },
+      { title: 'Clean Your Brushes', time: '6:02' },
+    ],
+    notes: 'Recorded in the yard behind Letterhouse over one hot week in July, with the doors open and the street coming in. You can hear a lorry on track five, a gull on track six and a brush being dropped on track seven. The trio kept all of it. Nothing was overdubbed, and the second D of track four is flat on purpose.',
+    credits: ['Vocals: Odile Marrow', 'Drums: Toby Wren', 'Bass: Joss Bellamy', 'Sleeve lettering: Toby Wren'],
+  },
+
+  menu: {
+    name: 'Café Bellows',
+    tagline: 'Coffee, soup and a table by the window',
+    hours: 'Every day, seven until the last order',
+    sections: [
+      {
+        title: 'Breakfast',
+        note: 'Until eleven, or until the bread runs out',
+        items: [
+          { name: 'Harbour toast', desc: 'Thick sourdough from the bakery over the road, salted butter', price: '3.50' },
+          { name: 'Fried egg roll', desc: 'Soft roll, egg cooked to the edges, brown sauce on request', price: '4' },
+          { name: 'Kipper on rye', desc: 'Smoked whole, boned at the counter, lemon and black pepper', price: '7.50' },
+          { name: 'Porridge with treacle', desc: 'Oats simmered for twenty minutes, dark treacle, a pinch of salt', price: '4.20' },
+        ],
+      },
+      {
+        title: 'Lunch',
+        note: 'The soup is named after the apprentice on the ladder',
+        items: [
+          { name: 'Soup of the day', desc: 'Leek and potato on Mondays, whichever apprentice is up the ladder', price: '5' },
+          { name: 'Haddock and chips', desc: 'Beer batter, thick chips, mushy peas, a wedge of lemon', price: '11' },
+          { name: 'Tidewater ploughman’s', desc: 'Cheddar, pickled onion, apple and a heel of bread, on a slate', price: '8.50' },
+          { name: 'Gulliver’s crab roll', desc: 'Brown and white crab, mayonnaise, cress, a toasted split roll', price: '9' },
+        ],
+      },
+      {
+        title: 'To drink',
+        note: 'Coffee is ground in the room, loudly',
+        items: [
+          { name: 'Black coffee', desc: 'A long pour from the pot on the back of the range', price: '2.50' },
+          { name: 'Bellows flat white', desc: 'Two shots, steamed milk, a saucer for the noise', price: '3.20' },
+          { name: 'Iced lemon barley', desc: 'Pearl barley, lemon, sugar, served with ice from the fish quay', price: '3' },
+          { name: 'House ginger beer', desc: 'Fermented in the cellar, fierce, sold by the bottle', price: '3.50' },
+        ],
+      },
+    ],
+    footer: ['Please do not lean on the wet paint, or on the waiters', 'Café Bellows, 9 Marrow Street'],
+  },
+
+  credits: {
+    presenter: 'Letterhouse presents',
+    title: 'The Second D',
+    byline: 'A film by Joss Bellamy',
+    cast: [
+      { role: 'Odile, aged nineteen', name: 'Nell Sturgis' },
+      { role: 'Bertil Osk', name: 'Aldo Pryce' },
+      { role: 'The chandler', name: 'Hugh Tolliver' },
+      { role: 'The ice boy', name: 'Sami Fane' },
+      { role: 'The ladder', name: 'Itself' },
+      { role: 'The gulls', name: 'Themselves' },
+    ],
+    crew: [
+      { role: 'Written by', name: 'Odile Marrow' },
+      { role: 'Photography', name: 'Toby Wren' },
+      { role: 'Editor', name: 'Joss Bellamy' },
+      { role: 'Lettering', name: 'Letterhouse Studio' },
+      { role: 'Sound', name: 'The Wet Paint Trio' },
+      { role: 'Ladder wrangler', name: 'Marguerite Fane' },
+    ],
+    music: [
+      { title: 'Haddock Blues', credit: 'The Wet Paint Trio, Pounce Recordings' },
+      { title: 'The Sixth Rung', credit: 'Written by Joss Bellamy, hummed on set' },
+    ],
+    thanks: ['The chandler of Marrow Street', 'Harbour Bakery', 'Nine Lamps Hotel', 'Every gull, individually'],
+    closing: 'Made by hand',
+    legal: 'No ladders were harmed in the making of this film. One rung was, and has been replaced.',
+  },
+
+  poem: {
+    journal: 'The Wet Paint Review',
+    issue: 'No. 12, High Summer',
+    first: {
+      title: 'Haddock',
+      poet: 'Odile Marrow',
+      epigraph: 'for Bertil Osk, who left the second D alone',
+      stanzas: [
+        [
+          'The ladder has eleven rungs. The sixth',
+          'is only a suggestion, and I take it',
+          'with a pot of black in my left hand',
+          'and the whole street pointing up at me.',
+        ],
+        [
+          'I pull the first stem down through the heat',
+          'until the bristles hold one breath of paint,',
+          'then the bar, laid level as a plank',
+          'over a gap I am not looking into.',
+        ],
+        [
+          'Below me a man reads the word aloud',
+          'and stops at the second D, and waits.',
+          'The sun goes behind the hotel. The glass',
+          'turns dark, and every letter floats.',
+        ],
+      ],
+    },
+    second: {
+      title: 'Size',
+      poet: 'Joss Bellamy',
+      stanzas: [
+        [
+          'You brush it on and watch it go to tack.',
+          'Nobody in the room says anything. The leaf',
+          'lifts with the draught of a passing thought.',
+        ],
+        [
+          'The leaf comes off the tissue in one piece,',
+          'touches, sticks, and cannot be moved again.',
+          'Behind it the street goes on being loud.',
+        ],
+      ],
+    },
+    note: 'Odile Marrow has lettered the shopfronts of Marrow Street since 1987 and writes on the backs of boards, in pencil. Joss Bellamy gilds windows for Letterhouse and organises Signfest. He wrote his first poem with the door shut and the air perfectly still.',
+    folio: '31',
+  },
+
   newsletter: {
     preheader: ['Four windows, one ampersand, one small feud.', 'Read online'],
     name: 'The Letterhouse Post',

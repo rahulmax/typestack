@@ -324,6 +324,229 @@ export const halden: CopySet = {
     footer: ['Halden Observatory, Skarra', 'Night 12 / clear skies'],
   },
 
+  book: {
+    title: 'The Fourth Winter',
+    author: 'Maren Solvang',
+    chapter: 'Nine',
+    chapterTitle: 'A Thumbprint on the Sky',
+    epigraph: 'If you are certain, look again. If you are still certain, tell someone kind.',
+    epigraphSource: 'Halden first log book, inside front board',
+    verso: [
+      'Professor Lindqvist came over on the Thursday ferry with a hard case and a soft hat and the manner of a man who has been told about a comet before. Angus met him at the jetty with a flask. The wind was northwest and steady, and it took the professor’s hat twice on the walk up the hill, and each time Angus fetched it without a word, which I took as a good sign for both of them, and for the hat.',
+      'I had cleared the north dome that afternoon and swept the floor, which I never do. The Goose stood under her cover like a patient at rest. I lifted the cloth, greeted her, and set the mount to the coordinates I know by heart. Outside, the clouds were breaking over Skarra in long grey strips, and I told the professor, very calmly, that we would have perhaps forty minutes, and that he was welcome to spend them however he liked.',
+    ],
+    recto: [
+      'He looked for a long time. I have noticed that people who do not expect to see anything take longer than people who do, as if they are being careful not to be surprised. He adjusted the focus a quarter turn, then back, then asked me to check the mount, which I did, and then he asked to check it himself. Angus poured cocoa into three cups and put one on the floor beside the eyepiece.',
+      'The smudge was there. It sat a little to the left of where the catalogue puts nothing at all, faint and slightly grey, with no visible tail. I had photographed it on forty-one clear nights, and it had never once looked like anything but a thumbprint on the sky. The professor said, eventually, that it might be a plate flaw, or a reflection, or a very old galaxy with poor manners.',
+      'I said it was a comet. He said he would like to believe me and that belief was not a method. I said I agreed, and that I had never asked him to believe anything, and offered him a biscuit. Then the last strip of clear sky closed over the dome like a hand over a mouth, and the eyepiece went dark, and we stood in the cold for a moment and listened to the wind trying the shutter, one bolt at a time.',
+    ],
+    afterBreak: 'In the morning the professor came down to breakfast with his hat on and asked if he could see the log. I gave it to him open at the forty-second night. He read my entry, and Angus’s note beneath it about the seagull, and then he took a pencil from his pocket and wrote a line of his own, very small. It said only that he had seen something, and would like to look again, if the island would allow it.',
+    folios: ['108', '109'],
+  },
+
+  newspaper: {
+    name: 'The Skarra Courier',
+    motto: 'Island news, mostly weather',
+    dateline: ['Vol. XCIII, No. 47', 'Friday, 20 November', 'Fifty pence'],
+    ears: ['Wind northwest, cloud from nine', 'Inside: cocoa shortage feared'],
+    lead: {
+      kicker: 'Science',
+      headline: 'Halden astronomer logs forty-second sighting of comet the catalogues omit',
+      deck: 'Dr Maren Solvang says the smudge is back, a little left of where it should be. The catalogue office has asked her to check the lens.',
+      byline: 'By Ingrid Moll, Island Correspondent',
+      place: 'SKARRA',
+      body: [
+        'Dr Maren Solvang, senior astronomer at Halden Observatory, recorded her forty-second sighting of a small comet on Thursday night, the observatory said. The object appeared in the north dome at 21.15 under a break in the cloud, a little to the left of the position given in the standard catalogues, which do not list it. Solvang has followed it through four winters and has declined to name it in public.',
+        'A visiting professor, Hugo Lindqvist of the University of Bergen, attended the observation on the invitation of the observatory. Lindqvist told the Courier he had seen “something” and could not yet say what. “Belief is not a method,” he said. He added that he intended to return in the spring, and that the cocoa had been better than he expected, and the wind worse.',
+        'Solvang said she was not troubled by the caution. “You do not prove a comet to the whole world at once,” she said. “You prove it to one person, and then you make more cocoa.” The observatory logged eleven observers on the night, including Angus Reid, who runs the night kettle and who said he would not swear to the sighting in court and would prefer that no court be asked.',
+        'The catalogue office in Bergen has received Solvang’s latest coordinates and said it would review them in due course, though it did not say which course. A spokeswoman said the office had received forty-one previous submissions from the same address and had replied to each one in writing, with care. Solvang said she had kept the letters, and that most of them had been kind, and several had included recipes.',
+      ],
+    },
+    quote: 'You do not prove a comet to the whole world at once. You prove it to one person, and then you make more cocoa',
+    quoteSource: 'Dr Maren Solvang',
+    second: {
+      kicker: 'Education',
+      headline: 'Skarra Primary wins loan of Little Wren for the winter term',
+      byline: 'By Callum Bray',
+      body: [
+        'Skarra Primary School has been granted the loan of Little Wren, the observatory’s small quick telescope, from Friday until the end of term. Headteacher Isla Drummond said pupils would use her on the school field on clear evenings.',
+        'The telescope will be returned in March. Drummond said the school had promised not to change her name, which was chosen by vote in 1971 and defended in the courts, briefly, in 1988.',
+      ],
+    },
+    index: [
+      { title: 'Weather and tides', page: '2' },
+      { title: 'Letters', page: '5' },
+      { title: 'Ferry timetable', page: '8' },
+      { title: 'School notes', page: '11' },
+      { title: 'Sheep sales', page: '14' },
+    ],
+    briefs: [
+      { headline: 'Ferry cancelled, gales expected', body: 'The Thursday ferry has been cancelled owing to gale-force winds in the sound. The harbour master said a replacement would run on Saturday if the gale eased, and on Sunday if it did not, and on Monday otherwise.' },
+      { headline: 'Lantern House guestbook full', body: 'The visitor centre’s guestbook has been filled for the eleventh time, staff confirmed. The final entry, from a visitor in Leeds, reads “Bring a coat.” A new book has been ordered, along with a longer pen.' },
+      { headline: 'Lighthouse board meets in dark', body: 'The lighthouse board held its quarterly meeting on Tuesday in the dark, after a fuse blew at 19.00. Minutes were taken by feel. The board said they were broadly accurate, and asked members to check their own votes.' },
+      { headline: 'Seagull returns to observatory', body: 'A large gull recorded in the observatory’s first log book in 1926 has been seen again on the roof of the north dome. Staff said it is unlikely to be the same bird, and have logged it anyway, in pencil.' },
+    ],
+  },
+
+  posters: {
+    a: {
+      top: 'Halden Observatory presents',
+      title: 'An Open Night',
+      subtitle: 'The sky, through the Goose, for anyone',
+      details: ['Wednesday 4 November, 18.30', 'North Dome, Skarra Island', 'Free, with a warm coat'],
+    },
+    b: {
+      word: 'Telescope',
+      side: 'A cloud night for looking up regardless',
+      foot: ['The Lantern House, from dusk', 'Cards, cocoa and the whole sky'],
+    },
+    c: {
+      numeral: '41',
+      unit: 'nights',
+      title: 'A smudge, properly watched',
+      body: 'Dr Solvang has photographed one small comet on forty-one clear nights and the catalogues have not noticed. Come and look for it yourself. Bring binoculars and patience.',
+      corners: ['North Dome, Skarra', 'Whenever it clears'],
+    },
+  },
+
+  sleeve: {
+    artist: 'Skarra Primary Choir',
+    album: 'Songs for a Cloudy Night',
+    label: 'Lantern House Records',
+    catalogue: 'LH-007',
+    year: '1998',
+    sideA: [
+      { title: 'The Cloud Night Rule', time: '3:14' },
+      { title: 'Goose, Goose', time: '2:48' },
+      { title: 'Little Wren Goes Out', time: '3:36' },
+      { title: 'Why Stars Twinkle', time: '4:02' },
+    ],
+    sideB: [
+      { title: 'Forty-One Frames', time: '3:55' },
+      { title: 'The Night Kettle', time: '2:31' },
+      { title: 'Seagull in the Log Book', time: '3:20' },
+      { title: 'Look Up, Then Again', time: '4:44' },
+    ],
+    notes: 'Recorded in the Lantern House on a night when the cloud came down to the hill and stayed. Nineteen children sang in coats, standing on the visitors’ benches, conducted by Mrs Drummond with a wooden spoon. The wind in the background of side two is real. It could not be asked to leave, and, to be fair, did not sing flat.',
+    credits: ['Conductor: Isla Drummond', 'Piano: Angus Reid', 'Recorded by: Ewan Tarbert', 'Wind: Skarra, uncredited'],
+  },
+
+  menu: {
+    name: 'The Lantern House',
+    tagline: 'Cocoa, cards and a very serious guestbook',
+    hours: 'Open at dusk, closing when the sky does',
+    sections: [
+      {
+        title: 'Hot drinks',
+        note: 'Poured from the big flask',
+        items: [
+          { name: 'Observer’s cocoa', desc: 'Dark chocolate, whole milk, a pinch of salt, no marshmallows', price: '2.50' },
+          { name: 'Night kettle tea', desc: 'Strong, stewed and sweet, brewed by Angus since dusk', price: '1.50' },
+          { name: 'Hot blackcurrant', desc: 'Cordial, boiling water, and a thick slice of lemon', price: '2' },
+          { name: 'Coffee, black', desc: 'From a pot that has been on since the first clear hour', price: '2' },
+        ],
+      },
+      {
+        title: 'From the kitchen',
+        note: 'Baked for the long wait',
+        items: [
+          { name: 'Cheese scone', desc: 'Split, warm, with salted butter and a slice of cheddar', price: '3' },
+          { name: 'Skarra broth', desc: 'Lamb, barley and swede, served in a mug you can hold with gloves', price: '5' },
+          { name: 'Ginger parkin', desc: 'Dense, dark and sticky, cut in a square the size of a plate', price: '3' },
+          { name: 'Bacon roll', desc: 'Two rashers, brown sauce, a soft white roll from the island bakery', price: '4' },
+        ],
+      },
+      {
+        title: 'Cloud night',
+        note: 'When the sky shuts',
+        items: [
+          { name: 'A pack of cards', desc: 'Worn, complete, and marked only in the corners', price: 'free' },
+          { name: 'The jigsaw', desc: 'Two thousand pieces of the Milky Way. Six hundred are in the box', price: 'free' },
+          { name: 'A guest book page', desc: 'To be signed with the coat still on, as house rule dictates', price: 'free' },
+          { name: 'Flask refill', desc: 'Your own flask filled with cocoa, to take up the hill', price: '2' },
+        ],
+      },
+    ],
+    footer: ['No white light in the domes, and no talking over a child looking', 'The Lantern House, Halden Observatory, Skarra Island'],
+  },
+
+  credits: {
+    presenter: 'Halden Observatory presents',
+    title: 'A Smudge to the Left',
+    byline: 'A film by Ewan Tarbert',
+    cast: [
+      { role: 'The Astronomer', name: 'Maren Solvang' },
+      { role: 'The Kettle Keeper', name: 'Angus Reid' },
+      { role: 'The Teacher', name: 'Isla Drummond' },
+      { role: 'The Professor', name: 'Hugo Lindqvist' },
+      { role: 'The Nine-Year-Old', name: 'Freya Drummond' },
+      { role: 'The Lighthouse Keeper', name: 'Torvald Skene' },
+    ],
+    crew: [
+      { role: 'Written by', name: 'Maren Solvang' },
+      { role: 'Photography', name: 'Ewan Tarbert' },
+      { role: 'Editor', name: 'Signe Halvorsen' },
+      { role: 'Sound', name: 'Callum Bray' },
+      { role: 'Telescopes', name: 'The Goose' },
+      { role: 'Weather', name: 'Skarra, mostly' },
+    ],
+    music: [
+      { title: 'The Cloud Night Rule', credit: 'Skarra Primary Choir, Lantern House Records' },
+      { title: 'Forty-One Frames', credit: 'Words by Isla Drummond, sung in the dark' },
+    ],
+    thanks: ['The volunteers of Skarra', 'The Lighthouse Board', 'The night ferry crew', 'Whoever left the kettle on'],
+    closing: 'Look up again',
+    legal: 'No comets were confirmed during the making of this film. Several gulls were, and logged.',
+  },
+
+  poem: {
+    journal: 'The Skarra Log',
+    issue: 'No. 7, Autumn',
+    first: {
+      title: 'Forty-One',
+      poet: 'Maren Solvang',
+      epigraph: 'north dome, a little to the left of nothing',
+      stanzas: [
+        [
+          'The dome opens like a mouth on the wind.',
+          'I put my eye to the cold brass and wait',
+          'while the field swings slowly into place,',
+          'a room full of strangers turning to look.',
+        ],
+        [
+          'There. A grey thumbprint where no one has been.',
+          'Not bright. Not moving. Not, I am told, there.',
+          'I have written its number on my wrist in ink',
+          'and washed it off, and written it again.',
+        ],
+        [
+          'Angus brings the cocoa up the iron stair,',
+          'one cup held out at arm’s length for the light.',
+          'He looks, and says nothing, and looks again,',
+          'and the smudge does not move, and neither do I.',
+        ],
+      ],
+    },
+    second: {
+      title: 'Cloud Night',
+      poet: 'Angus Reid',
+      stanzas: [
+        [
+          'The sky has shut its door. We play cards',
+          'at the long table, and the loser must tell',
+          'the whole room what the stars look like.',
+        ],
+        [
+          'She gets Orion wrong, and we let her.',
+          'Outside the wind counts every window twice.',
+          'I fill the kettle. Somewhere up there, it is clear.',
+        ],
+      ],
+    },
+    note: 'Maren Solvang is senior astronomer at Halden Observatory and has tracked one comet for four winters. Angus Reid runs the night kettle in the Lantern House and has agreed to a first appearance in print, on condition that it is described as accidental.',
+    folio: '27',
+  },
+
   newsletter: {
     preheader: ['Three clear nights, one comet, one polite disagreement.', 'Best read under a blanket'],
     name: 'The Halden Dispatch',

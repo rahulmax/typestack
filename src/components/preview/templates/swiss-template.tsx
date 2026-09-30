@@ -1,38 +1,6 @@
 import { Grid3x3 } from "lucide-react";
 import type { PreviewTemplate } from "./types";
-
-// Sets each `.sw-giant` word so it spans its row exactly. Refits when the preview CSS,
-// the fonts or the window change, since the preview swaps styles without reloading.
-const fitScript = `
-<script>
-(function() {
-  function fit() {
-    document.querySelectorAll('.sw-giant').forEach(function(el) {
-      var word = el.firstElementChild;
-      if (!word) return;
-      word.style.fontSize = '100px';
-      var w = word.getBoundingClientRect().width;
-      if (!w) return;
-      word.style.fontSize = Math.max(40, Math.floor(100 * el.clientWidth / w * 0.99)) + 'px';
-    });
-  }
-  if (window.__swFitObserver) window.__swFitObserver.disconnect();
-  var styles = document.getElementById('typestack-styles');
-  if (styles) {
-    window.__swFitObserver = new MutationObserver(fit);
-    window.__swFitObserver.observe(styles, { childList: true, characterData: true, subtree: true });
-  }
-  if (!window.__swFitBound) {
-    window.__swFitBound = true;
-    window.addEventListener('resize', function() { window.__swFit && window.__swFit(); });
-    document.fonts.addEventListener('loadingdone', function() { window.__swFit && window.__swFit(); });
-  }
-  window.__swFit = fit;
-  fit();
-  document.fonts.ready.then(fit);
-})();
-</script>
-`;
+import { fitScript } from "./fit-script";
 
 export const swissTemplate: PreviewTemplate = {
   id: "swiss",
@@ -131,7 +99,7 @@ export const swissTemplate: PreviewTemplate = {
   </header>
 
   <div class="sw-giant-row">
-    <p class="display-1 sw-giant"><span>${c.giant}</span></p>
+    <p class="display-1 sw-giant" data-fit><span>${c.giant}</span></p>
     <h4 class="sw-aside">${c.aside[0]}<br />${c.aside[1]}</h4>
   </div>
 

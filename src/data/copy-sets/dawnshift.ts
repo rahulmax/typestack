@@ -324,6 +324,229 @@ export const dawnshift: CopySet = {
     footer: ['Dawn Shift, Tannery Row', 'Batch 12 / warm'],
   },
 
+  book: {
+    title: 'The Book of Pencil',
+    author: 'Bernadette Kowalczyk',
+    chapter: 'Four',
+    chapterTitle: 'The Note the Starter Ate',
+    epigraph: 'Write the debt in pencil. The bread you can be sure of, and the rest will rub out.',
+    epigraphSource: 'Old Sal, inside cover of the Tab',
+    verso: [
+      'At midnight I fed Doris, as I had every night for twenty-two years, and left the ledger open on the shelf beside her crock. Old Sal had asked me to copy one line into it before dawn: a name, a loaf, a date. I wrote it on a torn corner of flour sack and propped it against the jar to remember. I turned to fetch the scale. When I turned back the note was leaning in, and then it was in.',
+      'It went in slowly, the way a sleeper sinks into a good mattress, and the starter closed over it without a sound. I stood there with my sleeves rolled and a wooden spoon in my hand. Doris bubbled once, thoughtfully, like someone clearing her throat before an answer. Behind me the oven ticked as it heated, and Tunde’s bicycle bell rang somewhere out on the Row, and I said, aloud and quite calmly, that she owed me a name and a loaf and a date.',
+    ],
+    recto: [
+      'Tunde came in at half past twelve to photograph the proving racks and found me elbow-deep in the crock. I explained. He said he had seen most things in that kitchen, but never a woman interrogating a jar. I told him to hold the torch. We fished up nothing but flour and a faint smell of pencil, and the note, when it finally came up between my fingers, was a grey pulp with one letter still standing. It was an F.',
+      'There were four hundred and twelve loaves in the Tab, and I began at the top of the page and read my way down by the light of the oven door. Mrs Finch was there, of course, with the seeded loaf that had been carried forward since 2011. So were the man who paid in tomatoes, the twins who owed for a birthday cake, and a dentist who insisted his debt was a misunderstanding and kept adding to it.',
+      'Sal came down at four with her own mug and stood behind me reading over my shoulder, which she has never once done. She said the F was Finch, obviously, and the loaf was seeded, and the date was whichever day I liked, since nobody in the district had ever asked her for one. I said that was not how a ledger worked. She said it was exactly how this one worked, and that I should sit down before I fell into something.',
+    ],
+    afterBreak: 'At six Mrs Finch was on the step with her coat buttoned wrong and a small paper bag, which held a knitted egg cosy in the shape of a hen. She said it was the best she could do this month. I wrote it in pencil, carried the balance forward, and gave her the seeded loaf, still warm, with a dent in the side. I told her Doris had touched it, briefly, at midnight, and that she had probably read the note before I did.',
+    folios: ['58', '59'],
+  },
+
+  newspaper: {
+    name: 'The Row Herald',
+    motto: 'Tannery Row’s news, still warm',
+    dateline: ['Vol. LXVI, No. 9', 'Monday, 16 February', 'Free to those who owe'],
+    ears: ['Frost by four, thaw by nine', 'Inside: the mill answers back'],
+    lead: {
+      kicker: 'Neighbourhood',
+      headline: 'Bakery’s debt ledger passes four hundred loaves owed, and nobody minds',
+      deck: 'The Dawn Shift Tab stood at 412 loaves on Monday, the co-operative said. It has no plans to collect and some plans to celebrate.',
+      byline: 'By Kofi Mensah, Row Correspondent',
+      place: 'TANNERY ROW',
+      body: [
+        'The ledger of bread owed at the Dawn Shift bakery on Tannery Row recorded its four hundred and twelfth loaf on Monday, the co-operative confirmed. The book, known on the street as the Tab, has grown by an average of two loaves a week since 2011. The oldest entry is a seeded loaf owed by Mrs Odalys Finch, who was not available for comment because she was on the step, buying another.',
+        'Old Sal, the bakery’s longest-serving member and the keeper of the book, said the total was no cause for alarm and had been reached, by her count, entirely by accident. “The Tab is not a bill,” Sal said. “It is a list of who has been fed.” She said entries were written in pencil so that they could be forgiven, and that the pencil had been sharpened, on average, four times a day, usually by whoever was nearest the knife drawer.',
+        'Bernadette Kowalczyk, head baker, said the co-operative’s nine worker-owners had voted in January to keep the Tab open. She said the vote was taken at the long table over toast and passed with one abstention, from a member who had lost the toast and did not feel qualified to say. Kowalczyk added that no member had ever voted to close it. The bakery bakes two hundred loaves a night and gives away roughly a tenth of them at dawn.',
+        'Not everyone was pleased. A spokesman for Ostrander Mill, which supplies the bakery’s flour, said in a statement that the mill had noted the figure and would be raising its own prices in response. He would not say by how much, or when, or whether the word “response” had been chosen with care. Kowalczyk replied that the crew had a farm two counties away, a spare sack of rye, and no plans to stop baking.',
+      ],
+    },
+    quote: 'The Tab is not a bill. It is a list of who has been fed',
+    quoteSource: 'Old Sal',
+    second: {
+      kicker: 'Transport',
+      headline: 'Bicycle riders ask council for a bell lane on Tannery Row',
+      byline: 'By Femi Adebayo',
+      body: [
+        'The delivery riders of Dawn Shift have written to the council asking for a marked bell lane along the length of Tannery Row, between the bakery and the canal bridge. They say the road is used at 05.30 mostly by them and by cats.',
+        'A council officer said the request would be considered in the spring. Riders said they would keep ringing until then, and that the cats had been consulted and did not object.',
+      ],
+    },
+    index: [
+      { title: 'Births and bake sales', page: '3' },
+      { title: 'Letters', page: '6' },
+      { title: 'Market prices', page: '9' },
+      { title: 'Lost and found', page: '12' },
+      { title: 'Crossword, tea-stained', page: '16' },
+    ],
+    briefs: [
+      { headline: 'Bake-Off spoon to change hands', body: 'The wooden spoon awarded at the yearly street contest will pass to a new family in October, organisers said. The current holders deny the spoon was ever stolen. Judges will again be children, plus one grandmother.' },
+      { headline: 'Rye trial at the co-operative', body: 'Dawn Shift is testing a dark rye loaf on Thursdays with flour from a farm two counties away. Bakers describe the first batch as dense, honest and better than expected. Ostrander Mill declined to taste it.' },
+      { headline: 'Starter Lady Grey off her food', body: 'One of the bakery’s three living starters refused to rise on Friday and was moved to a warmer shelf. Staff said she is in a mood, not in danger. She has since resumed bubbling and is asking for no fuss.' },
+      { headline: 'Accordion returned to donor', body: 'An accordion paid to the bakery as part of a debt in 2019 has been sent back to its owner, Mrs Finch, who asked for it on Sunday. The ledger has noted the swap, and carried the balance forward, as usual.' },
+    ],
+  },
+
+  posters: {
+    a: {
+      top: 'Dawn Shift Co-operative presents',
+      title: 'The Great Bake-Off',
+      subtitle: 'Three trays each, judged by children',
+      details: ['Saturday 3 October, 14.00', 'The yard behind the bakery', 'Free, or paid in kind'],
+    },
+    b: {
+      word: 'Sourdough',
+      side: 'Fed at midnight, told the news at noon',
+      foot: ['Tannery Row, open all night', 'First loaf goes to whoever waits'],
+    },
+    c: {
+      numeral: '412',
+      unit: 'loaves',
+      title: 'Owed, and not chased',
+      body: 'Every name in the Tab is a household that has been fed. Come and read the ledger at the long table, add a line in pencil, and pay in soup, a favour or a song.',
+      corners: ['The Tab, page three', 'Every Monday, 18.00'],
+    },
+  },
+
+  sleeve: {
+    artist: 'The Proving Drawers',
+    album: 'Songs for a Slow Rise',
+    label: 'Pencil Records',
+    catalogue: 'DS-012',
+    year: '2019',
+    sideA: [
+      { title: 'Midnight Feed', time: '3:52' },
+      { title: 'Doris Is Not Impressed', time: '4:18' },
+      { title: 'Bread on Credit', time: '3:07' },
+      { title: 'Five Thirty on Two Wheels', time: '4:40' },
+    ],
+    sideB: [
+      { title: 'The Accordion Payment', time: '5:14' },
+      { title: 'Half Price at Dawn', time: '2:49' },
+      { title: 'Lady Grey’s Mood', time: '4:03' },
+      { title: 'Pencil', time: '3:31' },
+    ],
+    notes: 'Recorded in the bakery between the four o’clock bake and the first delivery, with the ovens on for warmth. The drums are two bread boards and a bench. The accordion belongs to Mrs Finch and is played on side two with her permission, and with some apprehension. Everyone sings the last chorus, including the starters.',
+    credits: ['Vocals: Bernie Kowalczyk', 'Accordion: Odalys Finch', 'Recorded by: Tunde Adebayo', 'Percussion: dough, bench, hand'],
+  },
+
+  menu: {
+    name: 'The Long Table',
+    tagline: 'Breakfast all night and supper at dawn',
+    hours: 'Open all night, shut for an hour at noon',
+    sections: [
+      {
+        title: 'From the oven',
+        note: 'Baked in the small hours',
+        items: [
+          { name: 'Seeded loaf', desc: 'Our oldest debt, with poppy, sesame and sunflower, still warm', price: '4' },
+          { name: 'Doris sourdough', desc: 'Long-proved, sharp crumb, a crust that fights back', price: '4.50' },
+          { name: 'Rye and caraway', desc: 'Dark, close and filling, from the farm two counties away', price: '5' },
+          { name: 'Morning buns', desc: 'Cardamom and brown sugar, out by six, gone by seven', price: '2.50' },
+        ],
+      },
+      {
+        title: 'At the table',
+        note: 'Served on the long bench',
+        items: [
+          { name: 'Toast and dripping', desc: 'Thick slice of yesterday’s loaf with beef dripping and salt', price: '3' },
+          { name: 'Night crew soup', desc: 'Whatever the crew had in the cupboard, with bread for the bowl', price: '5' },
+          { name: 'Fried egg roll', desc: 'A soft yolk, brown sauce, and a roll that is still rising', price: '4' },
+          { name: 'Cheese and pickle', desc: 'Sharp cheddar, onion pickle, a heel of the seeded loaf', price: '6' },
+        ],
+      },
+      {
+        title: 'To drink',
+        note: 'Refilled without asking',
+        items: [
+          { name: 'Builder’s tea', desc: 'Strong enough to stand a spoon in, poured from a big pot', price: '1.50' },
+          { name: 'Coffee', desc: 'Black, from a jug that has been on since midnight', price: '2' },
+          { name: 'Hot milk and honey', desc: 'For the ones who have to sleep in the morning', price: '2.50' },
+          { name: 'A glass of water', desc: 'Free, from the tap, and never refused', price: 'free' },
+        ],
+      },
+    ],
+    footer: ['Anything you cannot pay for today goes in the Tab, in pencil', 'The Long Table, Dawn Shift, Tannery Row'],
+  },
+
+  credits: {
+    presenter: 'Dawn Shift Co-operative presents',
+    title: 'The Seeded Loaf',
+    byline: 'A film by Tunde Adebayo',
+    cast: [
+      { role: 'The Baker', name: 'Bernie Kowalczyk' },
+      { role: 'The Debtor', name: 'Odalys Finch' },
+      { role: 'Keeper of the Tab', name: 'Sal Marchetti' },
+      { role: 'The Miller', name: 'Hugh Ostrander' },
+      { role: 'The Rider', name: 'Kofi Mensah' },
+      { role: 'The Starter', name: 'Doris, aged 22' },
+    ],
+    crew: [
+      { role: 'Written by', name: 'Bernie Kowalczyk' },
+      { role: 'Photography', name: 'Tunde Adebayo' },
+      { role: 'Editor', name: 'Ama Boateng' },
+      { role: 'Sound', name: 'Femi Adebayo' },
+      { role: 'Ledger by', name: 'Sal Marchetti' },
+      { role: 'Ovens', name: 'Marrow and Sons' },
+    ],
+    music: [
+      { title: 'Bread on Credit', credit: 'The Proving Drawers, Pencil Records' },
+      { title: 'The Accordion Payment', credit: 'Played by Mrs Finch, under protest' },
+    ],
+    thanks: ['The night crew of Tannery Row', 'Ostrander Mill, eventually', 'Every neighbour who owes', 'The starters, all three'],
+    closing: 'Carried forward',
+    legal: 'No loaf was harmed in the making of this film, and several were eaten before the end.',
+  },
+
+  poem: {
+    journal: 'The Proving Drawer',
+    issue: 'No. 11, Spring',
+    first: {
+      title: 'Feeding Doris',
+      poet: 'Bernadette Kowalczyk',
+      epigraph: 'midnight, flour, water, and the news of the day',
+      stanzas: [
+        [
+          'The crock lives on the top shelf like a small',
+          'grey lung. I lift the cloth and it exhales',
+          'an old sweet smell of beer and rising, and',
+          'a bubble breaks the surface, and I say hello.',
+        ],
+        [
+          'Two hundred grams of flour, the same of water,',
+          'the wooden spoon that has stirred her since 2004.',
+          'I tell her the mill has put its prices up.',
+          'She thinks about it, and rises a little.',
+        ],
+        [
+          'Outside, the street is asleep on its tanned hides,',
+          'dogs curled in doorways, the bicycles asleep in a row.',
+          'Only the oven door is awake, breathing orange,',
+          'and Doris, who has heard everything and forgives us.',
+        ],
+      ],
+    },
+    second: {
+      title: 'Tab, Page Three',
+      poet: 'Old Sal',
+      stanzas: [
+        [
+          'A line in pencil, a name, a loaf, a date.',
+          'The tomato man, paid in tomatoes, twice.',
+          'The dentist, still insisting it was a mistake.',
+        ],
+        [
+          'I have never rubbed one out. I sharpen the pencil,',
+          'and hold it above the page a while, and then',
+          'I write the next name, and put the kettle on.',
+        ],
+      ],
+    },
+    note: 'Bernadette Kowalczyk is head baker at Dawn Shift and has fed the same starter every midnight since 2004. Old Sal keeps the Tab, in pencil, and has agreed to be published on condition that nothing in it is corrected.',
+    folio: '19',
+  },
+
   newsletter: {
     preheader: ['Three loaves, one grudge, one very polite letter.', 'Best read with toast'],
     name: 'The Dawn Shift Crumbs',

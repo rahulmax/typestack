@@ -324,6 +324,229 @@ export const sorrel: CopySet = {
     footer: ['Grand Hotel Sorrel, Hollenbach', 'Vol. XI / open evenings'],
   },
 
+  book: {
+    title: 'Green Ink',
+    author: 'Odile Brandt',
+    chapter: 'Seven',
+    chapterTitle: 'The Guest Who Was Expected',
+    epigraph: 'The hotel forgets no one. It only waits to be asked.',
+    epigraphSource: 'Aurel Quill, guest book of 1961',
+    verso: [
+      'The snow began at four and by six the Little Goat had stopped halfway up, which Felix reported from the lower station in the calm voice of a man who has read the timetable and does not believe in it. We had eleven guests in the house and expected no one else. I was in the lobby with a torch and a list of everything that was wrong, and Mr Quill was at the desk, turning down the lamp.',
+      'At ten past seven the bell over the door rang, which it should not have done, since the door was locked and the road was closed. Mr Quill did not look up. He took a key from the hook, room 9, the one with the good radiator, and laid it on the blotter beside the green pen. Then he said, as if to the desk, that Mrs Amsel would be arriving by the funicular, and that she would want cocoa.',
+    ],
+    recto: [
+      'I stood with the torch pointing at the floor and heard, very far off, a brass bell ringing on a slope. It was the Little Goat, which had never in its life rung on the way down and was now, apparently, on its way up with someone in it. Felix telephoned from the station to say that the car was moving. He sounded offended, and asked me to write down the time, and to tell no one that he had been surprised.',
+      'She came in by the garden door, which I had bolted myself, at twenty to eight, with snow on her hat and a small case, and said good evening to Mr Quill before he could say it to her. He bowed. She had stayed at the Sorrel in 1959, she told me, for one night, in room 9, and had left in the morning without signing. She did not know why she had come back. She had woken that afternoon knowing the way.',
+      'Mr Quill opened the guest book at the ribbon he keeps for such occasions and turned it towards her. The green pen was already uncapped. I saw her hesitate over a line that had been left blank for sixty-five years, in a hand I knew to be his, and then I saw her sign. Her writing was small and level. I did not read it. That is a rule of the house, and I am, at least on paper, one of the people who keep it.',
+    ],
+    afterBreak: 'Later I asked him how he had known. He said that a hotel is a very long sentence, and that it is only polite to leave room at the end. Then he took the cocoa up himself. I sat in the lobby until the snow stopped, and at midnight the chandeliers came on in the ballroom one at a time, without anyone touching them, as if somebody were being announced. I did not go in. I have been told since that this is also a rule of the house.',
+    folios: ['112', '113'],
+  },
+
+  newspaper: {
+    name: 'The Alpine Post',
+    motto: 'News from the last village before the snow',
+    dateline: ['Vol. XC, No. 49', 'Friday, 4 December', 'One franc'],
+    ears: ['Snow: light, then a great deal more', 'Inside: the Little Goat explains itself'],
+    lead: {
+      kicker: 'The Sorrel',
+      headline: 'Six neon letters to be lit above the valley on Sunday',
+      deck: 'The rooftop sign of the Grand Hotel Sorrel has been dark for sixty years. The R, its owners admit, may take longer.',
+      byline: 'By Ansel Roth, Valley Correspondent',
+      place: 'HOLLENBACH',
+      body: [
+        'The rooftop sign of the Grand Hotel Sorrel will be lit on Sunday at dusk for the first time in sixty years, the hotel’s owners announced on Thursday. The six neon letters, which were switched off in the winter of 1964 and have stayed dark since, can be seen from three villages and, in clear weather, from the road to the pass. The switch-on was first planned for November and was put back by the weather, and then by the R.',
+        'Odile and Felix Brandt, the siblings who reopened the hotel last spring, said the work had taken eleven months and the help of a glassblower from Hollenbach, four electricians and a large number of volunteers holding ladders. Mr Brandt said the first test was carried out in October and was seen only by a pigeon, which left and has not been back. The glassblower had gone to lunch.',
+        'The last letter is the difficulty. The R has never held its glow for more than nine minutes, and the glassblower, Marta Fenn, said the fault lay in the tube and nowhere in the wiring. Ms Fenn said she would stay on the roof until it behaved. The Brandts said they had brought her a flask, and would bring a second if the wind rose, or if the glassblower asked for one, which she had not yet done.',
+        'Guests have been invited to watch from the ballroom terrace, and the Little Goat will run a special service from the valley station at half past four. Aurel Quill, the hotel’s concierge since 1958, said he remembered the sign on the last night it was lit and had not expected to see it again. Asked how he felt, he said the valley would be able to see for itself.',
+      ],
+    },
+    quote: 'For sixty years the valley has asked when we would switch it on. This is the answer',
+    quoteSource: 'Felix Brandt, co-owner',
+    second: {
+      kicker: 'Transport',
+      headline: 'Little Goat late again, citing weather',
+      byline: 'By Ansel Roth',
+      body: [
+        'The Little Goat funicular ran fourteen minutes late on Wednesday, its operators said, owing to weather it had views on. Passengers were offered coffee at the top and an apology from the driver, who said he had none to give.',
+        'The valley council has asked for a timetable. The operators said one existed and was under review. A meeting is planned for the spring, subject to the funicular.',
+      ],
+    },
+    index: [
+      { title: 'Snow reports', page: '2' },
+      { title: 'Letters', page: '4' },
+      { title: 'Valley notices', page: '7' },
+      { title: 'Hotel arrivals', page: '11' },
+      { title: 'Skating Club', page: '14' },
+    ],
+    briefs: [
+      { headline: 'Skating Club to open the lake', body: 'The lake ice has held at thirty centimetres and the Skating Club will open it on Saturday at ten. Members are asked to bring their own skates. The club’s measurer says the ice is sound, and has been down to look twice.' },
+      { headline: 'Valley Radio moves into the ballroom', body: 'Valley Radio will broadcast its Sunday evening programme from the Amber Ballroom, with a live piano. Listeners are asked to keep coughing to the intervals. The station said the chandeliers would not be audible.' },
+      { headline: 'Missing key found at the desk', body: 'A key to room 9 that went missing in 1961 was returned to the front desk of the Sorrel on Tuesday in an envelope with no name. Mr Quill said he had been expecting it, and hung it on the hook where it belongs.' },
+      { headline: 'Pass road to close at nine', body: 'The pass road will close from nine each evening until further notice while the snow barriers are mended. The valley station will keep a lamp lit and a bench free for anyone caught on the wrong side of the mountain.' },
+    ],
+  },
+
+  posters: {
+    a: {
+      top: 'Grand Hotel Sorrel presents',
+      title: 'The Last Waltz',
+      subtitle: 'An evening in the Amber Ballroom, lit anyway',
+      details: ['Thursday, 24 December, 18.00', 'Amber Ballroom, Hollenbach', 'Evening dress encouraged'],
+    },
+    b: {
+      word: 'Remember',
+      side: 'Every guest, by name and by hat',
+      foot: ['Front desk, open all hours', 'Green ink provided'],
+    },
+    c: {
+      numeral: '11',
+      unit: 'volumes',
+      title: 'The Guest Book',
+      body: 'Eleven volumes of names, jokes and things nobody meant to say, signed in green ink since 1926. Two proposals, one confession, one pigeon. Readable at the front desk, by request.',
+      corners: ['Front desk, Sorrel', 'Signed in green ink'],
+    },
+  },
+
+  sleeve: {
+    artist: 'The Amber Ballroom Orchestra',
+    album: 'Waltzes for a Funicular',
+    label: 'Green Ink Records',
+    catalogue: 'GI-011',
+    year: '1961',
+    sideA: [
+      { title: 'Arrival by Funicular', time: '3:40' },
+      { title: 'Room 214', time: '4:15' },
+      { title: 'The Green Pen', time: '2:58' },
+      { title: 'Waltz for Mr Quill', time: '5:22' },
+    ],
+    sideB: [
+      { title: 'The Sign Above the Valley', time: '4:48' },
+      { title: 'Cocoa at Ten', time: '3:10' },
+      { title: 'Eleven Volumes', time: '4:33' },
+      { title: 'Last Waltz, Lit Anyway', time: '6:02' },
+    ],
+    notes: 'Recorded live in the Amber Ballroom on three consecutive Saturdays, with the chandeliers lit and the guests asked to dance quietly. They did not. The clink of a sherry glass can be heard on track two, and the tenth bar of the last waltz is interrupted, as it always is, by the Little Goat arriving at the lower station.',
+    credits: ['Leader: Ottokar Weiss', 'Piano: Felix Brandt', 'Engineer: Odile Brandt', 'Sleeve: Aurel Quill, in green'],
+  },
+
+  menu: {
+    name: 'The Amber Room',
+    tagline: 'Supper as it was served in 1926, with better heating',
+    hours: 'Dinner from seven until the chandeliers tire',
+    sections: [
+      {
+        title: 'To begin',
+        note: 'Set out before you sit',
+        items: [
+          { name: 'Consommé Quill', desc: 'Clear beef broth, a spoon of sherry, served very hot', price: '9' },
+          { name: 'Smoked trout', desc: 'Valley trout, horseradish cream, rye toast', price: '13' },
+          { name: 'Ballroom soup', desc: 'Leek and potato, made for three hundred, served to one', price: '8' },
+          { name: 'Green ink salad', desc: 'Watercress, pear, walnut, a dressing the colour of the pen', price: '11' },
+        ],
+      },
+      {
+        title: 'To follow',
+        note: 'Cooked on the range since 1926',
+        items: [
+          { name: 'Roast venison', desc: 'Juniper, red cabbage, a dumpling, the sauce of the house', price: '28' },
+          { name: 'Little Goat pie', desc: 'Braised goat, carrots, a lid of pastry; arrives when ready', price: '22' },
+          { name: 'Mountain rösti', desc: 'Potato, bacon, a fried egg, mountain cheese', price: '16' },
+          { name: 'Room 214 sole', desc: 'Whole sole, brown butter, capers, boiled potatoes', price: '26' },
+        ],
+      },
+      {
+        title: 'To finish',
+        note: 'The chandeliers insist',
+        items: [
+          { name: 'Sorrel tart', desc: 'Lemon and sorrel custard in shortcrust, with cream', price: '9' },
+          { name: 'Mr Quill’s chocolate', desc: 'Dark, thick, and sent up on request at ten', price: '5' },
+          { name: 'Apple strudel', desc: 'Warm, with vanilla sauce, from the recipe in the kitchen drawer', price: '10' },
+          { name: 'A small sherry', desc: 'Amontillado, poured by the concierge, in a thimble', price: '6' },
+        ],
+      },
+    ],
+    footer: ['Guests are remembered; bills are settled on departure', 'The Amber Room, Grand Hotel Sorrel, Hollenbach'],
+  },
+
+  credits: {
+    presenter: 'Grand Hotel Sorrel presents',
+    title: 'Halfway Up',
+    byline: 'A film by Felix Brandt',
+    cast: [
+      { role: 'The concierge', name: 'Aurel Quill' },
+      { role: 'The sister', name: 'Odile Brandt' },
+      { role: 'The brother', name: 'Felix Brandt' },
+      { role: 'The guest, room 214', name: 'Beatrix Lindqvist' },
+      { role: 'The glassblower', name: 'Marta Fenn' },
+      { role: 'The Little Goat', name: 'Itself' },
+    ],
+    crew: [
+      { role: 'Written by', name: 'Odile Brandt' },
+      { role: 'Photography', name: 'Ansel Roth' },
+      { role: 'Editor', name: 'Greta Holm' },
+      { role: 'Music', name: 'Ottokar Weiss' },
+      { role: 'Neon', name: 'Marta Fenn' },
+      { role: 'Ladders', name: 'Felix Brandt' },
+    ],
+    music: [
+      { title: 'Waltz for Mr Quill', credit: 'The Amber Ballroom Orchestra, Green Ink Records' },
+      { title: 'Room 214', credit: 'Piano by Felix Brandt, recorded in the lobby' },
+    ],
+    thanks: ['The Skating Club', 'Valley Radio', 'Everyone in the guest book', 'The pigeon on the north gable'],
+    closing: 'Signed in green ink',
+    legal: 'No guests were harmed in the making of this film. One pigeon was consulted.',
+  },
+
+  poem: {
+    journal: 'The Green Ribbon',
+    issue: 'No. 9, Winter',
+    first: {
+      title: 'Room 214',
+      poet: 'Beatrix Lindqvist',
+      epigraph: 'after the third winter, for Mr Quill',
+      stanzas: [
+        [
+          'The radiator knocks twice, then explains itself.',
+          'Snow has taken the balcony rail and left',
+          'a white line where the iron was. In the glass',
+          'my coat hangs on a hook I did not choose.',
+        ],
+        [
+          'Downstairs the chandeliers are being lit',
+          'one at a time, and each one hums a note',
+          'the piano tuned itself to in 1958. I count',
+          'nine, ten. I put my hand flat on the wall.',
+        ],
+        [
+          'Somewhere a green pen is being uncapped.',
+          'There is a page with my name left blank',
+          'and cocoa on the sill, still warm, still warm,',
+          'and nobody in the corridor who brought it.',
+        ],
+      ],
+    },
+    second: {
+      title: 'Funicular',
+      poet: 'Odile Brandt',
+      stanzas: [
+        [
+          'Four hundred metres, eleven minutes, or fourteen.',
+          'The bench is wood, the bell is brass, the cable',
+          'sings like a wet finger round a glass rim.',
+        ],
+        [
+          'Halfway up we stop. The valley lights come on',
+          'in the order they were paid for. Nobody speaks.',
+          'The Goat considers, and then, kindly, climbs.',
+        ],
+      ],
+    },
+    note: 'Beatrix Lindqvist has stayed in room 214 every winter for thirty years and writes only there. Odile Brandt co-owns the Grand Hotel Sorrel and wrote her poem on the funicular, on the back of a laundry list, during a delay the operators call brief.',
+    folio: '18',
+  },
+
   newsletter: {
     preheader: ['Nine rooms, three dances, one very late funicular.', 'Read by the fire'],
     name: 'The Sorrel Dispatch',

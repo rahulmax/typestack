@@ -1179,7 +1179,7 @@
   flex: 1 1 0;
   align-items: center;
   gap: 0.45rem;
-  min-width: 5.25rem;
+  min-width: 2.25rem;
   max-width: 11rem;
   height: 2rem;
   margin-top: 0.375rem;
@@ -1198,6 +1198,20 @@
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+/* Too many tabs for their labels: idle tabs show only their icon, the label kept for screen readers */
+.pv-tabs[data-compact] .pv-tab:not([data-active]) {
+  flex: 0 0 auto;
+  justify-content: center;
+  width: 2.5rem;
+  padding: 0;
+}
+.pv-tabs[data-compact] .pv-tab:not([data-active]) > span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
 }
 .pv-tab:hover:not([data-active]) {
   background: color-mix(in oklab, var(--muted) 70%, transparent);
@@ -1221,6 +1235,8 @@
 }
 /* The active tab takes the page colours so it merges into the content below */
 .pv-tab[data-active] {
+  /* The active tab always shows its full name */
+  flex: 0 0 auto;
   z-index: 1;
   background: var(--pv-tab-bg, var(--background));
   color: var(--pv-tab-fg, var(--foreground));

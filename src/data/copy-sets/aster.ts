@@ -324,6 +324,229 @@ export const aster: CopySet = {
     footer: ['Port Aster Lido, Sun Terrace', 'Nr. 4 / high summer'],
   },
 
+  book: {
+    title: 'The Dawn Lane',
+    author: 'Marisol Quayle',
+    chapter: 'Six',
+    chapterTitle: 'Six Lengths Before Breakfast',
+    epigraph: 'Nobody has ever been sorry afterwards. That is what the tea is for.',
+    epigraphSource: 'Dot Farrow, poolside notice, 1988',
+    verso: [
+      'I was the last swimmer into the dawn lane that Tuesday, which was my own fault. The alarm had gone at five and I had switched it off with the calm of somebody making a decision. At the turnstile Marcus looked at the clock, looked at me, and slid a towel across the counter without a word. The water was eleven degrees. I know because he had chalked it on the board and underlined it, twice.',
+      'Dot was in the middle lane, swimming as she always does, as though the pool belonged to somebody who did not mind. She did not turn her head. Four other heads went up and down in their own lanes, and I lowered myself in from the steps an inch at a time, making the noise of somebody being told a price. The gulls on the harbour wall watched, and did not help. One of them stood on a single leg, which I took personally.',
+    ],
+    recto: [
+      'By the fourth length I had stopped feeling my feet, and by the sixth I had stopped minding. That is what nobody tells you. There is a point where the cold turns from an argument into a fact, and you swim on the far side of it with the light coming across the water and the gulls lined up on the wall like a jury that has already decided. Somewhere behind me the funfair was being wound awake.',
+      'At the deep end Dot was waiting, holding the rail, her cap pushed back. She said I was late, and that she had been about to send a search party, which would have been Marcus. I said the alarm had failed. She said alarms did, and that the water never had, and that I should tell Marcus, and hauled herself out in a single movement that I have thought about every morning since, usually while getting in.',
+      'In the café she poured tea from her thermos into the lid and pushed it over. It tasted of metal and sugar. The top board stood in the window above us, roped off, the paint peeling from its rail in long grey curls, and she looked at it for a while as you look at a dog that has been left outside. Then she asked whether I could hold a clipboard, and whether I had a pen, and whether I minded standing at the gate in the wind.',
+    ],
+    afterBreak: 'I said I could, and that I had a pen, and a spare. That was in April. By August I had four hundred signatures, a sunburnt neck and a standing appointment at six, and Dot had stopped saying I was late. She said I was early for the next one. Marcus wrote the water temperature on the board every morning, and every morning underlined it. I have never worked out which of them was being kind.',
+    folios: ['74', '75'],
+  },
+
+  newspaper: {
+    name: 'The Pier Post',
+    motto: 'Tide tables, gossip and the gull report',
+    dateline: ['Vol. LXXI, No. 27', 'Thursday, 18 June', 'Sixty pence'],
+    ears: ['Sea 14°C. Pool 19°C. Gulls: many', 'Inside: the top board decision'],
+    lead: {
+      kicker: 'The lido',
+      headline: 'Top board to reopen after eleven years, Friends confirm',
+      deck: 'The Friends of the Lido raised the last £4,000 on Sunday. The first jump will be decided by ballot.',
+      byline: 'By Nell Garrity, Harbour Correspondent',
+      place: 'PORT ASTER',
+      body: [
+        'The high diving board at Port Aster Lido will reopen on Saturday 25 July, eleven years after it was roped off, the Friends of the Lido confirmed on Wednesday. The board, ten metres of concrete and galvanised rail, was closed in 2015 on the advice of an engineer who said it was tired. It has since been inspected by a different engineer, who is said to be better rested.',
+        'The campaign passed its target on Sunday, when a raffle at the Deep End Café brought the total to £48,000. Hettie Marlowe, chair of the Friends, said the last four thousand pounds had come mostly in coins, from children and from a man who asked to be described only as a regular. Ms Marlowe said the cheque for the repair had been written on Monday and photographed.',
+        'The first jump will be decided by ballot, open to any member over sixteen, with the draw made at the shallow end at noon. Dot Farrow, who has swum the first length at the lido since 1971, said she had no wish to enter the draw and would watch from the steps with a flask and a good view. Asked whether she would ever jump, Ms Farrow said she was saving it.',
+        'Lifeguards will be stationed at the foot of the board throughout the opening day, and the café will serve hot chocolate from eleven, with towels on the steps. The council said it welcomed the reopening and had no objection, so long as nobody asked it to pay. A spokeswoman for the Friends said the council had been sent an invitation, and a towel, and had not replied to either.',
+      ],
+    },
+    quote: 'Ten metres is nothing. Eleven years of waiting was the hard part',
+    quoteSource: 'Hettie Marlowe, Friends of the Lido',
+    second: {
+      kicker: 'Harbour',
+      headline: 'Funfair wheel to turn until October',
+      byline: 'By Nell Garrity',
+      body: [
+        'The funfair beside the harbour wall will keep its big wheel turning until the end of October, its owners said, after a summer in which the wheel was stopped for fourteen minutes by a single seagull. The bird has not been identified.',
+        'Rides will cost a pound more from July. The owners said the increase covered the seagull.',
+      ],
+    },
+    index: [
+      { title: 'Tide tables', page: '2' },
+      { title: 'Letters', page: '4' },
+      { title: 'Swim times', page: '7' },
+      { title: 'Harbour notices', page: '11' },
+      { title: 'Lost and found', page: '14' },
+    ],
+    briefs: [
+      { headline: 'Robins to swim all winter again', body: 'The Robins will resume their Saturday swim on the first of October, water temperature permitting. Members are reminded that hats are compulsory, applause is voluntary, and the ladle for the ice remains in the café.' },
+      { headline: 'Rowing Club finishes second, happily', body: 'Aster Rowing Club finished second in Saturday’s harbour regatta, a full boat length behind Pell Marsh. The club said it was delighted with the result, and with the cake, which was from the Seagull Bakery and was very good.' },
+      { headline: 'Bakery to sell top board buns', body: 'Seagull Bakery will bake a bun in the shape of the top board from next week, with a share of every sale going to the repair fund. A spokeswoman said the bun would be tall, and would not survive being dropped from any height.' },
+      { headline: 'Turnstile to take cards from July', body: 'The lido turnstile will accept cards from July, ending sixty years of coins in a biscuit tin at the gate. Marcus at the café said he would miss the tin, and the sound it made, and had asked to be given it when it was finished.' },
+    ],
+  },
+
+  posters: {
+    a: {
+      top: 'The Friends of the Lido present',
+      title: 'The Top Board Jump',
+      subtitle: 'Ten metres, eleven years, one ballot',
+      details: ['Saturday, 25 July, 14.00', 'The Deep End, Port Aster Lido', 'Free, donations in the tin'],
+    },
+    b: {
+      word: 'Splash',
+      side: 'Fifty metres, open all year',
+      foot: ['Dawn lane, 06.00 daily', 'Tea at the Deep End Café'],
+    },
+    c: {
+      numeral: '11',
+      unit: 'years',
+      title: 'The Top Board',
+      body: 'Roped off in 2015, repaired by the town, reopened by ballot. Eleven years of looking at it from the shallow end, and one very short queue to go up. Bring a towel.',
+      corners: ['Port Aster Lido', 'Open since 1936'],
+    },
+  },
+
+  sleeve: {
+    artist: 'The Robins',
+    album: 'Songs from the Shallow End',
+    label: 'Deep End Records',
+    catalogue: 'DE-007',
+    year: '2019',
+    sideA: [
+      { title: 'Six O’Clock Lane', time: '3:34' },
+      { title: 'Forty Swimmers in Tile', time: '4:02' },
+      { title: 'Thermos', time: '2:49' },
+      { title: 'The Turnstile Waltz', time: '3:57' },
+    ],
+    sideB: [
+      { title: 'Eleven Summers, Roped Off', time: '5:11' },
+      { title: 'Robins in January', time: '3:26' },
+      { title: 'Ladle for the Ice', time: '2:38' },
+      { title: 'Last Length by Moonlight', time: '6:20' },
+    ],
+    notes: 'Recorded at the poolside over four dawns in February, with the water at seven degrees and the band in it up to the knees. The percussion is a locker door. The gulls on track six were not invited and are not credited, although one of them has since asked for a share of the royalties.',
+    credits: ['Vocals: Hettie Marlowe', 'Locker door: Marcus Bell', 'Engineer: Marisol Quayle', 'Sleeve: the Friends of the Lido'],
+  },
+
+  menu: {
+    name: 'The Deep End Café',
+    tagline: 'Strong tea, hot toasties and cake for the wet',
+    hours: 'Open from half past six until the last length',
+    sections: [
+      {
+        title: 'Breakfast',
+        note: 'Served to the dawn lane, in towels',
+        items: [
+          { name: 'Cheese toastie', desc: 'Cheddar and onion on Seagull Bakery white, pressed flat', price: '4.50' },
+          { name: 'Porridge', desc: 'Oats, salt, brown sugar, stirred until you are out of the water', price: '3.50' },
+          { name: 'Bacon bap', desc: 'Two rashers, brown sauce, a bap the size of a hand', price: '5' },
+          { name: 'Eggs on toast', desc: 'Poached, on the good bread, with a pepper mill on the table', price: '6' },
+        ],
+      },
+      {
+        title: 'Lunch',
+        note: 'For those who swam and those who meant to',
+        items: [
+          { name: 'Harbour chowder', desc: 'Smoked haddock, potato, sweetcorn, a roll on the side', price: '8' },
+          { name: 'Jacket potato', desc: 'Cheese and beans, or tuna. The jackets are large', price: '6.50' },
+          { name: 'Tiled salad', desc: 'Beetroot, feta, cucumber and pickled onion, cut into squares', price: '7' },
+          { name: 'Fish finger sandwich', desc: 'Three fingers, tartare sauce, white bread, no apology', price: '7.50' },
+        ],
+      },
+      {
+        title: 'Hot and sweet',
+        note: 'Served at the counter, in any weather',
+        items: [
+          { name: 'Tea, strong', desc: 'A big mug, and a second if you look cold', price: '1.80' },
+          { name: 'Hot chocolate', desc: 'Milk, dark chocolate, a marshmallow for the Robins', price: '3' },
+          { name: 'Top board cake', desc: 'Three layers of lemon sponge, iced white, very tall', price: '4.50' },
+          { name: 'Flapjack', desc: 'Oats and golden syrup, one square, wrapped for the walk home', price: '2.50' },
+        ],
+      },
+    ],
+    footer: ['Wet feet welcome; please sit on the towel provided', 'The Deep End Café, Port Aster Lido, harbour wall'],
+  },
+
+  credits: {
+    presenter: 'The Friends of the Lido present',
+    title: 'The First Length',
+    byline: 'A film by Marisol Quayle',
+    cast: [
+      { role: 'The swimmer', name: 'Dot Farrow' },
+      { role: 'The newcomer', name: 'Marisol Quayle' },
+      { role: 'The lifeguard', name: 'Marcus Bell' },
+      { role: 'The chair', name: 'Hettie Marlowe' },
+      { role: 'The engineer', name: 'Ivo Pratt' },
+      { role: 'The gull', name: 'A local gull' },
+    ],
+    crew: [
+      { role: 'Written by', name: 'Marisol Quayle' },
+      { role: 'Photography', name: 'Nell Garrity' },
+      { role: 'Editor', name: 'Tobias Reeve' },
+      { role: 'Sound', name: 'The Robins' },
+      { role: 'Tiles', name: 'Ottoline Reeve' },
+      { role: 'Towels', name: 'The Friends' },
+    ],
+    music: [
+      { title: 'Six O’Clock Lane', credit: 'The Robins, Deep End Records' },
+      { title: 'Last Length by Moonlight', credit: 'The Robins, recorded at seven degrees' },
+    ],
+    thanks: ['The dawn lane', 'Seagull Bakery', 'The Pier Post', 'Everyone who signed the petition'],
+    closing: 'Towels on the steps',
+    legal: 'No swimmers were harmed in the making of this film. Several were mildly chilled.',
+  },
+
+  poem: {
+    journal: 'The Lane Rope',
+    issue: 'No. 5, Summer',
+    first: {
+      title: 'Six O’Clock',
+      poet: 'Marisol Quayle',
+      epigraph: 'for Dot, first in, in the same blue costume',
+      stanzas: [
+        [
+          'The turnstile ticks like a small cold clock.',
+          'Marcus has chalked the temperature on the board',
+          'and underlined it, which is his way of saying',
+          'that he is sorry, and that he will see me in.',
+        ],
+        [
+          'Step, step, the rail is wet under my palm.',
+          'The water takes my ankles like a stern relative,',
+          'then my knees, then the small of my back,',
+          'and then I am no longer discussing it.',
+        ],
+        [
+          'Lane three: a cap, a pair of shoulders, a wake.',
+          'Gulls on the harbour wall in a row, judging.',
+          'Dot turns at the far end without looking, the way',
+          'you touch a light switch in your own house.',
+        ],
+      ],
+    },
+    second: {
+      title: 'The Top Board',
+      poet: 'Hettie Marlowe',
+      stanzas: [
+        [
+          'Eleven years the rail has held its breath',
+          'and the paint has come away in long grey curls',
+          'like the skin off something that was warm.',
+        ],
+        [
+          'On Saturday a child will climb the ladder',
+          'and stand there with her toes over the edge.',
+          'The whole town will look up and go quiet.',
+        ],
+      ],
+    },
+    note: 'Marisol Quayle swims in the dawn lane and keeps the logbook at Port Aster Lido. Hettie Marlowe chairs the Friends of the Lido and wrote her poem in the café, on the back of a raffle ticket, while waiting for the kettle.',
+    folio: '12',
+  },
+
   newsletter: {
     preheader: ['Nine lengths, three teas, one very cold Saturday.', 'Read with a towel'],
     name: 'The Aster Ripple',

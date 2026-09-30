@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { ALargeSmall, BookType, Minus, Plus, Smartphone, type LucideIcon } from "lucide-react";
 import { useUIStore, ZOOM_LEVELS, type PreviewTab } from "@/store/ui-store";
 import { useTypographyStore } from "@/store/typography-store";
@@ -30,6 +31,26 @@ export function BrowserChrome({ children }: BrowserChromeProps) {
   const pageFg = useTypographyStore((s) => s.bodyGroup.color);
   const isPage = !REACT_TABS.includes(activeTab);
 
+  // When every label can't fit, the idle tabs drop to icons rather than truncating to
+  // lookalikes ("New…", "New…"). Labels stay in the DOM (visually hidden), so they can
+  // still be measured to decide when there's room again.
+  const tabsRef = useRef<HTMLDivElement>(null);
+  const [compact, setCompact] = useState(false);
+  useEffect(() => {
+    const list = tabsRef.current;
+    if (!list) return;
+    const measure = () => {
+      const labels = [...list.querySelectorAll<HTMLElement>(".pv-tab > span")];
+      // icon + gap + padding per tab, plus the list's own padding
+      const needed = labels.reduce((sum, l) => sum + l.scrollWidth + 14 + 7 + 24, 16);
+      setCompact(needed > list.clientWidth);
+    };
+    const observer = new ResizeObserver(measure);
+    observer.observe(list);
+    measure();
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div
       className="mx-auto transition-all duration-300"
@@ -49,7 +70,12 @@ export function BrowserChrome({ children }: BrowserChromeProps) {
               <div className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
             </div>
           </div>
-          <div className="pv-tabs" role="tablist">
+          <div
+            ref={tabsRef}
+            className="pv-tabs"
+            role="tablist"
+            data-compact={compact ? "true" : undefined}
+          >
             {TABS.map(({ id, name, icon: Icon }) => (
               <button
                 key={id}

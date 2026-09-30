@@ -111,7 +111,7 @@ export function generatePreviewCSS(config: TypographyConfig): string {
   }
   lines.push(`#ill-hero > * { position: relative; z-index: 1; }`);
   const illVars = Object.entries(ill).map(([role, value]) => `--ill-${role}: ${value};`).join(" ");
-  lines.push(`:root { --bg-color: ${hexToOklchString(config.backgroundColor)}; --fg-color: ${hexToOklchString(config.bodyGroup.color)}; --tone-base: ${hexToOklchString(hc)}; ${illVars} }`);
+  lines.push(`:root { --bg-color: ${hexToOklchString(config.backgroundColor)}; --fg-color: ${hexToOklchString(config.bodyGroup.color)}; --tone-base: ${hexToOklchString(hc)}; --font-heading: ${getFontStack(config.headingsGroup.fontFamily)}; --font-body: ${getFontStack(config.bodyGroup.fontFamily)}; --weight-heading: ${config.headingsGroup.fontWeight}; ${illVars} }`);
   lines.push("");
 
   for (const style of desktop) {

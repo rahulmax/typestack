@@ -324,6 +324,229 @@ export const spoke: CopySet = {
     footer: ['Drizzle Derby, Dunmarrow', 'Nr. 10 / still raining'],
   },
 
+  book: {
+    title: 'The Short Book',
+    author: 'Priya Vance',
+    chapter: 'Four',
+    chapterTitle: 'Nine Yards and a Wedding',
+    epigraph: 'A gate is only locked until somebody leans on it the right way.',
+    epigraphSource: 'The Short Book, note to route 212',
+    verso: [
+      'My third week, Ines sent me to the Gasworks with a folder of conveyancing papers and the instruction to follow Juno. Juno did not wait. She took the first corner as though it had insulted her, and by the time I reached the bottom of the Steps she was a small yellow shape at the top, with the rain coming down between us in long grey rods. Ines had told me on the way out that Juno was easy to follow. She had not said for how long.',
+      'I carried the bike up. All one hundred and forty-one steps, shoulder first, folder inside my jacket, counting under my breath because the alternative was thinking. At the top Juno was sitting on a bollard eating a jelly baby. She held out the tin without a word. Later I understood that this was a test, and that I passed it by being too out of breath to say anything clever. The bike weighed what it always weighs, and I felt every gram.',
+    ],
+    recto: [
+      'The route from there was on no map I had been given. It went through a gap in the hoarding beside the gasworks office, across a yard where a man in a boiler suit lifted a hand without looking up, and down a passage so narrow that my handlebars scraped both walls. Juno called back that this was the Short Book, and that I should not write it down yet. It smelled of wet brick and somebody’s dinner.',
+      'We crossed a church car park, and then a garden, which she said was a car park in spring. A woman hanging out washing watched us go by and remarked, in the tone of somebody confirming a delivery, that we were early. It was twelve minutes past nine. The contract at Pell & Ashby had been due at nine, and I began to understand that early was a matter of opinion. Juno waved to her, and the woman waved back with a sock.',
+      'On Candle Hill the rain stopped so suddenly that the road steamed. Juno stood on her pedals and I stood on mine, and neither of us said anything for the length of a street. At the top she braked, looked at her watch, and asked whether I still thought the folder was the important thing. I said I did. She said that was the right answer, and the wrong one. Below us Dunmarrow lay wet and shining, and I could not have said which roof was the fish market.',
+    ],
+    afterBreak: 'Marguerite Ashby took the folder at the door, dripping onto the marble, and signed for it with a pen from her breast pocket. She did not ask why we were wet. On the pavement Juno keyed her radio and said “clear”, and Ines answered “copy”, and that was the whole ceremony. Riding back, she said I would write up the passage by the gasworks office for the Friday edition, and that it should be long enough to leave the gate as I found it. I signed nothing. I was, I think, hired.',
+    folios: ['58', '59'],
+  },
+
+  newspaper: {
+    name: 'The Dunmarrow Post',
+    motto: 'Delivered before it was printed',
+    dateline: ['Vol. CXIV, No. 262', 'Wednesday, 14 October', 'Sixty pence'],
+    ears: ['Rain: heavy, then heavier', 'Inside: Candle Hill closed, again'],
+    lead: {
+      kicker: 'Transport',
+      headline: 'Council to close Gasworks Steps for repairs, couriers unmoved',
+      deck: 'The 141 steps will be shut for nine weeks from Monday. Spoke Collective says it has already found the other way.',
+      byline: 'By Rhoda Pike, Transport Correspondent',
+      place: 'DUNMARROW',
+      body: [
+        'Dunmarrow City Council will close the Gasworks Steps for nine weeks from Monday, the highways committee confirmed yesterday, to replace 141 worn treads and a handrail that inspectors described in their report as “optimistic”. Work is expected to finish in the week before Christmas, weather permitting, which in Dunmarrow it usually does not. The committee voted unanimously, and then went to look at the Steps.',
+        'The Steps link Candle Hill with the river road and are used by an estimated four hundred pedestrians a day, and by considerably more couriers than the council has counted. Councillor Alan Trigg, who chairs the committee, said the closure was overdue and had been put off twice, once for the Drizzle Derby and once because nobody could find the key to the gate.',
+        'Spoke Collective, the riders’ co-operative based behind the fish market, said it was told of the closure on Tuesday and had already rerouted. Big Ines, the Collective’s dispatcher, said the Short Book listed four alternatives and that riders would use whichever was not being dug up. Juno Kessler, who has ridden the Steps most mornings for twenty-six years, said she would miss them.',
+        'Asked whether the detour would slow deliveries, Ines said clients would notice nothing, since their parcels were already due yesterday. The council has asked cyclists to dismount on the temporary boards. A spokesman for the Collective said riders would consider the request, and that the Short Book would be updated on Friday as usual, this time with a small cross.',
+      ],
+    },
+    quote: 'The council can shut the Steps. It cannot shut the yard behind the Steps',
+    quoteSource: 'Big Ines, dispatcher',
+    second: {
+      kicker: 'Workshop',
+      headline: 'Truing Stand named workshop of the year',
+      byline: 'By Tom Reddaway',
+      body: [
+        'The Truing Stand has been named workshop of the year by the regional cycle trade, after judges spent forty minutes at the bench and left with a wheel each. The prize is a brass spoke wrench and a certificate, both of which have since been mislaid.',
+        'Head mechanic Odd Larsen said the wheels were trued by ear and would stay that way. The certificate, he added, was believed to be on a shelf.',
+      ],
+    },
+    index: [
+      { title: 'Rain and river levels', page: '2' },
+      { title: 'Letters to Ines', page: '4' },
+      { title: 'Derby results', page: '8' },
+      { title: 'Lost and found', page: '11' },
+      { title: 'Workshop notices', page: '14' },
+    ],
+    briefs: [
+      { headline: 'Tramshed roof reopens after leak', body: 'The Tramshed roof has reopened after a leak that closed the forecourt for a fortnight. Organisers of the Drizzle Derby say the start line will stay where it is, and that the leak, being local, is welcome to enter.' },
+      { headline: 'Fish market moves half a street', body: 'The fish market will move forty yards downhill on Monday to make room for a bus turning circle. Traders say they are fine with it. Riders in the lock-up behind the market say the move is theirs to make, and have not been asked.' },
+      { headline: 'Lost: one spoke wrench, brass', body: 'A brass spoke wrench went missing from the Truing Stand on Friday. The Collective is offering a mug of tea and no questions to whoever returns it. It is thought to be in a coat, possibly Juno’s, possibly not.' },
+      { headline: 'Bus lane extended to Candle Hill', body: 'The bus lane on Candle Hill Road will be extended by three hundred metres from next month. Cyclists may use it. Buses, the council notes, may also use it, and the two are asked to agree between themselves who goes first.' },
+    ],
+  },
+
+  posters: {
+    a: {
+      top: 'Spoke Collective presents',
+      title: 'The Drizzle Derby',
+      subtitle: 'Four hundred and six gates, one wet morning',
+      details: ['Wednesday, 4 March, 06.30', 'Tramshed, Dunmarrow', 'Entry: one bike, one map'],
+    },
+    b: {
+      word: 'Uphill',
+      side: 'Every street runs up from the river',
+      foot: ['Base: the Truing Stand, 07.00', 'Tea for all comers'],
+    },
+    c: {
+      numeral: '406',
+      unit: 'shortcuts',
+      title: 'The Short Book',
+      body: 'Four hundred and six gates, gaps and stairways, checked every Friday by the riders who use them. Two of them are wrong and marked with a small cross. Please do not ask which.',
+      corners: ['Truing Stand, Dunmarrow', 'Updated every Friday'],
+    },
+  },
+
+  sleeve: {
+    artist: 'The Wet Weather Band',
+    album: 'Songs for the Last Drop',
+    label: 'Short Book Records',
+    catalogue: 'SB-031',
+    year: '2011',
+    sideA: [
+      { title: 'Copy', time: '2:41' },
+      { title: 'Gasworks Steps', time: '4:07' },
+      { title: 'Wet Juno', time: '3:52' },
+      { title: 'Rain Mode', time: '3:18' },
+    ],
+    sideB: [
+      { title: 'A Gate That Sticks', time: '3:36' },
+      { title: 'Candle Hill, Slowly', time: '5:14' },
+      { title: 'Nobody Timed It', time: '4:29' },
+      { title: 'Clear', time: '1:58' },
+    ],
+    notes: 'Recorded in the Truing Stand over three wet evenings, between repairs. The drums are a wheel rim and a biscuit tin. The radio on track one is real, and Ines had to be asked twice to stop answering it. The rain on side two came through the roof and was left in, along with the man who came to fix the roof.',
+    credits: ['Voice: Big Ines, on the radio', 'Drums: a wheel rim and a tin', 'Engineer: Priya Vance', 'Sleeve: the Truing Stand crew'],
+  },
+
+  menu: {
+    name: 'The Lock-Up',
+    tagline: 'Hot food for people arriving early and wet',
+    hours: 'Open from six until the last rider is clear',
+    sections: [
+      {
+        title: 'Before the run',
+        note: 'Eaten standing, in under four minutes',
+        items: [
+          { name: 'Bacon roll', desc: 'Thick-cut, brown sauce, wrapped in foil for the saddle', price: '4' },
+          { name: 'Porridge', desc: 'Oats, salt, a spoon of golden syrup, a great deal of heat', price: '3' },
+          { name: 'Burnt toast', desc: 'Two slices of the Kiln Bakery loaf, done on the workshop grill', price: '2.50' },
+          { name: 'Egg butty', desc: 'Fried, runny, and gone before it drips', price: '4.50' },
+        ],
+      },
+      {
+        title: 'After the run',
+        note: 'Sat down, with feeling',
+        items: [
+          { name: 'Market chowder', desc: 'Smoked haddock, potato, cream, bread to mop the bowl', price: '7' },
+          { name: 'Ginnel pie', desc: 'Steak and ale under a lid of pastry, with mash', price: '9' },
+          { name: 'Hill soup', desc: 'Whatever is left, thickened, served in a mug', price: '4' },
+          { name: 'Dispatch stew', desc: 'Lamb, barley, carrots. Ines’s recipe, so no changes', price: '8.50' },
+        ],
+      },
+      {
+        title: 'To drink',
+        note: 'Refills at the counter, no questions',
+        items: [
+          { name: 'Workshop tea', desc: 'Brewed strong enough to stand a spoon in', price: '1.50' },
+          { name: 'Jelly baby cocoa', desc: 'Hot chocolate with a jelly baby on the side, for emergencies', price: '3' },
+          { name: 'Drizzle ale', desc: 'Brown ale from the brewery behind the Tramshed', price: '4.50' },
+          { name: 'Thermos fill', desc: 'Bring your flask and we will fill it to the neck', price: '2' },
+        ],
+      },
+    ],
+    footer: ['Wet jackets on the hooks, wet bikes in the yard', 'The Lock-Up, behind the fish market, Dunmarrow'],
+  },
+
+  credits: {
+    presenter: 'Spoke Collective presents',
+    title: 'Clear Before Posting',
+    byline: 'A film by Priya Vance',
+    cast: [
+      { role: 'Wet Juno', name: 'Juno Kessler' },
+      { role: 'Dispatch', name: 'Ines Duarte' },
+      { role: 'The new rider', name: 'Priya Vance' },
+      { role: 'The solicitor', name: 'Marguerite Ashby' },
+      { role: 'The man in the yard', name: 'Odd Larsen' },
+      { role: 'The dog by the gate', name: 'Biscuit the Dog' },
+    ],
+    crew: [
+      { role: 'Written by', name: 'Priya Vance' },
+      { role: 'Photography', name: 'Tom Reddaway' },
+      { role: 'Editor', name: 'Rhoda Pike' },
+      { role: 'Sound', name: 'Odd Larsen' },
+      { role: 'Bicycles', name: 'The Truing Stand' },
+      { role: 'Rain', name: 'Supplied locally' },
+    ],
+    music: [
+      { title: 'Gasworks Steps', credit: 'The Wet Weather Band, Short Book Records' },
+      { title: 'Clear', credit: 'Written by Big Ines, sung at the base' },
+    ],
+    thanks: ['The fish market traders', 'Everyone who left a gate open', 'The Tramshed', 'The dog by the church car park'],
+    closing: 'Copy. Clear.',
+    legal: 'No parcels were delayed in the making of this film. Several were early.',
+  },
+
+  poem: {
+    journal: 'The Ginnel Review',
+    issue: 'No. 12, Spring',
+    first: {
+      title: 'Gasworks Steps',
+      poet: 'Priya Vance',
+      epigraph: 'for Juno, who did not look down',
+      stanzas: [
+        [
+          'A hundred and forty-one, and the bike on my shoulder',
+          'like a sleeping child that will not be put down.',
+          'The rain comes in sideways off the gasholder.',
+          'Somebody above me is eating a sweet.',
+        ],
+        [
+          'Each tread has a dip worn in it, a cupped hand',
+          'where forty years of couriers put a foot',
+          'and thought about something else: a client, a wedding,',
+          'a tin of jelly babies held out at the top.',
+        ],
+        [
+          'At the top the city lies flat and wet,',
+          'every roof a slate, every gutter running.',
+          'I put the bike down. My shoulder goes on carrying it',
+          'and the steps go on descending without me.',
+        ],
+      ],
+    },
+    second: {
+      title: 'Truing',
+      poet: 'Odd Larsen',
+      stanzas: [
+        [
+          'You spin it and listen. The wheel says',
+          'where it is wrong, in a small dry tick',
+          'against the callipers, like a clock with one bad tooth.',
+        ],
+        [
+          'A quarter turn of the spoke key. Another. The tick',
+          'thins to a hush. Somebody puts the kettle on.',
+          'Outside a rider shouts the word for done.',
+        ],
+      ],
+    },
+    note: 'Priya Vance rides for Spoke Collective and keeps the Short Book. Odd Larsen has trued wheels at the Truing Stand for forty years and never used a gauge. Both poems were written on dispatch slips, some of which are still being returned.',
+    folio: '31',
+  },
+
   newsletter: {
     preheader: ['Nine runs, three shortcuts, one very wet apology.', 'Read on the bus'],
     name: 'The Spoke Bulletin',

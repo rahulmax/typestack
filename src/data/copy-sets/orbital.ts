@@ -324,6 +324,229 @@ export const orbital: CopySet = {
     footer: ['Orbital Line, Halvern', 'Nr. 27 / after dark'],
   },
 
+  book: {
+    title: 'Ninety-Four Minutes',
+    author: 'Priya Halloran',
+    chapter: 'Nine',
+    chapterTitle: 'The Seat Behind the Driver',
+    epigraph: 'Passengers are reminded that the driver has seen everything and will not mention it.',
+    epigraphSource: 'Notice, Depot Four canteen',
+    verso: [
+      'The 00:41 from Tallow Yard was nearly empty, which is how I came to notice the seat. It sat directly behind the driver, upholstered in the same grey moquette as the rest and worn a little paler in the middle. Nobody had put a bag on it, a coat on it, or a foot. Two students shared one pair of headphones, a baker slept against a window, and the seat waited, the way a chair waits at a table where someone is late.',
+      'I had ridden Line 9 for eleven months, since the night my sister moved away and I stopped being able to sleep. The driver, a broad man with a flask wedged in the door pocket, said good evening to every passenger by name if he had it and by a nod if he did not. At Ninth Bridge the bus stopped where there was no sign. The doors opened. The lamp above the shelter was lit. Nobody got on. He waited, then said thank you, quietly, and closed the doors.',
+    ],
+    recto: [
+      'I put my hand on the seat as we pulled away. It was warm. I want to be exact about this, because I have told the story badly since. It was the warmth a seat has a minute after someone has stood up, and nothing like a heater, which comes up through the floor of a bus and smells of dust. The seat stayed warm for the whole of the next stop, and the one after that, until I took my hand away.',
+      'At Kestrel Hospital a nurse got on, Dolores, who has nodded at me for years, and she did not look at the seat at all. She sat across the aisle and opened a paperback. When I asked her, at the Saltglass turn, whether she had ever sat behind the driver, she said no, and then, after a while, that she had once been going to. Her stop came up. She rang the bell once, and as she passed she touched the back of that seat the way you touch a doorframe.',
+      'The driver caught my eye in the long mirror and did not seem to mind being caught. Later he told me his name was Imre Vasko, that he had driven the Loop for twenty-two years, and that the seat had been like that when he arrived. The depot had tried to reupholster it in the spring. The new cover was returned by Thursday, folded, with a note in an unfamiliar hand saying it was not necessary.',
+    ],
+    afterBreak: 'I got off one stop early that night, on a street I had somehow never noticed, because I wanted to walk the last part. The lamp there was lit. The sign said nothing. I stood under it for a while with my hands in my pockets, listening to the Loop pull away, its amber light going small down the road, and it took me until the door of my building to understand that I had not looked at a map once.',
+    folios: ['112', '113'],
+  },
+
+  newspaper: {
+    name: 'The Halvern Owl',
+    motto: 'Published after the last tram',
+    dateline: ['Vol. XXXI, No. 312', 'Thursday, 12 November', 'Sixty pence'],
+    ears: ['Light rain; fog at Ninth Bridge', 'Inside: your umbrella, found'],
+    lead: {
+      kicker: 'Transit',
+      headline: 'Authority proposes extending Line 9 sixty metres to close the Loop',
+      deck: 'Drivers say the gap is a courtesy. Engineers say it is a rounding matter. Passengers were not consulted, and said so.',
+      byline: 'By Sunil Aris, Transport Correspondent',
+      place: 'HALVERN',
+      body: [
+        'The Halvern Transit Authority proposed on Wednesday to extend Line 9 by sixty metres so that the night bus finally closes its loop at Tallow Yard, ending a shortfall that has stood since the route opened in 1998. A consultation opens on Monday and runs for ninety days. The Authority said the work would cost about two million pounds and take one weekend.',
+        'Drivers were unenthusiastic. Imre Vasko, who has driven the Loop for twenty-two years, said the gap was part of the route. “You get off a street from home, and you walk the last bit, and the city lets you down gently,” he said. Vasko said he would drive the extended line if asked, and would say good evening to it as usual. He added that the bus had not been consulted either.',
+        'A spokeswoman for the Authority, Ines Corvane, said engineers had long described the shortfall as drift and treated it as a rounding matter. She said the plan was not driven by complaints. “Nobody has ever complained about the gap,” Corvane said. “That is the difficulty. We have been unable to find anyone who minds.” Asked whether the plan could still change, she said the Authority would consider all views before proceeding.',
+        'Riders were divided. Dolores Kwan, a night nurse at Kestrel Hospital, said she had used Line 9 for fifteen years and would miss the walk. Two students at Ninth Bridge said they had not noticed a gap in nine months of riding. The Authority said the consultation would be held in the Depot Four canteen, between the late shift and the early one, and tea would be served.',
+      ],
+    },
+    quote: 'You get off a street from home, and you walk the last bit, and the city lets you down gently',
+    quoteSource: 'Imre Vasko, driver of Line 9',
+    second: {
+      kicker: 'Lost property',
+      headline: 'Trombone claimed after six years on shelf three',
+      byline: 'By Tess Marlow',
+      body: [
+        'A trombone left on a Line 9 bus in 2019 was claimed on Thursday at the Lost Property Office in Depot Four. The owner, a retired bandsman, said he had given it up for lost and taken up the cornet. Clerk Marek Doyle said the trombone had been dusted every Friday.',
+        'Doyle said the instrument had been kept beside a small calm umbrella, which has also waited six years. Anyone who recognises it may apply in person. Claimants are asked to describe the umbrella first, and to be prepared to be believed.',
+      ],
+    },
+    index: [
+      { title: 'Timetable changes', page: '2' },
+      { title: 'Night shift letters', page: '5' },
+      { title: 'Depot Four notices', page: '8' },
+      { title: 'Lost property', page: '11' },
+      { title: 'Weather and fog', page: '14' },
+    ],
+    briefs: [
+      { headline: 'Amber bell to be retuned', body: 'The Authority will retune the amber bell on every bus half a step lower. Drivers said they would not notice. Regulars said they would. The change will be trialled first on the Airport Owl, which nobody has ever heard ring.' },
+      { headline: 'Ninth Bridge stop still unsigned', body: 'The stop at Ninth Bridge will stay unsigned after a survey found no record of who would sign for it. The shelter lamp, which no depot maintains, was again found lit on Tuesday. The Authority thanked whoever is responsible.' },
+      { headline: 'Market Runner adds early departure', body: 'Line 22 adds a 03:40 departure to Tallow Market from Monday, at the request of bakers, for whom the 04:10 is too late. Vendors are asked to keep flour off the seats. Drivers are asked to say nothing about the smell of bread.' },
+      { headline: 'Night pass fares held for winter', body: 'Night pass fares will stay unchanged through the winter, the Authority announced. A pass remains valid from dusk until the last tram bell, which the Authority again declined to define beyond noting that it rings.' },
+    ],
+  },
+
+  posters: {
+    a: {
+      top: 'Depot Four presents',
+      title: 'The Last Departure',
+      subtitle: 'Ninety-four minutes, thirty-eight stops, no end',
+      details: ['Sunday, 1 November, 00.41', 'Tallow Yard, Halvern', 'Fare: one night pass'],
+    },
+    b: {
+      word: 'Drift',
+      side: 'Sixty metres short of home',
+      foot: ['Line 9, every eleven minutes', 'Or every twelve, by courtesy'],
+    },
+    c: {
+      numeral: '94',
+      unit: 'minutes',
+      title: 'One full loop',
+      body: 'Thirty-eight stops around the whole of Halvern, ending on a street a little way from where you began. Bring a flask. Please do not eat anything louder than an apple.',
+      corners: ['Depot Four, Halvern', 'Ring the bell once'],
+    },
+  },
+
+  sleeve: {
+    artist: 'The Back Row',
+    album: 'Approximately Closed',
+    label: 'Grey Card Records',
+    catalogue: 'GC-009',
+    year: '2016',
+    sideA: [
+      { title: 'Tallow Yard, 00:41', time: '3:41' },
+      { title: 'Good Evening to the Bus', time: '4:08' },
+      { title: 'Ninth Bridge', time: '5:26' },
+      { title: 'Amber Bell', time: '2:37' },
+    ],
+    sideB: [
+      { title: 'The Seat Behind the Driver', time: '4:44' },
+      { title: 'Single Gloves', time: '3:19' },
+      { title: 'Drift', time: '6:02' },
+      { title: 'Last Tram Bell', time: '3:33' },
+    ],
+    notes: 'Recorded on the top deck of bus 9-114 during three consecutive loops of Line 9, with the interior lights dimmed and the amber bell left as it was found. The band played to the empty seats and the driver’s mirror. The last track ends where the first began, give or take sixty metres, which the band considers a fair take.',
+    credits: ['Vocals: Dolores Kwan', 'Violin: Sam Tarrant', 'Bass: Imre Vasko', 'Recorded by: Marek Doyle'],
+  },
+
+  menu: {
+    name: 'Ninth Bridge Café',
+    tagline: 'Hot food for people between buses',
+    hours: '23:00 until the first morning tram',
+    sections: [
+      {
+        title: 'From the grill',
+        note: 'Until four, while the bus is still warm',
+        items: [
+          { name: 'Nurse’s omelette', desc: 'Three eggs, cheese, black pepper, done in the time it takes to change shift', price: '6.50' },
+          { name: 'Depot bacon roll', desc: 'Streaky bacon, soft white roll, brown sauce on request', price: '4.50' },
+          { name: 'Market Runner fry-up', desc: 'Sausage, egg, beans, black pudding, toast; the bakers order it twice', price: '8' },
+          { name: 'Loop soup', desc: 'Whatever went round again. Tonight, lentil and smoked ham', price: '4' },
+        ],
+      },
+      {
+        title: 'From the counter',
+        note: 'Cold, quick and fine for a short stop',
+        items: [
+          { name: 'Ninth Bridge pastry', desc: 'From the Tallow Market baker, still faintly warm from the oven', price: '2.20' },
+          { name: 'Cheese and pickle', desc: 'Thick white bread, sharp cheddar, cut in half for the top deck', price: '3.80' },
+          { name: 'An apple', desc: 'The permitted snack. The driver’s handbook says so, chapter nine', price: '0.80' },
+          { name: 'Grey card flapjack', desc: 'Oats and syrup, cut square, wrapped in grey card', price: '2' },
+        ],
+      },
+      {
+        title: 'To drink',
+        note: 'Flasks refilled at half price',
+        items: [
+          { name: 'Black tea', desc: 'Builder’s, from the urn, strong enough to wait for', price: '1.50' },
+          { name: 'Flask refill', desc: 'Bring your own flask and we will fill it, no questions asked', price: '1.20' },
+          { name: 'Hot chocolate', desc: 'Milk, dark cocoa, thick enough to stand a spoon in', price: '2.80' },
+          { name: 'Amber ale', desc: 'One half pint, for passengers only, never for drivers', price: '3.50' },
+        ],
+      },
+    ],
+    footer: ['Umbrellas left here are logged, labelled and returned', 'Ninth Bridge Café, under the lamp, Halvern'],
+  },
+
+  credits: {
+    presenter: 'Depot Four presents',
+    title: 'The Warm Seat',
+    byline: 'A film by Priya Halloran',
+    cast: [
+      { role: 'The driver', name: 'Imre Vasko' },
+      { role: 'The rider', name: 'Nadia Voss' },
+      { role: 'The nurse', name: 'Dolores Kwan' },
+      { role: 'The baker', name: 'Petra Lund' },
+      { role: 'The clerk', name: 'Marek Doyle' },
+      { role: 'The seat', name: 'Itself' },
+    ],
+    crew: [
+      { role: 'Written by', name: 'Priya Halloran' },
+      { role: 'Photography', name: 'Marek Doyle' },
+      { role: 'Editor', name: 'Sam Tarrant' },
+      { role: 'Sound', name: 'The Back Row' },
+      { role: 'Timetables', name: 'Halvern Transit Authority' },
+      { role: 'Bus', name: 'No. 9-114' },
+    ],
+    music: [
+      { title: 'Tallow Yard, 00:41', credit: 'The Back Row, Grey Card Records' },
+      { title: 'Last Tram Bell', credit: 'Written by Sam Tarrant, played on a saw' },
+    ],
+    thanks: ['The drivers of Depot Four', 'Ninth Bridge Café', 'Kestrel Hospital night staff', 'The Lost Property Office'],
+    closing: 'Home, eventually',
+    legal: 'No buses were late in the making of this film. Several were early.',
+  },
+
+  poem: {
+    journal: 'The Late Bus Review',
+    issue: 'No. 27, Late Autumn',
+    first: {
+      title: 'Seat Behind the Driver',
+      poet: 'Priya Halloran',
+      epigraph: 'for the one seat nobody takes',
+      stanzas: [
+        [
+          'Past midnight the bus fills with the people',
+          'who do not have to be anywhere. The baker',
+          'sleeps against her own flour. Two students',
+          'share one pair of headphones like a cigarette.',
+        ],
+        [
+          'The seat behind the driver keeps its shape.',
+          'Grey moquette worn pale where a back would go,',
+          'and warm, when I put my palm there, as a stair',
+          'is warm after the last person has climbed it.',
+        ],
+        [
+          'At Ninth Bridge the doors open on an empty lamp.',
+          'He waits the length of a breath, says thank you,',
+          'and pulls out slowly, the way you leave a room',
+          'where somebody is sleeping.',
+        ],
+      ],
+    },
+    second: {
+      title: 'Lost Property, Shelf Three',
+      poet: 'Marek Doyle',
+      stanzas: [
+        [
+          'One trombone, six years. A single glove',
+          'in the shape of a hand still waving.',
+          'An umbrella furled like a bird that has decided.',
+        ],
+        [
+          'Every Friday I dust them and write the date',
+          'on a tag in pencil, and every Friday',
+          'the shelf is a little more like a small town.',
+        ],
+      ],
+    },
+    note: 'Priya Halloran rides Line 9 most nights and has never reached the end of it. Marek Doyle has kept the Lost Property Office at Depot Four for nineteen years and can describe your umbrella before you do. This is his first poem, and he says it took one Friday.',
+    folio: '18',
+  },
+
   newsletter: {
     preheader: ['Three routes, one umbrella, a small apology.', 'View in browser'],
     name: 'The Night Bulletin',
