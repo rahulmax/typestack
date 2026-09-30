@@ -182,6 +182,8 @@ interface PreviewIframeProps {
   mobile?: boolean;
   /** Content width (px) to keep clear of the phone overlay; null when the phone is hidden. */
   phoneRoom?: number | null;
+  /** Magnification. The page keeps its layout width and is scaled, so nothing reflows. */
+  zoom?: number;
 }
 
 // Width of the phone overlay plus a gap, measured from the iframe's right edge
@@ -219,7 +221,7 @@ function buildDoc(css: string, bodyHTML: string, fontLinks: string[], mobile?: b
 </html>`;
 }
 
-export function PreviewIframe({ bodyHTML, mobile, phoneRoom }: PreviewIframeProps) {
+export function PreviewIframe({ bodyHTML, mobile, phoneRoom, zoom = 1 }: PreviewIframeProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const css = usePreviewStyles();
   const headingFont = useTypographyStore((s) => s.headingsGroup.fontFamily);
@@ -324,14 +326,34 @@ export function PreviewIframe({ bodyHTML, mobile, phoneRoom }: PreviewIframeProp
     setupEditableListeners(doc, colorsRef, handleElementFocus);
   };
 
-  return (
+  const iframe = (
     <iframe
       ref={iframeRef}
       srcDoc={built.html}
-      className="h-full w-full border-0"
-      style={mobile ? undefined : { minHeight: "calc(100vh - 10rem)" }}
+      className={mobile ? "h-full w-full border-0" : "absolute left-0 top-0 border-0"}
+      style={
+        mobile
+          ? undefined
+          : {
+              // Laid out at the frame's width and height, then scaled to the zoom
+              width: `${100 / zoom}%`,
+              height: `${100 / zoom}%`,
+              transform: zoom === 1 ? undefined : `scale(${zoom})`,
+              transformOrigin: "0 0",
+            }
+      }
       title="Typography Preview"
       onLoad={handleLoad}
     />
+  );
+  if (mobile) return iframe;
+
+  // The sizer takes the zoomed size: centred when smaller than the frame, scrolled sideways when larger
+  return (
+    <div className="overflow-x-auto overflow-y-hidden" style={{ height: "calc(100vh - 10rem)" }}>
+      <div className="relative mx-auto h-full overflow-hidden" style={{ width: `${zoom * 100}%` }}>
+        {iframe}
+      </div>
+    </div>
   );
 }

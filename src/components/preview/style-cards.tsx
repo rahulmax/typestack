@@ -251,8 +251,10 @@ function GlyphGrid({
   )
 }
 
-export function StyleCards() {
-  const { desktop } = useComputedScale()
+/** `mobile` draws it at the mobile scale, for the phone preview. */
+export function StyleCards({ mobile = false }: { mobile?: boolean }) {
+  const computed = useComputedScale()
+  const desktop = mobile ? computed.mobile : computed.desktop
   const backgroundColor = useTypographyStore((s) => s.backgroundColor)
   const headingsGroup = useTypographyStore((s) => s.headingsGroup)
   const bodyGroup = useTypographyStore((s) => s.bodyGroup)

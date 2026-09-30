@@ -3,9 +3,10 @@
 import { create } from "zustand";
 import { pickCopyIndex } from "@/data/copy-sets";
 
-// "mobile" = the laptop preview with a phone overlay on top
-export type ViewportSize = "scale" | "style" | "laptop" | "mobile";
+// The first two tabs are rendered by React; the rest are HTML pages in an iframe.
 export type PreviewTab =
+  | "scale"
+  | "specimen"
   | "website"
   | "blog"
   | "magazine"
@@ -16,9 +17,15 @@ export type PreviewTab =
 export const GRID_PATTERN_TYPES = ["square", "dots", "plus", "tallrect", "diagonal", "crosshatch", "hlines", "diamond"] as const;
 export type GridPatternType = (typeof GRID_PATTERN_TYPES)[number] | null;
 
+/** Zoom steps for the page tabs */
+export const ZOOM_LEVELS = [0.5, 0.67, 0.75, 0.9, 1, 1.1, 1.25, 1.5, 2] as const;
+
 interface UIStore {
-  viewport: ViewportSize;
   activeTab: PreviewTab;
+  /** The phone preview, shown over any tab */
+  phone: boolean;
+  /** Magnification of the page tabs; the page keeps its layout width */
+  zoom: number;
   expandedElement: string | null;
   currentStackId: string | null;
   currentStackName: string | null;
@@ -32,7 +39,9 @@ interface UIStore {
   /** Which copy set the previews are written in; rerolled with colours and stacks. */
   copyIndex: number;
 
-  setViewport: (viewport: ViewportSize) => void;
+  togglePhone: () => void;
+  stepZoom: (dir: 1 | -1) => void;
+  resetZoom: () => void;
   setActiveTab: (tab: PreviewTab) => void;
   setExpandedElement: (element: string | null) => void;
   setCurrentStack: (id: string | null, name: string | null) => void;
@@ -47,16 +56,10 @@ interface UIStore {
   rollCopy: () => void;
 }
 
-export const VIEWPORT_WIDTHS: Record<ViewportSize, string> = {
-  scale: "100%",
-  style: "100%",
-  laptop: "1440px",
-  mobile: "375px",
-};
-
 export const useUIStore = create<UIStore>()((set) => ({
-  viewport: "scale",
-  activeTab: "website",
+  activeTab: "scale",
+  phone: false,
+  zoom: 1,
   expandedElement: null,
   currentStackId: null,
   currentStackName: null,
@@ -69,7 +72,14 @@ export const useUIStore = create<UIStore>()((set) => ({
   patternSpacing: 0,
   copyIndex: 0,
 
-  setViewport: (viewport) => set({ viewport }),
+  togglePhone: () => set((state) => ({ phone: !state.phone })),
+  stepZoom: (dir) =>
+    set((state) => {
+      const i = ZOOM_LEVELS.findIndex((z) => z >= state.zoom - 0.001);
+      const next = ZOOM_LEVELS[Math.min(ZOOM_LEVELS.length - 1, Math.max(0, (i === -1 ? ZOOM_LEVELS.length - 1 : i) + dir))];
+      return { zoom: next };
+    }),
+  resetZoom: () => set({ zoom: 1 }),
   setActiveTab: (tab) => set({ activeTab: tab }),
   setExpandedElement: (element) => set({ expandedElement: element }),
   setCurrentStack: (id, name) => set({ currentStackId: id, currentStackName: name, isDirty: false }),

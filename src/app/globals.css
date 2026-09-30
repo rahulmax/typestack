@@ -1246,9 +1246,3 @@
   right: -8px;
   background: radial-gradient(circle at 100% 0, transparent 8px, var(--pv-tab-bg, var(--background)) 8.5px);
 }
-/* Single non-interactive tab shown for the scale and style views */
-.pv-tab-static {
-  flex: 0 0 auto;
-  max-width: none;
-  padding-right: 1rem;
-}
