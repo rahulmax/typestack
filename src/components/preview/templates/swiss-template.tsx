@@ -91,6 +91,14 @@ export const swissTemplate: PreviewTemplate = {
   .sw-foot small:first-child { grid-column: 1 / 5; }
   .sw-foot small:last-child { grid-column: 5 / 13; }
 
+  /* Big type never breaks the grid: one-line items and headlines past their line budget are clipped
+     at the column edge, poster style, with no ellipsis. */
+  .sw .sw-title { overflow: hidden; max-height: 5lh; }
+  .sw-show h2, .sw .sw-year, .sw .sw-era-name, .sw-aside, .sw-chain > *, .sw-kicker h6 { white-space: nowrap; overflow: hidden; text-overflow: clip; }
+  .sw-aside { min-width: 0; max-width: 40%; }
+  /* The vertical name stops at a set height and is clipped at its top end */
+  .sw .sw-vert p { max-height: min(36rem, 85vh); overflow: hidden; }
+
   @media (max-width: 800px) {
     .sw { padding: 0.5rem 1.25rem 2.5rem; }
     .sw-row { column-gap: 1rem; }
@@ -100,7 +108,7 @@ export const swissTemplate: PreviewTemplate = {
     .sw-show .sw-l { margin-top: 0.25rem; }
     .sw-ladder, .sw-eras, .sw-close { padding-top: 5rem; }
     .sw-ladder { row-gap: 2rem; }
-    .sw .sw-vert p { writing-mode: horizontal-tb; transform: none; white-space: normal; }
+    .sw .sw-vert p { writing-mode: horizontal-tb; transform: none; }
     .sw-eras { row-gap: 3.5rem; }
     .sw-era { row-gap: 1.5rem; }
     .sw-close { row-gap: 3rem; }

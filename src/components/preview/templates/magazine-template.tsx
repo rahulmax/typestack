@@ -68,6 +68,15 @@ export const magazineTemplate: PreviewTemplate = {
   .mg-foot { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--mg-line); opacity: 0.75; }
   .mg-foot small { text-transform: uppercase; letter-spacing: 0.16em; }
 
+  /* Big type never breaks the grid: one-line labels and headlines past their line budget are clipped
+     at the edge, poster style, with no ellipsis. */
+  .mg .mg-name, .mg-strap small, .mg-nav small, .mg-toc-row h5, .mg-end h6 { white-space: nowrap; overflow: hidden; text-overflow: clip; }
+  .mg .mg-name { overflow-wrap: normal; }
+  .mg-cover h1 { overflow: hidden; max-height: 4lh; }
+  .mg .mg-quote .display-3 { overflow: hidden; max-height: 4lh; }
+  .mg-body h2, .mg-asym h3, .mg-spread h3 { overflow: hidden; max-height: 3lh; }
+  .mg-strap small, .mg-nav small { min-width: 0; }
+
   @media (max-width: 800px) {
     .mg { padding: 0 1.25rem 3rem; }
     .mg-cover, .mg-toc, .mg-end { grid-template-columns: 1fr; padding-top: 3rem; }
