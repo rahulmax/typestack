@@ -56,6 +56,12 @@ export const newspaperTemplate: PreviewTemplate = {
   .np-brief:last-child { padding-right: 0; }
   .np-brief + .np-brief { border-left: 1px solid var(--np-rule); }
   .np-brief h5 { margin-bottom: 0.4rem; text-wrap: balance; }
+  /* At big scales headlines keep whole words and clip at a line limit, as print would cut to fit */
+  .np .np-lead h1, .np .np-rail h3, .np .np-quote h4, .np .np-brief h5 { overflow-wrap: normal; overflow: hidden; }
+  .np .np-lead h1 { max-height: 4lh; }
+  .np .np-rail h3 { max-height: 5lh; }
+  .np .np-quote h4 { max-height: 6lh; }
+  .np .np-brief h5 { max-height: 3lh; }
   .np-brief p { hyphens: auto; }
 
   @media (max-width: 800px) {

@@ -27,6 +27,8 @@ export const bookTemplate: PreviewTemplate = {
 
   .bk-opener { display: flex; flex-direction: column; align-items: center; gap: 0.9rem; padding: 4.5rem 0 2.5rem; text-align: center; }
   .bk-opener h2 { max-width: 14em; text-wrap: balance; }
+  /* At big scales titles keep whole words and clip at a line limit */
+  .bk .bk-opener h2 { overflow-wrap: normal; overflow: hidden; max-height: 4lh; }
   .bk-orn { width: 2.5rem; height: 1px; background: currentColor; opacity: 0.5; margin-top: 0.4rem; }
   .bk-by { letter-spacing: 0.14em; text-transform: uppercase; }
   .bk-epi { align-self: flex-end; max-width: 72%; margin-bottom: 2rem; text-align: right; opacity: 0.8; }

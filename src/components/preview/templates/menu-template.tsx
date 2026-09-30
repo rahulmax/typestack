@@ -34,6 +34,10 @@ export const menuTemplate: PreviewTemplate = {
 
   .mn-head { display: flex; flex-direction: column; align-items: center; gap: 0.7rem; text-align: center; padding-bottom: 2.25rem; }
   .mn-head h1 { text-wrap: balance; }
+  /* At big scales titles keep whole words and clip at a line limit */
+  .mn .mn-head h1, .mn .mn-sec-head h3 { overflow-wrap: normal; overflow: hidden; max-width: 100%; }
+  .mn .mn-head h1 { max-height: 3lh; }
+  .mn .mn-sec-head h3 { max-height: 2lh; }
   .mn-orn { display: flex; align-items: center; gap: 0.75rem; width: 11rem; opacity: 0.7; }
   .mn-orn::before, .mn-orn::after { content: ""; flex: 1; height: 1px; background: currentColor; }
 

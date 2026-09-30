@@ -19,7 +19,9 @@ export const creditsTemplate: PreviewTemplate = {
   .cr-caps { text-transform: uppercase; letter-spacing: 0.2em; }
 
   .cr-title { display: flex; flex-direction: column; align-items: center; gap: 1.4rem; min-height: 26rem; justify-content: center; }
-  .cr-title h1 { text-wrap: balance; max-height: 3lh; overflow: hidden; }
+  /* At big scales titles keep whole words and clip at a line limit */
+  .cr .cr-title h1 { text-wrap: balance; max-height: 3lh; overflow: hidden; overflow-wrap: normal; max-width: 100%; }
+  .cr .cr-end h2 { max-height: 3lh; overflow: hidden; overflow-wrap: normal; max-width: 100%; }
 
   .cr-block { display: flex; flex-direction: column; gap: 0.7rem; padding-top: 7rem; }
   .cr-label { display: block; margin-bottom: 1.25rem; }

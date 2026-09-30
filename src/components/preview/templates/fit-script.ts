@@ -1,4 +1,6 @@
-// Sets every `[data-fit]` element's first child so it spans the element's width exactly.
+// Sizes every `[data-fit]` element's first child so it spans the element's width exactly. The
+// size goes on the element too: letter-spacing and line-height in em resolve against the
+// element's own font size, which at a large scale would otherwise crush and push the word.
 // Refits when the preview CSS, the fonts or the window change, since the preview swaps
 // styles without reloading. `data-fit-max` caps the size in px, or as a multiple of the
 // element's width with a `w` suffix ("0.9w").
@@ -9,14 +11,14 @@ export const fitScript = `
     document.querySelectorAll('[data-fit]').forEach(function(el) {
       var word = el.firstElementChild;
       if (!word) return;
-      word.style.fontSize = '100px';
+      el.style.fontSize = word.style.fontSize = '100px';
       var w = word.getBoundingClientRect().width;
       if (!w) return;
       var size = Math.floor(100 * el.clientWidth / w * 0.99);
       var cap = el.getAttribute('data-fit-max') || '0';
       var max = parseFloat(cap) * (/w$/.test(cap) ? el.clientWidth : 1);
       if (max) size = Math.min(size, max);
-      word.style.fontSize = Math.max(24, size) + 'px';
+      el.style.fontSize = word.style.fontSize = Math.max(24, size) + 'px';
     });
   }
   if (window.__fitObserver) window.__fitObserver.disconnect();

@@ -46,7 +46,7 @@ export const postersTemplate: PreviewTemplate = {
   /* C: a numeral bigger than the sheet, text tucked into the corner it leaves */
   .ps-c { display: flex; flex-direction: column; justify-content: flex-end; gap: 5cqi; padding: 0 8% 6%; background: var(--ill-surface); }
   /* The numeral fills a fixed box whatever its digit count; the unit runs down the edge beside it */
-  .ps-c-numbox { position: absolute; top: 4cqi; left: -2cqi; width: 94cqi; white-space: nowrap; }
+  .ps-c-numbox { position: absolute; top: 4cqi; left: -2cqi; width: 94cqi; white-space: nowrap; line-height: 0.82; }
   .ps .ps-c-num { display: inline-block; line-height: 0.82; letter-spacing: -0.05em; }
   .ps .ps-c-unit { position: absolute; top: 8cqi; right: 7cqi; writing-mode: vertical-rl; font-size: 3.3cqi; white-space: nowrap; }
   .ps-c-text { position: relative; display: flex; flex-direction: column; gap: 3cqi; max-width: 80%; }

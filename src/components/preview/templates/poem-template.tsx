@@ -31,6 +31,8 @@ export const poemTemplate: PreviewTemplate = {
   .pm-page { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 1.5rem; padding-top: 4.5rem; }
   .pm-first { grid-column: 2 / 8; }
   .pm-second { grid-column: 9 / 13; padding-top: 9rem; }
+  /* At big scales titles keep whole words and clip at a line limit */
+  .pm .pm-title h2, .pm .pm-title h3 { overflow-wrap: normal; overflow: hidden; max-height: 3lh; }
   .pm-title { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 2rem; }
   .pm .pm-epi { max-width: 26em; margin: -0.75rem 0 2rem 2em; opacity: 0.75; }
 
