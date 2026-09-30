@@ -20,7 +20,7 @@ import { HexRgbInput } from "@/components/controls/color-picker/hex-rgb-input"
 import { TailwindPalette } from "@/components/controls/color-picker/tailwind-palette"
 import { useTypographyStore } from "@/store/typography-store"
 import { useUIStore, GRID_PATTERN_TYPES, type GridPatternType } from "@/store/ui-store"
-import { generateRandomColorPair } from "@/lib/color-utils"
+import { generateRandomColorPair, nextSoftColorway } from "@/lib/color-utils"
 import { useTheme } from "next-themes"
 
 function ColorPickerButton({
@@ -132,6 +132,14 @@ const patternOpacity = useUIStore((s) => s.patternOpacity)
     rollCopy()
   }, [resolvedTheme, setColors, rollCopy])
 
+  const [softName, setSoftName] = useState<string | null>(null)
+  const handleSoft = useCallback(() => {
+    const { name, heading, body, bg } = nextSoftColorway()
+    setColors(heading, body, bg)
+    setSoftName(name)
+    rollCopy()
+  }, [setColors, rollCopy])
+
   const handleReverse = useCallback(() => {
     setColors(backgroundColor, backgroundColor, headingColor)
     bump()
@@ -173,10 +181,24 @@ const patternOpacity = useUIStore((s) => s.patternOpacity)
                   <span className="flex-1 bg-[#28c840]" />
                   <span className="flex-1 bg-[#5b9cf6]" />
                 </span>
-                <span className="text-[10px] text-muted-foreground">Rand</span>
+                <span className="text-[10px] text-muted-foreground">Hard</span>
               </button>
             </TooltipTrigger>
-            <TooltipContent>Random accessible colors</TooltipContent>
+            <TooltipContent>Hard colors (AA)</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button type="button" onClick={handleSoft} className="hw-btn hw-selector-btn flex-1 flex-col !gap-0.5 justify-end pb-1.5" style={{ height: 52 }}>
+                <span className="flex h-2.5 w-8 overflow-hidden rounded-sm shadow-[inset_0_1px_2px_rgba(0,0,0,0.2)]">
+                  <span className="flex-1 bg-[#c86140]" />
+                  <span className="flex-1 bg-[#d4c865]" />
+                  <span className="flex-1 bg-[#297089]" />
+                  <span className="flex-1 bg-[#f7e8e3]" />
+                </span>
+                <span className="text-[10px] text-muted-foreground">Soft</span>
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>{softName ? `Soft colors: ${softName}` : "Soft colors"}</TooltipContent>
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>

@@ -9,11 +9,13 @@ import {
   hexToOklch,
   hexToRgb,
   isInSrgbGamut,
+  nextSoftColorway,
   oklchContrast,
   oklchToHex,
   type Oklch,
 } from '../color-utils'
 import { ILLUSTRATION_TONES } from '../illustration-packs'
+import { SOFT_COLORWAYS } from '@/data/soft-colors'
 
 const HARD_CASES: Record<string, [fg: string, bg: string]> = {
   'app default': ['#2e2e2e', '#f5f5f5'],
@@ -226,5 +228,19 @@ describe('computeIllustrationPalette', () => {
     for (const key of [...ILLUSTRATION_ROLES, ...ILLUSTRATION_TONES.map((t) => t.id)]) {
       expect(palette[key], key).toMatch(/^oklch\(\d\.\d{4} \d\.\d{4} \d+\.\d{2}\)$/)
     }
+  })
+})
+
+describe('nextSoftColorway', () => {
+  test('every soft colorway reads at 3:1 or better', () => {
+    for (const { bg, heading, body } of SOFT_COLORWAYS) {
+      expect(contrastRatio(hexToRgb(heading), hexToRgb(bg))).toBeGreaterThanOrEqual(3)
+      expect(contrastRatio(hexToRgb(body), hexToRgb(bg))).toBeGreaterThanOrEqual(3)
+    }
+  })
+
+  test('deals every colorway once before repeating', () => {
+    const seen = new Set(Array.from(SOFT_COLORWAYS, () => nextSoftColorway()))
+    expect(seen.size).toBe(SOFT_COLORWAYS.length)
   })
 })
