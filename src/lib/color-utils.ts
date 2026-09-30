@@ -503,3 +503,22 @@ export const nextSoftColorway = dealer(SOFT_COLORWAYS);
 
 /** Colorways extracted from Alex Cristache's palette graphics. */
 export const nextAlexCristacheColorway = dealer(ALEX_CRISTACHE_COLORWAYS);
+
+/** A colorway whose heading and body differ has three colors to rotate, not two to swap. */
+export function isThreeColor(heading: string, body: string): boolean {
+  return heading.toLowerCase() !== body.toLowerCase();
+}
+
+/**
+ * Two colors swap foreground and background. Three rotate through all three
+ * roles, so each color takes its turn as the background.
+ */
+export function swapOrCycleColors({ heading, body, bg }: { heading: string; body: string; bg: string }): {
+  heading: string;
+  body: string;
+  bg: string;
+} {
+  return isThreeColor(heading, body)
+    ? { heading: bg, body: heading, bg: body }
+    : { heading: bg, body: bg, bg: heading };
+}

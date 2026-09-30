@@ -20,7 +20,7 @@ import { HexRgbInput } from "@/components/controls/color-picker/hex-rgb-input"
 import { TailwindPalette } from "@/components/controls/color-picker/tailwind-palette"
 import { useTypographyStore } from "@/store/typography-store"
 import { useUIStore, GRID_PATTERN_TYPES, type GridPatternType } from "@/store/ui-store"
-import { generateRandomColorPair, nextAlexCristacheColorway, nextSoftColorway } from "@/lib/color-utils"
+import { generateRandomColorPair, isThreeColor, nextAlexCristacheColorway, nextSoftColorway, swapOrCycleColors } from "@/lib/color-utils"
 import { useTheme } from "next-themes"
 
 function ColorPickerButton({
@@ -148,10 +148,12 @@ const patternOpacity = useUIStore((s) => s.patternOpacity)
     rollCopy()
   }, [setColors, rollCopy])
 
-  const handleReverse = useCallback(() => {
-    setColors(backgroundColor, backgroundColor, headingColor)
+  const isCycle = isThreeColor(headingColor, bodyColor)
+  const handleSwapOrCycle = useCallback(() => {
+    const { heading, body, bg } = swapOrCycleColors({ heading: headingColor, body: bodyColor, bg: backgroundColor })
+    setColors(heading, body, bg)
     bump()
-  }, [backgroundColor, headingColor, setColors])
+  }, [backgroundColor, headingColor, bodyColor, setColors])
 
   return (
     <div className="flex flex-col gap-4">
@@ -182,20 +184,6 @@ const patternOpacity = useUIStore((s) => s.patternOpacity)
           />
           <Tooltip>
             <TooltipTrigger asChild>
-              <button type="button" onClick={handleRandom} className="hw-btn hw-selector-btn flex-1 flex-col !gap-0.5 justify-end pb-1.5" style={{ height: 52 }}>
-                <span className="flex h-2.5 w-8 overflow-hidden rounded-sm shadow-[inset_0_1px_2px_rgba(0,0,0,0.2)]">
-                  <span className="flex-1 bg-[#ff5f57]" />
-                  <span className="flex-1 bg-[#febc2e]" />
-                  <span className="flex-1 bg-[#28c840]" />
-                  <span className="flex-1 bg-[#5b9cf6]" />
-                </span>
-                <span className="text-[10px] text-muted-foreground">Hard</span>
-              </button>
-            </TooltipTrigger>
-            <TooltipContent>Hard colors (AA)</TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
               <button type="button" onClick={handleSoft} className="hw-btn hw-selector-btn flex-1 flex-col !gap-0.5 justify-end pb-1.5" style={{ height: 52 }}>
                 <span className="flex h-2.5 w-8 overflow-hidden rounded-sm shadow-[inset_0_1px_2px_rgba(0,0,0,0.2)]">
                   <span className="flex-1 bg-[#c86140]" />
@@ -217,22 +205,40 @@ const patternOpacity = useUIStore((s) => s.patternOpacity)
                   <span className="flex-1 bg-[#ece735]" />
                   <span className="flex-1 bg-[#0191b3]" />
                 </span>
-                <span className="text-[10px] text-muted-foreground">Alex</span>
+                <span className="text-[10px] text-muted-foreground">Medium</span>
               </button>
             </TooltipTrigger>
-            <TooltipContent>{alexName ? `AlexCristache: ${alexName}` : "AlexCristache colors"}</TooltipContent>
+            <TooltipContent>{alexName ? `Medium colors: ${alexName}` : "Medium colors"}</TooltipContent>
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
-              <button type="button" onClick={handleReverse} className="hw-btn hw-selector-btn flex-1 flex-col !gap-0.5 justify-end pb-1.5" style={{ height: 52 }}>
-                <span
-                  className="block h-2.5 w-8 rounded-sm shadow-[inset_0_1px_2px_rgba(0,0,0,0.2)]"
-                  style={{ background: `linear-gradient(135deg, ${headingColor} 50%, ${backgroundColor} 50%)` }}
-                />
-                <span className="text-[10px] text-muted-foreground">Swap</span>
+              <button type="button" onClick={handleRandom} className="hw-btn hw-selector-btn flex-1 flex-col !gap-0.5 justify-end pb-1.5" style={{ height: 52 }}>
+                <span className="flex h-2.5 w-8 overflow-hidden rounded-sm shadow-[inset_0_1px_2px_rgba(0,0,0,0.2)]">
+                  <span className="flex-1 bg-[#ff5f57]" />
+                  <span className="flex-1 bg-[#febc2e]" />
+                  <span className="flex-1 bg-[#28c840]" />
+                  <span className="flex-1 bg-[#5b9cf6]" />
+                </span>
+                <span className="text-[10px] text-muted-foreground">Hard</span>
               </button>
             </TooltipTrigger>
-            <TooltipContent>Swap foreground / background</TooltipContent>
+            <TooltipContent>Hard colors (AA)</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button type="button" onClick={handleSwapOrCycle} className="hw-btn hw-selector-btn flex-1 flex-col !gap-0.5 justify-end pb-1.5" style={{ height: 52 }}>
+                <span
+                  className="block h-2.5 w-8 rounded-sm shadow-[inset_0_1px_2px_rgba(0,0,0,0.2)]"
+                  style={{
+                    background: isCycle
+                      ? `linear-gradient(90deg, ${headingColor} 33.3%, ${bodyColor} 33.3% 66.6%, ${backgroundColor} 66.6%)`
+                      : `linear-gradient(135deg, ${headingColor} 50%, ${backgroundColor} 50%)`,
+                  }}
+                />
+                <span className="text-[10px] text-muted-foreground">{isCycle ? "Cycle" : "Swap"}</span>
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>{isCycle ? "Cycle heading / body / background" : "Swap foreground / background"}</TooltipContent>
           </Tooltip>
         </div>
         {/* Contrast Meter */}

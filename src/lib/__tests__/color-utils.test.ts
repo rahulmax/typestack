@@ -9,10 +9,12 @@ import {
   hexToOklch,
   hexToRgb,
   isInSrgbGamut,
+  isThreeColor,
   nextAlexCristacheColorway,
   nextSoftColorway,
   oklchContrast,
   oklchToHex,
+  swapOrCycleColors,
   type Oklch,
 } from '../color-utils'
 import { ILLUSTRATION_TONES } from '../illustration-packs'
@@ -247,5 +249,27 @@ describe.each([
   test('deals every colorway once before repeating', () => {
     const seen = new Set(Array.from(colorways, () => next()))
     expect(seen.size).toBe(colorways.length)
+  })
+})
+
+describe('swapOrCycleColors', () => {
+  test('two colors swap foreground and background', () => {
+    expect(swapOrCycleColors({ heading: '#111111', body: '#111111', bg: '#eeeeee' }))
+      .toEqual({ heading: '#eeeeee', body: '#eeeeee', bg: '#111111' })
+  })
+
+  test('three colors rotate, giving each a turn as the background', () => {
+    let c = { heading: '#aa0000', body: '#00aa00', bg: '#0000aa' }
+    const bgs = []
+    for (let i = 0; i < 3; i++) {
+      c = swapOrCycleColors(c)
+      bgs.push(c.bg)
+    }
+    expect(bgs).toEqual(['#00aa00', '#aa0000', '#0000aa'])
+    expect(c).toEqual({ heading: '#aa0000', body: '#00aa00', bg: '#0000aa' })
+  })
+
+  test('heading and body that differ only in case count as one color', () => {
+    expect(isThreeColor('#ABCDEF', '#abcdef')).toBe(false)
   })
 })
