@@ -113,7 +113,7 @@ export function generatePreviewCSS(config: TypographyConfig): string {
   lines.push(`#ill-hero > * { position: relative; z-index: 1; }`);
   const illVars = Object.entries(ill).map(([role, value]) => `--ill-${role}: ${value};`).join(" ");
   // --tone-* / --scene-tone-* are the pre-role names, kept as aliases for templates that still use them
-  lines.push(`:root { --bg-color: ${hexToOklchString(config.backgroundColor)}; --tone-base: ${hexToOklchString(hc)}; ${illVars} --tone-1: var(--ill-primary); --tone-2: var(--ill-secondary); --scene-tone-1: var(--ill-primary); --scene-tone-2: var(--ill-secondary); --scene-tone-3: var(--ill-highlight); }`);
+  lines.push(`:root { --bg-color: ${hexToOklchString(config.backgroundColor)}; --fg-color: ${hexToOklchString(config.bodyGroup.color)}; --tone-base: ${hexToOklchString(hc)}; ${illVars} --tone-1: var(--ill-primary); --tone-2: var(--ill-secondary); --scene-tone-1: var(--ill-primary); --scene-tone-2: var(--ill-secondary); --scene-tone-3: var(--ill-highlight); }`);
   lines.push("");
 
   for (const style of desktop) {

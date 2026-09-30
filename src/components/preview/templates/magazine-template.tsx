@@ -1,6 +1,6 @@
 import { Feather } from "lucide-react";
 import type { PreviewTemplate } from "./types";
-import { illustrationScript } from "./illustration-script";
+import { photoScript } from "./photo-script";
 
 export const magazineTemplate: PreviewTemplate = {
   id: "magazine",
@@ -23,7 +23,9 @@ export const magazineTemplate: PreviewTemplate = {
   .mg-cover h1 { margin: 0 0 1.75rem; max-width: 12em; }
   .mg-dek { max-width: 30em; margin: 0; }
   .mg-plate { padding: 0 0 0.5rem; }
-  .mg-plate .ill { display: flex; align-items: center; justify-content: center; min-height: 380px; padding: 2rem; background: var(--ill-surface); }
+  .mg .photo { position: relative; overflow: hidden; background: var(--ill-surface); }
+  .mg .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.4s ease; }
+  .mg-plate .photo { aspect-ratio: 16 / 9; }
   .mg-cap { display: flex; justify-content: space-between; gap: 1.5rem; padding-top: 0.7rem; opacity: 0.75; }
   .mg-orn { text-align: center; padding: 3.5rem 0; letter-spacing: 1em; opacity: 0.7; }
   .mg-orn p { margin: 0; }
@@ -47,7 +49,7 @@ export const magazineTemplate: PreviewTemplate = {
   .mg-quote small { text-transform: uppercase; letter-spacing: 0.16em; }
 
   .mg-asym { display: grid; grid-template-columns: 5fr 6fr; column-gap: 4rem; align-items: center; padding-bottom: 1rem; }
-  .mg-asym .ill { display: flex; align-items: center; justify-content: center; min-height: 340px; padding: 1.5rem; background: var(--ill-surface); }
+  .mg-asym .photo { aspect-ratio: 4 / 5; }
   .mg-asym .mg-cap { flex-direction: column; gap: 0.15rem; }
   .mg-asym h3 { margin: 0 0 1rem; }
   .mg-asym p { margin: 0 0 1.1rem; max-width: 26em; }
@@ -86,8 +88,8 @@ export const magazineTemplate: PreviewTemplate = {
     .mg-end-list > div { margin-bottom: 1.25rem; }
     .mg-asym { grid-template-columns: 1fr; row-gap: 1.75rem; }
     .mg-spread { column-count: 1; column-rule: none; }
-    .mg-plate .ill { min-height: 220px; }
-    .mg-asym .ill { min-height: 240px; }
+    .mg-plate .photo { aspect-ratio: 4 / 3; }
+    .mg-asym .photo { aspect-ratio: 4 / 3; }
     .mg-orn { padding: 2.25rem 0; }
     .mg-cap { flex-direction: column; gap: 0.15rem; }
   }
@@ -110,7 +112,7 @@ export const magazineTemplate: PreviewTemplate = {
   <header class="mg-cover">
     <div class="mg-credits">
       <div><span class="eyebrow">Words</span><p><small>Adept Ilse Varrow</small></p></div>
-      <div><span class="eyebrow">Drawings</span><p><small>The Provost of Unlit Rooms</small></p></div>
+      <div><span class="eyebrow">Photographs</span><p><small>The Provost of Unlit Rooms</small></p></div>
       <div><span class="eyebrow">Cover story</span><p><small>Page 12</small></p></div>
     </div>
     <div>
@@ -120,7 +122,7 @@ export const magazineTemplate: PreviewTemplate = {
   </header>
 
   <div class="mg-plate">
-    <div class="ill" data-max-h="360px"></div>
+    <div class="photo"></div>
     <div class="mg-cap"><small>Plate I. The lamp in the interval, as recorded before it was lit.</small><small>Inverse Almanac, folio 9</small></div>
   </div>
 
@@ -161,8 +163,8 @@ export const magazineTemplate: PreviewTemplate = {
 
   <section class="mg-asym">
     <figure>
-      <div class="ill" data-max-h="300px"></div>
-      <div class="mg-cap"><small>Plate II. The Third Sea-Wall at the hour it is not.</small><small>Drawn from memory, in advance</small></div>
+      <div class="photo"></div>
+      <div class="mg-cap"><small>Plate II. The Third Sea-Wall at the hour it is not.</small><small>Exposed from memory, in advance</small></div>
     </figure>
     <div>
       <span class="eyebrow">The wall</span>
@@ -187,7 +189,7 @@ export const magazineTemplate: PreviewTemplate = {
     <span class="eyebrow">Contributors</span>
     <div class="mg-end-list">
       <div><h6>Adept Ilse Varrow</h6><p><small>Keeper of the Fourth Almanac, resident of the Annex.</small></p></div>
-      <div><h6>The Provost of Unlit Rooms</h6><p><small>Draughtsman of the plates, by candle not yet lit.</small></p></div>
+      <div><h6>The Provost of Unlit Rooms</h6><p><small>Photographer of the plates, by candle not yet lit.</small></p></div>
       <div><h6>Oriel Taskane</h6><p><small>Author of the ledger, in absentia and in perpetuity.</small></p></div>
     </div>
   </section>
@@ -195,6 +197,6 @@ export const magazineTemplate: PreviewTemplate = {
   <div class="mg-foot"><small>&copy; The Concordance Quarterly</small><small>Issued in arrears from Veyl</small></div>
 </div>
 
-${illustrationScript}
+${photoScript}
 `,
 };
