@@ -1,8 +1,10 @@
 /**
  * Fetch the magazine photo library from Pexels.
- * Pulls a pool of landscape photos, measures their colours, keeps 100 balanced
- * across hue and lightness, saves them as WebP in public/photos, and writes public/photos/manifest.json with each
- * photo's colour profile (OKLab) so the magazine template can match the page colours.
+ * Two kinds: landscape scenes (streets, signage, lettering, design close-ups) and portrait
+ * photos of smiling, candid people. Measures their colours, keeps a set balanced across hue
+ * and lightness for each kind, saves them as WebP in public/photos, and writes
+ * public/photos/manifest.json with each photo's kind and colour profile (OKLab) so the
+ * magazine template can match the page colours.
  *
  * Usage: node --env-file=.env.local scripts/fetch-photos.mjs
  */
@@ -21,15 +23,29 @@ const WIDTH = 1600
 // The final pick is balanced on the colours measured from each photo.
 const FILTERS = ['red', 'orange', 'yellow', 'green', 'turquoise', 'blue', 'violet', 'pink', 'brown', 'black', 'gray', 'white']
 
-// Subjects that sit with the magazine's copy: sea walls, lamps, coasts, quiet rooms
-const QUERIES = ['coast', 'lighthouse', 'lamp', 'still life', 'architecture', 'sea', 'interior', 'landscape', 'dusk', 'flowers', 'harbour', 'lantern']
+// Each kind has its own subjects, orientation, filter and per-bin quota
+const KINDS = {
+  scene: {
+    orientation: 'landscape',
+    minRatio: 1.3,
+    queries: ['street', 'signage', 'typography', 'shop sign', 'city', 'storefront', 'poster wall', 'graphic design', 'lettering', 'architecture detail', 'neon sign', 'urban'],
+    // Stock landscapes and still lifes read as filler next to the layouts
+    skip: /\b(lamp|lantern|lighthouse|sea|ocean|beach|coast|sunset|sunrise|flower|flowers|bokeh|wallpaper|buddha|statue|stadium|laptop|mockup)\b/i,
+    quota: { red: 8, orange: 8, yellow: 8, green: 8, teal: 8, blue: 8, violet: 8, magenta: 8, dark: 6, mid: 5, light: 5 },
+  },
+  people: {
+    orientation: 'portrait',
+    minRatio: 0,
+    maxRatio: 0.85,
+    queries: ['candid smiling', 'laughing friends', 'smiling woman street', 'smiling man candid', 'people laughing outdoors', 'candid laughter'],
+    // Posed studio shots and office stock look staged
+    skip: /\b(studio|posing|poses|model|business|office|laptop|meeting|headshot|suit|wedding|bride|baby|mask|sad|crying)\b/i,
+    quota: { red: 4, orange: 5, yellow: 4, green: 4, teal: 4, blue: 4, violet: 3, magenta: 4, dark: 3, mid: 3, light: 2 },
+  },
+}
 
-// Measured-colour bins and how many photos each keeps. Sums to 100.
+// Measured-colour bins
 const HUES = ['red', 'orange', 'yellow', 'green', 'teal', 'blue', 'violet', 'magenta']
-const QUOTA = { red: 10, orange: 10, yellow: 10, green: 10, teal: 10, blue: 10, violet: 10, magenta: 10, dark: 7, mid: 6, light: 7 }
-
-// Portraits, signage and loud abstracts read oddly as magazine plates
-const SKIP = /\b(woman|man|girl|boy|person|people|child|couple|portrait|model|text|sign|mural|graffiti|logo|bokeh|abstract|pattern|festival|statue|buddha|stadium|neon|texture|wallpaper)\b/i
 
 // Within a hue bin, prefer photos near this mean chroma: clearly coloured, not garish
 const IDEAL_CHROMA = 0.075
@@ -40,9 +56,9 @@ function binOf({ L, a, b, c }) {
   return HUES[Math.floor(((h + 15) % 360) / 45)]
 }
 
-async function search(query, color, page = 1) {
+async function search(query, color, orientation, page = 1) {
   const url = new URL('https://api.pexels.com/v1/search')
-  url.search = new URLSearchParams({ query, color, orientation: 'landscape', per_page: '40', page: String(page) })
+  url.search = new URLSearchParams({ query, color, orientation, per_page: '40', page: String(page) })
   const res = await fetch(url, { headers: { Authorization: KEY } })
   if (!res.ok) throw new Error(`Pexels ${res.status} for ${query}/${color}`)
   return (await res.json()).photos
@@ -95,34 +111,35 @@ async function profile(buf) {
   }
 }
 
-async function main() {
-  await mkdir(OUT, { recursive: true })
-
-  // 1. Candidate pool, profiled from small thumbnails
+// Candidate pool for one kind, profiled from small thumbnails
+async function gather(kind, spec) {
   const pool = new Map()
   let q = 0
   for (const color of FILTERS) {
     for (let i = 0; i < 3; i++) {
-      const query = QUERIES[q++ % QUERIES.length]
-      for (const p of await search(query, color)) {
-        if (pool.has(p.id) || p.width / p.height < 1.3 || SKIP.test(p.alt || '')) continue
-        pool.set(p.id, { ...p, query })
+      const query = spec.queries[q++ % spec.queries.length]
+      for (const p of await search(query, color, spec.orientation)) {
+        const ratio = p.width / p.height
+        if (pool.has(p.id) || ratio < spec.minRatio || (spec.maxRatio && ratio > spec.maxRatio) || spec.skip.test(p.alt || '')) continue
+        pool.set(p.id, { ...p, query, kind })
       }
     }
-    process.stdout.write(`${color} `)
+    process.stdout.write(`${kind}:${color} `)
   }
-  console.log(`\n${pool.size} candidates`)
-
-  const profiled = await mapLimit([...pool.values()], 16, async (p) => {
+  console.log(`\n${pool.size} ${kind} candidates`)
+  return mapLimit([...pool.values()], 16, async (p) => {
     const thumb = Buffer.from(await (await fetch(p.src.small)).arrayBuffer())
     const prof = await profile(thumb)
     return { ...p, prof, bin: binOf(prof) }
   })
+}
 
-  // 2. Balanced pick: per bin, take the most characterful candidates, spread across lightness
+// Balanced pick: per bin, take the most characterful candidates, spread across lightness
+function balance(profiled, quota) {
+  const total = Object.values(quota).reduce((a, b) => a + b, 0)
   const picked = []
   const spare = []
-  for (const [bin, want] of Object.entries(QUOTA)) {
+  for (const [bin, want] of Object.entries(quota)) {
     const inBin = profiled.filter((p) => p.bin === bin)
     const ranked = HUES.includes(bin) ? inBin.sort((x, y) => Math.abs(x.prof.c - IDEAL_CHROMA) - Math.abs(y.prof.c - IDEAL_CHROMA)) : inBin
     const short = ranked.slice(0, want * 3).sort((x, y) => x.prof.L - y.prof.L)
@@ -132,18 +149,30 @@ async function main() {
     }
     picked.push(...take)
     spare.push(...inBin.filter((p) => !take.includes(p)))
-    console.log(`${bin}: ${take.length}/${want} (of ${inBin.length})`)
+    console.log(`  ${bin}: ${take.length}/${want} (of ${inBin.length})`)
   }
   // Fill any shortfall from the most colourful leftovers
   spare.sort((x, y) => y.prof.c - x.prof.c)
-  while (picked.length < 100 && spare.length) picked.push(spare.shift())
+  while (picked.length < total && spare.length) picked.push(spare.shift())
+  return picked
+}
 
-  // 3. Download full size
+async function main() {
+  await mkdir(OUT, { recursive: true })
+
+  const picked = []
+  for (const [kind, spec] of Object.entries(KINDS)) {
+    const chosen = balance(await gather(kind, spec), spec.quota)
+    console.log(`${kind}: kept ${chosen.length}`)
+    picked.push(...chosen)
+  }
+
+  // Download full size
   for (const f of await readdir(OUT)) if (f.endsWith('.webp')) await unlink(join(OUT, f))
   const manifest = await mapLimit(picked, 8, async (p) => {
     const res = await fetch(`${p.src.original}?auto=compress&cs=tinysrgb&w=${WIDTH}`)
     const raw = Buffer.from(await res.arrayBuffer())
-    const webp = await sharp(raw).resize({ width: WIDTH, withoutEnlargement: true }).webp({ quality: 74 }).toBuffer()
+    const webp = await sharp(raw).resize({ width: p.kind === 'people' ? 1000 : WIDTH, withoutEnlargement: true }).webp({ quality: 74 }).toBuffer()
     const file = `p-${p.id}.webp`
     await writeFile(join(OUT, file), webp)
     const meta = await sharp(webp).metadata()
@@ -151,6 +180,7 @@ async function main() {
     process.stdout.write('.')
     return {
       file,
+      kind: p.kind,
       w: meta.width,
       h: meta.height,
       ...prof,
