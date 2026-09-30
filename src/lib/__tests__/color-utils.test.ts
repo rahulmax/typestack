@@ -2,6 +2,7 @@ import { describe, test, expect, vi, afterEach } from 'vitest'
 import {
   computeIllustrationPalette,
   computeIllustrationTones,
+  ILLUSTRATION_ROLES,
   contrastRatio,
   deltaEOk,
   generateRandomColorPair,
@@ -10,12 +11,9 @@ import {
   isInSrgbGamut,
   oklchContrast,
   oklchToHex,
-  type IllustrationRole,
   type Oklch,
 } from '../color-utils'
-
-const ROLES: IllustrationRole[] = ['ink', 'primary', 'secondary', 'accent', 'highlight', 'surface']
-const FILLS: IllustrationRole[] = ['primary', 'secondary', 'accent', 'highlight']
+import { ILLUSTRATION_TONES } from '../illustration-packs'
 
 const HARD_CASES: Record<string, [fg: string, bg: string]> = {
   'app default': ['#2e2e2e', '#f5f5f5'],
@@ -65,78 +63,153 @@ afterEach(() => {
 })
 
 describe('computeIllustrationTones', () => {
+  const colours = ILLUSTRATION_TONES.filter((t) => t.kind === 'colour')
+  const surfaces = ILLUSTRATION_TONES.filter((t) => t.kind === 'surface')
+  const isDark = (fg: string, bg: string) => hexToOklch(fg).l > hexToOklch(bg).l
+
   test('is deterministic for a given pair', () => {
     for (const [fg, bg] of ALL_PAIRS.slice(0, 40)) {
       expect(computeIllustrationTones(bg, fg)).toEqual(computeIllustrationTones(bg, fg))
     }
   })
 
-  test('every role is inside the sRGB gamut', () => {
+  test('has a tone for every shared role and every source colour', () => {
+    const tones = computeIllustrationTones('#f5f5f5', '#2e2e2e')
+    for (const key of [...ILLUSTRATION_ROLES, ...ILLUSTRATION_TONES.map((t) => t.id)]) {
+      expect(tones[key], key).toBeDefined()
+    }
+  })
+
+  test('every tone is inside the sRGB gamut', () => {
     for (const [fg, bg] of ALL_PAIRS) {
-      const tones = computeIllustrationTones(bg, fg)
-      for (const role of ROLES) {
-        expect(isInSrgbGamut(tones[role]), `${role} for ${fg} on ${bg}`).toBe(true)
+      for (const [key, t] of Object.entries(computeIllustrationTones(bg, fg))) {
+        expect(isInSrgbGamut(t), `${key} for ${fg} on ${bg}`).toBe(true)
       }
     }
   })
 
-  test('fills never go neon', () => {
+  test('line is the text colour when it already reads at 4.5:1', () => {
     for (const [fg, bg] of ALL_PAIRS) {
-      const tones = computeIllustrationTones(bg, fg)
-      for (const role of FILLS) {
-        expect(tones[role].c, `${role} for ${fg} on ${bg}`).toBeLessThanOrEqual(0.175)
-      }
+      const { line } = computeIllustrationTones(bg, fg)
+      expect(oklchToHex(line.l, line.c, line.h)).toBe(fg)
     }
   })
 
-  test('ink is the text colour when it already reads at 4.5:1', () => {
-    for (const [fg, bg] of ALL_PAIRS) {
-      const { ink } = computeIllustrationTones(bg, fg)
-      expect(oklchToHex(ink.l, ink.c, ink.h)).toBe(fg)
-    }
-  })
-
-  test('ink is pushed to 4.5:1 when the text colour is too weak', () => {
+  test('line is pushed to 4.5:1 when the text colour is too weak', () => {
     const bg = '#fde2e4'
     const fg = '#8fa8e0'
     expect(contrastRatio(hexToRgb(fg), hexToRgb(bg))).toBeLessThan(2)
-    const { ink } = computeIllustrationTones(bg, fg)
-    expect(oklchContrast(ink, hexToOklch(bg))).toBeGreaterThanOrEqual(4.5)
+    const { line } = computeIllustrationTones(bg, fg)
+    expect(oklchContrast(line, hexToOklch(bg))).toBeGreaterThanOrEqual(4.5)
   })
 
-  test('the two large fills stay visibly apart', () => {
-    for (const [fg, bg] of ALL_PAIRS) {
-      const { primary, secondary } = computeIllustrationTones(bg, fg)
-      expect(deltaEOk(primary, secondary), `${fg} on ${bg}`).toBeGreaterThanOrEqual(0.099)
+  test('line defaults to the foreground but can come from the body colour', () => {
+    const tones = computeIllustrationTones('#f5f5f5', '#2e2e2e', '#3a3a3a')
+    expect(oklchToHex(tones.line.l, tones.line.c, tones.line.h)).toBe('#3a3a3a')
+  })
+
+  test('paper is the page, so figure bodies match it', () => {
+    for (const [fg, bg] of ALL_PAIRS.slice(0, 40)) {
+      const { paper } = computeIllustrationTones(bg, fg)
+      expect(oklchToHex(paper.l, paper.c, paper.h)).toBe(bg)
     }
   })
 
-  test('large fills lift off the page and let ink lines read on top', () => {
-    for (const [fg, bg] of ALL_PAIRS) {
+  test('on light pages solid ink and stipple stay the line colour, as drawn', () => {
+    for (const [fg, bg] of ALL_PAIRS.filter(([fg, bg]) => !isDark(fg, bg))) {
+      const { line, mass, dot } = computeIllustrationTones(bg, fg)
+      expect(mass).toEqual(line)
+      expect(dot).toEqual(line)
+    }
+  })
+
+  // The drawing must never turn into its own negative when the page goes dark
+  test('on dark pages solid ink stays the darkest tone in the figure', () => {
+    for (const [fg, bg] of ALL_PAIRS.filter(([fg, bg]) => isDark(fg, bg))) {
       const tones = computeIllustrationTones(bg, fg)
       const page = hexToOklch(bg)
-      for (const role of ['primary', 'secondary'] as const) {
-        const fill = tones[role]
-        const offPage = oklchContrast(fill, page) >= 1.25 || deltaEOk(fill, page) >= 0.12
-        const inkReads = oklchContrast(fill, tones.ink) >= 2 || deltaEOk(fill, tones.ink) >= 0.15
-        expect(offPage, `${role} vs page for ${fg} on ${bg}`).toBe(true)
-        expect(inkReads, `${role} vs ink for ${fg} on ${bg}`).toBe(true)
+      const where = `${fg} on ${bg}`
+      expect(tones.mass.l, where).toBeLessThan(tones.line.l)
+      expect(tones.dot.l, where).toBeLessThanOrEqual(tones.mass.l + 0.001)
+      for (const c of colours) expect(tones.mass.l, `${c.id} ${where}`).toBeLessThan(tones[c.id].l + 0.001)
+      // ...but still clear of the page, so hair and shoes don't vanish
+      expect(oklchContrast(tones.mass, page), where).toBeGreaterThanOrEqual(1.6)
+      expect(oklchContrast(tones.dot, page), where).toBeGreaterThanOrEqual(1.6)
+    }
+  })
+
+  test('glints stay lighter than the colours they sit on', () => {
+    for (const [fg, bg] of ALL_PAIRS) {
+      const tones = computeIllustrationTones(bg, fg)
+      for (const c of colours) {
+        expect(tones.glint.l, `${c.id} for ${fg} on ${bg}`).toBeGreaterThan(tones[c.id].l - 0.001)
       }
     }
   })
 
-  test('small marks clear 3:1 against the page', () => {
+  test('surfaces keep their source lightness order on every page', () => {
     for (const [fg, bg] of ALL_PAIRS) {
-      const { accent } = computeIllustrationTones(bg, fg)
-      expect(oklchContrast(accent, hexToOklch(bg)), `${fg} on ${bg}`).toBeGreaterThanOrEqual(3)
+      const tones = computeIllustrationTones(bg, fg)
+      const byPack = Object.groupBy(surfaces, (t) => t.pack)
+      for (const own of Object.values(byPack)) {
+        const sorted = [...own!].sort((a, b) => a.l - b.l)
+        for (let i = 1; i < sorted.length; i++) {
+          expect(tones[sorted[i].id].l, `${sorted[i].id} for ${fg} on ${bg}`).toBeGreaterThanOrEqual(tones[sorted[i - 1].id].l - 0.001)
+        }
+      }
     }
   })
 
-  test('highlights read against the ink they sit on', () => {
+  test('colours keep their source lightness order within a pack', () => {
+    // Lift and contrast nudges may pull two close colours level, never flip them far
     for (const [fg, bg] of ALL_PAIRS) {
-      const { highlight, ink } = computeIllustrationTones(bg, fg)
-      expect(oklchContrast(highlight, ink), `${fg} on ${bg}`).toBeGreaterThanOrEqual(3)
+      const tones = computeIllustrationTones(bg, fg)
+      const byPack = Object.groupBy(colours, (t) => t.pack)
+      for (const own of Object.values(byPack)) {
+        const sorted = [...own!].sort((a, b) => a.l - b.l)
+        for (let i = 1; i < sorted.length; i++) {
+          if (sorted[i].l - sorted[i - 1].l < 0.1) continue
+          expect(tones[sorted[i].id].l, `${sorted[i].id} for ${fg} on ${bg}`).toBeGreaterThanOrEqual(tones[sorted[i - 1].id].l - 0.05)
+        }
+      }
     }
+  })
+
+  test('colour fills lift off the page and let lines read on top', () => {
+    for (const [fg, bg] of ALL_PAIRS) {
+      const tones = computeIllustrationTones(bg, fg)
+      const page = hexToOklch(bg)
+      for (const c of colours) {
+        const fill = tones[c.id]
+        const offPage = oklchContrast(fill, page) >= 1.25 || deltaEOk(fill, page) >= 0.12
+        const lineReads = oklchContrast(fill, tones.line) >= 2 || deltaEOk(fill, tones.line) >= 0.15
+        expect(offPage, `${c.id} vs page for ${fg} on ${bg}`).toBe(true)
+        expect(lineReads, `${c.id} vs line for ${fg} on ${bg}`).toBe(true)
+      }
+    }
+  })
+
+  test('colour fills never turn to olive or khaki', () => {
+    for (const [fg, bg] of ALL_PAIRS) {
+      const tones = computeIllustrationTones(bg, fg)
+      for (const c of colours) expect(isMud(tones[c.id]), `${c.id} for ${fg} on ${bg}`).toBe(false)
+    }
+  })
+
+  test('neutral pages get monochrome colours', () => {
+    for (const name of ['app default', 'grey / grey', 'black on white', 'white on black']) {
+      const [fg, bg] = HARD_CASES[name]
+      const tones = computeIllustrationTones(bg, fg)
+      for (const c of colours) expect(tones[c.id].c, `${c.id} on ${name}`).toBeLessThan(0.03)
+    }
+  })
+
+  test("each pack's most used colour lands on the page hue", () => {
+    const { noodle } = Object.groupBy(colours, (t) => t.pack)
+    const lead = noodle!.reduce((a, b) => (b.uses > a.uses ? b : a))
+    const tones = computeIllustrationTones('#ffffff', '#1d3a8a')
+    const d = Math.abs(tones[lead.id].h - hexToOklch('#1d3a8a').h) % 360
+    expect(Math.min(d, 360 - d)).toBeLessThan(10)
   })
 
   test('surface stays a quiet tint of the page', () => {
@@ -145,68 +218,13 @@ describe('computeIllustrationTones', () => {
       expect(oklchContrast(surface, hexToOklch(bg)), `${fg} on ${bg}`).toBeLessThan(1.35)
     }
   })
-
-  test('large fills never turn to olive or khaki', () => {
-    for (const [fg, bg] of ALL_PAIRS) {
-      const { primary, secondary } = computeIllustrationTones(bg, fg)
-      expect(isMud(primary), `primary for ${fg} on ${bg}`).toBe(false)
-      expect(isMud(secondary), `secondary for ${fg} on ${bg}`).toBe(false)
-    }
-  })
-
-  test('neutral pages get monochrome fills', () => {
-    for (const name of ['app default', 'grey / grey', 'black on white', 'white on black']) {
-      const [fg, bg] = HARD_CASES[name]
-      const tones = computeIllustrationTones(bg, fg)
-      for (const role of FILLS) {
-        expect(tones[role].c, `${role} on ${name}`).toBeLessThan(0.03)
-      }
-    }
-  })
-
-  test('neutral fills spread across lightness so two tones read', () => {
-    const [fg, bg] = HARD_CASES['black on white']
-    const { primary, secondary } = computeIllustrationTones(bg, fg)
-    expect(Math.abs(primary.l - secondary.l)).toBeGreaterThanOrEqual(0.1)
-  })
-
-  test('on a light page the primary fill echoes the text hue', () => {
-    const { primary } = computeIllustrationTones('#ffffff', '#d62828')
-    const red = hexToOklch('#d62828')
-    expect(Math.abs(primary.h - red.h)).toBeLessThan(10)
-    expect(primary.l).toBeGreaterThan(red.l)
-  })
-
-  test('on a dark page with lime text the fills come from the page, not the lime', () => {
-    const [fg, bg] = HARD_CASES['purple / lime']
-    const { primary } = computeIllustrationTones(bg, fg)
-    expect(Math.abs(primary.h - hexToOklch(bg).h)).toBeLessThan(10)
-    expect(primary.l).toBeGreaterThan(0.6)
-  })
-
-  test('a muddy page hue moves above a light page instead of darkening', () => {
-    const [fg, bg] = HARD_CASES['orange / black']
-    const { primary } = computeIllustrationTones(bg, fg)
-    expect(primary.l).toBeGreaterThan(hexToOklch(bg).l)
-  })
-
-  test('secondary stays away from a coloured ink hue', () => {
-    const { secondary, ink } = computeIllustrationTones('#1b1d5b', '#e26811')
-    const d = Math.abs(secondary.h - ink.h) % 360
-    expect(Math.min(d, 360 - d)).toBeGreaterThanOrEqual(40)
-  })
-
-  test('ink defaults to the foreground but can come from the body colour', () => {
-    const tones = computeIllustrationTones('#f5f5f5', '#2e2e2e', '#3a3a3a')
-    expect(oklchToHex(tones.ink.l, tones.ink.c, tones.ink.h)).toBe('#3a3a3a')
-  })
 })
 
 describe('computeIllustrationPalette', () => {
-  test('returns an oklch() string for every role', () => {
+  test('returns an oklch() string for every tone', () => {
     const palette = computeIllustrationPalette('#f5f5f5', '#2e2e2e')
-    for (const role of ROLES) {
-      expect(palette[role]).toMatch(/^oklch\(\d\.\d{4} \d\.\d{4} \d+\.\d{2}\)$/)
+    for (const key of [...ILLUSTRATION_ROLES, ...ILLUSTRATION_TONES.map((t) => t.id)]) {
+      expect(palette[key], key).toMatch(/^oklch\(\d\.\d{4} \d\.\d{4} \d+\.\d{2}\)$/)
     }
   })
 })

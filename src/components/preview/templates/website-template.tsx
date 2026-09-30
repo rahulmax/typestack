@@ -199,7 +199,7 @@ export const websiteTemplate: PreviewTemplate = {
 <!-- SPLIT SECTION: ILLUSTRATION LEFT, TEXT RIGHT -->
 <section id="split-1" style="max-width: 1024px; margin: 0 auto; padding: 0 1.5rem 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
   <div>
-    <div class="ill" id="ill-split-1" style="display: flex; align-items: center; justify-content: center; min-height: 240px; border: ${borderLight}; border-radius: 16px; padding: 2rem; background: var(--ill-surface);"></div>
+    <div class="ill" id="ill-split-1" style="display: flex; align-items: center; justify-content: center; min-height: 240px; border: ${borderLight}; border-radius: 16px; padding: 2rem; background: var(--ill-surface); --ill-paper: var(--ill-surface);"></div>
     <small style="display: block; margin-top: 0.5rem; font-size: 0.65em; text-align: center;">Illustration by <a href="https://www.getillustrations.com" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">getillustrations.com</a></small>
   </div>
   <div>
@@ -242,7 +242,7 @@ export const websiteTemplate: PreviewTemplate = {
     </div>
   </div>
   <div>
-    <div class="ill" id="ill-split-2" style="display: flex; align-items: center; justify-content: center; min-height: 240px; border: ${borderLight}; border-radius: 16px; padding: 2rem; background: var(--ill-surface);"></div>
+    <div class="ill" id="ill-split-2" style="display: flex; align-items: center; justify-content: center; min-height: 240px; border: ${borderLight}; border-radius: 16px; padding: 2rem; background: var(--ill-surface); --ill-paper: var(--ill-surface);"></div>
     <small style="display: block; margin-top: 0.5rem; font-size: 0.65em; text-align: center;">Illustration by <a href="https://www.getillustrations.com" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">getillustrations.com</a></small>
   </div>
 </section>

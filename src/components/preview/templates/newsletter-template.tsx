@@ -21,7 +21,7 @@ export const newsletterTemplate: PreviewTemplate = {
   .nl-rule { border: none; border-top: 1px solid var(--nl-line); margin: 2rem 0; }
   .nl-item h3 { margin: 0.5rem 0 0.75rem; }
   .nl-item p { margin: 0 0 1rem; }
-  .nl-item .ill { display: flex; align-items: center; justify-content: center; min-height: 180px; margin: 1.25rem 0; padding: 1.25rem; border-radius: 10px; background: var(--ill-surface); border: 1px solid var(--nl-line); }
+  .nl-item .ill { display: flex; align-items: center; justify-content: center; min-height: 180px; margin: 1.25rem 0; padding: 1.25rem; border-radius: 10px; background: var(--ill-surface); --ill-paper: var(--ill-surface); border: 1px solid var(--nl-line); }
   .nl-btn { display: inline-block; padding: 0.7em 1.6em; border-radius: 8px; background: currentColor; cursor: pointer; }
   .nl-btn small { color: var(--bg-color, #fff); font-weight: 600; }
   .nl-body blockquote { margin: 1.5rem 0; padding: 0.25rem 0 0.25rem 1.25rem; border-left: 3px solid currentColor; }
