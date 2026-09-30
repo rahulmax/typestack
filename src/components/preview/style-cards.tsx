@@ -3,69 +3,45 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useComputedScale } from '@/hooks/use-computed-scale'
 import { useTypographyStore } from '@/store/typography-store'
+import { useUIStore } from '@/store/ui-store'
+import { COPY_SETS } from '@/data/copy-sets'
 import { fetchFontOptions, getFontLabel, getFontStack } from '@/lib/fonts'
 import { BODY_ELEMENTS } from '@/types/typography'
 import type { ResolvedElementStyle, TypographyElement } from '@/types/typography'
 
-const CHARSET_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz'
-const CHARSET_FIGURES = '0123456789 !?&@#$%*()“”'
-
-const HEADING_SAMPLE = 'Veyl, remembered in advance'
-const TITLE_SAMPLE = 'The Inverse Almanac'
-const LEAD_SAMPLE = 'Adept Varrow entered the tide before it rose, and was paid in arrears.'
-const PARAGRAPH_SAMPLE = 'The Concordance holds that every street of Veyl was first a rumour of the sea, and the sea a ledger no one has yet balanced.'
-const QUOTE_SAMPLE = '\u201CWhat the Provost of Unlit Rooms forgot, the almanac had already remembered twice.\u201D'
+const CHARSET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789 !?&@#$%*()“”'
 
 const MAX_SCALE_ROW_REM = 3.75
 
-const SCALE_ROWS: { element: TypographyElement; label: string; sample: string }[] = [
-  { element: 'display-1', label: 'Display 1', sample: 'The missing ledger' },
-  { element: 'display-2', label: 'Display 2', sample: 'The missing ledger' },
-  { element: 'display-3', label: 'Display 3', sample: 'The missing ledger' },
-  { element: 'h1', label: 'Heading 1', sample: 'The missing ledger' },
-  { element: 'h2', label: 'Heading 2', sample: 'The missing ledger' },
-  { element: 'h3', label: 'Heading 3', sample: 'Tidal grammarians catalogue what has not yet occurred' },
-  { element: 'h4', label: 'Heading 4', sample: 'Tidal grammarians catalogue what has not yet occurred' },
-  { element: 'h5', label: 'Heading 5', sample: 'Tidal grammarians catalogue what has not yet occurred' },
-  { element: 'h6', label: 'Heading 6', sample: 'Tidal grammarians catalogue what has not yet occurred' },
-  { element: 'p', label: 'Paragraph', sample: 'The Seventh Cartography maps only the places a map has already erased.' },
-  { element: 'small', label: 'Small', sample: 'The Seventh Cartography maps only the places a map has already erased.' },
-  { element: 'eyebrow', label: 'Eyebrow', sample: 'Veyl / Fragment IV' },
+type Sample = 'short' | 'long' | 'body' | 'eyebrow'
+
+const SCALE_ROWS: { element: TypographyElement; label: string; sample: Sample }[] = [
+  { element: 'display-1', label: 'Display 1', sample: 'short' },
+  { element: 'display-2', label: 'Display 2', sample: 'short' },
+  { element: 'display-3', label: 'Display 3', sample: 'short' },
+  { element: 'h1', label: 'Heading 1', sample: 'short' },
+  { element: 'h2', label: 'Heading 2', sample: 'short' },
+  { element: 'h3', label: 'Heading 3', sample: 'long' },
+  { element: 'h4', label: 'Heading 4', sample: 'long' },
+  { element: 'h5', label: 'Heading 5', sample: 'long' },
+  { element: 'h6', label: 'Heading 6', sample: 'long' },
+  { element: 'p', label: 'Paragraph', sample: 'body' },
+  { element: 'small', label: 'Small', sample: 'body' },
+  { element: 'eyebrow', label: 'Eyebrow', sample: 'eyebrow' },
 ]
 
 const PAIRING_LEVELS = [
-  { element: 'h2', label: 'Heading 2 over paragraph', max: 2.5 },
-  { element: 'h3', label: 'Heading 3 over paragraph', max: 1.875 },
-  { element: 'h4', label: 'Heading 4 over paragraph', max: 1.375 },
+  { element: 'h2', label: 'H2 + paragraph', max: 2.5 },
+  { element: 'h3', label: 'H3 + paragraph', max: 1.875 },
+  { element: 'h4', label: 'H4 + paragraph', max: 1.375 },
 ] as const
-const PAIRING_TITLES = {
-  h2: 'The city that filed its flood',
-  h3: 'Debts owed to tomorrow',
-  h4: 'The Provost of Unlit Rooms',
-} as const
-const PAIRING_BODY = 'What the Concordance has not yet recorded, the Almanac records twice; between the two entries lies Veyl, and whatever the tide has agreed to forget.'
 
-const ARTICLE_EYEBROW = 'Fragment'
-const ARTICLE_TITLE = 'On the ledger of Oriel Taskane'
-const ARTICLE_STANDFIRST = 'No one has seen the ledger, yet every debt in Veyl is settled against it, in a currency not yet minted.'
-const ARTICLE_PARAGRAPHS = [
-  'The tidal grammarians of the Hollow Concordance do not record what has occurred; they record what will have been said of it. Each morning Adept Ilse Varrow descends to the flooded stacks and files, under the rubric of tomorrow, a tide that already recedes.',
-  'Oriel Taskane, they insist, never lost the ledger. The ledger lost Taskane, a leaf at a time, until only the edges remained and the edges began to keep accounts of their own, in a hand nobody in Veyl could claim.',
-  'Ask the Provost of Unlit Rooms where the ledger is kept and you will be shown a door, and behind the door a second door, and behind that the first, which by then the Seventh Cartography has redrawn as an island.',
-]
-const ARTICLE_SMALL = [
-  'The Inverse Almanac lists eclipses that have been cancelled, harvests that fed no one and a single feast day, unobserved, whose date is revised each time it is remembered.',
-  'Cartographers of the Seventh school draw the coast last, and only from the water, since the shore, they maintain, is the sea’s opinion of itself.',
-  'Every ledger in Veyl closes with the same entry: a sum carried forward into a year that the Concordance has, with some reluctance, declined to name.',
-]
-const PULL_QUOTE = '\u201CAn absence, properly indexed, is the most exact of archives.\u201D'
-
-const GLYPH_SETS: { label: string; glyphs: string }[] = [
-  { label: 'Capitals', glyphs: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
-  { label: 'Lowercase', glyphs: 'abcdefghijklmnopqrstuvwxyz' },
-  { label: 'Figures', glyphs: '0123456789 $\u00A3\u20AC%+\u2212\u00D7\u00F7=' },
-  { label: 'Punctuation', glyphs: '.,:;!?&@#*()[]{}/\\|\u2013\u2014\u2018\u2019\u201C\u201D\u00AB\u00BB' },
-  { label: 'Accents', glyphs: '\u00C0\u00C1\u00C2\u00C3\u00C4\u00C5\u00C6\u00C7\u00C8\u00C9\u00CA\u00CB\u00D1\u00D6\u00D8\u0152\u00DC\u00DF \u00E0\u00E1\u00E2\u00E3\u00E4\u00E5\u00E6\u00E7\u00E8\u00E9\u00EA\u00EB\u00F1\u00F6\u00F8\u0153\u00FC' },
+const GLYPHS = [
+  ...'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+  ...'abcdefghijklmnopqrstuvwxyz',
+  ...'0123456789',
+  ...'&@?!%$€£#*()[]{}‘’“”«»–—',
+  ...'ÁÇÉÑÖØÜßàçéñöøüœ',
 ]
 
 const WEIGHT_NAMES: Record<number, string> = {
@@ -82,6 +58,8 @@ const WEIGHT_NAMES: Record<number, string> = {
 
 // Used until the catalog answers, and for families it has no weights for.
 const FALLBACK_WEIGHTS = [300, 400, 600, 700]
+
+const MONO = 'var(--font-geist-mono), ui-monospace, monospace'
 
 function findStyle(
   styles: ResolvedElementStyle[],
@@ -102,147 +80,14 @@ function dim(color: string, pct: number) {
   return `color-mix(in srgb, ${color} ${pct}%, transparent)`
 }
 
-function Rule({ color }: { color: string }) {
-  return <div className="h-px w-full" style={{ backgroundColor: dim(color, 25) }} />
-}
-
 function Label({ children, color }: { children: React.ReactNode; color: string }) {
   return (
     <span
       className="text-[10px] font-medium uppercase tracking-[0.14em]"
-      style={{ color: dim(color, 55), fontFamily: 'var(--font-geist-mono), ui-monospace, monospace' }}
+      style={{ color: dim(color, 55), fontFamily: MONO }}
     >
       {children}
     </span>
-  )
-}
-
-function WeightRamp({
-  fontFamily,
-  weights,
-  color,
-}: {
-  fontFamily: string
-  weights: number[]
-  color: string
-}) {
-  return (
-    <div className="flex gap-x-5 gap-y-2">
-      {weights.map((weight) => (
-        <div key={weight} className="flex min-w-0 flex-col gap-1">
-          <span
-            className="text-[1.75rem] leading-none"
-            style={{ fontFamily: getFontStack(fontFamily), fontWeight: weight, color }}
-          >
-            Ag
-          </span>
-          <Label color={color}>{WEIGHT_NAMES[weight] ?? weight}</Label>
-        </div>
-      ))}
-    </div>
-  )
-}
-
-function Specimen({
-  role,
-  fontFamily,
-  weight,
-  weights,
-  color,
-  glyphSize,
-}: {
-  role: string
-  fontFamily: string
-  weight: number
-  weights: number[]
-  color: string
-  glyphSize: string
-}) {
-  const stack = getFontStack(fontFamily)
-
-  return (
-    <div className="flex min-w-0 flex-col gap-3">
-      <Rule color={color} />
-      <div className="flex items-baseline justify-between gap-4">
-        <Label color={color}>{role}</Label>
-        <span className="overflow-hidden whitespace-nowrap text-sm" style={{ fontFamily: stack, color }}>
-          {getFontLabel(fontFamily)}
-        </span>
-      </div>
-      <div
-        className="select-none"
-        style={{
-          fontFamily: stack,
-          fontWeight: weight,
-          fontSize: glyphSize,
-          lineHeight: 0.95,
-          color,
-        }}
-      >
-        Aa
-      </div>
-      <WeightRamp fontFamily={fontFamily} weights={weights} color={color} />
-      <div
-        className="space-y-0.5 text-[0.8125rem] leading-snug"
-        style={{ fontFamily: stack, fontWeight: weight, color: dim(color, 85) }}
-      >
-        <p className="overflow-hidden whitespace-nowrap [mask-image:linear-gradient(to_right,#000_90%,transparent)]">{CHARSET_LETTERS}</p>
-        <p className="overflow-hidden whitespace-nowrap [mask-image:linear-gradient(to_right,#000_90%,transparent)]">{CHARSET_FIGURES}</p>
-      </div>
-    </div>
-  )
-}
-
-/** One family used for both roles: a single specimen with a longer ramp. */
-function SoloSpecimen({
-  fontFamily,
-  weight,
-  weights,
-  color,
-  glyphSize,
-}: {
-  fontFamily: string
-  weight: number
-  weights: number[]
-  color: string
-  glyphSize: string
-}) {
-  const stack = getFontStack(fontFamily)
-
-  return (
-    <div className="flex min-w-0 flex-col gap-3 @3xl:col-span-2">
-      <Rule color={color} />
-      <div className="flex items-baseline justify-between gap-4">
-        <Label color={color}>Headings and body</Label>
-        <span className="overflow-hidden whitespace-nowrap text-sm" style={{ fontFamily: stack, color }}>
-          {getFontLabel(fontFamily)}
-        </span>
-      </div>
-      <div className="grid gap-x-10 gap-y-3 @3xl:grid-cols-[auto_1fr] @3xl:items-end">
-        <div
-          className="select-none"
-          style={{
-            fontFamily: stack,
-            fontWeight: weight,
-            fontSize: glyphSize,
-            lineHeight: 0.95,
-            color,
-          }}
-        >
-          Aa
-        </div>
-        <div className="flex min-w-0 flex-col gap-3">
-          <WeightRamp fontFamily={fontFamily} weights={weights} color={color} />
-          <div
-            className="space-y-0.5 text-[0.8125rem] leading-snug"
-            style={{ fontFamily: stack, fontWeight: weight, color: dim(color, 85) }}
-          >
-            <p className="overflow-hidden whitespace-nowrap [mask-image:linear-gradient(to_right,#000_90%,transparent)]">{CHARSET_LETTERS}</p>
-            <p className="overflow-hidden whitespace-nowrap [mask-image:linear-gradient(to_right,#000_90%,transparent)]">{CHARSET_FIGURES}</p>
-          </div>
-        </div>
-      </div>
-    </div>
   )
 }
 
@@ -258,50 +103,147 @@ function SectionHeader({
   color: string
 }) {
   return (
-    <div className="flex flex-col gap-3">
-      <Rule color={color} />
-      <div className="flex items-baseline justify-between gap-4">
-        <Label color={color}>
-          {index} / {title}
-        </Label>
-        {note && <Label color={color}>{note}</Label>}
+    <div
+      className="flex items-baseline justify-between gap-4 pt-3"
+      style={{ borderTop: `1px solid ${dim(color, 22)}` }}
+    >
+      <div className="flex items-baseline gap-3">
+        <Label color={color}>{index}</Label>
+        <span className="text-[10px] font-medium uppercase tracking-[0.14em]" style={{ color, fontFamily: MONO }}>
+          {title}
+        </span>
       </div>
+      {note && <Label color={color}>{note}</Label>}
     </div>
   )
 }
 
-function GlyphBlock({
+/** A family's weights, each setting the same word, lightest first. */
+function WeightStack({
+  fontFamily,
+  weights,
+  word,
+  color,
+  columns,
+}: {
+  fontFamily: string
+  weights: number[]
+  word: string
+  color: string
+  columns?: boolean
+}) {
+  return (
+    <div className={columns ? 'grid gap-x-8 @3xl:grid-cols-3' : 'flex flex-col'}>
+      {weights.map((weight) => (
+        <div
+          key={weight}
+          className="flex items-baseline justify-between gap-4 py-1.5"
+          style={{ borderBottom: `1px solid ${dim(color, 8)}` }}
+        >
+          <span
+            className="min-w-0 truncate text-[1.75rem] leading-tight"
+            style={{ fontFamily: getFontStack(fontFamily), fontWeight: weight, color }}
+          >
+            {word}
+          </span>
+          <Label color={color}>
+            {weight} {WEIGHT_NAMES[weight] ?? ''}
+          </Label>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function Family({
+  role,
+  fontFamily,
+  weight,
+  weights,
+  word,
+  color,
+  solo,
+}: {
+  role: string
+  fontFamily: string
+  weight: number
+  weights: number[]
+  word: string
+  color: string
+  solo?: boolean
+}) {
+  const stack = getFontStack(fontFamily)
+
+  return (
+    <div className={`flex min-w-0 flex-col gap-6 ${solo ? '@3xl:col-span-2' : ''}`}>
+      <div className={`grid items-end gap-x-8 gap-y-2 ${solo ? '@3xl:grid-cols-[auto_1fr]' : 'grid-cols-[auto_1fr]'}`}>
+        <div
+          className="select-none"
+          style={{ fontFamily: stack, fontWeight: weight, fontSize: solo ? '10rem' : '7.5rem', lineHeight: 0.8, color }}
+        >
+          Aa
+        </div>
+        <div className="flex min-w-0 flex-col gap-1 pb-1">
+          <Label color={color}>{role}</Label>
+          <span className="truncate text-2xl leading-tight" style={{ fontFamily: stack, fontWeight: weight, color }}>
+            {getFontLabel(fontFamily)}
+          </span>
+          <Label color={color}>
+            {weights.length} {weights.length === 1 ? 'weight' : 'weights'} shown / set in {weight}
+          </Label>
+        </div>
+      </div>
+      <WeightStack fontFamily={fontFamily} weights={weights} word={word} color={color} columns={solo} />
+      <p
+        className="text-[0.9375rem] leading-relaxed break-words"
+        style={{ fontFamily: stack, fontWeight: weight, color: dim(color, 80) }}
+      >
+        {CHARSET}
+      </p>
+    </div>
+  )
+}
+
+function GlyphGrid({
   role,
   fontFamily,
   weight,
   color,
-  wide,
 }: {
   role: string
   fontFamily: string
   weight: number
   color: string
-  wide?: boolean
 }) {
+  const stack = getFontStack(fontFamily)
   return (
-    <div className={`flex min-w-0 flex-col gap-4 ${wide ? '@3xl:col-span-2' : ''}`}>
-      <div className="flex items-baseline justify-between gap-4">
-        <Label color={color}>{role}</Label>
-        <span className="text-sm" style={{ fontFamily: getFontStack(fontFamily), color }}>
+    <div className="grid gap-6 @3xl:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
+      <div
+        className="flex min-h-64 flex-col justify-between rounded-sm p-5"
+        style={{ backgroundColor: dim(color, 5) }}
+      >
+        <div className="flex items-baseline justify-between gap-4">
+          <Label color={color}>{role}</Label>
+          <Label color={color}>U+0026</Label>
+        </div>
+        <div
+          className="select-none text-center"
+          style={{ fontFamily: stack, fontWeight: weight, fontSize: '11rem', lineHeight: 1, color }}
+        >
+          &amp;
+        </div>
+        <span className="text-sm" style={{ fontFamily: stack, color }}>
           {getFontLabel(fontFamily)}
         </span>
       </div>
-      <div className={`grid gap-x-10 gap-y-4 ${wide ? '@3xl:grid-cols-2' : ''}`}>
-        {GLYPH_SETS.map(({ label, glyphs }) => (
-          <div key={label} className="flex min-w-0 flex-col gap-1.5">
-            <Rule color={color} />
-            <Label color={color}>{label}</Label>
-            <p
-              className="break-words text-[1.375rem] leading-[1.35] tracking-[0.06em]"
-              style={{ fontFamily: getFontStack(fontFamily), fontWeight: weight, color }}
-            >
-              {glyphs}
-            </p>
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(2.75rem,1fr))] gap-px self-start">
+        {GLYPHS.map((glyph, i) => (
+          <div
+            key={`${glyph}-${i}`}
+            className="flex aspect-square items-center justify-center text-[1.375rem]"
+            style={{ fontFamily: stack, fontWeight: weight, color, backgroundColor: dim(color, 5) }}
+          >
+            {glyph}
           </div>
         ))}
       </div>
@@ -314,6 +256,9 @@ export function StyleCards() {
   const backgroundColor = useTypographyStore((s) => s.backgroundColor)
   const headingsGroup = useTypographyStore((s) => s.headingsGroup)
   const bodyGroup = useTypographyStore((s) => s.bodyGroup)
+  const copyIndex = useUIStore((s) => s.copyIndex)
+  const copySet = COPY_SETS[copyIndex] ?? COPY_SETS[0]
+  const copy = copySet.specimen
   const [catalogWeights, setCatalogWeights] = useState<Map<string, number[]>>(new Map())
 
   const styles = useMemo(() => {
@@ -325,6 +270,7 @@ export function StyleCards() {
       p: findStyle(desktop, 'p'),
       small: findStyle(desktop, 'small'),
       eyebrow: findStyle(desktop, 'eyebrow'),
+      display1: findStyle(desktop, 'display-1'),
     }
   }, [desktop])
 
@@ -362,7 +308,13 @@ export function StyleCards() {
     return pickWeights(known?.length ? known : FALLBACK_WEIGHTS, max)
   }
 
-  const glyphSize = `${Math.min(Math.max((styles.h1?.fontSizeRem ?? 3) * 1.5, 3.5), 6)}rem`
+  const samples: Record<Sample, string> = {
+    short: copy.scaleShort,
+    long: copy.scaleLong,
+    body: copy.scaleBody,
+    eyebrow: copy.scaleEyebrow,
+  }
+  const heroStyle = styles.display1 ?? styles.h1
   const pSize = Math.min(styles.p?.fontSizeRem ?? 1, 1.0625)
   const bodyStyle = {
     fontFamily: getFontStack(bodyFont),
@@ -370,141 +322,142 @@ export function StyleCards() {
     lineHeight: styles.p?.lineHeight ?? bodyGroup.lineHeight,
     color: bodyColor,
   }
+  const headingStyle = (style: ResolvedElementStyle | undefined, maxRem: number, fallbackRem: number) => ({
+    fontFamily: getFontStack(headingFont),
+    fontWeight: style?.fontWeight ?? headingsGroup.fontWeight,
+    fontSize: `${Math.min(style?.fontSizeRem ?? fallbackRem, maxRem)}rem`,
+    lineHeight: style?.lineHeight ?? headingsGroup.lineHeight,
+    letterSpacing: `${style?.letterSpacing ?? headingsGroup.letterSpacing}em`,
+    color: headingColor,
+  })
 
   return (
-    <div
-      className="@container w-full overflow-hidden"
-      style={{ backgroundColor }}
-    >
-      <div className="mx-auto flex max-w-[1200px] flex-col gap-10 px-6 py-7 @3xl:px-10">
-        {/* Masthead */}
-        <h1
-          style={{
-            fontFamily: getFontStack(headingFont),
-            fontWeight: styles.h1?.fontWeight ?? headingsGroup.fontWeight,
-            fontSize: `${Math.min(styles.h1?.fontSizeRem ?? 2.5, 2.75)}rem`,
-            lineHeight: styles.h1?.lineHeight ?? headingsGroup.lineHeight,
-            letterSpacing: `${styles.h1?.letterSpacing ?? headingsGroup.letterSpacing}em`,
-            color: headingColor,
-          }}
-        >
-          {HEADING_SAMPLE}
-        </h1>
+    <div className="@container w-full overflow-hidden" style={{ backgroundColor }}>
+      <div className="mx-auto flex max-w-[1200px] flex-col gap-20 px-6 pt-6 pb-16 @3xl:px-10">
+        {/* Cover */}
+        <header className="flex flex-col gap-10">
+          <div className="flex items-baseline justify-between gap-4">
+            <Label color={headingColor}>Type specimen</Label>
+            <Label color={headingColor}>{copySet.name}</Label>
+          </div>
+          <h1
+            className="[text-wrap:balance]"
+            style={{
+              fontFamily: getFontStack(headingFont),
+              fontWeight: heroStyle?.fontWeight ?? headingsGroup.fontWeight,
+              fontSize: 'clamp(3.5rem, 13cqi, 11rem)',
+              lineHeight: 0.92,
+              letterSpacing: `${Math.min(heroStyle?.letterSpacing ?? 0, 0) - 0.02}em`,
+              color: headingColor,
+            }}
+          >
+            {copy.hero}
+          </h1>
+          <div className="grid gap-x-10 gap-y-6 @3xl:grid-cols-[1fr_1fr_2fr]">
+            <div className="flex flex-col gap-1">
+              <Label color={headingColor}>Headings</Label>
+              <span className="text-lg" style={{ fontFamily: getFontStack(headingFont), color: headingColor }}>
+                {getFontLabel(headingFont)}
+              </span>
+            </div>
+            <div className="flex flex-col gap-1">
+              <Label color={bodyColor}>Body</Label>
+              <span className="text-lg" style={{ fontFamily: getFontStack(bodyFont), color: bodyColor }}>
+                {getFontLabel(bodyFont)}
+              </span>
+            </div>
+            <p style={{ ...bodyStyle, fontSize: `${Math.min((styles.h3?.fontSizeRem ?? 1.5) * 0.75, 1.25)}rem` }}>
+              {copy.lead}
+            </p>
+          </div>
+        </header>
 
-        {/* Specimens */}
-        <div className="grid gap-x-10 gap-y-6 @3xl:grid-cols-2">
-          {same ? (
-            <SoloSpecimen
-              fontFamily={headingFont}
-              weight={headingsGroup.fontWeight}
-              weights={weightsFor(headingFont, 9)}
-              color={headingColor}
-              glyphSize={glyphSize}
-            />
-          ) : (
-            <>
-              <Specimen
-                role="Headings"
+        {/* 01 Families */}
+        <section className="flex flex-col gap-8">
+          <SectionHeader index="01" title="Families" color={headingColor} />
+          <div className="grid gap-x-14 gap-y-14 @3xl:grid-cols-2">
+            {same ? (
+              <Family
+                role="Headings and body"
                 fontFamily={headingFont}
                 weight={headingsGroup.fontWeight}
-                weights={weightsFor(headingFont, 5)}
+                weights={weightsFor(headingFont, 9)}
+                word={copy.rampWord}
                 color={headingColor}
-                glyphSize={glyphSize}
+                solo
               />
-              <Specimen
-                role="Body"
-                fontFamily={bodyFont}
-                weight={bodyGroup.fontWeight}
-                weights={weightsFor(bodyFont, 5)}
-                color={bodyColor}
-                glyphSize={glyphSize}
-              />
-            </>
-          )}
-        </div>
-
-        {/* In use */}
-        <div className="grid gap-x-10 gap-y-6 @3xl:grid-cols-2">
-          <div className="flex min-w-0 flex-col gap-3">
-            <Rule color={headingColor} />
-            <Label color={bodyColor}>In use</Label>
-            <p
-              style={{
-                fontFamily: getFontStack(headingFont),
-                fontWeight: styles.h1?.fontWeight ?? headingsGroup.fontWeight,
-                fontSize: `${Math.min((styles.h1?.fontSizeRem ?? 3) * 0.65, 2.25)}rem`,
-                lineHeight: styles.h1?.lineHeight ?? headingsGroup.lineHeight,
-                color: headingColor,
-              }}
-            >
-              {TITLE_SAMPLE}
-            </p>
-            <p
-              style={{
-                ...bodyStyle,
-                fontSize: `${Math.min((styles.h3?.fontSizeRem ?? 1.5) * 0.75, 1.25)}rem`,
-              }}
-            >
-              {LEAD_SAMPLE}
-            </p>
+            ) : (
+              <>
+                <Family
+                  role="Headings"
+                  fontFamily={headingFont}
+                  weight={headingsGroup.fontWeight}
+                  weights={weightsFor(headingFont, 5)}
+                  word={copy.rampWord}
+                  color={headingColor}
+                />
+                <Family
+                  role="Body"
+                  fontFamily={bodyFont}
+                  weight={bodyGroup.fontWeight}
+                  weights={weightsFor(bodyFont, 5)}
+                  word={copy.rampWord}
+                  color={bodyColor}
+                />
+              </>
+            )}
           </div>
-          <div className="flex min-w-0 flex-col gap-3">
-            <Rule color={headingColor} />
-            <Label color={bodyColor}>Text and quote</Label>
-            <p style={{ ...bodyStyle, fontSize: `${pSize}rem` }}>{PARAGRAPH_SAMPLE}</p>
-            <p className="italic" style={{ ...bodyStyle, fontSize: `${pSize * 1.1}rem` }}>
-              {QUOTE_SAMPLE}
-            </p>
-          </div>
-        </div>
+        </section>
 
         {/* 02 Type scale */}
-        <section className="flex flex-col gap-1">
+        <section className="flex flex-col gap-4">
           <SectionHeader
             index="02"
             title="Type scale"
             note={scaleK < 1 ? `Shown at ${Math.round(scaleK * 100)}%` : undefined}
             color={headingColor}
           />
-          {scaleRows.map(({ row, style, isHeading }) => {
-            const font = isHeading ? headingFont : bodyFont
-            const color = isHeading ? headingColor : bodyColor
-            return (
-              <div
-                key={row.element}
-                className="grid items-baseline gap-x-6 gap-y-1 py-3 @3xl:grid-cols-[10rem_1fr]"
-                style={{ borderBottom: `1px solid ${dim(headingColor, 15)}` }}
-              >
-                <div className="flex flex-col gap-0.5">
-                  <Label color={color}>{row.label}</Label>
-                  <Label color={color}>
-                    {Math.round(style.fontSize)}px / {style.lineHeight} / {style.fontWeight}
-                  </Label>
-                </div>
-                <p
-                  className="min-w-0"
-                  style={{
-                    fontFamily: getFontStack(font),
-                    fontWeight: style.fontWeight,
-                    fontSize: `${style.fontSizeRem * scaleK}rem`,
-                    lineHeight: style.lineHeight,
-                    letterSpacing: `${style.letterSpacing}em`,
-                    textTransform: style.textTransform as React.CSSProperties['textTransform'],
-                    color,
-                  }}
+          <div className="flex flex-col">
+            {scaleRows.map(({ row, style, isHeading }) => {
+              const font = isHeading ? headingFont : bodyFont
+              const color = isHeading ? headingColor : bodyColor
+              return (
+                <div
+                  key={row.element}
+                  className="grid items-baseline gap-x-8 gap-y-1 py-4 @3xl:grid-cols-[1fr_9rem]"
+                  style={{ borderBottom: `1px solid ${dim(headingColor, 8)}` }}
                 >
-                  {row.sample}
-                </p>
-              </div>
-            )
-          })}
+                  <p
+                    className="min-w-0"
+                    style={{
+                      fontFamily: getFontStack(font),
+                      fontWeight: style.fontWeight,
+                      fontSize: `${style.fontSizeRem * scaleK}rem`,
+                      lineHeight: style.lineHeight,
+                      letterSpacing: `${style.letterSpacing}em`,
+                      textTransform: style.textTransform as React.CSSProperties['textTransform'],
+                      color,
+                    }}
+                  >
+                    {samples[row.sample]}
+                  </p>
+                  <div className="flex gap-3 @3xl:flex-col @3xl:items-end @3xl:gap-0.5">
+                    <Label color={color}>{row.label}</Label>
+                    <Label color={color}>
+                      {Math.round(style.fontSize)} / {style.lineHeight} / {style.fontWeight}
+                    </Label>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
         </section>
 
         {/* 03 Text setting */}
-        <section className="flex flex-col gap-6">
+        <section className="flex flex-col gap-10">
           <SectionHeader index="03" title="Text setting" color={headingColor} />
-          <div className="grid gap-x-10 gap-y-6 @3xl:grid-cols-[1fr_2fr]">
-            <div className="flex min-w-0 flex-col gap-4">
+          <div className="grid gap-x-14 gap-y-8 @3xl:grid-cols-[5fr_7fr]">
+            <div className="flex min-w-0 flex-col gap-5">
               <span
                 style={{
                   fontFamily: getFontStack(bodyFont),
@@ -515,20 +468,9 @@ export function StyleCards() {
                   color: dim(bodyColor, 70),
                 }}
               >
-                {ARTICLE_EYEBROW}
+                {copy.article.eyebrow}
               </span>
-              <h2
-                style={{
-                  fontFamily: getFontStack(headingFont),
-                  fontWeight: styles.h2?.fontWeight ?? headingsGroup.fontWeight,
-                  fontSize: `${Math.min(styles.h2?.fontSizeRem ?? 2, 2.5)}rem`,
-                  lineHeight: styles.h2?.lineHeight ?? headingsGroup.lineHeight,
-                  letterSpacing: `${styles.h2?.letterSpacing ?? headingsGroup.letterSpacing}em`,
-                  color: headingColor,
-                }}
-              >
-                {ARTICLE_TITLE}
-              </h2>
+              <h2 style={headingStyle(styles.h2, 2.75, 2)}>{copy.article.title}</h2>
               <p
                 style={{
                   ...bodyStyle,
@@ -536,24 +478,11 @@ export function StyleCards() {
                   color: dim(bodyColor, 80),
                 }}
               >
-                {ARTICLE_STANDFIRST}
+                {copy.article.standfirst}
               </p>
-              <blockquote
-                className="mt-2 border-l-2 pl-4"
-                style={{
-                  borderColor: headingColor,
-                  fontFamily: getFontStack(headingFont),
-                  fontWeight: styles.h4?.fontWeight ?? headingsGroup.fontWeight,
-                  fontSize: `${Math.min(styles.h4?.fontSizeRem ?? 1.5, 1.75)}rem`,
-                  lineHeight: styles.h4?.lineHeight ?? headingsGroup.lineHeight,
-                  color: headingColor,
-                }}
-              >
-                {PULL_QUOTE}
-              </blockquote>
             </div>
             <div className="min-w-0 gap-x-8 @2xl:columns-2">
-              {ARTICLE_PARAGRAPHS.map((text, i) => (
+              {copy.article.paragraphs.map((text, i) => (
                 <p
                   key={i}
                   className={`${i > 0 ? 'mt-3' : ''} break-inside-avoid-column hyphens-auto`}
@@ -564,9 +493,14 @@ export function StyleCards() {
               ))}
             </div>
           </div>
-          <Rule color={headingColor} />
+          <blockquote
+            className="mx-auto max-w-[22em] text-center [text-wrap:balance]"
+            style={headingStyle(styles.h2, 2.75, 2)}
+          >
+            {copy.article.pullQuote}
+          </blockquote>
           <div className="gap-x-8 @2xl:columns-2 @4xl:columns-3">
-            {ARTICLE_SMALL.map((text, i) => (
+            {copy.article.notes.map((text, i) => (
               <p
                 key={i}
                 className={`${i > 0 ? 'mt-3' : ''} break-inside-avoid-column hyphens-auto`}
@@ -574,6 +508,7 @@ export function StyleCards() {
                   ...bodyStyle,
                   fontSize: `${styles.small?.fontSizeRem ?? 0.875}rem`,
                   lineHeight: styles.small?.lineHeight ?? bodyGroup.lineHeight,
+                  color: dim(bodyColor, 80),
                 }}
               >
                 {text}
@@ -583,62 +518,36 @@ export function StyleCards() {
         </section>
 
         {/* 04 Glyphs */}
-        <section className="flex flex-col gap-6">
+        <section className="flex flex-col gap-8">
           <SectionHeader index="04" title="Glyphs" color={headingColor} />
-          <div className="grid gap-x-10 gap-y-8 @3xl:grid-cols-2">
-            {same ? (
-              <GlyphBlock
-                role="Headings and body"
-                fontFamily={headingFont}
-                weight={bodyGroup.fontWeight}
-                color={headingColor}
-                wide
-              />
-            ) : (
-              <>
-                <GlyphBlock
-                  role="Headings"
-                  fontFamily={headingFont}
-                  weight={headingsGroup.fontWeight}
-                  color={headingColor}
-                />
-                <GlyphBlock
-                  role="Body"
-                  fontFamily={bodyFont}
-                  weight={bodyGroup.fontWeight}
-                  color={bodyColor}
-                />
-              </>
-            )}
-          </div>
+          <GlyphGrid
+            role={same ? 'Headings and body' : 'Headings'}
+            fontFamily={headingFont}
+            weight={headingsGroup.fontWeight}
+            color={headingColor}
+          />
+          {!same && (
+            <GlyphGrid role="Body" fontFamily={bodyFont} weight={bodyGroup.fontWeight} color={bodyColor} />
+          )}
         </section>
 
         {/* 05 Pairing */}
-        <section className="flex flex-col gap-6 pb-4">
+        <section className="flex flex-col gap-8">
           <SectionHeader index="05" title="Pairing" color={headingColor} />
-          <div className="grid gap-x-10 gap-y-8 @3xl:grid-cols-3">
-            {PAIRING_LEVELS.map(({ element, label, max }) => {
-              const style = styles[element]
-              return (
-                <div key={element} className="flex min-w-0 flex-col gap-3">
-                  <Rule color={headingColor} />
-                  <Label color={bodyColor}>{label}</Label>
-                  <h3
-                    style={{
-                      fontFamily: getFontStack(headingFont),
-                      fontWeight: style?.fontWeight ?? headingsGroup.fontWeight,
-                      fontSize: `${Math.min(style?.fontSizeRem ?? 1.5, max)}rem`,
-                      lineHeight: style?.lineHeight ?? headingsGroup.lineHeight,
-                      letterSpacing: `${style?.letterSpacing ?? headingsGroup.letterSpacing}em`,
-                      color: headingColor,
-                    }}
-                  >
-                    {PAIRING_TITLES[element]}
-                  </h3>
-                  <p style={{ ...bodyStyle, fontSize: `${pSize}rem` }}>{PAIRING_BODY}</p>
-                </div>
-              )
-            })}
+          <div className="grid gap-x-10 gap-y-10 @3xl:grid-cols-3">
+            {PAIRING_LEVELS.map(({ element, label, max }, i) => (
+              <div key={element} className="flex min-w-0 flex-col gap-3">
+                <Label color={bodyColor}>{label}</Label>
+                <h3 style={headingStyle(styles[element], max, 1.5)}>{copy.pairingTitles[i]}</h3>
+                <p style={{ ...bodyStyle, fontSize: `${pSize}rem` }}>{copy.pairingBody}</p>
+              </div>
+            ))}
+          </div>
+          <div className="grid gap-x-10 gap-y-6 pt-6 @3xl:grid-cols-2">
+            <p style={{ ...bodyStyle, fontSize: `${pSize}rem` }}>{copy.paragraph}</p>
+            <p className="italic" style={{ ...bodyStyle, fontSize: `${pSize * 1.15}rem` }}>
+              {copy.quote}
+            </p>
           </div>
         </section>
       </div>
