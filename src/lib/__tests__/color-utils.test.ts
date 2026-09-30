@@ -9,6 +9,7 @@ import {
   hexToOklch,
   hexToRgb,
   isInSrgbGamut,
+  nextAlexCristacheColorway,
   nextSoftColorway,
   oklchContrast,
   oklchToHex,
@@ -16,6 +17,7 @@ import {
 } from '../color-utils'
 import { ILLUSTRATION_TONES } from '../illustration-packs'
 import { SOFT_COLORWAYS } from '@/data/soft-colors'
+import { ALEX_CRISTACHE_COLORWAYS } from '@/data/alex-cristache-colors'
 
 const HARD_CASES: Record<string, [fg: string, bg: string]> = {
   'app default': ['#2e2e2e', '#f5f5f5'],
@@ -231,16 +233,19 @@ describe('computeIllustrationPalette', () => {
   })
 })
 
-describe('nextSoftColorway', () => {
-  test('every soft colorway reads at 3:1 or better', () => {
-    for (const { bg, heading, body } of SOFT_COLORWAYS) {
+describe.each([
+  ['nextSoftColorway', SOFT_COLORWAYS, nextSoftColorway],
+  ['nextAlexCristacheColorway', ALEX_CRISTACHE_COLORWAYS, nextAlexCristacheColorway],
+] as const)('%s', (_, colorways, next) => {
+  test('every colorway reads at 3:1 or better', () => {
+    for (const { bg, heading, body } of colorways) {
       expect(contrastRatio(hexToRgb(heading), hexToRgb(bg))).toBeGreaterThanOrEqual(3)
       expect(contrastRatio(hexToRgb(body), hexToRgb(bg))).toBeGreaterThanOrEqual(3)
     }
   })
 
   test('deals every colorway once before repeating', () => {
-    const seen = new Set(Array.from(SOFT_COLORWAYS, () => nextSoftColorway()))
-    expect(seen.size).toBe(SOFT_COLORWAYS.length)
+    const seen = new Set(Array.from(colorways, () => next()))
+    expect(seen.size).toBe(colorways.length)
   })
 })

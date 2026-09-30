@@ -20,7 +20,7 @@ import { HexRgbInput } from "@/components/controls/color-picker/hex-rgb-input"
 import { TailwindPalette } from "@/components/controls/color-picker/tailwind-palette"
 import { useTypographyStore } from "@/store/typography-store"
 import { useUIStore, GRID_PATTERN_TYPES, type GridPatternType } from "@/store/ui-store"
-import { generateRandomColorPair, nextSoftColorway } from "@/lib/color-utils"
+import { generateRandomColorPair, nextAlexCristacheColorway, nextSoftColorway } from "@/lib/color-utils"
 import { useTheme } from "next-themes"
 
 function ColorPickerButton({
@@ -140,6 +140,14 @@ const patternOpacity = useUIStore((s) => s.patternOpacity)
     rollCopy()
   }, [setColors, rollCopy])
 
+  const [alexName, setAlexName] = useState<string | null>(null)
+  const handleAlex = useCallback(() => {
+    const { name, heading, body, bg } = nextAlexCristacheColorway()
+    setColors(heading, body, bg)
+    setAlexName(name)
+    rollCopy()
+  }, [setColors, rollCopy])
+
   const handleReverse = useCallback(() => {
     setColors(backgroundColor, backgroundColor, headingColor)
     bump()
@@ -199,6 +207,20 @@ const patternOpacity = useUIStore((s) => s.patternOpacity)
               </button>
             </TooltipTrigger>
             <TooltipContent>{softName ? `Soft colors: ${softName}` : "Soft colors"}</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button type="button" onClick={handleAlex} className="hw-btn hw-selector-btn flex-1 flex-col !gap-0.5 justify-end pb-1.5" style={{ height: 52 }}>
+                <span className="flex h-2.5 w-8 overflow-hidden rounded-sm shadow-[inset_0_1px_2px_rgba(0,0,0,0.2)]">
+                  <span className="flex-1 bg-[#4a1106]" />
+                  <span className="flex-1 bg-[#ff6b01]" />
+                  <span className="flex-1 bg-[#ece735]" />
+                  <span className="flex-1 bg-[#0191b3]" />
+                </span>
+                <span className="text-[10px] text-muted-foreground">Alex</span>
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>{alexName ? `AlexCristache: ${alexName}` : "AlexCristache colors"}</TooltipContent>
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>

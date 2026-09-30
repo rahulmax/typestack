@@ -1,5 +1,6 @@
 import { ILLUSTRATION_PACKS, ILLUSTRATION_TONES, type IllustrationSourceTone } from "./illustration-packs";
 import { SOFT_COLORWAYS, type SoftColorway } from "@/data/soft-colors";
+import { ALEX_CRISTACHE_COLORWAYS } from "@/data/alex-cristache-colors";
 
 function hslToRgb(h: number, s: number, l: number): [number, number, number] {
   const sNorm = s / 100;
@@ -482,16 +483,23 @@ export function generateRandomColorPair(preferDarkBg = false): { fg: string; bg:
     : { fg: "#1a1a2e", bg: "#e8e8f0" };
 }
 
-let softDeck: SoftColorway[] = [];
-
-/** Deals the extracted colorways in shuffled order, reshuffling once all have been seen. */
-export function nextSoftColorway(): SoftColorway {
-  if (softDeck.length === 0) {
-    softDeck = [...SOFT_COLORWAYS];
-    for (let i = softDeck.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [softDeck[i], softDeck[j]] = [softDeck[j], softDeck[i]];
+/** Deals colorways in shuffled order, reshuffling once all have been seen. */
+function dealer(colorways: SoftColorway[]): () => SoftColorway {
+  let deck: SoftColorway[] = [];
+  return () => {
+    if (deck.length === 0) {
+      deck = [...colorways];
+      for (let i = deck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [deck[i], deck[j]] = [deck[j], deck[i]];
+      }
     }
-  }
-  return softDeck.pop()!;
+    return deck.pop()!;
+  };
 }
+
+/** Colorways extracted from the type specimen images. */
+export const nextSoftColorway = dealer(SOFT_COLORWAYS);
+
+/** Colorways extracted from Alex Cristache's palette graphics. */
+export const nextAlexCristacheColorway = dealer(ALEX_CRISTACHE_COLORWAYS);

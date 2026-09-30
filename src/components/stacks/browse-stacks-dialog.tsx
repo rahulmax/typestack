@@ -24,8 +24,8 @@ import {
 import { useTypographyStore } from "@/store/typography-store";
 import { useUIStore } from "@/store/ui-store";
 import { useFontLoader } from "./use-gallery-fonts";
-import { Plus, Shuffle, Palette, ArrowLeftRight, X } from "lucide-react";
-import { generateRandomColorPair, nextSoftColorway } from "@/lib/color-utils";
+import { Plus, Shuffle, Palette, Rainbow, ArrowLeftRight, X } from "lucide-react";
+import { generateRandomColorPair, nextAlexCristacheColorway, nextSoftColorway } from "@/lib/color-utils";
 import { useTheme } from "next-themes";
 import { canRenderFamily, getFontSource, resolveFontSources } from "@/lib/fonts";
 import type { FontSource } from "@/types/fonts";
@@ -202,6 +202,12 @@ export function BrowseStacksDialog({
     rollCopy();
   }
 
+  function handleAlex() {
+    const { heading, body, bg } = nextAlexCristacheColorway();
+    setColors(heading, body, bg);
+    rollCopy();
+  }
+
   function handleReverse() {
     setColors(backgroundColor, backgroundColor, headingColor);
   }
@@ -259,6 +265,14 @@ export function BrowseStacksDialog({
                     </button>
                   </TooltipTrigger>
                   <TooltipContent>Soft colors</TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button type="button" onClick={handleAlex} className="hw-btn">
+                      <Rainbow className="size-3.5" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>AlexCristache colors</TooltipContent>
                 </Tooltip>
                 <Tooltip>
                   <TooltipTrigger asChild>
