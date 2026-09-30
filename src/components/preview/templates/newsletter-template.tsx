@@ -6,7 +6,9 @@ export const newsletterTemplate: PreviewTemplate = {
   id: "newsletter",
   name: "Newsletter",
   icon: Mail,
-  html: `
+  render: (copy) => {
+    const c = copy.newsletter;
+    return `
 <style>
   .nl { --nl-line: color-mix(in srgb, currentColor 16%, transparent); --nl-tint: color-mix(in srgb, currentColor 5%, transparent); max-width: 640px; margin: 0 auto; padding: 0.5rem 0 2rem; }
   .nl-pre { display: flex; justify-content: space-between; gap: 1rem; padding: 0.5rem 0.25rem 1rem; opacity: 0.7; }
@@ -45,61 +47,62 @@ export const newsletterTemplate: PreviewTemplate = {
 </style>
 
 <div class="nl">
-  <div class="nl-pre"><small>Twelve entries, three doctrines, one apology.</small><small>Attend in person</small></div>
+  <div class="nl-pre"><small>${c.preheader[0]}</small><small>${c.preheader[1]}</small></div>
   <div class="nl-card">
-    <div class="nl-head"><h6>The Concordance Bulletin</h6><small>the ebb of Thaw</small></div>
+    <div class="nl-head"><h6>${c.name}</h6><small>${c.date}</small></div>
     <div class="nl-body">
-      <div class="nl-issue"><p class="display-3">42</p><span class="eyebrow">Issue &middot; The unlit rooms</span></div>
-      <h1>The case for arriving late to your own audience</h1>
-      <p>Good tide. This issue: why the Provost declines to sit in lit rooms, a small experiment with the Third Sea-Wall, and the finest recantation composed in Veyl this year.</p>
+      <div class="nl-issue"><p class="display-3">${c.issue}</p><span class="eyebrow">${c.issueLabel}</span></div>
+      <h1>${c.title}</h1>
+      <p>${c.intro}</p>
 
       <hr class="nl-rule" />
 
       <div class="nl-item">
-        <span class="eyebrow">01 &middot; Essay</span>
-        <h3>Why nobody enters the rooms that work</h3>
-        <p>Ask an adept which room served her best and she will name one she has never entered. That refusal is the compliment, and it is nearly impossible to record.</p>
+        <span class="eyebrow">${c.essay.eyebrow}</span>
+        <h3>${c.essay.title}</h3>
+        <p>${c.essay.body}</p>
         <div class="ill" data-max-h="200px"></div>
-        <p>I spent a tide compiling every room I reached for without arriving. The list was short, dim, and older than the building.</p>
-        <div class="nl-btn"><small>Enter the essay</small></div>
+        <p>${c.essay.after}</p>
+        <div class="nl-btn"><small>${c.essay.button}</small></div>
       </div>
 
       <hr class="nl-rule" />
 
       <div class="nl-item">
-        <span class="eyebrow">02 &middot; Doctrine</span>
-        <h3>Attend a tide before it has risen</h3>
+        <span class="eyebrow">${c.second.eyebrow}</span>
+        <h3>${c.second.title}</h3>
         <blockquote>
-          <p><em>&ldquo;The swiftest witness is the one who has not yet been summoned.&rdquo;</em></p>
-          <small>Petitioner Malik R., replying to issue 39</small>
+          <p><em>${c.second.quote}</em></p>
+          <small>${c.second.quoteSource}</small>
         </blockquote>
-        <h4 style="margin: 1.5rem 0 0.5rem;">How it proceeded</h4>
-        <p>On the fifth day I stopped expecting the water. On the seventh I missed its absence. Conclusion: keep the wall, decline the water, and file the interval.</p>
+        <h4 style="margin: 1.5rem 0 0.5rem;">${c.second.subhead}</h4>
+        <p>${c.second.body}</p>
       </div>
 
       <hr class="nl-rule" />
 
-      <span class="eyebrow">03 &middot; Worth the interval</span>
+      <span class="eyebrow">${c.linksLabel}</span>
       <div class="nl-links" style="margin-top: 0.75rem;">
-        <div><small>1</small><div><h5>A field guide to the tenses of the Annex</h5><small>annex.veyl &middot; 6 tides</small></div></div>
-        <div><small>2</small><div><h5>What an unpaid debt taught me about hospitality</h5><small>marginalia.veyl &middot; 9 tides</small></div></div>
-        <div><small>3</small><div><h5>The one-wall recantation</h5><small>provostry.veyl &middot; 4 tides</small></div></div>
+        <div><small>1</small><div><h5>${c.links[0].title}</h5><small>${c.links[0].meta}</small></div></div>
+        <div><small>2</small><div><h5>${c.links[1].title}</h5><small>${c.links[1].meta}</small></div></div>
+        <div><small>3</small><div><h5>${c.links[2].title}</h5><small>${c.links[2].meta}</small></div></div>
       </div>
 
       <div class="nl-sponsor">
-        <span class="eyebrow">Endowed by</span>
-        <h4>The Lantern Office keeps your rooms quiet</h4>
-        <p><small>Unlighting and reconciliation for solitary adepts. Your first three tides are already behind you.</small></p>
-        <h6 style="margin: 0;">Inquire &rarr;</h6>
+        <span class="eyebrow">${c.sponsor.eyebrow}</span>
+        <h4>${c.sponsor.title}</h4>
+        <p><small>${c.sponsor.body}</small></p>
+        <h6 style="margin: 0;">${c.sponsor.link}</h6>
       </div>
     </div>
     <div class="nl-foot">
-      <small>You receive this because you petitioned the Concordance before it was founded.</small>
-      <small>Withdraw &middot; Amend the oath &middot; Forward to a future adept</small>
+      <small>${c.footer[0]}</small>
+      <small>${c.footer[1]}</small>
     </div>
   </div>
 </div>
 
 ${illustrationScript}
-`,
+`;
+  },
 };

@@ -1,5 +1,6 @@
 import type { PreviewTemplate } from "./types";
 import type { PreviewTab } from "@/store/ui-store";
+import type { CopySet } from "@/data/copy-sets";
 import { websiteTemplate } from "./website-template";
 import { blogTemplate } from "./blog-template";
 import { magazineTemplate } from "./magazine-template";
@@ -21,6 +22,6 @@ export const templates: Record<string, PreviewTemplate> = Object.fromEntries(
   templateList.map((t) => [t.id, t]),
 );
 
-export function getTemplateHTML(id: string): string {
-  return templates[id]?.html ?? "";
+export function getTemplateHTML(id: string, copy: CopySet): string {
+  return templates[id]?.render(copy) ?? "";
 }

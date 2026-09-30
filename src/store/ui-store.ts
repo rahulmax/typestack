@@ -1,6 +1,7 @@
 "use client";
 
 import { create } from "zustand";
+import { pickCopyIndex } from "@/data/copy-sets";
 
 // "mobile" = the laptop preview with a phone overlay on top
 export type ViewportSize = "scale" | "style" | "laptop" | "mobile";
@@ -28,6 +29,8 @@ interface UIStore {
   patternScale: number;
   patternOpacity: number;
   patternSpacing: number;
+  /** Which copy set the previews are written in; rerolled with colours and stacks. */
+  copyIndex: number;
 
   setViewport: (viewport: ViewportSize) => void;
   setActiveTab: (tab: PreviewTab) => void;
@@ -41,6 +44,7 @@ interface UIStore {
   setPatternOpacity: (opacity: number) => void;
   setPatternSpacing: (spacing: number) => void;
   cycleGridPattern: () => void;
+  rollCopy: () => void;
 }
 
 export const VIEWPORT_WIDTHS: Record<ViewportSize, string> = {
@@ -63,6 +67,7 @@ export const useUIStore = create<UIStore>()((set) => ({
   patternScale: 1,
   patternOpacity: 100,
   patternSpacing: 0,
+  copyIndex: 0,
 
   setViewport: (viewport) => set({ viewport }),
   setActiveTab: (tab) => set({ activeTab: tab }),
@@ -75,6 +80,7 @@ export const useUIStore = create<UIStore>()((set) => ({
   setPatternScale: (scale) => set({ patternScale: scale }),
   setPatternOpacity: (opacity) => set({ patternOpacity: opacity }),
   setPatternSpacing: (spacing) => set({ patternSpacing: spacing }),
+  rollCopy: () => set((state) => ({ copyIndex: pickCopyIndex(state.copyIndex) })),
   cycleGridPattern: () =>
     set((state) => {
       const all: GridPatternType[] = [null, ...GRID_PATTERN_TYPES];

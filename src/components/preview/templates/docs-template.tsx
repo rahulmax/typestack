@@ -1,11 +1,16 @@
 import { BookOpen } from "lucide-react";
 import type { PreviewTemplate } from "./types";
 
+// `code` in copy becomes the inline code style
+const mono = (text: string) => text.replace(/`([^`]+)`/g, '<span class="dx-mono"><small>$1</small></span>');
+
 export const docsTemplate: PreviewTemplate = {
   id: "docs",
   name: "Docs",
   icon: BookOpen,
-  html: `
+  render: (copy) => {
+    const c = copy.docs;
+    return `
 <style>
   .dx { --dx-line: color-mix(in srgb, currentColor 14%, transparent); --dx-tint: color-mix(in srgb, currentColor 5%, transparent); max-width: 1180px; margin: 0 auto; }
   .dx-top { display: flex; align-items: center; gap: 1.5rem; padding: 0.9rem 1.25rem; border-bottom: 1px solid var(--dx-line); }
@@ -76,89 +81,88 @@ export const docsTemplate: PreviewTemplate = {
 
 <div class="dx">
   <div class="dx-top">
-    <h6>Almanac</h6>
-    <small>Rites</small><small>Instruments</small><small>Errata</small>
-    <div class="dx-search"><small>Search the Annex</small><small>&#8984;K</small></div>
-    <small class="dx-pill">Vol. 7.2</small>
+    <h6>${c.product}</h6>
+    ${c.topNav.map((t) => `<small>${t}</small>`).join("")}
+    <div class="dx-search"><small>${c.search}</small><small>&#8984;K</small></div>
+    <small class="dx-pill">${c.version}</small>
   </div>
 
   <div class="dx-grid">
     <nav class="dx-nav">
-      <span class="eyebrow">First consultations</span>
-      <small>Preface</small>
-      <small data-on>Calibration</small>
-      <small>Before you arrive</small>
-      <span class="eyebrow">Core doctrines</span>
-      <small>The conditional tide</small>
-      <small>Unlit rooms</small>
-      <small>Retroactive oaths</small>
-      <span class="eyebrow">Reference</span>
-      <small>The Seven Charts</small>
-      <small>The tidal console</small>
-      <small>Ledger settings</small>
+      ${c.navGroups
+        .map(
+          (g, gi) =>
+            `<span class="eyebrow">${g.label}</span>` +
+            g.items.map((item, ii) => `<small${gi === 0 && ii === 1 ? " data-on" : ""}>${item}</small>`).join(""),
+        )
+        .join("\n      ")}
     </nav>
 
     <main class="dx-main">
-      <div class="dx-crumbs"><small>Annex</small><small>/</small><small>First consultations</small><small>/</small><small>Calibration</small></div>
-      <h1>Calibrating the Inverse Almanac</h1>
-      <p class="dx-lead">Align the Almanac to a tide that has not yet occurred, register it with the Concordance, and consult a first entry before it has been composed.</p>
+      <div class="dx-crumbs"><small>${c.crumbRoot}</small><small>/</small><small>${c.navGroups[0].label}</small><small>/</small><small>${c.navGroups[0].items[1]}</small></div>
+      <h1>${c.title}</h1>
+      <p class="dx-lead">${c.lead}</p>
 
-      <div class="dx-callout"><b><small>i</small></b><div><h6>Before you begin</h6><p>You need a Provost&rsquo;s seal of the seventh grade and one unlit room. A room already lit may be used if it consents.</p></div></div>
+      <div class="dx-callout"><b><small>i</small></b><div><h6>${c.callout.title}</h6><p>${mono(c.callout.body)}</p></div></div>
 
-      <h2>Seat the instrument</h2>
-      <p>The Almanac is delivered folded into its own past. Seat it on the lower sill so that the <span class="dx-mono"><small>ebb-gauge</small></span> faces the sea-wall that has not been built, and speak the registry oath aloud.</p>
+      <h2>${c.heading1}</h2>
+      <p>${mono(c.body1)}</p>
       <div class="dx-code">
-        <div class="dx-code-bar"><small>Tidal console</small><small>Repeat</small></div>
-        <pre><small>concord seat --almanac inverse
-concord oath --tense anterior</small></pre>
+        <div class="dx-code-bar"><small>${c.codeLabel}</small><small>Copy</small></div>
+        <pre><small>${c.code}</small></pre>
       </div>
 
-      <h3>Enter the registry</h3>
-      <p>Run the oath and wait beside the doorway. Your standing is entered in the ledger of Oriel Taskane, which will confirm it upon completion of the interval.</p>
+      <h3>${c.heading2}</h3>
+      <p>${mono(c.body2)}</p>
 
-      <h4>Using a proxy adept</h4>
-      <p>When the Concordance cannot attend, dispatch an adept to be present on your behalf, and to forget it in the correct order.</p>
-      <h5>Grades</h5>
-      <p>Proxies are limited to the grade you have not yet been awarded.</p>
-      <h6>Rotating proxies</h6>
-      <p>Replace proxies every ninety tides, or at once should one recall the occasion.</p>
+      <h4>${c.heading3}</h4>
+      <p>${mono(c.body3)}</p>
+      <h5>${c.heading4}</h5>
+      <p>${mono(c.body4)}</p>
+      <h6>${c.heading5}</h6>
+      <p>${mono(c.body5)}</p>
 
-      <div class="dx-callout"><b><small>!</small></b><div><h6>Caution</h6><p>An oath is spoken once. Speak it twice and the second becomes the first, retroactively.</p></div></div>
+      <div class="dx-callout"><b><small>!</small></b><div><h6>${c.warning.title}</h6><p>${mono(c.warning.body)}</p></div></div>
 
-      <h2>Almanac settings</h2>
-      <p>Write an <span class="dx-mono"><small>almanac.toml</small></span> beside the sill to override the defaults of the current tide.</p>
+      <h2>${c.heading6}</h2>
+      <p>${mono(c.body6)}</p>
       <div class="dx-tablewrap">
         <table class="dx-table">
-          <thead><tr><th><small><b>Setting</b></small></th><th><small><b>Kind</b></small></th><th><small><b>Default</b></small></th><th><small><b>Effect</b></small></th></tr></thead>
+          <thead><tr><th><small><b>Setting</b></small></th><th><small><b>Type</b></small></th><th><small><b>Default</b></small></th><th><small><b>Effect</b></small></th></tr></thead>
           <tbody>
-            <tr><td><small class="dx-mono">tide</small></td><td><small>ordinal</small></td><td><small>third</small></td><td><small>Which tide is consulted.</small></td></tr>
-            <tr><td><small class="dx-mono">deferrals</small></td><td><small>integer</small></td><td><small>7</small></td><td><small>Times an entry may postpone itself.</small></td></tr>
-            <tr><td><small class="dx-mono">recall</small></td><td><small>paradox</small></td><td><small>true</small></td><td><small>Remember only what has not happened.</small></td></tr>
+            ${c.settings
+              .map(
+                (row) =>
+                  `<tr><td><small class="dx-mono">${row.key}</small></td><td><small>${row.kind}</small></td><td><small>${row.value}</small></td><td><small>${row.effect}</small></td></tr>`,
+              )
+              .join("\n            ")}
           </tbody>
         </table>
       </div>
 
-      <h2>Next rites</h2>
+      <h2>${c.heading7}</h2>
       <div class="dx-steps">
-        <div class="dx-step"><b><small>1</small></b><div><h5>Open a ledger</h5><p>Run <span class="dx-mono"><small>concord open</small></span> in an unlit room.</p></div></div>
-        <div class="dx-step"><b><small>2</small></b><div><h5>Consult</h5><p>Open the first entry, then compose it, and note the discrepancy.</p></div></div>
+        ${c.steps
+          .map((step, i) => `<div class="dx-step"><b><small>${i + 1}</small></b><div><h5>${step.title}</h5><p>${mono(step.body)}</p></div></div>`)
+          .join("\n        ")}
       </div>
 
       <div class="dx-pager">
-        <div><small>Previous</small><h6 style="margin: 0.2rem 0 0;">Preface</h6></div>
-        <div><small>Next</small><h6 style="margin: 0.2rem 0 0;">Before you arrive</h6></div>
+        <div><small>Previous</small><h6 style="margin: 0.2rem 0 0;">${c.navGroups[0].items[0]}</h6></div>
+        <div><small>Next</small><h6 style="margin: 0.2rem 0 0;">${c.navGroups[0].items[2]}</h6></div>
       </div>
     </main>
 
     <aside class="dx-toc">
-      <span class="eyebrow">On this leaf</span>
-      <small data-on>Seat the instrument</small>
-      <small class="sub">Enter the registry</small>
-      <small class="sub">Using a proxy adept</small>
-      <small>Almanac settings</small>
-      <small>Next rites</small>
+      <span class="eyebrow">On this page</span>
+      <small data-on>${c.heading1}</small>
+      <small class="sub">${c.heading2}</small>
+      <small class="sub">${c.heading3}</small>
+      <small>${c.heading6}</small>
+      <small>${c.heading7}</small>
     </aside>
   </div>
 </div>
-`,
+`;
+  },
 };

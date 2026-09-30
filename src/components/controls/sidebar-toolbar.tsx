@@ -118,6 +118,7 @@ export function SidebarToolbar() {
   const setBackgroundColor = useTypographyStore((s) => s.setBackgroundColor)
   const gridPattern = useUIStore((s) => s.gridPattern)
   const setGridPattern = useUIStore((s) => s.setGridPattern)
+  const rollCopy = useUIStore((s) => s.rollCopy)
 
 const patternOpacity = useUIStore((s) => s.patternOpacity)
   const setPatternOpacity = useUIStore((s) => s.setPatternOpacity)
@@ -128,7 +129,8 @@ const patternOpacity = useUIStore((s) => s.patternOpacity)
   const handleRandom = useCallback(() => {
     const { fg, bg } = generateRandomColorPair(resolvedTheme === "dark")
     setColors(fg, fg, bg)
-  }, [resolvedTheme, setColors])
+    rollCopy()
+  }, [resolvedTheme, setColors, rollCopy])
 
   const handleReverse = useCallback(() => {
     setColors(backgroundColor, backgroundColor, headingColor)

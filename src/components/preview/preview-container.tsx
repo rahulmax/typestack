@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { PreviewIframe } from "./preview-iframe";
 import { BrowserChrome } from "./browser-chrome";
 import { MobileChrome } from "./mobile-chrome";
@@ -7,10 +8,17 @@ import { TypeScaleView } from "./type-scale-view";
 import { StyleCards } from "./style-cards";
 import { useUIStore } from "@/store/ui-store";
 import { getTemplateHTML } from "./templates/template-registry";
+import { COPY_SETS, pickCopyIndex } from "@/data/copy-sets";
 
 export function PreviewContainer() {
   const activeTab = useUIStore((s) => s.activeTab);
   const viewport = useUIStore((s) => s.viewport);
+  const copyIndex = useUIStore((s) => s.copyIndex);
+
+  // Start each visit in a random copy set. After mount, so the server render stays deterministic.
+  useEffect(() => {
+    useUIStore.setState({ copyIndex: pickCopyIndex() });
+  }, []);
 
   if (viewport === "scale") {
     return (
@@ -47,7 +55,7 @@ export function PreviewContainer() {
   }
 
   // laptop and mobile share the same desktop base; mobile adds a phone overlay
-  const html = getTemplateHTML(activeTab);
+  const html = getTemplateHTML(activeTab, COPY_SETS[copyIndex] ?? COPY_SETS[0]);
   return (
     <div className="flex h-full flex-col">
       <div className="relative flex-1 overflow-hidden bg-background">

@@ -83,6 +83,7 @@ export function BrowseStacksDialog({
   const [loading, setLoading] = useState(true);
   const loadConfig = useTypographyStore((s) => s.loadConfig);
   const setCurrentStack = useUIStore((s) => s.setCurrentStack);
+  const rollCopy = useUIStore((s) => s.rollCopy);
   const resetConfig = useTypographyStore((s) => s.resetConfig);
 
   const { resolvedTheme } = useTheme();
@@ -192,6 +193,7 @@ export function BrowseStacksDialog({
   function handleRandom() {
     const { fg, bg } = generateRandomColorPair(resolvedTheme === "dark");
     setColors(fg, fg, bg);
+    rollCopy();
   }
 
   function handleReverse() {
