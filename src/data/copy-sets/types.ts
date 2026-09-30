@@ -133,29 +133,37 @@ export interface DocsCopy {
 }
 
 export interface SwissCopy {
-  /** Top strip: organisation, series, venue, dates. */
-  top: Four<string>
-  eyebrow: string
-  title: string
-  lede: string
-  aside: string
-  premise: {
-    eyebrow: string
-    title: string
-    paragraphs: Two<string>
-    subhead: string
-    after: string
-    noteTitle: string
-    note: string
-  }
-  /** Six headings from largest to smallest, then a closing sentence. */
+  /** Small bold lines at the top left: series, venue, dates. */
+  kicker: Three<string>
+  /** Stacked headline in two tones: the name (heading colour), then what's on (body colour). 2–5 words each. */
+  title: Two<string>
+  /** One word, 8–13 letters, fitted across the full width of the page. */
+  giant: string
+  /** Two short lines (1–3 words each) set beside the giant word. */
+  aside: Two<string>
+  /**
+   * Programme entries, like an opera poster. `title` is 1–2 short words (set very large);
+   * `when` is a date line and a time line; `note` is one short line; `lead` is one bold line
+   * (under 45 characters); `credits` are four short "Role: Name" lines.
+   */
+  programme: Three<{ title: string; when: Two<string>; note: string; lead: string; credits: Four<string> }>
+  /** A name of two words (up to 15 characters) set vertically beside the heading ladder. */
+  vertical: string
+  /** Six headings from largest to smallest, each 2–6 words. */
   chain: Six<string>
-  chainEnd: string
-  programme: Four<{ date: string; title: string; place: string }>
+  /**
+   * Two dated milestones. `year` is 4 characters; `label` 2–3 words; `body` a small paragraph
+   * of about 250 characters; `intro` one sentence under 80 characters; `name` two short words set huge.
+   */
+  timeline: Two<{ year: string; label: string; body: string; intro: string; name: string }>
+  /** Closing text: a heading (2–5 words), a bold dek sentence, and two columns of about 300 characters each. */
+  essay: { title: string; dek: string; columns: Two<string> }
+  /** No quote marks; the template adds them. About 120–180 characters. */
   quote: string
   quoteSource: string
-  footer: Three<string>
+  footer: Two<string>
 }
+
 
 export interface NewsletterCopy {
   preheader: Two<string>
