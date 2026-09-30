@@ -1,5 +1,7 @@
 import { describe, test, expect } from 'vitest'
 import { generateCSS, generatePreviewCSS } from '../css-generator'
+import { ILLUSTRATION_ROLES } from '../color-utils'
+import { ILLUSTRATION_TONES } from '../illustration-packs'
 import { DEFAULT_CONFIG } from '@/data/default-config'
 import { ALL_ELEMENTS, DISPLAY_ELEMENTS } from '@/types/typography'
 import type { TypographyConfig } from '@/types/typography'
@@ -76,35 +78,30 @@ describe('generatePreviewCSS', () => {
     expect(css).toContain('filter: blur(30px)')
   })
 
-  test('includes scene tone CSS variables', () => {
+  test('includes the page colour variables', () => {
     const css = generatePreviewCSS(DEFAULT_CONFIG)
     expect(css).toContain('--bg-color:')
+    expect(css).toContain('--fg-color:')
     expect(css).toContain('--tone-base:')
-    expect(css).toContain('--scene-tone-1:')
   })
 
-  test('includes illustration role variables', () => {
+  test('includes a variable for every illustration role and source colour', () => {
     const css = generatePreviewCSS(DEFAULT_CONFIG)
-    for (const role of ['ink', 'primary', 'secondary', 'accent', 'highlight', 'surface']) {
-      expect(css).toMatch(new RegExp(`--ill-${role}: oklch\\(`))
+    for (const key of [...ILLUSTRATION_ROLES, ...ILLUSTRATION_TONES.map((t) => t.id)]) {
+      expect(css).toMatch(new RegExp(`--ill-${key}: oklch\\(`))
     }
   })
 
-  test('keeps the old tone names as aliases of the role variables', () => {
+  test('drops the old role and alias variables', () => {
     const css = generatePreviewCSS(DEFAULT_CONFIG)
-    expect(css).toContain('--tone-1: var(--ill-primary)')
-    expect(css).toContain('--tone-2: var(--ill-secondary)')
-    expect(css).toContain('--scene-tone-3: var(--ill-highlight)')
-  })
-
-  test('unfilled illustration paths use the ink role', () => {
-    const css = generatePreviewCSS(DEFAULT_CONFIG)
-    expect(css).toContain('fill: var(--ill-ink, currentColor)')
+    for (const old of ['--ill-ink', '--ill-primary', '--ill-secondary', '--tone-1', '--scene-tone-1']) {
+      expect(css).not.toContain(old)
+    }
   })
 
   test('hero glow is tinted from the illustration palette', () => {
     const css = generatePreviewCSS(DEFAULT_CONFIG)
-    expect(css).toContain('color-mix(in oklab, var(--ill-primary)')
+    expect(css).toContain('color-mix(in oklab, var(--ill-glow)')
   })
 
   test('hero glow fades out on mid-lightness pages', () => {
@@ -112,10 +109,10 @@ describe('generatePreviewCSS', () => {
     // #666 is OKLCH L ~0.51, squarely mid-grey
     expect(withBg('#666666')).not.toContain('#ill-hero::before')
     expect(withBg('#666666')).toContain('#ill-hero > *')
-    expect(withBg('#111111')).toContain('var(--ill-primary) 26%')
-    expect(withBg('#fafafa')).toContain('var(--ill-primary) 26%')
+    expect(withBg('#111111')).toContain('var(--ill-glow) 26%')
+    expect(withBg('#fafafa')).toContain('var(--ill-glow) 26%')
     // #3a3a3a is L ~0.34: inside the ramp, so the glow is present but weaker
-    const peak = Number(withBg('#3a3a3a').match(/var\(--ill-primary\) ([\d.]+)%/)?.[1])
+    const peak = Number(withBg('#3a3a3a').match(/var\(--ill-glow\) ([\d.]+)%/)?.[1])
     expect(peak).toBeGreaterThan(0)
     expect(peak).toBeLessThan(26)
   })

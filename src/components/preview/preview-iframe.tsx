@@ -49,15 +49,19 @@ function getElementLabel(el: HTMLElement): string {
 
 type ColorRef = { fg: string; bg: string };
 
+// The label floats on the page above the element instead of inside it: a child, even an absolutely
+// positioned one, makes text-wrap: balance re-break the heading, so it jumped on hover.
 function createLabel(doc: Document, el: HTMLElement, opacity: string, colors: ColorRef): HTMLElement {
   const label = doc.createElement("div");
+  const rect = el.getBoundingClientRect();
+  const win = doc.defaultView;
   label.textContent = getElementLabel(el);
   label.setAttribute("data-ts-label", "true");
   label.contentEditable = "false";
   Object.assign(label.style, {
     position: "absolute",
-    top: "-18px",
-    left: "-2px",
+    top: `${rect.top + (win?.scrollY ?? 0) - 18}px`,
+    left: `${rect.left + (win?.scrollX ?? 0) - 2}px`,
     fontSize: "11px",
     fontWeight: "600",
     lineHeight: "1",
@@ -107,10 +111,9 @@ function setupEditableListeners(
       el.style.outline = `2px solid ${colors.fg}`;
       el.style.outlineOffset = "2px";
       el.style.borderRadius = "4px";
-      el.style.position = "relative";
 
       focusLabelEl = createLabel(doc, el, "1", colors);
-      el.appendChild(focusLabelEl);
+      doc.body.appendChild(focusLabelEl);
     },
     true
   );
@@ -143,10 +146,9 @@ function setupEditableListeners(
     el.style.outline = `2px solid color-mix(in srgb, ${colors.fg} 35%, transparent)`;
     el.style.outlineOffset = "2px";
     el.style.borderRadius = "4px";
-    el.style.position = "relative";
 
     hoverLabelEl = createLabel(doc, el, "0.35", colors);
-    el.appendChild(hoverLabelEl);
+    doc.body.appendChild(hoverLabelEl);
   });
 
   doc.addEventListener("mouseout", (e) => {
@@ -178,6 +180,23 @@ function applyBody(doc: Document, bodyHTML: string) {
 interface PreviewIframeProps {
   bodyHTML: string;
   mobile?: boolean;
+  /** Content width (px) to keep clear of the phone overlay; null when the phone is hidden. */
+  phoneRoom?: number | null;
+  /** Magnification. The page keeps its layout width and is scaled, so nothing reflows. */
+  zoom?: number;
+}
+
+// Width of the phone overlay plus a gap, measured from the iframe's right edge
+const PHONE_CLEARANCE = 400;
+
+// Right padding that moves the page out from under the phone, but never below its content width
+function applyPhoneRoom(doc: Document, room: number | null | undefined) {
+  const root = doc.documentElement;
+  if (room) {
+    root.style.setProperty("--phone-pad", `clamp(0px, 100vw - ${room + 64}px, ${PHONE_CLEARANCE}px)`);
+  } else {
+    root.style.removeProperty("--phone-pad");
+  }
 }
 
 function buildDoc(css: string, bodyHTML: string, fontLinks: string[], mobile?: boolean): string {
@@ -185,7 +204,9 @@ function buildDoc(css: string, bodyHTML: string, fontLinks: string[], mobile?: b
     .map((url) => `<link rel="stylesheet" href="${url}" />`)
     .join("\n");
 
-  const mobileStyle = mobile ? `body { overflow-x: hidden; }` : "";
+  const mobileStyle = mobile
+    ? `body { overflow-x: hidden; }`
+    : `html body { padding-right: calc(2rem + var(--phone-pad, 0px)); transition: padding-right 0.3s ease; }`;
 
   return `<!DOCTYPE html>
 <html>
@@ -200,7 +221,7 @@ function buildDoc(css: string, bodyHTML: string, fontLinks: string[], mobile?: b
 </html>`;
 }
 
-export function PreviewIframe({ bodyHTML, mobile }: PreviewIframeProps) {
+export function PreviewIframe({ bodyHTML, mobile, phoneRoom, zoom = 1 }: PreviewIframeProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const css = usePreviewStyles();
   const headingFont = useTypographyStore((s) => s.headingsGroup.fontFamily);
@@ -236,6 +257,13 @@ export function PreviewIframe({ bodyHTML, mobile }: PreviewIframeProps) {
   bodyRef.current = bodyHTML;
   const cssRef = useRef(css);
   cssRef.current = css;
+  const phoneRoomRef = useRef(phoneRoom);
+  phoneRoomRef.current = phoneRoom;
+
+  useEffect(() => {
+    const doc = iframeRef.current?.contentDocument;
+    if (doc) applyPhoneRoom(doc, phoneRoom);
+  }, [phoneRoom]);
 
   // Incremental CSS update (no iframe reload)
   useEffect(() => {
@@ -293,18 +321,39 @@ export function PreviewIframe({ bodyHTML, mobile }: PreviewIframeProps) {
     const styleEl = doc.getElementById("typestack-styles");
     if (styleEl) styleEl.textContent = cssRef.current;
     if (bodyRef.current !== built.body) applyBody(doc, bodyRef.current);
+    applyPhoneRoom(doc, phoneRoomRef.current);
     makeEditable(doc);
     setupEditableListeners(doc, colorsRef, handleElementFocus);
   };
 
-  return (
+  const iframe = (
     <iframe
       ref={iframeRef}
       srcDoc={built.html}
-      className="h-full w-full border-0"
-      style={mobile ? undefined : { minHeight: "calc(100vh - 10rem)" }}
+      className={mobile ? "h-full w-full border-0" : "absolute left-0 top-0 border-0"}
+      style={
+        mobile
+          ? undefined
+          : {
+              // Laid out at the frame's width and height, then scaled to the zoom
+              width: `${100 / zoom}%`,
+              height: `${100 / zoom}%`,
+              transform: zoom === 1 ? undefined : `scale(${zoom})`,
+              transformOrigin: "0 0",
+            }
+      }
       title="Typography Preview"
       onLoad={handleLoad}
     />
+  );
+  if (mobile) return iframe;
+
+  // The sizer takes the zoomed size: centred when smaller than the frame, scrolled sideways when larger
+  return (
+    <div className="overflow-x-auto overflow-y-hidden" style={{ height: "calc(100vh - 10rem)" }}>
+      <div className="relative mx-auto h-full overflow-hidden" style={{ width: `${zoom * 100}%` }}>
+        {iframe}
+      </div>
+    </div>
   );
 }

@@ -90,13 +90,12 @@ export function generatePreviewCSS(config: TypographyConfig): string {
   lines.push("* { margin: 0; padding: 0; box-sizing: border-box; }");
   lines.push(`body { background: ${hexToOklchString(config.backgroundColor)}; color: ${hexToOklchString(config.bodyGroup.color)}; padding: 2rem; font-family: ${getFontStack(config.bodyGroup.fontFamily)}; }`);
   lines.push(`a, a:visited, a:hover, a:active { color: inherit; text-decoration: underline; }`);
-  lines.push(`.ill svg path:not([fill]), .ill svg circle:not([fill]), .ill svg rect:not([fill]), .ill svg polygon:not([fill]), .ill svg ellipse:not([fill]) { fill: var(--ill-ink, currentColor); }`);
   const hc = config.headingsGroup.color;
   const ill = computeIllustrationPalette(config.backgroundColor, hc, config.bodyGroup.color);
   // On mid-lightness pages the primary sits too close to the page, so the glow reads as a dull disc.
   // Fade it out from full strength at L <= 0.25 / >= 0.75 to nothing between 0.4 and 0.6.
   const glowStrength = Math.min(1, Math.max(0, (Math.abs(hexToOklch(config.backgroundColor).l - 0.5) - 0.1) / 0.15));
-  const glow = (pct: number) => `color-mix(in oklab, var(--ill-primary) ${Math.round(pct * glowStrength * 10) / 10}%, transparent)`;
+  const glow = (pct: number) => `color-mix(in oklab, var(--ill-glow) ${Math.round(pct * glowStrength * 10) / 10}%, transparent)`;
   lines.push(`#ill-hero { position: relative; overflow: visible; }`);
   if (glowStrength > 0) {
     lines.push(`#ill-hero::before {`);
@@ -112,8 +111,7 @@ export function generatePreviewCSS(config: TypographyConfig): string {
   }
   lines.push(`#ill-hero > * { position: relative; z-index: 1; }`);
   const illVars = Object.entries(ill).map(([role, value]) => `--ill-${role}: ${value};`).join(" ");
-  // --tone-* / --scene-tone-* are the pre-role names, kept as aliases for templates that still use them
-  lines.push(`:root { --bg-color: ${hexToOklchString(config.backgroundColor)}; --tone-base: ${hexToOklchString(hc)}; ${illVars} --tone-1: var(--ill-primary); --tone-2: var(--ill-secondary); --scene-tone-1: var(--ill-primary); --scene-tone-2: var(--ill-secondary); --scene-tone-3: var(--ill-highlight); }`);
+  lines.push(`:root { --bg-color: ${hexToOklchString(config.backgroundColor)}; --fg-color: ${hexToOklchString(config.bodyGroup.color)}; --tone-base: ${hexToOklchString(hc)}; --font-heading: ${getFontStack(config.headingsGroup.fontFamily)}; --font-body: ${getFontStack(config.bodyGroup.fontFamily)}; --weight-heading: ${config.headingsGroup.fontWeight}; ${illVars} }`);
   lines.push("");
 
   for (const style of desktop) {

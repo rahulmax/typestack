@@ -40,6 +40,7 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
   const currentStackName = useUIStore((s) => s.currentStackName);
   const isDirty = useUIStore((s) => s.isDirty);
   const setCurrentStack = useUIStore((s) => s.setCurrentStack);
+  const rollCopy = useUIStore((s) => s.rollCopy);
   const loadConfig = useTypographyStore((s) => s.loadConfig);
   const resetConfig = useTypographyStore((s) => s.resetConfig);
   const headingFont = useTypographyStore((s) => s.headingsGroup.fontFamily);
@@ -121,13 +122,14 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
       const stack = data[Math.floor(Math.random() * data.length)]
       loadConfig(stack.config)
       setCurrentStack(stack.id, stack.name)
+      rollCopy()
       await document.fonts.ready
     } catch {
       // Silently fail
     } finally {
       setRandomLoading(false)
     }
-  }, [loadConfig, setCurrentStack])
+  }, [loadConfig, setCurrentStack, rollCopy])
 
   return (
     <div className="flex gap-1.5">

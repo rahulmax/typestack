@@ -84,18 +84,21 @@ const ScaleRow = memo(function ScaleRow({
   sampleText,
   isActive,
   onToggle,
+  compact = false,
 }: {
   style: ResolvedElementStyle
   sampleText: string
   isActive: boolean
   onToggle: (element: string) => void
+  /** Narrow label column, for the phone */
+  compact?: boolean
 }) {
   const handleClick = useCallback(() => onToggle(style.element), [onToggle, style.element])
 
   return (
     <button
       type="button"
-      className="group flex w-full items-start gap-4 rounded-lg px-4 py-1.5 text-left transition-colors hover:brightness-95"
+      className={`group flex w-full items-start rounded-lg py-1.5 text-left transition-colors hover:brightness-95 ${compact ? "gap-2 px-3" : "gap-4 px-4"}`}
       style={{
         background: isActive ? `color-mix(in srgb, ${style.color} 8%, transparent)` : undefined,
         ['--row-hover-bg' as string]: `color-mix(in srgb, ${style.color} 4%, transparent)`,
@@ -104,7 +107,7 @@ const ScaleRow = memo(function ScaleRow({
       onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.background = "" }}
       onClick={handleClick}
     >
-      <div className="flex w-24 shrink-0 flex-col pt-0.5">
+      <div className={`flex shrink-0 flex-col pt-0.5 ${compact ? "w-14" : "w-24"}`}>
         <span className="font-mono text-sm font-semibold" style={{ color: style.color }}>{style.element}</span>
         <span className="text-xs" style={{ color: style.color }}>
           {style.fontSizeRem.toFixed(3)}rem
@@ -132,8 +135,10 @@ const ScaleRow = memo(function ScaleRow({
   )
 })
 
-export function TypeScaleView() {
-  const { desktop } = useComputedScale()
+/** `mobile` lists the mobile scale, for the phone preview. */
+export function TypeScaleView({ mobile = false }: { mobile?: boolean }) {
+  const computed = useComputedScale()
+  const desktop = mobile ? computed.mobile : computed.desktop
   const sampleText = useTypographyStore((s) => s.sampleText)
   const backgroundColor = useTypographyStore((s) => s.backgroundColor)
   const foregroundColor = useTypographyStore((s) => s.bodyGroup.color)
@@ -157,12 +162,12 @@ export function TypeScaleView() {
 
   return (
     <div
-      className="flex flex-col px-6 py-3"
-      style={{ backgroundColor, minHeight: "calc(100vh - 10rem)" }}
+      className={mobile ? "flex flex-col px-1 py-3" : "flex flex-col px-6 py-3"}
+      style={{ backgroundColor, minHeight: mobile ? undefined : "calc(100vh - 10rem)" }}
     >
-      <div className="mb-2 flex items-center justify-between">
+      <div className="mb-2 flex items-center justify-between px-3">
         <h2 className="text-sm font-semibold" style={{ color: headerColor }}>Type Scale</h2>
-        <SampleTextSelector fgColor={foregroundColor} bgColor={backgroundColor} />
+        {!mobile && <SampleTextSelector fgColor={foregroundColor} bgColor={backgroundColor} />}
       </div>
       <div className="flex flex-col gap-0">
         {visibleStyles.map((style) => (
@@ -172,6 +177,7 @@ export function TypeScaleView() {
             sampleText={sampleText}
             isActive={expandedElement === style.element}
             onToggle={handleToggle}
+            compact={mobile}
           />
         ))}
       </div>

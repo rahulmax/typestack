@@ -31,7 +31,7 @@ export const dashboardTemplate: PreviewTemplate = {
   id: "dashboard",
   name: "Dashboard",
   icon: LayoutDashboard,
-  html: `
+  render: () => `
 <style>
   @media (max-width: 900px) {
     #stats-row { grid-template-columns: 1fr 1fr !important; }

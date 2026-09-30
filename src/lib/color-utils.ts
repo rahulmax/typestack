@@ -1,3 +1,5 @@
+import { ILLUSTRATION_PACKS, ILLUSTRATION_TONES, type IllustrationSourceTone } from "./illustration-packs";
+
 function hslToRgb(h: number, s: number, l: number): [number, number, number] {
   const sNorm = s / 100;
   const lNorm = l / 100;
@@ -217,17 +219,6 @@ export function deltaEOk(a: Oklch, b: Oklch): number {
   return Math.sqrt((a.l - b.l) ** 2 + da * da + db * db);
 }
 
-function hueDistance(a: number, b: number): number {
-  const d = Math.abs(a - b) % 360;
-  return d > 180 ? 360 - d : d;
-}
-
-/** Step from one hue toward another along the shorter arc. */
-function mixHue(from: number, to: number, t: number): number {
-  const d = ((to - from + 540) % 360) - 180;
-  return (from + d * t + 360) % 360;
-}
-
 /** Straight-line mix in OKLab, so tints never swing through a third hue. */
 function mixOklab(a: Oklch, b: Oklch, t: number): Oklch {
   const ah = (a.h * Math.PI) / 180;
@@ -301,47 +292,49 @@ function unmuddy(h: number, l: number): number {
   return h;
 }
 
-export type IllustrationRole =
-  | "ink"
-  | "primary"
-  | "secondary"
-  | "accent"
-  | "highlight"
-  | "surface";
+/** Roles every illustration shares. Source surfaces and colours add one var each, per pack. */
+export type IllustrationRole = "line" | "mass" | "dot" | "paper" | "glint" | "surface" | "glow";
 
-export type IllustrationTones = Record<IllustrationRole, Oklch>;
+export const ILLUSTRATION_ROLES: IllustrationRole[] = ["line", "mass", "dot", "paper", "glint", "surface", "glow"];
+
+export type IllustrationTones = Record<string, Oklch>;
 
 /** Below this OKLCH chroma a colour is treated as neutral (no usable hue). */
 const CHROMATIC = 0.03;
 
+/** Lightness span of the packs' source colours, so each lands at the same relative spot. */
+const SOURCE_L = { lo: 0.5, hi: 0.9 };
+/** Lightness span of the packs' light neutrals (#d6d6d6 up to white). */
+const SURFACE_T = { lo: 0.85, hi: 1 };
+
 /**
- * Derive the illustration palette from the page's own colours, in OKLCH.
+ * Generate the illustration palette from the page's own colours, in OKLCH.
  * Deterministic: the same page colours always give the same palette.
  *
- * The SVGs are ink line-art with a few flat fills, so each role gets a job:
+ * The drawings are dark ink on light paper with a few flat colours. The
+ * importer (scripts/build-illustrations.mjs) tagged every element with what
+ * it is, so the palette can be rebuilt for any page without turning the
+ * drawing into its negative:
  *
- * ink       – outlines, hair, solid garments. The body text colour itself,
- *             pushed to 4.5:1 only if the user picked something weaker.
- * primary   – large fills. Light pages take the fg hue so drawings echo the
- *             type; dark pages take the bg hue lifted toward the ink (light
- *             text colours go dull at mid lightness). Neutral pages stay
- *             monochrome.
- * secondary – the other large fills. The page's other hue when it is 60°+
- *             away, else a split-complement (strong hue) or a 45° step.
- *             Never within 40° of a coloured ink, so fills don't melt into
- *             the outlines drawn over them.
- * accent    – small marks (sparkles, dots). Fg hue when it stays clean,
- *             pushed inkward until tiny shapes clear 3:1 against the page.
- * highlight – glints drawn on top of ink and fills. Paper side of the page,
- *             ≥3:1 against the ink.
- * surface   – a quiet bg→primary tint for glows and backdrops.
+ * line    – outlines. The body text colour, pushed to 4.5:1 only if weak.
+ * mass    – solid ink (hair, shoes, bushes). On light pages it is the line
+ *           colour, as drawn. On dark pages the lines go light but masses
+ *           stay the darkest tone in the figure: a deep tint of the page
+ *           hue, just clear of the page. Never a bright blob.
+ * dot     – stipple shading. Same rule: shading stays dark on dark pages.
+ * paper   – white inside outlines, i.e. the figure's body. Always the page.
+ * glint   – white laid over colour. Stays lighter than the colour under it.
+ * surface – light neutral fills. On light pages they keep their source
+ *           lightness between line and page. On dark pages they lift off
+ *           the page in the same order: lighter source, lighter lift.
+ * colours – each pack keeps its own hue harmony, rotated so its most-used
+ *           colour lands on the page hue. Chroma follows how vivid the page
+ *           is (neutral pages go monochrome). Lightness keeps the source
+ *           order: on light pages as drawn, on dark pages inside a band
+ *           that clears the masses and still lets light lines read on top.
  *
- * Fills sit between page and ink (about a third of the way on light pages,
- * lifted to a floor on dark ones), must lift off the page and let ink lines
- * read on top, and are pulled at least ΔE 0.1 apart. Hues that turn to mud
- * at fill lightness (dark yellows, limes, oranges) are skipped, or placed
- * above a light page as peach/cream instead. Chroma follows the page's
- * vividness, is capped by lightness, and is gamut-mapped into sRGB.
+ * The page hue comes from the heading colour on light pages and from the
+ * page itself on dark ones (light text colours go dull at fill lightness).
  */
 export function computeIllustrationTones(
   backgroundColor: string,
@@ -354,125 +347,104 @@ export function computeIllustrationTones(
 
   // +1: ink is lighter than the page (dark page); −1: a light page
   const dir = inkIn.l > bg.l || (inkIn.l === bg.l && bg.l < 0.5) ? 1 : -1;
-  const ink = oklchContrast(inkIn, bg) >= 4.5
+  const darkPage = dir > 0;
+  const line = oklchContrast(inkIn, bg) >= 4.5
     ? inkIn
     : nudge(inkIn, dir, (t) => oklchContrast(t, bg) >= 4.5);
-  const gap = Math.abs(ink.l - bg.l);
-  const at = (t: number) => bg.l + dir * gap * t;
-  const darkPage = dir > 0;
-  // On dark pages the ink is often only mid-light (orange, teal), which would
-  // drag fills down into murk. Keep them lifted; hue keeps them off the ink.
-  const fillL = (t: number) =>
-    darkPage ? Math.max(at(t), Math.min(0.45 + 0.45 * t, at(0.85))) : at(t);
 
   const fgHue = fg.c >= CHROMATIC ? fg.h : null;
   const bgHue = bg.c >= CHROMATIC ? bg.h : null;
-  const neutral = fg.c >= bg.c ? fg : bg;
-
-  let tP = darkPage ? 0.6 : 0.36;
-  let tS = darkPage ? 0.46 : 0.24;
-
-  // Primary: on light pages the fg hue, so drawings echo the type. On dark
-  // pages the text is a light colour that loses its character at mid
-  // lightness, so the bg hue lifted toward the ink leads instead. Either way
-  // a hue that turns to mud at fill lightness gives way to the other.
-  const clean = (h: number | null, t: number): h is number =>
-    h !== null && !isMuddy(h, fillL(t));
-  const [first, second] = darkPage ? [bgHue, fgHue] : [fgHue, bgHue];
-  let pH: number | null = clean(first, tP) ? first : clean(second, tP) ? second : first ?? second;
-  // A vivid page gets vivid fills, whichever colour lent the hue
+  const anchor = darkPage ? bgHue ?? fgHue : fgHue ?? bgHue;
   const vivid = Math.max(fg.c, bg.c);
-  const primaryC = pH === null ? neutral.c : Math.min(Math.max(0.04 + 0.6 * vivid, 0.06), 0.15);
-  // Still muddy (an orange or mustard page with dark text): on a light page
-  // lift the fill above the page instead, where warm hues turn to clean
-  // peach and cream. Failing that, turn the hue the way a painter would:
-  // toward amber or toward green, whichever is closer.
-  const outside = !darkPage && pH !== null && isMuddy(pH, fillL(tP)) && bg.l <= 0.8;
-  if (pH !== null && !outside) pH = unmuddy(pH, fillL(tP));
+  // Share of the source chroma the colours keep: none on neutral pages,
+  // at least 40% once the page has a hue, all of it on vivid pages
+  const chromaScale = anchor === null ? 0 : Math.min(1, Math.max(0.4, 0.4 + (vivid - 0.03) * 6));
+  const hueOr = (h: number) => anchor ?? h;
 
-  // Secondary: the page's other hue when it sits far enough away; otherwise
-  // a wide analogous step (a split-complement when the one hue is strong
-  // enough to carry it). Candidates that turn to mud, or that would melt into
-  // the ink outlines drawn over them, are skipped.
-  let sH: number | null = null;
-  const secondaryC = pH === null ? neutral.c : primaryC * 0.8;
-  if (pH !== null) {
-    const base = pH;
-    const other = base === fgHue ? bgHue : fgHue;
-    const away = (h: number) => Math.min(hueDistance(h, fg.h), hueDistance(h, bg.h));
-    const candidates: number[] = [];
-    if (other !== null && hueDistance(base, other) >= 60) candidates.push(mixHue(other, base, 0.2));
-    for (const step of primaryC >= 0.1 ? [150, 45] : [45]) {
-      candidates.push(...[(base + step) % 360, (base + 360 - step) % 360].sort((x, y) => away(y) - away(x)));
-    }
-    const nearInk = (h: number) => ink.c >= CHROMATIC && hueDistance(h, ink.h) < 40;
-    sH = candidates.find((h) => !isMuddy(h, fillL(tS)) && !nearInk(h)) ?? base;
-  }
-
-  // Neutral palettes stay monochrome (keeping whatever faint tint they have),
-  // so the fills need more lightness spread to read as two tones.
-  if (pH === null) {
-    tP = darkPage ? 0.72 : 0.5;
-    tS = darkPage ? 0.4 : 0.22;
-  }
-  pH ??= neutral.h;
-  sH ??= neutral.h;
   const fillOk = (t: Oklch) => oklchContrast(t, bg) >= 1.25 || deltaEOk(t, bg) >= 0.12;
-  const inkReads = (t: Oklch) => oklchContrast(t, ink) >= 2 || deltaEOk(t, ink) >= 0.15;
+  const lineReads = (t: Oklch) => oklchContrast(t, line) >= 2 || deltaEOk(t, line) >= 0.15;
 
-  // Each fill must lift off the page and still let ink lines read on top
-  let primary = tone(outside ? bg.l + 0.15 : fillL(tP), primaryC, pH);
-  let secondary = tone(fillL(tS), secondaryC, sH);
-  primary = nudge(primary, outside ? -dir : dir, fillOk);
-  secondary = nudge(secondary, dir, fillOk);
-  if (!outside) primary = nudge(primary, -dir, (t) => inkReads(t) || !fillOk(t));
-  secondary = nudge(secondary, -dir, (t) => inkReads(t) || !fillOk(t));
+  // Ink that is not a line. Light pages: as drawn. Dark pages: the darkest
+  // tone in the figure, a deep page-hue tint that still clears the page.
+  const deepC = Math.min(0.06, 0.02 + 0.06 * chromaScale);
+  const deep = (contrast: number) =>
+    nudge(tone(bg.l + 0.04, anchor === null ? Math.min(bg.c, 0.02) : deepC, hueOr(bg.h)), 1, (t) => oklchContrast(t, bg) >= contrast);
+  // Colour band on dark pages: above the masses, below where light lines stop reading
+  const bandHi = nudge(tone(line.l, 0, line.h), -1, (t) => oklchContrast(t, line) >= 2.2).l;
+  // A mid-light line (orange, teal) leaves little room, so masses give way first:
+  // they may sink to 1.6:1 against the page, but never above the colours
+  let mass = darkPage ? deep(2.2) : line;
+  if (darkPage && mass.l > bandHi - 0.08) {
+    const floor = deep(1.6);
+    mass = floor.l >= bandHi - 0.08 ? floor : tone(bandHi - 0.08, mass.c, mass.h);
+  }
+  let dot = darkPage ? deep(1.8) : line;
+  if (dot.l > mass.l) dot = mass;
+  const bandLo = Math.min(mass.l + 0.1, bandHi);
+  const aboveMass = (t: Oklch) => !darkPage || t.l >= mass.l + 0.03;
+  const u = (l: number) => Math.min(1, Math.max(0, (l - SOURCE_L.lo) / (SOURCE_L.hi - SOURCE_L.lo)));
 
-  // Then pull the two fills apart: secondary backs off toward the page while
-  // it still lifts off it, then primary moves inkward while ink still reads
-  const MIN_FILL_DE = 0.1;
-  for (let i = 0; i < 50 && deltaEOk(primary, secondary) < MIN_FILL_DE; i++) {
-    const s2 = tone(secondary.l - dir * 0.01, secondaryC, sH);
-    const p2 = tone(primary.l + dir * 0.01, primaryC, pH);
-    if (fillOk(s2)) secondary = s2;
-    else if (!outside && inkReads(p2)) primary = p2;
-    else break;
+  const colourFor = (src: Oklch, rotation: number): Oklch => {
+    const h = anchor === null ? src.h : (src.h + rotation + 360) % 360;
+    const c = src.c * chromaScale;
+    const l = darkPage ? bandLo + (bandHi - bandLo) * u(src.l) : line.l + (bg.l - line.l) * src.l;
+    let t = tone(l, c, isMuddy(h, l) ? unmuddy(h, l) : h);
+    t = nudge(t, dir, fillOk);
+    if (!lineReads(t)) t = nudge(t, -dir, (x) => lineReads(x) || !fillOk(x) || !aboveMass(x));
+    // The nudges move lightness, which can walk a warm hue back into mud.
+    // Checked with a little margin, since this is the last word.
+    const m = t.l - 0.03;
+    return isMuddy(t.h, m) ? tone(t.l, c, unmuddy(t.h, m)) : t;
+  };
+
+  const surfaceFor = (src: Oklch): Oklch => {
+    const t = Math.min(1, Math.max(SURFACE_T.lo, src.l));
+    const c = Math.min(bg.c, 0.03);
+    // Light pages: between line and page, as drawn. Dark pages: lighter
+    // sources lift further, so shading stays darker than what it shades.
+    const l = darkPage
+      ? bg.l + 0.05 + (t - SURFACE_T.lo)
+      : line.l + (bg.l - line.l) * t;
+    return tone(l, c, bg.h);
+  };
+
+  const tones: IllustrationTones = {
+    line,
+    mass,
+    dot,
+    paper: bg,
+    glint: darkPage ? gamutMap(mixOklab(line, bg, 0.08)) : bg,
+  };
+
+  for (const pack of ILLUSTRATION_PACKS) {
+    const own = ILLUSTRATION_TONES.filter((t) => t.pack === pack.id);
+    const colours = own.filter((t) => t.kind === "colour");
+    const lead = colours.reduce<IllustrationSourceTone | null>((a, b) => (!a || b.uses > a.uses ? b : a), null);
+    const rotation = lead && anchor !== null ? anchor - lead.h : 0;
+    for (const t of own) {
+      tones[t.id] = t.kind === "colour" ? colourFor(t, rotation) : surfaceFor(t);
+    }
   }
 
-  // Small marks carry the text colour's hue whenever it stays clean
-  const tA = darkPage ? 0.62 : 0.5;
-  const aH = clean(fgHue, tA) ? fgHue : pH;
-  const accent = nudge(
-    tone(at(tA), primaryC * 1.15, aH),
-    dir,
-    (t) => oklchContrast(t, bg) >= 3
-  );
+  // Backdrop tint and hero glow, from a mid colour on the page hue
+  const glow = colourFor({ l: 0.7, c: 0.14, h: hueOr(bg.h) }, 0);
+  tones.glow = glow;
+  tones.surface = gamutMap(mixOklab(bg, glow, 0.14));
 
-  const highlight = nudge(
-    tone(darkPage ? Math.min(bg.l, 0.24) : Math.max(bg.l, 0.93), Math.min(primaryC, 0.03), pH),
-    -dir,
-    (t) => oklchContrast(t, ink) >= 3
-  );
-
-  const surface = gamutMap(mixOklab(bg, primary, 0.14));
-
-  return { ink, primary, secondary, accent, highlight, surface };
+  return tones;
 }
 
-export type IllustrationPalette = Record<IllustrationRole, string>;
+export type IllustrationPalette = Record<string, string>;
 
-/** CSS `oklch()` strings for each illustration role. */
+/** CSS `oklch()` strings keyed by var name (without `--ill-`). */
 export function computeIllustrationPalette(
   backgroundColor: string,
   foregroundColor: string,
   inkColor: string = foregroundColor
 ): IllustrationPalette {
   const tones = computeIllustrationTones(backgroundColor, foregroundColor, inkColor);
-  const out = {} as IllustrationPalette;
-  for (const role of Object.keys(tones) as IllustrationRole[]) {
-    const { l, c, h } = tones[role];
-    out[role] = oklchToString(l, c, h);
-  }
+  const out: IllustrationPalette = {};
+  for (const [key, { l, c, h }] of Object.entries(tones)) out[key] = oklchToString(l, c, h);
   return out;
 }
 
