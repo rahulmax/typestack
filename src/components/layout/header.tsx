@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import {
   Tooltip,
@@ -66,7 +67,7 @@ export function Header({
     <header className="relative flex h-14 items-center justify-between border-b bg-background px-2 md:px-4 surface-noise">
       {/* Left: logo + strapline */}
       <div className="relative z-[2] flex items-center gap-2 shrink-0">
-        <span className="text-lg font-bold tracking-tight">TypeStax</span>
+        <Link href="/" className="text-lg font-bold tracking-tight">TypeStax</Link>
         <span className="hidden sm:inline text-xs text-muted-foreground/60 tracking-wide translate-y-px">
           Harmonious Type Stacks{" "}
           <span className="text-muted-foreground/40">•</span>{" "}
