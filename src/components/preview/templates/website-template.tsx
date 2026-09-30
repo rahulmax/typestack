@@ -30,8 +30,7 @@ export const websiteTemplate: PreviewTemplate = {
 
   /* Hero */
   #hero { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 4rem; align-items: center; padding-top: 4.5rem; padding-bottom: 5rem; }
-  .ws-eyebrow { display: inline-flex; align-items: center; gap: 0.6rem; margin-bottom: 1.5rem; }
-  .ws-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+  #hero .eyebrow { display: block; margin-bottom: 1.5rem; }
   #hero h1 { margin-bottom: 1.5rem; text-wrap: balance; }
   #hero p { max-width: 34em; margin-bottom: 2.25rem; }
   .ws-actions { display: flex; align-items: center; gap: 1.75rem; flex-wrap: wrap; }
@@ -139,7 +138,7 @@ export const websiteTemplate: PreviewTemplate = {
 
   <section id="hero" class="ws-wrap">
     <div>
-      <div class="ws-eyebrow"><span class="ws-dot"></span><span class="eyebrow">${c.hero.eyebrow}</span></div>
+      <span class="eyebrow">${c.hero.eyebrow}</span>
       <h1>${c.hero.title}</h1>
       <p>${c.hero.body}</p>
       <div class="ws-actions">

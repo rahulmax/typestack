@@ -49,15 +49,19 @@ function getElementLabel(el: HTMLElement): string {
 
 type ColorRef = { fg: string; bg: string };
 
+// The label floats on the page above the element instead of inside it: a child, even an absolutely
+// positioned one, makes text-wrap: balance re-break the heading, so it jumped on hover.
 function createLabel(doc: Document, el: HTMLElement, opacity: string, colors: ColorRef): HTMLElement {
   const label = doc.createElement("div");
+  const rect = el.getBoundingClientRect();
+  const win = doc.defaultView;
   label.textContent = getElementLabel(el);
   label.setAttribute("data-ts-label", "true");
   label.contentEditable = "false";
   Object.assign(label.style, {
     position: "absolute",
-    top: "-18px",
-    left: "-2px",
+    top: `${rect.top + (win?.scrollY ?? 0) - 18}px`,
+    left: `${rect.left + (win?.scrollX ?? 0) - 2}px`,
     fontSize: "11px",
     fontWeight: "600",
     lineHeight: "1",
@@ -107,10 +111,9 @@ function setupEditableListeners(
       el.style.outline = `2px solid ${colors.fg}`;
       el.style.outlineOffset = "2px";
       el.style.borderRadius = "4px";
-      el.style.position = "relative";
 
       focusLabelEl = createLabel(doc, el, "1", colors);
-      el.appendChild(focusLabelEl);
+      doc.body.appendChild(focusLabelEl);
     },
     true
   );
@@ -143,10 +146,9 @@ function setupEditableListeners(
     el.style.outline = `2px solid color-mix(in srgb, ${colors.fg} 35%, transparent)`;
     el.style.outlineOffset = "2px";
     el.style.borderRadius = "4px";
-    el.style.position = "relative";
 
     hoverLabelEl = createLabel(doc, el, "0.35", colors);
-    el.appendChild(hoverLabelEl);
+    doc.body.appendChild(hoverLabelEl);
   });
 
   doc.addEventListener("mouseout", (e) => {
