@@ -11,7 +11,8 @@ export function useURLSync() {
   useEffect(() => {
     const config = getConfigFromURL();
     if (config) {
-      loadConfig(config);
+      // A shared link shows exactly what the sharer saw, colors included.
+      loadConfig(config, { colors: true });
       return;
     }
 

@@ -19,6 +19,7 @@ import {
   fetchStack,
   toggleLike,
   toggleSave,
+  splitSavedConfig,
   type Stack,
 } from "@/lib/stacks-api";
 import { useTypographyStore } from "@/store/typography-store";
@@ -154,7 +155,8 @@ export function BrowseStacksDialog({
   const handleSelect = async (stack: Stack) => {
     try {
       const full = await fetchStack(stack.id);
-      loadConfig(full.config);
+      const { config, colors } = splitSavedConfig(full.config);
+      loadConfig(config, { colors });
       setCurrentStack(stack.id, stack.name);
       onOpenChange(false);
     } catch {

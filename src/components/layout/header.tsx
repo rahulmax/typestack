@@ -13,7 +13,7 @@ import { useTypographyStore } from "@/store/typography-store";
 import { useStore } from "zustand";
 import { useTheme } from "next-themes";
 import { Show, UserButton, SignInButton } from "@clerk/nextjs";
-import { fetchStacks, type Stack } from "@/lib/stacks-api";
+import { fetchStacks, splitSavedConfig, type Stack } from "@/lib/stacks-api";
 import { useUIStore } from "@/store/ui-store";
 
 interface HeaderProps {
@@ -52,7 +52,8 @@ export function Header({
       ? (stackIndex + 1) % stacks.length
       : (stackIndex - 1 + stacks.length) % stacks.length;
     const stack = stacks[newIndex];
-    loadConfig(stack.config);
+    const { config, colors } = splitSavedConfig(stack.config);
+    loadConfig(config, { colors });
     setCurrentStack(stack.id, stack.name);
     setStackIndex(newIndex);
   };

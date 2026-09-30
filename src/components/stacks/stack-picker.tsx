@@ -10,6 +10,8 @@ import { Input } from "@/components/ui/input";
 import {
   fetchStacks,
   createStack,
+  splitSavedConfig,
+  type SavedStackConfig,
   type Stack,
 } from "@/lib/stacks-api";
 import { useTypographyStore } from "@/store/typography-store";
@@ -47,25 +49,29 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
   const bodyFont = useTypographyStore((s) => s.bodyGroup.fontFamily);
   const { resolvedTheme } = useTheme();
 
-  const getConfig = useCallback(() => {
+  const getConfig = useCallback((): SavedStackConfig => {
     const s = useTypographyStore.getState();
     return {
       baseFontSize: s.baseFontSize,
       scaleRatioPreset: s.scaleRatioPreset,
       scaleRatio: s.scaleRatio,
-      headingsGroup: { ...s.headingsGroup, color: "#1a1a1a" },
-      bodyGroup: { ...s.bodyGroup, color: "#1a1a1a" },
+      headingsGroup: s.headingsGroup,
+      bodyGroup: s.bodyGroup,
       overrides: s.overrides,
       mobile: s.mobile,
-      backgroundColor: "#ffffff",
+      backgroundColor: s.backgroundColor,
       sampleText: s.sampleText,
+      includesColors: true,
     };
   }, []);
 
+  // Your own stacks and the ones you bookmarked, newest first.
   const load = useCallback(async () => {
     try {
-      const data = await fetchStacks("saved");
-      setStacks(data.slice(0, 8));
+      const [mine, saved] = await Promise.all([fetchStacks("mine"), fetchStacks("saved")]);
+      const byId = new Map([...mine, ...saved].map((s) => [s.id, s]));
+      const recent = [...byId.values()].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+      setStacks(recent.slice(0, 8));
     } catch {
       // Silently fail
     }
@@ -94,7 +100,8 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
   };
 
   const handleSelect = (stack: Stack) => {
-    loadConfig(stack.config);
+    const { config, colors } = splitSavedConfig(stack.config);
+    loadConfig(config, { colors });
     setCurrentStack(stack.id, stack.name);
     setOpen(false);
   };
@@ -120,7 +127,8 @@ export function StackPicker({ onBrowseStacks }: { onBrowseStacks: () => void }) 
       })
       if (data.length === 0) { setRandomLoading(false); return }
       const stack = data[Math.floor(Math.random() * data.length)]
-      loadConfig(stack.config)
+      const { config, colors } = splitSavedConfig(stack.config)
+      loadConfig(config, { colors })
       setCurrentStack(stack.id, stack.name)
       rollCopy()
       await document.fonts.ready
