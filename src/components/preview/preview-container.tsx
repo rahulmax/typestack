@@ -7,7 +7,7 @@ import { MobileChrome } from "./mobile-chrome";
 import { TypeScaleView } from "./type-scale-view";
 import { StyleCards } from "./style-cards";
 import { useUIStore } from "@/store/ui-store";
-import { getTemplateHTML } from "./templates/template-registry";
+import { getTemplateHTML, templates } from "./templates/template-registry";
 import { COPY_SETS, pickCopyIndex } from "@/data/copy-sets";
 
 export function PreviewContainer() {
@@ -56,12 +56,13 @@ export function PreviewContainer() {
 
   // laptop and mobile share the same desktop base; mobile adds a phone overlay
   const html = getTemplateHTML(activeTab, COPY_SETS[copyIndex] ?? COPY_SETS[0]);
+  const phoneRoom = viewport === "mobile" ? (templates[activeTab]?.phoneRoom ?? null) : null;
   return (
     <div className="flex h-full flex-col">
       <div className="relative flex-1 overflow-hidden bg-background">
         <div className="h-full overflow-auto p-4">
           <BrowserChrome>
-            <PreviewIframe bodyHTML={html} />
+            <PreviewIframe bodyHTML={html} phoneRoom={phoneRoom} />
           </BrowserChrome>
         </div>
         {viewport === "mobile" && (

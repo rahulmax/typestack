@@ -54,7 +54,9 @@ export const swissTemplate: PreviewTemplate = {
 
   .sw-mast { align-items: start; padding-bottom: 9rem; }
   .sw-kicker { padding-top: 0.6rem; }
-  .sw-title { text-wrap: balance; }
+  /* Poster leading: the big lines sit close, whatever the scale's own line height */
+  .sw .sw-title { line-height: 1; text-wrap: balance; }
+  .sw .sw-show h2, .sw .sw-era-name { line-height: 1; }
 
   .sw-giant-row { display: flex; align-items: flex-end; gap: 2rem; padding-bottom: 0.9rem; border-bottom: 1px solid currentColor; }
   .sw .sw-giant { flex: 1; min-width: 0; white-space: nowrap; line-height: 0.85; }

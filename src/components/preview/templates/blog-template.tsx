@@ -5,6 +5,7 @@ export const blogTemplate: PreviewTemplate = {
   id: "blog",
   name: "Blog",
   icon: AlignLeft,
+  phoneRoom: 728,
   render: (copy) => {
     const c = copy.blog;
     return `

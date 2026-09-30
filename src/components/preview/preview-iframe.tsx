@@ -178,6 +178,21 @@ function applyBody(doc: Document, bodyHTML: string) {
 interface PreviewIframeProps {
   bodyHTML: string;
   mobile?: boolean;
+  /** Content width (px) to keep clear of the phone overlay; null when the phone is hidden. */
+  phoneRoom?: number | null;
+}
+
+// Width of the phone overlay plus a gap, measured from the iframe's right edge
+const PHONE_CLEARANCE = 400;
+
+// Right padding that moves the page out from under the phone, but never below its content width
+function applyPhoneRoom(doc: Document, room: number | null | undefined) {
+  const root = doc.documentElement;
+  if (room) {
+    root.style.setProperty("--phone-pad", `clamp(0px, 100vw - ${room + 64}px, ${PHONE_CLEARANCE}px)`);
+  } else {
+    root.style.removeProperty("--phone-pad");
+  }
 }
 
 function buildDoc(css: string, bodyHTML: string, fontLinks: string[], mobile?: boolean): string {
@@ -185,7 +200,9 @@ function buildDoc(css: string, bodyHTML: string, fontLinks: string[], mobile?: b
     .map((url) => `<link rel="stylesheet" href="${url}" />`)
     .join("\n");
 
-  const mobileStyle = mobile ? `body { overflow-x: hidden; }` : "";
+  const mobileStyle = mobile
+    ? `body { overflow-x: hidden; }`
+    : `html body { padding-right: calc(2rem + var(--phone-pad, 0px)); transition: padding-right 0.3s ease; }`;
 
   return `<!DOCTYPE html>
 <html>
@@ -200,7 +217,7 @@ function buildDoc(css: string, bodyHTML: string, fontLinks: string[], mobile?: b
 </html>`;
 }
 
-export function PreviewIframe({ bodyHTML, mobile }: PreviewIframeProps) {
+export function PreviewIframe({ bodyHTML, mobile, phoneRoom }: PreviewIframeProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const css = usePreviewStyles();
   const headingFont = useTypographyStore((s) => s.headingsGroup.fontFamily);
@@ -236,6 +253,13 @@ export function PreviewIframe({ bodyHTML, mobile }: PreviewIframeProps) {
   bodyRef.current = bodyHTML;
   const cssRef = useRef(css);
   cssRef.current = css;
+  const phoneRoomRef = useRef(phoneRoom);
+  phoneRoomRef.current = phoneRoom;
+
+  useEffect(() => {
+    const doc = iframeRef.current?.contentDocument;
+    if (doc) applyPhoneRoom(doc, phoneRoom);
+  }, [phoneRoom]);
 
   // Incremental CSS update (no iframe reload)
   useEffect(() => {
@@ -293,6 +317,7 @@ export function PreviewIframe({ bodyHTML, mobile }: PreviewIframeProps) {
     const styleEl = doc.getElementById("typestack-styles");
     if (styleEl) styleEl.textContent = cssRef.current;
     if (bodyRef.current !== built.body) applyBody(doc, bodyRef.current);
+    applyPhoneRoom(doc, phoneRoomRef.current);
     makeEditable(doc);
     setupEditableListeners(doc, colorsRef, handleElementFocus);
   };
