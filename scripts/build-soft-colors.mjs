@@ -61,6 +61,8 @@ function bucket(colorway) {
   return h < SOFT_BELOW ? 'soft' : h < HARD_FROM ? 'med' : 'hard'
 }
 
+const round2 = (n) => Math.round(n * 100) / 100
+
 function readable(colorways) {
   const out = []
   const seen = new Set()
@@ -92,7 +94,7 @@ function rows(list, source) {
   return list
     .map(
       (c) =>
-        `  { name: ${JSON.stringify(c.name)}, bg: "${c.bg}", heading: "${c.heading}", body: "${c.body}", source: "${source}", bucket: "${bucket(c)}" },`
+        `  { name: ${JSON.stringify(c.name)}, bg: "${c.bg}", heading: "${c.heading}", body: "${c.body}", source: "${source}", bucket: "${bucket(c)}", hardness: ${round2(hardness(c))} },`
     )
     .join('\n')
 }
@@ -134,7 +136,12 @@ export interface Colorway {
   body: string
   source: ColorwaySource
   bucket: ColorwayBucket
+  /** Ink contrast boosted by saturation, in contrast-ratio units. Sets the bucket. */
+  hardness: number
 }
+
+/** Bucket cut lines on hardness: soft below the first, hard from the second. */
+export const HARDNESS_CUTS = { softBelow: ${SOFT_BELOW}, hardFrom: ${HARD_FROM} }
 `,
 })
 
