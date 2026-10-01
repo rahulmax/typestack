@@ -2,10 +2,13 @@ import { RectangleVertical } from "lucide-react";
 import type { PreviewTemplate } from "./types";
 import { fitScript } from "./fit-script";
 
-// Three portrait posters made only of type, each composed differently: centred and classical,
-// one word fitted across a flipped-colour sheet, and a huge numeral. Sizes are relative to the
-// poster (cqi) so each sheet keeps its composition at any width; the classes keep the user's
-// families, weights and spacing.
+// Three portrait posters, each composed differently: centred and classical, one word fitted
+// across a flipped-colour sheet under a block of pattern, and a huge numeral. Sizes are relative
+// to the poster (cqi) so each sheet keeps its composition at any width; the classes keep the
+// user's families, weights and spacing.
+//
+// The pattern is Masked Letter Grid from bookofshapes.com by Nikolaj Sokolowski, kept in
+// /public/art as a luminance mask so it prints in the page colour.
 export const postersTemplate: PreviewTemplate = {
   id: "posters",
   name: "Posters",
@@ -38,8 +41,10 @@ export const postersTemplate: PreviewTemplate = {
   .ps .ps-b-foot small { font-size: 3.1cqi; line-height: 1.4; }
   .ps .ps-b-foot small:last-child { text-align: right; }
   /* The side line reads upwards from the word and is cut, not wrapped, if it runs out of sheet */
-  .ps-b-mid { flex: 1; min-height: 0; display: flex; align-items: flex-end; overflow: hidden; padding: 4cqi 0 3cqi; }
+  .ps-b-mid { flex: 1; min-height: 0; display: flex; align-items: flex-end; gap: 3cqi; overflow: hidden; padding: 4cqi 0 3cqi; }
   .ps .ps-b-side { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 3.1cqi; white-space: nowrap; }
+  /* The pattern fills what the side line leaves. White in the mask prints in the page colour. */
+  .ps-b-art { flex: 1; align-self: stretch; min-width: 0; background: var(--bg-color); -webkit-mask: url(/art/masked-letter-grid.svg) center / cover no-repeat; mask: url(/art/masked-letter-grid.svg) center / cover no-repeat; mask-mode: luminance; }
   /* Lifted by its descender so a g or y at the foot is not cut by the sheet */
   .ps .ps-b-word { margin: 0 0 0.24em; white-space: nowrap; line-height: 0.78; }
   .ps-b-word span { display: inline-block; }
@@ -55,6 +60,10 @@ export const postersTemplate: PreviewTemplate = {
   .ps .ps-c-body { font-size: 3.5cqi; line-height: 1.45; max-height: 5lh; overflow: hidden; }
   .ps-c-corners { position: relative; display: flex; justify-content: space-between; gap: 4cqi; padding-top: 2.5cqi; border-top: 1px solid currentColor; }
   .ps .ps-c-corners small { font-size: 2.8cqi; }
+
+  /* Credit on the desk, under the wall */
+  .ps .ps-credit { margin-top: 1.75rem; text-align: right; }
+  .ps .ps-credit small { color: var(--desk-ink); }
 
   @media (max-width: 800px) {
     .ps { padding: 0.5rem 0.75rem 2rem; }
@@ -76,7 +85,10 @@ export const postersTemplate: PreviewTemplate = {
 
     <article class="ps-sheet ps-b">
       <div class="ps-b-foot"><small>${b.foot[0]}</small><small>${b.foot[1]}</small></div>
-      <div class="ps-b-mid"><small class="ps-b-side ps-caps">${b.side}</small></div>
+      <div class="ps-b-mid">
+        <small class="ps-b-side ps-caps">${b.side}</small>
+        <span class="ps-b-art" role="img" aria-label="Pattern of large letters cut into a grid"></span>
+      </div>
       <h2 class="display-1 ps-b-word" data-fit><span>${b.word}</span></h2>
     </article>
 
@@ -90,6 +102,7 @@ export const postersTemplate: PreviewTemplate = {
       <div class="ps-c-corners"><small class="ps-caps">${c.corners[0]}</small><small class="ps-caps">${c.corners[1]}</small></div>
     </article>
   </div>
+  <p class="ps-credit"><small>Pattern from <a href="https://bookofshapes.com" target="_blank" rel="noopener noreferrer">bookofshapes.com</a> by Nikolaj Sokolowski</small></p>
 </div>
 
 ${fitScript}
