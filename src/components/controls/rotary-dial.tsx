@@ -352,3 +352,231 @@ export const RotaryDial = memo(function RotaryDial({ value, onChange, onPresetCh
     </div>
   )
 })
+
+// ── Knob with detents ───────────────────────────────────────────
+
+const FOCUS_RING = "outline-none focus-visible:ring-2 focus-visible:ring-accent-warm/70"
+
+const clampIndex = (index: number) => Math.max(0, Math.min(PRESET_COUNT - 1, index))
+
+/** Drag, scroll or arrow through the ratio presets one detent at a time. */
+function useDetents(index: number, onChange: (index: number) => void, axis: "x" | "y") {
+  const ref = useRef<HTMLDivElement>(null)
+  const dragRef = useRef<{ start: number; from: number } | null>(null)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault()
+      const next = clampIndex(index + (e.deltaY > 0 ? -1 : 1))
+      if (next !== index) onChange(next)
+    }
+    el.addEventListener("wheel", handleWheel, { passive: false })
+    return () => el.removeEventListener("wheel", handleWheel)
+  }, [index, onChange])
+
+  const along = (e: React.PointerEvent) => (axis === "y" ? -e.clientY : e.clientX)
+  const preset = SCALE_RATIO_PRESETS[index]
+
+  const bind = {
+    role: "slider",
+    tabIndex: 0,
+    "aria-label": "Scale ratio",
+    "aria-valuemin": 0,
+    "aria-valuemax": PRESET_COUNT - 1,
+    "aria-valuenow": index,
+    "aria-valuetext": `${preset.name}, ${preset.value}`,
+    onPointerDown: (e: React.PointerEvent<HTMLDivElement>) => {
+      e.preventDefault()
+      dragRef.current = { start: along(e), from: index }
+      e.currentTarget.setPointerCapture(e.pointerId)
+    },
+    onPointerMove: (e: React.PointerEvent<HTMLDivElement>) => {
+      if (!dragRef.current) return
+      const steps = Math.round((along(e) - dragRef.current.start) / STEP_PX)
+      onChange(clampIndex(dragRef.current.from + steps))
+    },
+    onPointerUp: () => {
+      dragRef.current = null
+    },
+    onKeyDown: (e: React.KeyboardEvent) => {
+      const step = { ArrowUp: 1, ArrowRight: 1, ArrowDown: -1, ArrowLeft: -1 }[e.key]
+      if (!step) return
+      e.preventDefault()
+      onChange(clampIndex(index + step))
+    },
+  }
+
+  return { ref, bind }
+}
+
+/** Knurled grip: one notch per pixel of diameter, the pitch of the full-size dial. */
+const Knurl = memo(function Knurl({ size }: { size: number }) {
+  const centre = size / 2
+  const r = centre - 0.5
+  return (
+    <div className="absolute inset-0 rounded-full pointer-events-none overflow-hidden">
+      {Array.from({ length: size }, (_, i) => {
+        const deg = (i / size) * 360
+        const rad = ((deg - 90) * Math.PI) / 180
+        const x = centre + r * Math.cos(rad) - 0.5
+        const y = centre + r * Math.sin(rad) - 3.5
+        const dx = Math.cos(rad + Math.PI / 2) * 0.6
+        const dy = Math.sin(rad + Math.PI / 2) * 0.6
+        const transform = `rotate(${deg.toFixed(2)}deg)`
+        return (
+          <div key={i}>
+            <div
+              className="absolute h-[7px] w-px bg-black/10"
+              style={{ left: `${(x + dx).toFixed(2)}px`, top: `${(y + dy).toFixed(2)}px`, transform }}
+            />
+            <div
+              className="absolute h-[7px] w-px bg-white/[0.08]"
+              style={{ left: `${(x - dx).toFixed(2)}px`, top: `${(y - dy).toFixed(2)}px`, transform }}
+            />
+          </div>
+        )
+      })}
+    </div>
+  )
+})
+
+interface DialKnobProps {
+  size: number
+  /** Where the indicator points, in CSS degrees */
+  angle: number
+  /** Index into SCALE_RATIO_PRESETS */
+  index: number
+  onChange: (index: number) => void
+  /** Which way a drag turns it. Defaults to up and down. */
+  axis?: "x" | "y"
+  style: React.CSSProperties
+  children?: React.ReactNode
+}
+
+/** The scale knob at any size. Positioned by its parent. */
+export function DialKnob({ size, angle, index, onChange, axis = "y", style, children }: DialKnobProps) {
+  const { ref, bind } = useDetents(index, onChange, axis)
+
+  return (
+    <div
+      ref={ref}
+      {...bind}
+      className={`absolute select-none touch-none rounded-full cursor-grab active:cursor-grabbing ${FOCUS_RING}`}
+      style={{ width: size, height: size, ...style }}
+    >
+      {/* Outer ring */}
+      <div className="absolute inset-0 rounded-full bg-gradient-to-b from-stone-200 to-stone-400 dark:from-stone-700 dark:to-stone-900 ring-1 ring-stone-400/30 dark:ring-stone-600/50" style={OUTER_RING_STYLE} />
+      <Knurl size={size} />
+      {/* Knob face */}
+      <div
+        className="absolute inset-[3px] rounded-full bg-gradient-to-b from-stone-100 to-stone-300 dark:from-stone-800 dark:to-stone-950"
+        style={KNOB_FACE_STYLE}
+      >
+        {/* Indicator */}
+        <div
+          className="absolute inset-0 rounded-full transition-transform duration-200 ease-out"
+          style={{ transform: `rotate(${angle}deg)` }}
+        >
+          <div className="absolute left-1/2 -translate-x-1/2 bg-stone-500 shadow-[0_0_3px_rgba(0,0,0,0.3)] dark:bg-green-400 dark:shadow-[0_0_3px_rgba(74,222,128,0.6),0_0_6px_rgba(74,222,128,0.3)]" style={INDICATOR_STYLE} />
+        </div>
+        {children}
+      </div>
+    </div>
+  )
+}
+
+// ── Half-moon dial ──────────────────────────────────────────────
+// A large knob sunk into the seam below. Only its crown shows, with the ratios fanned over it.
+
+const MOON_W = 189
+const MOON_H = 104
+const MOON_KNOB = 140
+const MOON_R = MOON_KNOB / 2
+/** How much of the knob stands clear of the seam */
+const MOON_RISE = 64
+/** Sweep of the fan either side of straight up, in degrees */
+const MOON_SWEEP = 54
+
+// Tucked right, which leaves the top-left corner free for the caption
+const MOON_CX = MOON_W - MOON_R - 11
+const MOON_CY = MOON_H - MOON_RISE + MOON_R
+
+const moonAngle = (index: number) => -MOON_SWEEP + (index / (PRESET_COUNT - 1)) * MOON_SWEEP * 2
+
+function moonXY(deg: number, r: number): [number, number] {
+  const rad = (deg * Math.PI) / 180
+  return [
+    Math.round((MOON_CX + r * Math.sin(rad)) * 10) / 10,
+    Math.round((MOON_CY - r * Math.cos(rad)) * 10) / 10,
+  ]
+}
+
+const MOON_LABELS = SCALE_RATIO_PRESETS.map((preset, index) => {
+  const a = moonAngle(index)
+  const [x1, y1] = moonXY(a, MOON_R + 4)
+  const [x2, y2] = moonXY(a, MOON_R + 11)
+  const [lx, ly] = moonXY(a, MOON_R + 19)
+  return { x1, y1, x2, y2, lx, ly, label: preset.label }
+})
+
+const MOON_STYLE: React.CSSProperties = { width: MOON_W, height: MOON_H }
+const MOON_KNOB_STYLE: React.CSSProperties = { left: MOON_CX - MOON_R, top: MOON_CY - MOON_R }
+const MOON_LABEL_STYLE: React.CSSProperties = { fontSize: 11, fontWeight: 600, fontFamily: "var(--font-host-grotesk)" }
+
+export const HalfMoonDial = memo(function HalfMoonDial({ value, onChange, onPresetChange, onReset }: RotaryDialProps) {
+  const currentIndex = findNearestIndex(value)
+
+  const applyPreset = useCallback(
+    (index: number) => {
+      const preset = SCALE_RATIO_PRESETS[index]
+      onChange(preset.value)
+      onPresetChange?.(preset.name)
+    },
+    [onChange, onPresetChange]
+  )
+
+  return (
+    // clip, not hidden: a hidden box would scroll to the sunk part of the knob on focus
+    <div className="relative shrink-0 overflow-clip" style={MOON_STYLE} onDoubleClick={onReset}>
+      {/* Tick lines + labels with hit areas */}
+      <svg className="absolute inset-0 pointer-events-none" width={MOON_W} height={MOON_H} viewBox={`0 0 ${MOON_W} ${MOON_H}`}>
+        {MOON_LABELS.map((pos, index) => {
+          const isActive = index === currentIndex
+          return (
+            <g key={pos.label} className="pointer-events-auto cursor-pointer" onClick={() => applyPreset(index)}>
+              {/* Invisible hit area */}
+              <rect x={pos.lx - 12} y={pos.ly - 9} width={24} height={18} fill="transparent" />
+              <line
+                x1={pos.x1} y1={pos.y1} x2={pos.x2} y2={pos.y2}
+                className={isActive ? "stroke-foreground" : "stroke-muted-foreground/30"}
+                strokeWidth={0.75}
+                strokeLinecap="round"
+              />
+              <text
+                x={pos.lx} y={pos.ly}
+                textAnchor="middle"
+                dominantBaseline="central"
+                className={isActive ? "fill-foreground" : "fill-muted-foreground/50 hover:fill-muted-foreground"}
+                style={MOON_LABEL_STYLE}
+              >
+                {pos.label}
+              </text>
+            </g>
+          )
+        })}
+      </svg>
+
+      <DialKnob size={MOON_KNOB} angle={moonAngle(currentIndex)} index={currentIndex} onChange={applyPreset} axis="x" style={MOON_KNOB_STYLE}>
+        {/* Counter */}
+        <div className="absolute left-1/2 top-[19px] -translate-x-1/2 pointer-events-none">
+          <MechanicalCounter value={SCALE_RATIO_PRESETS[currentIndex].value} />
+        </div>
+      </DialKnob>
+
+      {/* The seam's shadow, where the knob drops below the panel */}
+      <div className="absolute inset-x-0 bottom-0 h-3 pointer-events-none bg-gradient-to-b from-transparent to-black/15 dark:to-black/45" />
+    </div>
+  )
+})

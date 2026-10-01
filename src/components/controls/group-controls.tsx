@@ -8,6 +8,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { AnimateExpand } from "@/components/ui/animate-expand"
 import { FontPicker } from "./font-picker/font-picker"
 import { DEFAULT_CONFIG } from "@/data/default-config"
 import type { GroupProperties } from "@/types/typography"
@@ -17,7 +18,7 @@ interface GroupControlsProps {
   group: GroupProperties
   onUpdate: (props: Partial<GroupProperties>) => void
   letterSpacingRange: [number, number]
-  disabled?: boolean
+  /** While on, the four dials fold away: auto balance sets them per element. */
   autoBalance?: boolean
   onAutoBalanceChange?: (enabled: boolean) => void
 }
@@ -27,8 +28,7 @@ export function GroupControls({
   group,
   onUpdate,
   letterSpacingRange,
-  disabled,
-  autoBalance,
+  autoBalance = false,
   onAutoBalanceChange,
 }: GroupControlsProps) {
   const defaults = title === "Headings"
@@ -36,9 +36,10 @@ export function GroupControls({
     : DEFAULT_CONFIG.bodyGroup
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col">
       <div className="flex items-center gap-2">
-        <h3 className="text-sm font-semibold shrink-0">{title}</h3>
+        {/* Fixed width, so the Headings and Body font displays line up */}
+        <h3 className="text-sm font-semibold shrink-0 w-[66px]">{title}</h3>
         <FontPicker
           currentFont={group.fontFamily}
           onSelectFont={(family) => onUpdate({ fontFamily: family })}
@@ -49,23 +50,26 @@ export function GroupControls({
               <button
                 type="button"
                 onClick={() => onAutoBalanceChange(!autoBalance)}
-                className="hw-btn shrink-0 !h-8 !w-8 !p-0"
+                aria-pressed={autoBalance}
+                aria-label={`Auto balance ${title.toLowerCase()}`}
+                className="hw-btn hw-btn-lit shrink-0 !h-8 !w-8 !p-0"
                 data-active={autoBalance}
               >
                 <Sparkles className="size-3.5" />
               </button>
             </TooltipTrigger>
-            <TooltipContent>Auto balance {title.toLowerCase()}</TooltipContent>
+            <TooltipContent>Auto balance {title.toLowerCase()}: {autoBalance ? "on" : "off"}</TooltipContent>
           </Tooltip>
         )}
       </div>
 
-      <div className="grid grid-cols-2 gap-x-5 gap-y-4">
+      <AnimateExpand open={!autoBalance}>
+      <div className="grid grid-cols-2 gap-x-5 gap-y-4 pt-4 pb-2" inert={autoBalance}>
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1">
               <Label className="text-xs text-muted-foreground">Font Weight</Label>
-              {!disabled && group.fontWeight !== defaults.fontWeight && (
+              {group.fontWeight !== defaults.fontWeight && (
                 <button type="button" onClick={() => onUpdate({ fontWeight: defaults.fontWeight })} className="text-muted-foreground hover:text-foreground">
                   <RotateCcw className="size-2.5" />
                 </button>
@@ -79,8 +83,6 @@ export function GroupControls({
             min={100}
             max={900}
             step={100}
-            disabled={disabled}
-            disabledText={disabled ? "auto" : undefined}
             formatValue={(v) => String(v)}
             onReset={() => onUpdate({ fontWeight: defaults.fontWeight })}
           />
@@ -90,7 +92,7 @@ export function GroupControls({
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1">
               <Label className="text-xs text-muted-foreground">Line Height</Label>
-              {!disabled && group.lineHeight !== defaults.lineHeight && (
+              {group.lineHeight !== defaults.lineHeight && (
                 <button type="button" onClick={() => onUpdate({ lineHeight: defaults.lineHeight })} className="text-muted-foreground hover:text-foreground">
                   <RotateCcw className="size-2.5" />
                 </button>
@@ -104,8 +106,6 @@ export function GroupControls({
             min={0.8}
             max={2.5}
             step={0.05}
-            disabled={disabled}
-            disabledText={disabled ? "auto" : undefined}
             onReset={() => onUpdate({ lineHeight: defaults.lineHeight })}
           />
         </div>
@@ -114,7 +114,7 @@ export function GroupControls({
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1">
               <Label className="text-xs text-muted-foreground">Letter Spacing</Label>
-              {!disabled && group.letterSpacing !== defaults.letterSpacing && (
+              {group.letterSpacing !== defaults.letterSpacing && (
                 <button type="button" onClick={() => onUpdate({ letterSpacing: defaults.letterSpacing })} className="text-muted-foreground hover:text-foreground">
                   <RotateCcw className="size-2.5" />
                 </button>
@@ -128,8 +128,6 @@ export function GroupControls({
             min={letterSpacingRange[0]}
             max={letterSpacingRange[1]}
             step={0.005}
-            disabled={disabled}
-            disabledText={disabled ? "auto" : undefined}
             formatValue={(v) => v.toFixed(3)}
             onReset={() => onUpdate({ letterSpacing: defaults.letterSpacing })}
           />
@@ -139,7 +137,7 @@ export function GroupControls({
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1">
               <Label className="text-xs text-muted-foreground">Word Spacing</Label>
-              {!disabled && group.wordSpacing !== defaults.wordSpacing && (
+              {group.wordSpacing !== defaults.wordSpacing && (
                 <button type="button" onClick={() => onUpdate({ wordSpacing: defaults.wordSpacing })} className="text-muted-foreground hover:text-foreground">
                   <RotateCcw className="size-2.5" />
                 </button>
@@ -153,14 +151,12 @@ export function GroupControls({
             min={-0.1}
             max={0.5}
             step={0.01}
-            disabled={disabled}
-            disabledText={disabled ? "auto" : undefined}
             formatValue={(v) => v.toFixed(2)}
             onReset={() => onUpdate({ wordSpacing: defaults.wordSpacing })}
           />
         </div>
       </div>
-
+      </AnimateExpand>
     </div>
   )
 }

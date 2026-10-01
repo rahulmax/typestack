@@ -1,16 +1,22 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useTypographyStore } from "@/store/typography-store";
+import { useUIStore } from "@/store/ui-store";
 import { resolveFontMetrics } from "@/lib/font-metrics";
 import { computeAutoBalance } from "@/lib/auto-balance";
 import { ALL_ELEMENTS, HEADING_ELEMENTS, DISPLAY_ELEMENTS, BODY_ELEMENTS, SCALE_POSITIONS } from "@/types/typography";
-import type { TypographyElement } from "@/types/typography";
+import type { AutoBalanceValues, TypographyElement } from "@/types/typography";
 
 function isHeadingLike(el: TypographyElement): boolean {
   return HEADING_ELEMENTS.includes(el) || DISPLAY_ELEMENTS.includes(el);
 }
 
+/**
+ * Keeps line height, tracking and word spacing balanced per element while a
+ * group's auto key is on. Auto owns an element until it is edited by hand:
+ * its overrides carry `auto`, so the split survives a reload or a saved stack.
+ */
 export function useAutoBalance() {
   const autoBalanceHeadings = useTypographyStore((s) => s.autoBalanceHeadings);
   const autoBalanceBody = useTypographyStore((s) => s.autoBalanceBody);
@@ -21,24 +27,10 @@ export function useAutoBalance() {
   const baseFontSize = useTypographyStore((s) => s.baseFontSize);
   const scaleRatio = useTypographyStore((s) => s.scaleRatio);
   const overrides = useTypographyStore((s) => s.overrides);
-  const setElementOverride = useTypographyStore((s) => s.setElementOverride);
-  const clearElementOverride = useTypographyStore((s) => s.clearElementOverride);
+  const applyAutoBalance = useTypographyStore((s) => s.applyAutoBalance);
 
-  // Track which elements we auto-balanced (vs manually overridden)
-  const autoBalancedRef = useRef<Set<TypographyElement>>(new Set());
-
-  const anyActive = autoBalanceHeadings || autoBalanceBody;
-
+  // Reruns on its own writes. The second pass finds nothing to change and stops.
   useEffect(() => {
-    if (!anyActive) {
-      // Clear only elements we auto-balanced (not manual overrides)
-      for (const el of autoBalancedRef.current) {
-        clearElementOverride(el);
-      }
-      autoBalancedRef.current.clear();
-      return;
-    }
-
     let cancelled = false;
 
     async function apply() {
@@ -49,7 +41,7 @@ export function useAutoBalance() {
 
       if (cancelled) return;
 
-      const newAutoBalanced = new Set<TypographyElement>();
+      const updates: Partial<Record<TypographyElement, AutoBalanceValues | null>> = {};
 
       for (const element of ALL_ELEMENTS) {
         // Eyebrow has its own baseline styles; skip auto-balance
@@ -57,23 +49,16 @@ export function useAutoBalance() {
 
         const isBody = BODY_ELEMENTS.includes(element);
         const isHeading = isHeadingLike(element);
-
-        // Skip if this group's auto-balance is off
-        if (isHeading && !autoBalanceHeadings) {
-          // If was previously auto-balanced, clear it
-          if (autoBalancedRef.current.has(element)) clearElementOverride(element);
-          continue;
-        }
-        if (isBody && !autoBalanceBody) {
-          if (autoBalancedRef.current.has(element)) clearElementOverride(element);
-          continue;
-        }
-
-        // Skip elements with manual overrides (user set before auto-balance)
         const existing = overrides[element];
-        if (existing?.isOverridden && !autoBalancedRef.current.has(element)) {
+
+        // Group's auto key is off: hand back whatever auto had set
+        if (isHeading ? !autoBalanceHeadings : !autoBalanceBody) {
+          if (existing?.auto) updates[element] = null;
           continue;
         }
+
+        // Set by hand: leave it alone
+        if (existing?.isOverridden && !existing.auto) continue;
 
         const metrics = isHeading ? headingMetrics : bodyMetrics;
         const baseWeight = isHeading ? headingWeight : bodyWeight;
@@ -91,24 +76,36 @@ export function useAutoBalance() {
           isBody,
         );
 
-        setElementOverride(element, {
+        const unchanged =
+          existing?.auto &&
+          existing.lineHeight === balanced.lineHeight &&
+          existing.letterSpacing === balanced.letterSpacing &&
+          existing.wordSpacing === balanced.wordSpacing;
+        if (unchanged) continue;
+
+        updates[element] = {
           lineHeight: balanced.lineHeight,
           letterSpacing: balanced.letterSpacing,
           wordSpacing: balanced.wordSpacing,
-        });
-
-        newAutoBalanced.add(element);
+        };
       }
 
-      autoBalancedRef.current = newAutoBalanced;
+      if (Object.keys(updates).length === 0) return;
+
+      // Auto's writes follow from a change the user made. They are not a change
+      // of their own: no undo step, and a stack just loaded stays clean.
+      const { pause, resume } = useTypographyStore.temporal.getState();
+      const wasDirty = useUIStore.getState().isDirty;
+      pause();
+      applyAutoBalance(updates);
+      resume();
+      if (!wasDirty) useUIStore.getState().setDirty(false);
     }
 
     apply();
 
     return () => { cancelled = true; };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    anyActive,
     autoBalanceHeadings,
     autoBalanceBody,
     headingFont,
@@ -117,5 +114,7 @@ export function useAutoBalance() {
     bodyWeight,
     baseFontSize,
     scaleRatio,
+    overrides,
+    applyAutoBalance,
   ]);
 }

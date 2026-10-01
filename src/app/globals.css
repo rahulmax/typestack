@@ -923,11 +923,9 @@
   border-radius: inherit;
   opacity: 0;
   box-shadow:
-    0 0 6px color-mix(in oklch, var(--lit) 55%, transparent),
-    0 0 16px color-mix(in oklch, var(--lit) 35%, transparent),
-    0 0 32px color-mix(in oklch, var(--lit) 18%, transparent),
-    0 0 48px color-mix(in oklch, var(--lit) 8%, transparent),
-    inset 0 0 6px color-mix(in oklch, var(--lit) 25%, transparent);
+    0 0 3px color-mix(in oklch, var(--lit) 45%, transparent),
+    0 0 8px color-mix(in oklch, var(--lit) 18%, transparent),
+    inset 0 0 4px color-mix(in oklch, var(--lit) 14%, transparent);
   transition: opacity 0.4s ease-out;
 }
 .hw-btn-lit[data-active="true"]::after {
@@ -940,17 +938,24 @@
 .hw-btn-lit[data-active="true"] > svg {
   color: var(--lit-glyph);
   filter:
-    drop-shadow(0 0 2px color-mix(in oklch, var(--lit) 90%, transparent))
-    drop-shadow(0 0 6px color-mix(in oklch, var(--lit) 45%, transparent));
+    drop-shadow(0 0 2px color-mix(in oklch, var(--lit) 70%, transparent))
+    drop-shadow(0 0 5px color-mix(in oklch, var(--lit) 30%, transparent));
   transition-duration: 0.12s;
 }
 
-/* Tight halo — the same lamp behind a smaller bloom */
-.hw-btn-lit-tight::after {
+/* Bloom — the randomizer's full spill, for a key with room around it */
+.hw-btn-lit-bloom::after {
   box-shadow:
-    0 0 4px color-mix(in oklch, var(--lit) 60%, transparent),
-    0 0 10px color-mix(in oklch, var(--lit) 28%, transparent),
-    inset 0 0 5px color-mix(in oklch, var(--lit) 22%, transparent);
+    0 0 6px color-mix(in oklch, var(--lit) 55%, transparent),
+    0 0 16px color-mix(in oklch, var(--lit) 35%, transparent),
+    0 0 32px color-mix(in oklch, var(--lit) 18%, transparent),
+    0 0 48px color-mix(in oklch, var(--lit) 8%, transparent),
+    inset 0 0 6px color-mix(in oklch, var(--lit) 25%, transparent);
+}
+.hw-btn-lit-bloom[data-active="true"] > svg {
+  filter:
+    drop-shadow(0 0 2px color-mix(in oklch, var(--lit) 90%, transparent))
+    drop-shadow(0 0 6px color-mix(in oklch, var(--lit) 45%, transparent));
 }
 
 /* Breathe — the randomizer's pulse, slowed to a resting pace */

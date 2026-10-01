@@ -35,7 +35,12 @@ export interface GroupProperties {
 export interface ElementOverride extends Partial<GroupProperties> {
   isOverridden: boolean;
   textTransform?: string; // "none" | "uppercase"
+  /** Spacing was set by auto balance, which may rewrite or clear it. Absent on anything set by hand. */
+  auto?: boolean;
 }
+
+/** The properties auto balance sets on an element. */
+export type AutoBalanceValues = Pick<GroupProperties, "lineHeight" | "letterSpacing" | "wordSpacing">;
 
 export interface MobileConfig {
   baseFontSize: number;

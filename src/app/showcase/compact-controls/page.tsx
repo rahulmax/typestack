@@ -62,7 +62,7 @@ const VARIANTS: Variant[] = [
     idea: 'A bigger knob sunk into the seam, with the ratios fanned over its crown. The fader lies down.',
     notes: [
       'Dial: drag sideways, scroll, or click a label. Labels get more room here than on the arc.',
-      'Lamp: steady, tight halo. Less spill onto the font display next to it.',
+      'Lamp: steady, tight halo. Less spill onto the font display next to it. This is the lamp the app uses.',
       'Headings and Body share one module, font displays lined up.',
     ],
     Deck: HalfMoonDeck,

@@ -151,25 +151,20 @@ export default function Home() {
               <BaseSettings />
             </div>
             <div className="module-groove" />
-            <div className="relative z-[2] px-4 py-4">
+            <div className="relative z-[2] flex flex-col gap-2 px-4 py-3">
               <GroupControls
                 title="Headings"
                 group={headingsGroup}
                 onUpdate={updateHeadingsGroup}
                 letterSpacingRange={HEADINGS_LETTER_SPACING_RANGE}
-                disabled={autoBalanceHeadings}
                 autoBalance={autoBalanceHeadings}
                 onAutoBalanceChange={setAutoBalanceHeadings}
               />
-            </div>
-            <div className="module-groove" />
-            <div className="relative z-[2] px-4 py-4">
               <GroupControls
                 title="Body"
                 group={bodyGroup}
                 onUpdate={updateBodyGroup}
                 letterSpacingRange={BODY_LETTER_SPACING_RANGE}
-                disabled={autoBalanceBody}
                 autoBalance={autoBalanceBody}
                 onAutoBalanceChange={setAutoBalanceBody}
               />

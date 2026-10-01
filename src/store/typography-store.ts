@@ -4,12 +4,13 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { temporal } from "zundo";
 import type {
+  AutoBalanceValues,
   TypographyConfig,
   TypographyElement,
   GroupProperties,
   MobileConfig,
 } from "@/types/typography";
-import { HEADING_ELEMENTS, DISPLAY_ELEMENTS, OPTIONAL_ELEMENTS } from "@/types/typography";
+import { ALL_ELEMENTS, HEADING_ELEMENTS, DISPLAY_ELEMENTS, OPTIONAL_ELEMENTS } from "@/types/typography";
 import { DEFAULT_COLORS, DEFAULT_CONFIG, normalizeConfig } from "@/data/default-config";
 import { pickRandomPangram } from "@/data/pangrams";
 import { findPresetByValue } from "@/data/scale-ratios";
@@ -31,7 +32,6 @@ interface TypographyStore extends TypographyConfig {
     element: TypographyElement,
     props: Partial<GroupProperties>
   ) => void;
-  clearElementOverride: (element: TypographyElement) => void;
 
   // Mobile settings
   updateMobile: (props: Partial<MobileConfig>) => void;
@@ -47,6 +47,8 @@ interface TypographyStore extends TypographyConfig {
   setAutoBalance: (enabled: boolean) => void;
   setAutoBalanceHeadings: (enabled: boolean) => void;
   setAutoBalanceBody: (enabled: boolean) => void;
+  /** Write a pass of auto balance in one update. Values claim an element for auto; null hands it back. */
+  applyAutoBalance: (updates: Partial<Record<TypographyElement, AutoBalanceValues | null>>) => void;
 
   // Batch color updates (single undo step)
   setColors: (headingColor: string, bodyColor: string, bg: string) => void;
@@ -63,9 +65,9 @@ export const useTypographyStore = create<TypographyStore>()(
     (set) => ({
       ...DEFAULT_CONFIG,
       enabledElements: Object.fromEntries(OPTIONAL_ELEMENTS.map((el) => [el, false])),
-      autoBalance: false,
-      autoBalanceHeadings: false,
-      autoBalanceBody: false,
+      autoBalance: true,
+      autoBalanceHeadings: true,
+      autoBalanceBody: true,
 
       setBaseFontSize: (size) => set({ baseFontSize: size }),
 
@@ -95,7 +97,8 @@ export const useTypographyStore = create<TypographyStore>()(
 
       setElementOverride: (element, props) =>
         set((state) => {
-          const current = state.overrides[element];
+          // A hand edit takes the element away from auto balance.
+          const { auto, ...current } = state.overrides[element] ?? {};
           return {
             overrides: {
               ...state.overrides,
@@ -107,14 +110,6 @@ export const useTypographyStore = create<TypographyStore>()(
             },
           };
         }),
-
-      clearElementOverride: (element) =>
-        set((state) => ({
-          overrides: {
-            ...state.overrides,
-            [element]: { isOverridden: false },
-          },
-        })),
 
       updateMobile: (props) =>
         set((state) => ({
@@ -146,14 +141,34 @@ export const useTypographyStore = create<TypographyStore>()(
       setAutoBalanceHeadings: (enabled) => set((s) => ({ autoBalanceHeadings: enabled, autoBalance: enabled && s.autoBalanceBody })),
       setAutoBalanceBody: (enabled) => set((s) => ({ autoBalanceBody: enabled, autoBalance: enabled && s.autoBalanceHeadings })),
 
+      applyAutoBalance: (updates) =>
+        set((state) => {
+          const overrides = { ...state.overrides };
+          for (const element of ALL_ELEMENTS) {
+            const values = updates[element];
+            if (values === undefined) continue;
+            const { lineHeight, letterSpacing, wordSpacing, auto, ...rest } = overrides[element] ?? { isOverridden: false };
+            overrides[element] = values
+              ? { ...rest, ...values, auto: true, isOverridden: true }
+              : { ...rest, isOverridden: Object.keys(rest).some((key) => key !== "isOverridden") };
+          }
+          return { overrides };
+        }),
+
       loadConfig: (config, options) =>
         set((state) => {
           const safe = normalizeConfig(config as unknown as Record<string, unknown>);
-          const autoBalanceOff = { autoBalance: false, autoBalanceHeadings: false, autoBalanceBody: false };
-          if (options?.colors) return { ...safe, ...autoBalanceOff };
+          // A config made with auto balance on carries auto values, so it switches auto on
+          // for that group. Anything else leaves the keys where the user had them.
+          const madeWithAuto = (headings: boolean) =>
+            ALL_ELEMENTS.some((el) => isHeadingElement(el) === headings && safe.overrides[el]?.auto);
+          const autoBalanceHeadings = state.autoBalanceHeadings || madeWithAuto(true);
+          const autoBalanceBody = state.autoBalanceBody || madeWithAuto(false);
+          const auto = { autoBalance: autoBalanceHeadings && autoBalanceBody, autoBalanceHeadings, autoBalanceBody };
+          if (options?.colors) return { ...safe, ...auto };
           return {
             ...safe,
-            ...autoBalanceOff,
+            ...auto,
             backgroundColor: state.backgroundColor,
             headingsGroup: { ...safe.headingsGroup, color: state.headingsGroup.color },
             bodyGroup: { ...safe.bodyGroup, color: state.bodyGroup.color },
@@ -174,7 +189,7 @@ export const useTypographyStore = create<TypographyStore>()(
     {
       name: "typestack-typography",
       partialize: (state) => {
-        const { autoBalance, autoBalanceHeadings, autoBalanceBody, enabledElements, ...rest } = state;
+        const { enabledElements, ...rest } = state;
         return rest;
       },
       merge: (persisted, current) => {

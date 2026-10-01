@@ -9,10 +9,18 @@ import { useTypographyStore, isHeadingElement } from "@/store/typography-store";
 import { useUIStore } from "@/store/ui-store";
 import { SidebarOverflowContext } from "@/components/layout/sidebar";
 import { AnimateExpand } from "@/components/ui/animate-expand";
-import type { TypographyElement, GroupProperties } from "@/types/typography";
+import type { TypographyElement, GroupProperties, ElementOverride } from "@/types/typography";
 import { HEADING_ELEMENTS, DISPLAY_ELEMENTS, OPTIONAL_ELEMENTS, BODY_ELEMENTS } from "@/types/typography";
 import { ELEMENT_DEFAULTS } from "@/data/element-defaults";
 import { ELEMENT_LETTER_SPACING_RANGE } from "@/data/default-config";
+
+const AUTO_BALANCE_KEYS = new Set(["isOverridden", "auto", "lineHeight", "letterSpacing", "wordSpacing"]);
+
+/** True when the element carries something set by hand, not only what auto balance wrote. */
+function isHandSet(override?: ElementOverride) {
+  if (!override?.isOverridden) return false;
+  return !override.auto || Object.keys(override).some((k) => !AUTO_BALANCE_KEYS.has(k));
+}
 
 function ElementRow({ element }: { element: TypographyElement }) {
   const store = useTypographyStore();
@@ -42,7 +50,7 @@ function ElementRow({ element }: { element: TypographyElement }) {
     const s = useTypographyStore.getState();
     const cur = { ...s.overrides[element] };
     delete cur[field];
-    const hasAny = Object.keys(cur).some((k) => k !== "isOverridden");
+    const hasAny = Object.keys(cur).some((k) => k !== "isOverridden" && k !== "auto");
     useTypographyStore.setState({
       overrides: { ...s.overrides, [element]: { ...cur, isOverridden: hasAny } },
     });
@@ -246,7 +254,7 @@ function CapsSwitch({ element, anchorRef }: { element: TypographyElement; anchor
     const next = isUppercase ? "none" : "uppercase"
     if (next === defaultTransform) {
       delete cur.textTransform
-      const hasAny = Object.keys(cur).some((k) => k !== "isOverridden")
+      const hasAny = Object.keys(cur).some((k) => k !== "isOverridden" && k !== "auto")
       useTypographyStore.setState({
         overrides: { ...s.overrides, [element]: { ...cur, isOverridden: hasAny } },
       })
@@ -342,7 +350,7 @@ export function ElementOverridePanel() {
       <div className="hw-btn-group flex">
         {ALL_OVERRIDE_ELEMENTS.map((el, i) => {
           const isActive = activeEl === el;
-          const hasOverride = overrides[el]?.isOverridden;
+          const hasOverride = isHandSet(overrides[el]);
           return (
             <button
               key={el}
