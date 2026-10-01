@@ -25,7 +25,7 @@ export const postersTemplate: PreviewTemplate = {
   .ps-a { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 11% 9% 9%; border: 1px solid color-mix(in srgb, currentColor 18%, transparent); }
   .ps-a::before { content: ""; position: absolute; inset: 3.5cqi; border: 1px solid color-mix(in srgb, currentColor 35%, transparent); pointer-events: none; }
   .ps .ps-a-top { font-size: 3.3cqi; }
-  .ps .ps-a-title { font-size: 13.5cqi; line-height: 0.98; margin: auto 0 5cqi; text-wrap: balance; max-height: 4lh; overflow: hidden; }
+  .ps .ps-a-title { font-size: 13.5cqi; line-height: 0.98; margin: auto 0 5cqi; text-wrap: balance; max-height: 4lh; overflow-x: clip; clip-path: inset(-0.5em -0.5em -0.35em); }
   .ps .ps-a-sub { font-size: 4.2cqi; line-height: 1.35; max-width: 80%; text-wrap: balance; }
   .ps-a-orn { width: 12cqi; height: 1px; background: currentColor; margin: 7cqi 0 auto; opacity: 0.6; }
   .ps-a-details { display: flex; flex-direction: column; gap: 1.4cqi; }
@@ -40,7 +40,8 @@ export const postersTemplate: PreviewTemplate = {
   /* The side line reads upwards from the word and is cut, not wrapped, if it runs out of sheet */
   .ps-b-mid { flex: 1; min-height: 0; display: flex; align-items: flex-end; overflow: hidden; padding: 4cqi 0 3cqi; }
   .ps .ps-b-side { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 3.1cqi; white-space: nowrap; }
-  .ps .ps-b-word { margin: 0 0 0.04em; white-space: nowrap; line-height: 0.78; }
+  /* Lifted by its descender so a g or y at the foot is not cut by the sheet */
+  .ps .ps-b-word { margin: 0 0 0.24em; white-space: nowrap; line-height: 0.78; }
   .ps-b-word span { display: inline-block; }
 
   /* C: a numeral bigger than the sheet, text tucked into the corner it leaves */

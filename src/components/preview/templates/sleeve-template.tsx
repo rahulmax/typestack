@@ -39,20 +39,20 @@ export const sleeveTemplate: PreviewTemplate = {
   .sl .sl-cover h1, .sl .sl-cover small { color: var(--bg-color); }
   .sl-cover-top { position: absolute; top: 7cqi; left: 7cqi; right: 7cqi; display: flex; justify-content: space-between; padding-bottom: 2.5cqi; border-bottom: 1px solid color-mix(in srgb, var(--bg-color) 45%, transparent); }
   .sl .sl-cover-top small { font-size: 2.8cqi; }
-  .sl .sl-album { position: absolute; top: 19cqi; left: 7cqi; right: 7cqi; font-size: var(--sl-album-size, 15cqi); line-height: 0.92; text-wrap: balance; max-height: 4lh; overflow: hidden; }
+  .sl .sl-album { position: absolute; top: 19cqi; left: 7cqi; right: 7cqi; font-size: var(--sl-album-size, 15cqi); line-height: 0.92; text-wrap: balance; max-height: 4lh; overflow-x: clip; clip-path: inset(-0.5em -0.5em -0.35em); }
   .sl .sl-artist { position: absolute; left: 7cqi; bottom: 7cqi; font-size: 3.6cqi; }
 
   /* Back: track lists, notes and credits */
   .sl-back { aspect-ratio: 1; display: flex; flex-direction: column; gap: 1.25rem; padding: 1.75rem 1.75rem 1.5rem; border: 1px solid var(--sl-rule); background: color-mix(in srgb, currentColor 3%, transparent); }
   .sl-back-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid currentColor; }
   .sl-back-head h5 { flex-shrink: 0; white-space: nowrap; }
-  .sl-back-head small { min-width: 0; white-space: nowrap; overflow: hidden; }
+  .sl-back-head small { min-width: 0; white-space: nowrap; overflow-x: clip; }
   .sl-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem; }
   .sl-side { min-width: 0; }
   .sl-side h6 { margin-bottom: 0.35rem; }
   .sl-track { display: flex; align-items: baseline; gap: 0.45rem; padding: 0.3rem 0; border-bottom: 1px solid var(--sl-rule); }
   .sl-no { width: 1.6rem; flex-shrink: 0; opacity: 0.6; font-variant-numeric: tabular-nums; }
-  .sl-title { min-width: 0; white-space: nowrap; overflow: hidden; }
+  .sl-title { min-width: 0; white-space: nowrap; overflow-x: clip; }
   .sl-leader { flex: 1; min-width: 0.75rem; border-bottom: 1px dotted currentColor; opacity: 0.4; }
   .sl-time { font-variant-numeric: tabular-nums; }
   .sl-notes p { hyphens: auto; }

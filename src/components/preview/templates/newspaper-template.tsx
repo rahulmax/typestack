@@ -20,7 +20,7 @@ export const newspaperTemplate: PreviewTemplate = {
   .np-ear { padding: 0.45rem 0.7rem; border: 1px solid var(--np-rule); max-width: 15rem; line-height: 1.3; }
   .np-ear:last-child { justify-self: end; text-align: right; }
   .np-motto { text-align: center; }
-  .np .np-mast { white-space: nowrap; text-align: center; line-height: 1; padding: 0.25rem 0 0.6rem; overflow: hidden; }
+  .np .np-mast { white-space: nowrap; text-align: center; line-height: 1; padding: 0.25rem 0 0.6rem; overflow-x: clip; }
   /* Room under the line for descenders, so a "y" doesn't cut the rule */
   .np-mast span { display: inline-block; line-height: 1.12; }
   .np-date { display: flex; justify-content: space-between; gap: 1rem; padding: 0.45rem 0; border-top: 3px double currentColor; border-bottom: 1px solid currentColor; }
@@ -46,7 +46,7 @@ export const newspaperTemplate: PreviewTemplate = {
   .np-index .eyebrow { display: block; padding-bottom: 0.5rem; border-bottom: 1px solid currentColor; }
   .np-row { display: flex; align-items: baseline; gap: 0.4rem; padding: 0.45rem 0; border-bottom: 1px solid var(--np-rule); }
   .np-row:last-child { border-bottom: none; }
-  .np-row small:first-child { white-space: nowrap; overflow: hidden; }
+  .np-row small:first-child { white-space: nowrap; overflow-x: clip; }
   .np-leader { flex: 1; min-width: 1rem; border-bottom: 1px dotted currentColor; opacity: 0.5; }
   .np-row small:last-child { font-variant-numeric: tabular-nums; font-weight: 700; }
 
@@ -57,7 +57,7 @@ export const newspaperTemplate: PreviewTemplate = {
   .np-brief + .np-brief { border-left: 1px solid var(--np-rule); }
   .np-brief h5 { margin-bottom: 0.4rem; text-wrap: balance; }
   /* At big scales headlines keep whole words and clip at a line limit, as print would cut to fit */
-  .np .np-lead h1, .np .np-rail h3, .np .np-quote h4, .np .np-brief h5 { overflow-wrap: normal; overflow: hidden; }
+  .np .np-lead h1, .np .np-rail h3, .np .np-quote h4, .np .np-brief h5 { overflow-wrap: normal; overflow-x: clip; clip-path: inset(-0.5em -0.5em -0.35em); }
   .np .np-lead h1 { max-height: 4lh; }
   .np .np-rail h3 { max-height: 5lh; }
   .np .np-quote h4 { max-height: 6lh; }

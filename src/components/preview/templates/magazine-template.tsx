@@ -70,11 +70,11 @@ export const magazineTemplate: PreviewTemplate = {
 
   /* Big type never breaks the grid: one-line labels and headlines past their line budget are clipped
      at the edge, poster style, with no ellipsis. */
-  .mg .mg-name, .mg-strap small, .mg-nav small, .mg-toc-row h5, .mg-end h6 { white-space: nowrap; overflow: hidden; text-overflow: clip; }
+  .mg .mg-name, .mg-strap small, .mg-nav small, .mg-toc-row h5, .mg-end h6 { white-space: nowrap; overflow-x: clip; text-overflow: clip; }
   .mg .mg-name { overflow-wrap: normal; }
-  .mg-cover h1 { overflow: hidden; max-height: 4lh; }
-  .mg .mg-quote .display-3 { overflow: hidden; max-height: 4lh; }
-  .mg-body h2, .mg-asym h3, .mg-spread h3 { overflow: hidden; max-height: 3lh; }
+  .mg-cover h1 { overflow-x: clip; clip-path: inset(-0.5em -0.5em -0.35em); max-height: 4lh; }
+  .mg .mg-quote .display-3 { overflow-x: clip; clip-path: inset(-0.5em -0.5em -0.35em); max-height: 4lh; }
+  .mg-body h2, .mg-asym h3, .mg-spread h3 { overflow-x: clip; clip-path: inset(-0.5em -0.5em -0.35em); max-height: 3lh; }
   .mg-strap small, .mg-nav small { min-width: 0; }
 
   @media (max-width: 800px) {

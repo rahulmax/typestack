@@ -61,11 +61,12 @@ export const swissTemplate: PreviewTemplate = {
 
   /* Big type never breaks the grid: one-line items and headlines past their line budget are clipped
      at the column edge, poster style, with no ellipsis. */
-  .sw .sw-title { overflow: hidden; max-height: 5lh; }
-  .sw-show h2, .sw .sw-year, .sw .sw-era-name, .sw-aside, .sw-chain > *, .sw-kicker h6 { white-space: nowrap; overflow: hidden; text-overflow: clip; }
+  .sw .sw-title { overflow-x: clip; clip-path: inset(-0.5em -0.5em -0.35em); max-height: 5lh; }
+  .sw-show h2, .sw .sw-year, .sw .sw-era-name, .sw-aside, .sw-chain > *, .sw-kicker h6 { white-space: nowrap; overflow-x: clip; text-overflow: clip; }
   .sw-aside { min-width: 0; max-width: 40%; }
-  /* The vertical name stops at a set height and is clipped at its top end */
-  .sw .sw-vert p { max-height: min(36rem, 85vh); overflow: hidden; }
+  /* The vertical name stops at a set height and is clipped at its top end; only along
+     its length, so descenders, which point sideways here, keep their tails */
+  .sw .sw-vert p { max-height: min(36rem, 85vh); overflow-y: clip; }
 
   @media (max-width: 800px) {
     .sw { padding: 0.5rem 1.25rem 2.5rem; }
