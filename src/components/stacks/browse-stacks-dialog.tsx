@@ -44,6 +44,7 @@ const FONT_SOURCE_LABELS: { value: "all" | FontSource; label: string }[] = [
   { value: "all", label: "All fonts" },
   { value: "google", label: "Google" },
   { value: "adobe", label: "Adobe" },
+  { value: "foundry", label: "Foundries" },
   { value: "fontsource", label: "Fontsource" },
 ];
 
@@ -53,10 +54,11 @@ function stackFamilies(stack: Stack): string[] {
   );
 }
 
-/** A stack files under its rarest source: Adobe, then Fontsource, then Google. */
+/** A stack files under its rarest source: Adobe, then a foundry, then Fontsource, then Google. */
 function stackSource(stack: Stack): FontSource {
   const sources = stackFamilies(stack).map(getFontSource);
   if (sources.includes("adobe")) return "adobe";
+  if (sources.includes("foundry")) return "foundry";
   return sources.includes("fontsource") ? "fontsource" : "google";
 }
 

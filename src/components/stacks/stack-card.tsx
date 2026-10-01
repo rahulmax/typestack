@@ -36,9 +36,15 @@ export function StackCard({
   const fg = cardFg;
   const body = cardBodyColor ?? cardFg;
   const bg = cardBg;
-  // The rarer source names the tag: Adobe over Fontsource, nothing for Google.
+  // The rarer source names the tag: Adobe, then a foundry, then Fontsource; nothing for Google.
   const sources = [getFontSource(headingFont), getFontSource(bodyFont)];
-  const sourceTag = sources.includes("adobe") ? "Adobe" : sources.includes("fontsource") ? "Fontsource" : null;
+  const sourceTag = sources.includes("adobe")
+    ? "Adobe"
+    : sources.includes("foundry")
+      ? "Foundry"
+      : sources.includes("fontsource")
+        ? "Fontsource"
+        : null;
 
   return (
     <div

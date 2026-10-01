@@ -2,7 +2,7 @@ import type { TypographyConfig, TypographyElement, ResolvedElementStyle } from "
 import { computeScale, computeMobileScale, isExported } from "./scale";
 import { HEADING_ELEMENTS, DISPLAY_ELEMENTS } from "@/types/typography";
 import { computeIllustrationPalette, hexToOklch, hexToOklchString } from "./color-utils";
-import { buildFontImports, getFontStack } from "./fonts";
+import { buildFontFaces, buildFontImports, getFontStack } from "./fonts";
 
 function isHeadingLike(element: string): boolean {
   return (HEADING_ELEMENTS.includes(element as TypographyElement) || DISPLAY_ELEMENTS.includes(element as TypographyElement)) && element !== "eyebrow";
@@ -46,8 +46,11 @@ export function generateCSS(config: TypographyConfig, enabledElements?: Record<s
 
   const lines: string[] = [];
 
-  lines.push(...buildFontImports(collectFontFamilies(config, desktop)));
-  lines.push("");
+  const families = collectFontFamilies(config, desktop);
+  const imports = buildFontImports(families);
+  if (imports.length) lines.push(...imports, "");
+  const faces = buildFontFaces(families);
+  if (faces.length) lines.push(...faces, "");
   lines.push(":root {");
   lines.push(`  --ts-base-size: ${config.baseFontSize}px;`);
   lines.push(`  --ts-scale-ratio: ${config.scaleRatio};`);

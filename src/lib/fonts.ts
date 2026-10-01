@@ -31,6 +31,15 @@ import {
   loadFontsourceFull,
   loadFontsourcePreview,
 } from "./fontsource";
+import {
+  FOUNDRY_OPTIONS,
+  buildFoundryExport,
+  getFoundryCssUrl,
+  getFoundryFamily,
+  getFoundryPageUrl,
+  isFoundryFamily,
+  loadFoundryFont,
+} from "./foundry-fonts";
 
 const GOOGLE_CATEGORIES = new Map(POPULAR_FONTS.map((f) => [f.family, f.category]));
 
@@ -47,15 +56,16 @@ function toFontOption(family: string, variants: string[], category: string): Fon
 
 /**
  * Every font the picker can offer. The curated sets lead: Adobe families the
- * user licensed, then the Fontsource families Google doesn't carry, then the
- * Google list as a catalog to browse.
+ * user licensed, then the families served from their foundries' own repos and
+ * the Fontsource families Google doesn't carry, then the Google list as a
+ * catalog to browse.
  */
 export async function fetchFontOptions(): Promise<FontOption[]> {
   const [kit, google] = await Promise.all([fetchAdobeKit(), fetchGoogleFonts()]);
   if (kit) loadAdobeKitCSS();
 
   const googleOptions = google.map((f) => toFontOption(f.family, f.variants, f.category));
-  return [...(kit?.families ?? []), ...FONTSOURCE_OPTIONS, ...googleOptions];
+  return [...(kit?.families ?? []), ...FOUNDRY_OPTIONS, ...FONTSOURCE_OPTIONS, ...googleOptions];
 }
 
 export function filterFontsByCategory(
@@ -83,14 +93,16 @@ function whenSourceKnown(family: string, loadFromGoogle: () => void): void {
   loadFromGoogle();
 }
 
-// Fontsource membership is a fixed list, so those families skip the kit wait.
+// Fontsource and foundry membership are fixed lists, so those families skip the kit wait.
 
 export function loadFontPreview(family: string): void {
+  if (isFoundryFamily(family)) return loadFoundryFont(family);
   if (isFontsourceFamily(family)) return loadFontsourcePreview(family);
   whenSourceKnown(family, () => loadGooglePreview(family));
 }
 
 export function loadFontFull(family: string, weights?: number[]): void {
+  if (isFoundryFamily(family)) return loadFoundryFont(family);
   if (isFontsourceFamily(family)) return loadFontsourceFull(family, weights);
   whenSourceKnown(family, () => loadGoogleFull(family, weights));
 }
@@ -105,7 +117,10 @@ export function getFontLinkUrls(families: string[], weights: number[]): string[]
   const kitUrl = getKitCssUrl();
   if (kitUrl) urls.add(kitUrl);
   for (const family of families) {
-    if (isFontsourceFamily(family)) {
+    const foundryUrl = getFoundryCssUrl(family, weights);
+    if (foundryUrl) {
+      urls.add(foundryUrl);
+    } else if (isFontsourceFamily(family)) {
       for (const url of getFontsourceCssUrls(family, weights)) urls.add(url);
     } else if (!isAdobeFamily(family)) {
       urls.add(getGoogleLinkUrl(family, weights));
@@ -117,8 +132,8 @@ export function getFontLinkUrls(families: string[], weights: number[]): string[]
 export function getFontCategory(family: string): FontCategory {
   const adobe = getLoadedKit()?.families.find((f) => f.family === family);
   if (adobe) return adobe.category;
-  const fontsource = getFontsourceFamily(family);
-  if (fontsource) return fontsource.category;
+  const curated = getFoundryFamily(family) ?? getFontsourceFamily(family);
+  if (curated) return curated.category;
   return (GOOGLE_CATEGORIES.get(family) as FontCategory) ?? "sans-serif";
 }
 
@@ -153,19 +168,26 @@ export function canRenderFamily(family: string): boolean {
 /** Where a family's files come from, read from its shape so no kit needs to load. */
 export function getFontSource(family: string): FontSource {
   if (isKitSlug(family)) return "adobe";
+  if (isFoundryFamily(family)) return "foundry";
   return isFontsourceFamily(family) ? "fontsource" : "google";
 }
 
-export const FONT_SOURCE_NAMES: Record<FontSource, string> = {
+const FONT_SOURCE_NAMES: Record<Exclude<FontSource, "foundry">, string> = {
   google: "Google Fonts",
   adobe: "Adobe Fonts",
   fontsource: "Fontsource",
 };
 
+/** Who to credit for a family: the service that serves it, or the foundry that publishes it. */
+export function getFontSourceName(family: string): string {
+  const source = getFontSource(family);
+  return source === "foundry" ? getFoundryFamily(family)!.foundry : FONT_SOURCE_NAMES[source];
+}
+
 /** The family's own page at the source that serves it: where a designer goes to get the font. */
 export function getFontPageUrl(family: string): string {
   if (isKitSlug(family)) return getAdobeFontPageUrl(family);
-  return getFontsourcePageUrl(family) ?? getGoogleFontPageUrl(family);
+  return getFoundryPageUrl(family) ?? getFontsourcePageUrl(family) ?? getGoogleFontPageUrl(family);
 }
 
 /** Settles once kit membership is known, so `canRenderFamily` answers truthfully. */
@@ -187,6 +209,8 @@ export function buildFontImports(families: Map<string, Set<number>>): string[] {
       hasAdobe = true;
       continue;
     }
+    // Foundry families have no stylesheet to import; see buildFontFaces.
+    if (isFoundryFamily(family)) continue;
     const sorted = [...weights].sort((a, b) => a - b);
     if (isFontsourceFamily(family)) {
       lines.push(...buildFontsourceImports(family, sorted));
@@ -206,4 +230,15 @@ export function buildFontImports(families: Map<string, Set<number>>): string[] {
   }
 
   return lines;
+}
+
+/**
+ * `@font-face` rules for exported CSS, for the families that come as files
+ * rather than a stylesheet. CSS only honours `@import` ahead of every other
+ * rule, so these go below the lines from `buildFontImports`, never among them.
+ */
+export function buildFontFaces(families: Map<string, Set<number>>): string[] {
+  return [...families].flatMap(([family, weights]) =>
+    buildFoundryExport(family, [...weights].sort((a, b) => a - b)),
+  );
 }

@@ -7,11 +7,10 @@ import { useUIStore } from '@/store/ui-store'
 import { COPY_SETS } from '@/data/copy-sets'
 import { ArrowUpRight } from 'lucide-react'
 import {
-  FONT_SOURCE_NAMES,
   fetchFontOptions,
   getFontLabel,
   getFontPageUrl,
-  getFontSource,
+  getFontSourceName,
   getFontStack,
 } from '@/lib/fonts'
 import { BODY_ELEMENTS } from '@/types/typography'
@@ -109,7 +108,7 @@ function SourceLink({ fontFamily, color }: { fontFamily: string; color: string }
       className="mt-1 inline-flex items-center gap-1 self-start text-[10px] font-medium uppercase tracking-[0.14em] opacity-55 transition-opacity hover:opacity-100"
       style={{ color, fontFamily: MONO }}
     >
-      {FONT_SOURCE_NAMES[getFontSource(fontFamily)]}
+      {getFontSourceName(fontFamily)}
       <ArrowUpRight className="size-3" />
     </a>
   )

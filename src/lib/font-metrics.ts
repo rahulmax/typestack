@@ -3,6 +3,7 @@ import { FONT_METRICS_TABLE } from "@/data/font-metrics-table";
 import { parse as parseFont } from "opentype.js";
 import { fetchAdobeKit, getAdobeFontUrl } from "./adobe-fonts";
 import { getFontsourceFamily } from "./fontsource";
+import { getFoundryFamily } from "./foundry-fonts";
 
 export interface FontMetrics {
   unitsPerEm: number;
@@ -63,8 +64,11 @@ export async function resolveFontMetrics(
   const cached = getCachedMetrics(fontFamily);
   if (cached) return cached;
 
-  // 2. Bundled tables; every curated Fontsource family is measured at build time
-  const bundled = FONT_METRICS_TABLE[fontFamily] ?? getFontsourceFamily(fontFamily)?.metrics;
+  // 2. Bundled tables; every curated Fontsource and foundry family is measured at build time
+  const bundled =
+    FONT_METRICS_TABLE[fontFamily] ??
+    getFontsourceFamily(fontFamily)?.metrics ??
+    getFoundryFamily(fontFamily)?.metrics;
   if (bundled) {
     setCachedMetrics(fontFamily, bundled);
     return bundled;

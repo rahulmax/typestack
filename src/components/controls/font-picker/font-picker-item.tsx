@@ -3,12 +3,14 @@
 import { memo, useCallback } from "react"
 import { ArrowUpRight } from "lucide-react"
 import { CommandItem } from "@/components/ui/command"
-import { FONT_SOURCE_NAMES, getFontPageUrl } from "@/lib/fonts"
-import type { FontOption, FontSource } from "@/types/fonts"
+import { getFontPageUrl, getFontSourceName } from "@/lib/fonts"
+import type { FontOption } from "@/types/fonts"
 
-const SOURCE_BADGES: Record<Exclude<FontSource, "google">, string> = {
-  adobe: "Adobe",
-  fontsource: "Fontsource",
+/** A foundry family wears its foundry's name; the services wear their own. */
+function sourceBadge(font: FontOption): string | undefined {
+  if (font.source === "adobe") return "Adobe"
+  if (font.source === "fontsource") return "Fontsource"
+  return font.foundry
 }
 
 interface FontPickerItemProps {
@@ -27,6 +29,8 @@ export const FontPickerItem = memo(function FontPickerItem({
   showCategory,
 }: FontPickerItemProps) {
   const handleSelect = useCallback(() => onSelect(font.family), [onSelect, font.family])
+  const badge = sourceBadge(font)
+  const sourceName = getFontSourceName(font.family)
 
   return (
     <CommandItem
@@ -42,8 +46,8 @@ export const FontPickerItem = memo(function FontPickerItem({
         {font.label}
       </span>
       <span className="flex shrink-0 items-center gap-1.5">
-        {font.source !== "google" ? (
-          <span className="hw-font-source">{SOURCE_BADGES[font.source]}</span>
+        {badge ? (
+          <span className="hw-font-source">{badge}</span>
         ) : (
           showCategory && (
             <span className="text-[10px] text-muted-foreground/60">{font.category}</span>
@@ -54,8 +58,8 @@ export const FontPickerItem = memo(function FontPickerItem({
           href={getFontPageUrl(font.family)}
           target="_blank"
           rel="noreferrer"
-          aria-label={`${font.label} on ${FONT_SOURCE_NAMES[font.source]}`}
-          title={`Get it on ${FONT_SOURCE_NAMES[font.source]}`}
+          aria-label={`${font.label} at ${sourceName}`}
+          title={`Get it from ${sourceName}`}
           className="hw-font-link"
           onClick={(e) => e.stopPropagation()}
         >

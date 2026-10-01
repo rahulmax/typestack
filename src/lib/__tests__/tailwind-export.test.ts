@@ -6,7 +6,7 @@ import { ALL_ELEMENTS, DISPLAY_ELEMENTS } from '@/types/typography'
 // Bulk exports omit the opt-in display elements.
 const EXPORTED = ALL_ELEMENTS.filter((el) => !DISPLAY_ELEMENTS.includes(el))
 
-// The v3 output is a `/* ... */` font-import prologue, then a `//` header line,
+// The v3 output is a `//` font-import prologue, then a `//` header line,
 // then the JSON body starting on its own line.
 const configJSON = (out: string) => JSON.parse(out.slice(out.indexOf('\n{') + 1))
 

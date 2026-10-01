@@ -57,8 +57,8 @@ export function FontPicker({
       .catch(console.error)
   }, [open, fonts.length])
 
-  // Kit and Fontsource fonts are small curated sets, so only the catalog list is capped.
-  const [adobeFonts, fontsourceFonts, googleFonts] = useMemo(() => {
+  // Kit, foundry and Fontsource fonts are small curated sets, so only the catalog list is capped.
+  const [adobeFonts, foundryFonts, fontsourceFonts, googleFonts] = useMemo(() => {
     let result = filterFontsByCategory(fonts, category)
     if (search) {
       // Kit families are slugs, so "Sofia Pro" has to match "sofia-pro":
@@ -70,6 +70,7 @@ export function FontPicker({
     }
     return [
       result.filter((f) => f.source === "adobe"),
+      result.filter((f) => f.source === "foundry"),
       result.filter((f) => f.source === "fontsource"),
       result.filter((f) => f.source === "google").slice(0, 200),
     ]
@@ -139,6 +140,20 @@ export function FontPicker({
                   ))}
                 </CommandGroup>
               )}
+              {foundryFonts.length > 0 && (
+                <CommandGroup heading="Open Foundries">
+                  {foundryFonts.map((font) => (
+                    <FontPickerItem
+                      key={font.family}
+                      font={font}
+                      isSelected={font.family === currentFont}
+                      onSelect={handleSelect}
+                      observeRef={observe}
+                      showCategory={category === "all"}
+                    />
+                  ))}
+                </CommandGroup>
+              )}
               {fontsourceFonts.length > 0 && (
                 <CommandGroup heading="Fontsource">
                   {fontsourceFonts.map((font) => (
@@ -154,7 +169,7 @@ export function FontPicker({
                 </CommandGroup>
               )}
               {googleFonts.length > 0 && (
-                <CommandGroup heading={adobeFonts.length + fontsourceFonts.length > 0 ? "Google Fonts" : undefined}>
+                <CommandGroup heading={adobeFonts.length + foundryFonts.length + fontsourceFonts.length > 0 ? "Google Fonts" : undefined}>
                   {googleFonts.map((font) => (
                     <FontPickerItem
                       key={font.family}

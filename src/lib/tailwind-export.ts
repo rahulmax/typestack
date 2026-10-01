@@ -2,7 +2,7 @@ import type { TypographyConfig, TypographyElement } from "@/types/typography";
 import { computeScale, computeMobileScale, isExported } from "./scale";
 import { hexToOklchString } from "./color-utils";
 import { HEADING_ELEMENTS, DISPLAY_ELEMENTS } from "@/types/typography";
-import { buildFontImports, getFontStack } from "./fonts";
+import { buildFontFaces, buildFontImports, getFontStack } from "./fonts";
 
 function isHeadingLike(element: string): boolean {
   return (
@@ -39,12 +39,16 @@ export function generateTailwindCSS(config: TypographyConfig, enabledElements?: 
   const mobile = computeMobileScale(config).filter(s => isExported(s.element, enabledElements));
   const lines: string[] = [];
 
-  const imports = buildFontImports(collectFontFamilies(config, desktop));
+  const families = collectFontFamilies(config, desktop);
+  const imports = buildFontImports(families);
   if (imports.length) {
     lines.push("/* Font imports go above @import \"tailwindcss\". */");
     lines.push(...imports);
     lines.push("");
   }
+  // Rules, not imports: these stay below @import "tailwindcss" with the theme.
+  const faces = buildFontFaces(families);
+  if (faces.length) lines.push(...faces, "");
   lines.push("@theme {");
   lines.push(`  --font-heading: ${getFontStack(config.headingsGroup.fontFamily)};`);
   lines.push(`  --font-body: ${getFontStack(config.bodyGroup.fontFamily)};`);
@@ -116,9 +120,12 @@ export function generateTailwindConfig(config: TypographyConfig, enabledElements
     fontSize,
   };
 
-  const imports = buildFontImports(collectFontFamilies(config, desktop))
-  const importComment = imports.length
-    ? `/* Add to your global CSS:\n${imports.join("\n")}\n*/\n\n`
+  // Line comments: the font lines carry block comments of their own, and one
+  // block comment cannot hold another.
+  const families = collectFontFamilies(config, desktop)
+  const fontCss = [...buildFontImports(families), ...buildFontFaces(families)].join("\n")
+  const importComment = fontCss
+    ? `// Add to your global CSS:\n${fontCss.replace(/^/gm, "// ")}\n\n`
     : ""
 
   return `${importComment}// tailwind.config.js — theme.extend\n${JSON.stringify(themeExtend, null, 2)}`;
