@@ -127,6 +127,9 @@ export function generatePreviewCSS(config: TypographyConfig): string {
   }
   lines.push(`#ill-hero > * { position: relative; z-index: 1; }`);
   const illVars = Object.entries(ill).map(([role, value]) => `--ill-${role}: ${value};`).join(" ");
+  // Each element's size as a var, so a template can cap a heading to its layout or measure in the text's own em
+  const sizeVars = (styles: ResolvedElementStyle[]) => styles.map((s) => `--size-${s.element}: ${s.fontSizeRem.toFixed(4)}rem;`).join(" ");
+  lines.push(`:root { ${sizeVars(desktop)} }`);
   lines.push(`:root { --bg-color: ${hexToOklchString(config.backgroundColor)}; --fg-color: ${hexToOklchString(config.bodyGroup.color)}; --tone-base: ${hexToOklchString(hc)}; --font-heading: ${getFontStack(config.headingsGroup.fontFamily)}; --font-body: ${getFontStack(config.bodyGroup.fontFamily)}; --weight-heading: ${config.headingsGroup.fontWeight}; ${illVars} }`);
   lines.push("");
 
@@ -165,6 +168,7 @@ export function generatePreviewCSS(config: TypographyConfig): string {
 
   lines.push(`@media (max-width: ${config.mobile.breakpointWidth - 1}px) {`);
   lines.push(`  body { padding: 0.75rem; }`);
+  lines.push(`  :root { ${sizeVars(mobile)} }`);
   for (const style of mobile) {
     const selector = elementSelector(style.element);
     lines.push(`  ${selector} {`);

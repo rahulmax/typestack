@@ -2,6 +2,47 @@ import { Globe } from "lucide-react";
 import type { PreviewTemplate } from "./types";
 import { illustrationScript } from "./illustration-script";
 
+// Sets the hero headline in the largest display size the page has room for, falling back to
+// Heading 1. It swaps the class rather than the font size, so the headline is always a real step
+// of the scale, with that step's line height and spacing, and is labelled as the step it shows.
+// Re-picks when the preview CSS or the page width change, since the preview swaps styles without reloading.
+const heroScript = `
+<script>
+(function() {
+  var STEPS = ['display-1', 'display-2', 'display-3'];
+  // The widest a headline may be set, as a share of the page width
+  var ROOM = 0.065;
+  function pick() {
+    var page = document.querySelector('.ws');
+    var title = document.querySelector('#hero h1');
+    if (!page || !title) return;
+    var root = getComputedStyle(document.documentElement);
+    var rem = parseFloat(root.fontSize) || 16;
+    var step = '';
+    for (var i = 0; i < STEPS.length && !step; i++) {
+      var size = parseFloat(root.getPropertyValue('--size-' + STEPS[i])) * rem;
+      if (size <= page.clientWidth * ROOM) step = STEPS[i];
+    }
+    if (title.className !== step) title.className = step;
+  }
+  if (window.__heroObserver) window.__heroObserver.disconnect();
+  var styles = document.getElementById('typestack-styles');
+  if (styles) {
+    window.__heroObserver = new MutationObserver(pick);
+    window.__heroObserver.observe(styles, { childList: true, characterData: true, subtree: true });
+  }
+  // The page narrows without a window resize when the phone slides in beside it
+  if (window.__heroResize) window.__heroResize.disconnect();
+  var page = document.querySelector('.ws');
+  if (page && window.ResizeObserver) {
+    window.__heroResize = new ResizeObserver(pick);
+    window.__heroResize.observe(page);
+  }
+  pick();
+})();
+</script>
+`;
+
 export const websiteTemplate: PreviewTemplate = {
   id: "website",
   name: "Website",
@@ -139,7 +180,7 @@ export const websiteTemplate: PreviewTemplate = {
   <section id="hero" class="ws-wrap">
     <div>
       <span class="eyebrow">${c.hero.eyebrow}</span>
-      <h1>${c.hero.title}</h1>
+      <h1 class="display-2">${c.hero.title}</h1>
       <p>${c.hero.body}</p>
       <div class="ws-actions">
         <span class="ws-btn"><small>${c.hero.cta}</small></span>
@@ -264,6 +305,7 @@ export const websiteTemplate: PreviewTemplate = {
   </footer>
 </div>
 
+${heroScript}
 ${illustrationScript}
 `;
   },
