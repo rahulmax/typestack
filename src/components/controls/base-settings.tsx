@@ -139,13 +139,13 @@ export function BaseSettings() {
   return (
     <div className="flex">
       {/* Base Size column. The fader sits level with the dial's counter. */}
-      <div className="flex min-w-0 flex-1 flex-col justify-between pt-2.5 pb-[13px] pr-3">
+      <div className="flex shrink-0 flex-col justify-between pt-2.5 pb-[13px] pr-3">
         <Caption changed={baseFontSize !== DEFAULT_CONFIG.baseFontSize} onReset={resetBase}>Base Size</Caption>
         <BaseFader value={baseFontSize} onChange={setBaseFontSize} onReset={resetBase} axis="x" length={124} />
       </div>
       <div className="module-groove-v" />
-      {/* Scale column */}
-      <div className="relative">
+      {/* Scale column: a bay out to the sidebar's edge, whose seam shadow falls across the sunk knob */}
+      <div className="hw-bay flex min-w-0 flex-1 justify-center">
         <Caption changed={scaleRatio !== DEFAULT_CONFIG.scaleRatio} onReset={resetScale} className="absolute left-3 top-2.5 z-10">Scale</Caption>
         <HalfMoonDial
           value={scaleRatio}

@@ -147,7 +147,7 @@ export default function Home() {
               <StackPicker onBrowseStacks={() => setBrowseStacksOpen(true)} />
             </div>
             <div className="module-groove" />
-            <div className="relative z-[2] px-4">
+            <div className="relative z-[2] pl-4">
               <BaseSettings />
             </div>
             <div className="module-groove" />

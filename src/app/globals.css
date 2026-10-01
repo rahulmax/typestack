@@ -242,6 +242,30 @@
     1px 0 0 oklch(1 0 0 / 6%);
 }
 
+/* Recessed bay — a well a control drops into, running out to the edge of its module.
+   It darkens toward the seam the control sinks behind, and that shadow lies over the control. */
+.hw-bay {
+  position: relative;
+  background: linear-gradient(to bottom, oklch(0 0 0 / 6%) 0%, oklch(0 0 0 / 2%) 30%, oklch(0 0 0 / 3%) 100%);
+  box-shadow: inset 0 3px 5px -3px oklch(0 0 0 / 22%);
+}
+.hw-bay::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 2;
+  height: 14px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, oklch(0 0 0 / 15%));
+}
+.dark .hw-bay {
+  background: linear-gradient(to bottom, oklch(0 0 0 / 34%) 0%, oklch(0 0 0 / 16%) 30%, oklch(0 0 0 / 20%) 100%);
+  box-shadow: inset 0 3px 6px -3px oklch(0 0 0 / 70%);
+}
+.dark .hw-bay::after {
+  background: linear-gradient(to bottom, transparent, oklch(0 0 0 / 50%));
+}
+
 /* Hardware button — skeuomorphic raised tactile button */
 .hw-btn {
   display: inline-flex;

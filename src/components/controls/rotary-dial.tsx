@@ -574,9 +574,6 @@ export const HalfMoonDial = memo(function HalfMoonDial({ value, onChange, onPres
           <MechanicalCounter value={SCALE_RATIO_PRESETS[currentIndex].value} />
         </div>
       </DialKnob>
-
-      {/* The seam's shadow, where the knob drops below the panel */}
-      <div className="absolute inset-x-0 bottom-0 h-3 pointer-events-none bg-gradient-to-b from-transparent to-black/15 dark:to-black/45" />
     </div>
   )
 })
