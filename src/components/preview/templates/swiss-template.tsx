@@ -10,12 +10,13 @@ export const swissTemplate: PreviewTemplate = {
     const c = copy.swiss;
     return `
 <style>
-  .sw { max-width: 1200px; margin: 0 auto; padding: 1rem 1.5rem 3rem; text-align: left; }
+  .sw { --sw-line: var(--fg-color); max-width: 1200px; margin: 0 auto; padding: 1rem 1.5rem 3rem; text-align: left; }
   .sw-row { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 1.5rem; }
   .sw-l { grid-column: 1 / 5; }
   .sw-r { grid-column: 5 / 13; }
   .sw h1, .sw h2, .sw h3, .sw h4, .sw h5, .sw h6, .sw p { margin: 0; }
-  .sw hr { border: none; border-top: 1px solid currentColor; margin: 0; }
+  /* Every rule is one solid ink. Not currentColor: browsers colour <hr> gray, so rules would mix tones */
+  .sw hr { border: none; border-top: 1px solid var(--sw-line); margin: 0; }
   .sw-show > hr { grid-column: 1 / 13; }
   /* Second tone of the headline: the body colour, pulled toward the page so it reads even when both colours match */
   .sw .sw-tone2 { color: color-mix(in oklab, var(--fg-color) 55%, var(--bg-color)); }
@@ -26,7 +27,7 @@ export const swissTemplate: PreviewTemplate = {
   .sw .sw-title { line-height: 1; text-wrap: balance; }
   .sw .sw-show h2, .sw .sw-era-name { line-height: 1; }
 
-  .sw-giant-row { display: flex; align-items: flex-end; gap: 2rem; padding-bottom: 0.9rem; border-bottom: 1px solid currentColor; }
+  .sw-giant-row { display: flex; align-items: flex-end; gap: 2rem; padding-bottom: 0.9rem; border-bottom: 1px solid var(--sw-line); }
   .sw .sw-giant { flex: 1; min-width: 0; white-space: nowrap; line-height: 0.85; }
   .sw-giant span { display: inline-block; }
   .sw-aside { flex-shrink: 0; padding-bottom: 0.4rem; }
