@@ -10,7 +10,10 @@ import {
   hexToRgb,
   isInSrgbGamut,
   isThreeColor,
-  nextAlexCristacheColorway,
+  COLORWAYS,
+  colorwaysIn,
+  nextHardColorway,
+  nextMedColorway,
   nextSoftColorway,
   oklchContrast,
   oklchToHex,
@@ -18,7 +21,7 @@ import {
   type Oklch,
 } from '../color-utils'
 import { ILLUSTRATION_TONES } from '../illustration-packs'
-import { SOFT_COLORWAYS } from '@/data/soft-colors'
+import { SPECIMEN_COLORWAYS } from '@/data/soft-colors'
 import { ALEX_CRISTACHE_COLORWAYS } from '@/data/alex-cristache-colors'
 
 const HARD_CASES: Record<string, [fg: string, bg: string]> = {
@@ -235,16 +238,41 @@ describe('computeIllustrationPalette', () => {
   })
 })
 
-describe.each([
-  ['nextSoftColorway', SOFT_COLORWAYS, nextSoftColorway],
-  ['nextAlexCristacheColorway', ALEX_CRISTACHE_COLORWAYS, nextAlexCristacheColorway],
-] as const)('%s', (_, colorways, next) => {
+describe('colorways', () => {
   test('every colorway reads at 3:1 or better', () => {
-    for (const { bg, heading, body } of colorways) {
+    for (const { bg, heading, body } of COLORWAYS) {
       expect(contrastRatio(hexToRgb(heading), hexToRgb(bg))).toBeGreaterThanOrEqual(3)
       expect(contrastRatio(hexToRgb(body), hexToRgb(bg))).toBeGreaterThanOrEqual(3)
     }
   })
+
+  test('remember where they came from', () => {
+    expect(SPECIMEN_COLORWAYS.every((c) => c.source === 'specimen')).toBe(true)
+    expect(ALEX_CRISTACHE_COLORWAYS.every((c) => c.source === 'alex-cristache')).toBe(true)
+  })
+
+  test('each sit in exactly one bucket', () => {
+    const sizes = (['soft', 'med', 'hard'] as const).map((b) => colorwaysIn(b).length)
+    expect(sizes.every((n) => n > 50)).toBe(true)
+    expect(sizes.reduce((a, b) => a + b)).toBe(COLORWAYS.length)
+  })
+
+  test('get harder from bucket to bucket', () => {
+    const median = (b: 'soft' | 'med' | 'hard') => {
+      const r = colorwaysIn(b).map(({ bg, body }) => contrastRatio(hexToRgb(body), hexToRgb(bg))).sort((x, y) => x - y)
+      return r[Math.floor(r.length / 2)]
+    }
+    expect(median('soft')).toBeLessThan(median('med'))
+    expect(median('med')).toBeLessThan(median('hard'))
+  })
+})
+
+describe.each([
+  ['nextSoftColorway', 'soft', nextSoftColorway],
+  ['nextMedColorway', 'med', nextMedColorway],
+  ['nextHardColorway', 'hard', nextHardColorway],
+] as const)('%s', (_, bucket, next) => {
+  const colorways = colorwaysIn(bucket)
 
   test('deals every colorway once before repeating', () => {
     const seen = new Set(Array.from(colorways, () => next()))

@@ -20,8 +20,7 @@ import { HexRgbInput } from "@/components/controls/color-picker/hex-rgb-input"
 import { TailwindPalette } from "@/components/controls/color-picker/tailwind-palette"
 import { useTypographyStore } from "@/store/typography-store"
 import { useUIStore, GRID_PATTERN_TYPES, type GridPatternType } from "@/store/ui-store"
-import { generateRandomColorPair, isThreeColor, nextAlexCristacheColorway, nextSoftColorway, swapOrCycleColors } from "@/lib/color-utils"
-import { useTheme } from "next-themes"
+import { isThreeColor, nextHardColorway, nextMedColorway, nextSoftColorway, swapOrCycleColors } from "@/lib/color-utils"
 
 function ColorPickerButton({
   color,
@@ -124,13 +123,6 @@ const patternOpacity = useUIStore((s) => s.patternOpacity)
   const setPatternOpacity = useUIStore((s) => s.setPatternOpacity)
   const patternSpacing = useUIStore((s) => s.patternSpacing)
   const setPatternSpacing = useUIStore((s) => s.setPatternSpacing)
-  const { resolvedTheme } = useTheme()
-
-  const handleRandom = useCallback(() => {
-    const { fg, bg } = generateRandomColorPair(resolvedTheme === "dark")
-    setColors(fg, fg, bg)
-    rollCopy()
-  }, [resolvedTheme, setColors, rollCopy])
 
   const [softName, setSoftName] = useState<string | null>(null)
   const handleSoft = useCallback(() => {
@@ -140,11 +132,19 @@ const patternOpacity = useUIStore((s) => s.patternOpacity)
     rollCopy()
   }, [setColors, rollCopy])
 
-  const [alexName, setAlexName] = useState<string | null>(null)
-  const handleAlex = useCallback(() => {
-    const { name, heading, body, bg } = nextAlexCristacheColorway()
+  const [medName, setMedName] = useState<string | null>(null)
+  const handleMed = useCallback(() => {
+    const { name, heading, body, bg } = nextMedColorway()
     setColors(heading, body, bg)
-    setAlexName(name)
+    setMedName(name)
+    rollCopy()
+  }, [setColors, rollCopy])
+
+  const [hardName, setHardName] = useState<string | null>(null)
+  const handleHard = useCallback(() => {
+    const { name, heading, body, bg } = nextHardColorway()
+    setColors(heading, body, bg)
+    setHardName(name)
     rollCopy()
   }, [setColors, rollCopy])
 
@@ -198,7 +198,7 @@ const patternOpacity = useUIStore((s) => s.patternOpacity)
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
-              <button type="button" onClick={handleAlex} className="hw-btn hw-selector-btn flex-1 flex-col !gap-0.5 justify-end pb-1.5" style={{ height: 52 }}>
+              <button type="button" onClick={handleMed} className="hw-btn hw-selector-btn flex-1 flex-col !gap-0.5 justify-end pb-1.5" style={{ height: 52 }}>
                 <span className="flex h-2.5 w-8 overflow-hidden rounded-sm shadow-[inset_0_1px_2px_rgba(0,0,0,0.2)]">
                   <span className="flex-1 bg-[#4a1106]" />
                   <span className="flex-1 bg-[#ff6b01]" />
@@ -208,11 +208,11 @@ const patternOpacity = useUIStore((s) => s.patternOpacity)
                 <span className="text-[10px] text-muted-foreground">Medium</span>
               </button>
             </TooltipTrigger>
-            <TooltipContent>{alexName ? `Medium colors: ${alexName}` : "Medium colors"}</TooltipContent>
+            <TooltipContent>{medName ? `Medium colors: ${medName}` : "Medium colors"}</TooltipContent>
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
-              <button type="button" onClick={handleRandom} className="hw-btn hw-selector-btn flex-1 flex-col !gap-0.5 justify-end pb-1.5" style={{ height: 52 }}>
+              <button type="button" onClick={handleHard} className="hw-btn hw-selector-btn flex-1 flex-col !gap-0.5 justify-end pb-1.5" style={{ height: 52 }}>
                 <span className="flex h-2.5 w-8 overflow-hidden rounded-sm shadow-[inset_0_1px_2px_rgba(0,0,0,0.2)]">
                   <span className="flex-1 bg-[#ff5f57]" />
                   <span className="flex-1 bg-[#febc2e]" />
@@ -222,7 +222,7 @@ const patternOpacity = useUIStore((s) => s.patternOpacity)
                 <span className="text-[10px] text-muted-foreground">Hard</span>
               </button>
             </TooltipTrigger>
-            <TooltipContent>Hard colors (AA)</TooltipContent>
+            <TooltipContent>{hardName ? `Hard colors: ${hardName}` : "Hard colors"}</TooltipContent>
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>

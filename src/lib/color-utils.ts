@@ -1,5 +1,5 @@
 import { ILLUSTRATION_PACKS, ILLUSTRATION_TONES, type IllustrationSourceTone } from "./illustration-packs";
-import { SOFT_COLORWAYS, type SoftColorway } from "@/data/soft-colors";
+import { SPECIMEN_COLORWAYS, type Colorway, type ColorwayBucket } from "@/data/soft-colors";
 import { ALEX_CRISTACHE_COLORWAYS } from "@/data/alex-cristache-colors";
 
 function hslToRgb(h: number, s: number, l: number): [number, number, number] {
@@ -484,8 +484,8 @@ export function generateRandomColorPair(preferDarkBg = false): { fg: string; bg:
 }
 
 /** Deals colorways in shuffled order, reshuffling once all have been seen. */
-function dealer(colorways: SoftColorway[]): () => SoftColorway {
-  let deck: SoftColorway[] = [];
+function dealer(colorways: Colorway[]): () => Colorway {
+  let deck: Colorway[] = [];
   return () => {
     if (deck.length === 0) {
       deck = [...colorways];
@@ -498,11 +498,17 @@ function dealer(colorways: SoftColorway[]): () => SoftColorway {
   };
 }
 
-/** Colorways extracted from the type specimen images. */
-export const nextSoftColorway = dealer(SOFT_COLORWAYS);
+/** Every curated colorway, from the type specimens and from Alex Cristache's palettes. */
+export const COLORWAYS: Colorway[] = [...SPECIMEN_COLORWAYS, ...ALEX_CRISTACHE_COLORWAYS];
 
-/** Colorways extracted from Alex Cristache's palette graphics. */
-export const nextAlexCristacheColorway = dealer(ALEX_CRISTACHE_COLORWAYS);
+/** The colorways in one bucket, whichever source they came from. */
+export function colorwaysIn(bucket: ColorwayBucket): Colorway[] {
+  return COLORWAYS.filter((c) => c.bucket === bucket);
+}
+
+export const nextSoftColorway = dealer(colorwaysIn("soft"));
+export const nextMedColorway = dealer(colorwaysIn("med"));
+export const nextHardColorway = dealer(colorwaysIn("hard"));
 
 /** A colorway whose heading and body differ has three colors to rotate, not two to swap. */
 export function isThreeColor(heading: string, body: string): boolean {

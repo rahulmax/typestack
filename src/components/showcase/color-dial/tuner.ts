@@ -1,15 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { ALEX_CRISTACHE_COLORWAYS } from '@/data/alex-cristache-colors'
-import { SOFT_COLORWAYS, type SoftColorway } from '@/data/soft-colors'
-import { contrastRatio, hexToOklch, hexToRgb, isInSrgbGamut, oklchToHex } from '@/lib/color-utils'
+import type { Colorway, ColorwayBucket } from '@/data/soft-colors'
+import { colorwaysIn, hexToOklch } from '@/lib/color-utils'
 
-export interface Station extends SoftColorway {
+export interface Station extends Colorway {
   /** OKLCH hue of the colorway's most chromatic color. This is its frequency on the dial. */
   hue: number
 }
 
 export interface Band {
-  id: 'soft' | 'med' | 'hard'
+  id: ColorwayBucket
   label: string
   stations: Station[]
 }
@@ -19,51 +18,18 @@ export const clamp = (n: number, min: number, max: number) => Math.max(min, Math
 /** Two decimals, so server and client markup agree whatever their trig rounding. */
 export const px = (n: number) => Math.round(n * 100) / 100
 
-function mulberry32(seed: number): () => number {
-  return () => {
-    seed = (seed + 0x6d2b79f5) | 0
-    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed)
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
-  }
-}
-
-/**
- * The Hard button deals a fresh random AA pair on every press. A dial needs
- * stations that stay put, so this draws the same kind of pair from a fixed seed.
- */
-function hardColorways(count: number): SoftColorway[] {
-  const random = mulberry32(1977)
-  const pick = () => ({ l: random(), c: 0.04 + random() * 0.24, h: random() * 360 })
-  const out: SoftColorway[] = []
-  while (out.length < count) {
-    const a = pick()
-    const b = pick()
-    if (!isInSrgbGamut(a) || !isInSrgbGamut(b)) continue
-    const [dark, light] = [a, b].sort((x, y) => x.l - y.l).map(({ l, c, h }) => oklchToHex(l, c, h))
-    if (contrastRatio(hexToRgb(dark), hexToRgb(light)) < 4.5) continue
-    const [fg, bg] = out.length % 2 ? [dark, light] : [light, dark]
-    out.push({ name: '', bg, heading: fg, body: fg })
-  }
-  return out
-}
-
-function signatureHue({ bg, heading, body }: SoftColorway): number {
+function signatureHue({ bg, heading, body }: Colorway): number {
   return [bg, heading, body].map(hexToOklch).reduce((a, b) => (b.c > a.c ? b : a)).h
 }
 
-function tune(colorways: SoftColorway[]): Station[] {
+function tune(colorways: Colorway[]): Station[] {
   return colorways.map((c) => ({ ...c, hue: signatureHue(c) })).sort((a, b) => a.hue - b.hue)
 }
 
 export const BANDS: Band[] = [
-  { id: 'soft', label: 'Soft', stations: tune(SOFT_COLORWAYS) },
-  { id: 'med', label: 'Med', stations: tune(ALEX_CRISTACHE_COLORWAYS) },
-  {
-    id: 'hard',
-    label: 'Hard',
-    stations: tune(hardColorways(120)).map((s, i) => ({ ...s, name: `Hard ${String(i + 1).padStart(3, '0')}` })),
-  },
+  { id: 'soft', label: 'Soft', stations: tune(colorwaysIn('soft')) },
+  { id: 'med', label: 'Med', stations: tune(colorwaysIn('med')) },
+  { id: 'hard', label: 'Hard', stations: tune(colorwaysIn('hard')) },
 ]
 
 // ── Scale ───────────────────────────────────────────────────────

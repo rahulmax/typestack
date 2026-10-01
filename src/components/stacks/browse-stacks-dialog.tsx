@@ -26,7 +26,7 @@ import { useTypographyStore } from "@/store/typography-store";
 import { useUIStore } from "@/store/ui-store";
 import { useFontLoader } from "./use-gallery-fonts";
 import { Plus, Shuffle, Palette, Rainbow, ArrowLeftRight, RefreshCw, X } from "lucide-react";
-import { generateRandomColorPair, isThreeColor, nextAlexCristacheColorway, nextSoftColorway, swapOrCycleColors } from "@/lib/color-utils";
+import { isThreeColor, nextHardColorway, nextMedColorway, nextSoftColorway, swapOrCycleColors } from "@/lib/color-utils";
 import { useTheme } from "next-themes";
 import { canRenderFamily, getFontSource, resolveFontSources } from "@/lib/fonts";
 import type { FontSource } from "@/types/fonts";
@@ -197,9 +197,9 @@ export function BrowseStacksDialog({
     onOpenChange(false);
   };
 
-  function handleRandom() {
-    const { fg, bg } = generateRandomColorPair(resolvedTheme === "dark");
-    setColors(fg, fg, bg);
+  function handleHard() {
+    const { heading, body, bg } = nextHardColorway();
+    setColors(heading, body, bg);
     rollCopy();
   }
 
@@ -209,8 +209,8 @@ export function BrowseStacksDialog({
     rollCopy();
   }
 
-  function handleAlex() {
-    const { heading, body, bg } = nextAlexCristacheColorway();
+  function handleMed() {
+    const { heading, body, bg } = nextMedColorway();
     setColors(heading, body, bg);
     rollCopy();
   }
@@ -269,7 +269,7 @@ export function BrowseStacksDialog({
                 </Tooltip>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <button type="button" onClick={handleAlex} className="hw-btn">
+                    <button type="button" onClick={handleMed} className="hw-btn">
                       <Rainbow className="size-3.5" />
                     </button>
                   </TooltipTrigger>
@@ -277,11 +277,11 @@ export function BrowseStacksDialog({
                 </Tooltip>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <button type="button" onClick={handleRandom} className="hw-btn">
+                    <button type="button" onClick={handleHard} className="hw-btn">
                       <Shuffle className="size-3.5" />
                     </button>
                   </TooltipTrigger>
-                  <TooltipContent>Hard colors (AA)</TooltipContent>
+                  <TooltipContent>Hard colors</TooltipContent>
                 </Tooltip>
                 <Tooltip>
                   <TooltipTrigger asChild>
