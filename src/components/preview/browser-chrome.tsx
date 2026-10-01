@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ALargeSmall, BookType, Minus, Plus, Smartphone, type LucideIcon } from "lucide-react";
-import { useUIStore, ZOOM_LEVELS, type PreviewTab } from "@/store/ui-store";
+import { selectZoom, useUIStore, ZOOM_LEVELS, type PreviewTab } from "@/store/ui-store";
 import { useTypographyStore } from "@/store/typography-store";
 import { templateList } from "./templates/template-registry";
 
@@ -24,7 +24,7 @@ export function BrowserChrome({ children }: BrowserChromeProps) {
   const setActiveTab = useUIStore((s) => s.setActiveTab);
   const phone = useUIStore((s) => s.phone);
   const togglePhone = useUIStore((s) => s.togglePhone);
-  const zoom = useUIStore((s) => s.zoom);
+  const zoom = useUIStore(selectZoom);
   const stepZoom = useUIStore((s) => s.stepZoom);
   const resetZoom = useUIStore((s) => s.resetZoom);
   const pageBg = useTypographyStore((s) => s.backgroundColor);

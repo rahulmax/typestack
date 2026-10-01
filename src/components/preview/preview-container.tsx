@@ -6,7 +6,7 @@ import { BrowserChrome } from "./browser-chrome";
 import { MobileChrome } from "./mobile-chrome";
 import { TypeScaleView } from "./type-scale-view";
 import { StyleCards } from "./style-cards";
-import { useUIStore } from "@/store/ui-store";
+import { selectZoom, TAB_ZOOM, useUIStore } from "@/store/ui-store";
 import { useTypographyStore } from "@/store/typography-store";
 import { getTemplateHTML, templates } from "./templates/template-registry";
 import { COPY_SETS, pickCopyIndex } from "@/data/copy-sets";
@@ -17,7 +17,7 @@ const PHONE_CLEARANCE = 400;
 export function PreviewContainer() {
   const activeTab = useUIStore((s) => s.activeTab);
   const phone = useUIStore((s) => s.phone);
-  const zoom = useUIStore((s) => s.zoom);
+  const zoom = useUIStore(selectZoom);
   const copyIndex = useUIStore((s) => s.copyIndex);
   const backgroundColor = useTypographyStore((s) => s.backgroundColor);
 
@@ -47,7 +47,7 @@ export function PreviewContainer() {
                 {reactView()}
               </div>
             ) : (
-              <PreviewIframe bodyHTML={html} phoneRoom={phoneRoom} zoom={zoom} />
+              <PreviewIframe bodyHTML={html} phoneRoom={phoneRoom} zoom={zoom} fill={activeTab in TAB_ZOOM} />
             )}
           </BrowserChrome>
         </div>

@@ -30,12 +30,17 @@ export type GridPatternType = (typeof GRID_PATTERN_TYPES)[number] | null;
 /** Zoom steps for the page tabs */
 export const ZOOM_LEVELS = [0.5, 0.67, 0.75, 0.9, 1, 1.1, 1.25, 1.5, 2] as const;
 
+/** Tabs that open zoomed out: a spread needs both of its pages in view. Each keeps a zoom of its own. */
+export const TAB_ZOOM: Partial<Record<PreviewTab, number>> = { magazine: 0.5 };
+
 interface UIStore {
   activeTab: PreviewTab;
   /** The phone preview, shown over any tab */
   phone: boolean;
   /** Magnification of the page tabs; the page keeps its layout width */
   zoom: number;
+  /** Zoom of the tabs in TAB_ZOOM, once the user has moved them off their opening zoom */
+  tabZoom: Partial<Record<PreviewTab, number>>;
   expandedElement: string | null;
   /** The scale elements the page tab on show is set in; null on the React tabs, which show them all */
   pageElements: TypographyElement[] | null;
@@ -72,10 +77,22 @@ interface UIStore {
   rollCopy: () => void;
 }
 
+/** The zoom of the tab on show */
+export function selectZoom(state: Pick<UIStore, "activeTab" | "zoom" | "tabZoom">): number {
+  const opening = TAB_ZOOM[state.activeTab];
+  return opening === undefined ? state.zoom : (state.tabZoom[state.activeTab] ?? opening);
+}
+
+// A tab with its own zoom keeps the change to itself; the others share one
+function zoomTo(state: UIStore, zoom: number): Partial<UIStore> {
+  return state.activeTab in TAB_ZOOM ? { tabZoom: { ...state.tabZoom, [state.activeTab]: zoom } } : { zoom };
+}
+
 export const useUIStore = create<UIStore>()((set) => ({
   activeTab: "scale",
   phone: false,
   zoom: 1,
+  tabZoom: {},
   expandedElement: null,
   pageElements: null,
   currentStackId: null,
@@ -94,11 +111,11 @@ export const useUIStore = create<UIStore>()((set) => ({
   togglePhone: () => set((state) => ({ phone: !state.phone })),
   stepZoom: (dir) =>
     set((state) => {
-      const i = ZOOM_LEVELS.findIndex((z) => z >= state.zoom - 0.001);
+      const i = ZOOM_LEVELS.findIndex((z) => z >= selectZoom(state) - 0.001);
       const next = ZOOM_LEVELS[Math.min(ZOOM_LEVELS.length - 1, Math.max(0, (i === -1 ? ZOOM_LEVELS.length - 1 : i) + dir))];
-      return { zoom: next };
+      return zoomTo(state, next);
     }),
-  resetZoom: () => set({ zoom: 1 }),
+  resetZoom: () => set((state) => zoomTo(state, 1)),
   setActiveTab: (tab) => set({ activeTab: tab }),
   setExpandedElement: (element) => set({ expandedElement: element }),
   // Reported on every change to the page, so an unchanged list keeps the old array and nothing re-renders

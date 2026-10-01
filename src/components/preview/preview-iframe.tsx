@@ -204,6 +204,8 @@ interface PreviewIframeProps {
   phoneRoom?: number | null;
   /** Magnification. The page keeps its layout width and is scaled, so nothing reflows. */
   zoom?: number;
+  /** The page fills the frame at any zoom, so zooming out gives it more room instead of a smaller picture. */
+  fill?: boolean;
 }
 
 // Width of the phone overlay plus a gap, measured from the iframe's right edge
@@ -258,7 +260,9 @@ function buildDoc(css: string, bodyHTML: string, fontLinks: string[], mobile?: b
 </html>`;
 }
 
-export function PreviewIframe({ bodyHTML, mobile, phoneRoom, zoom = 1 }: PreviewIframeProps) {
+export function PreviewIframe({ bodyHTML, mobile, phoneRoom, zoom = 1, fill }: PreviewIframeProps) {
+  // The share of the frame the zoomed page covers
+  const span = fill ? Math.max(1, zoom) : zoom;
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const css = usePreviewStyles();
   const headingFont = useTypographyStore((s) => s.headingsGroup.fontFamily);
@@ -410,7 +414,7 @@ export function PreviewIframe({ bodyHTML, mobile, phoneRoom, zoom = 1 }: Preview
           ? undefined
           : {
               // Laid out at the frame's width and height, then scaled to the zoom
-              width: `${100 / zoom}%`,
+              width: `${(span * 100) / zoom}%`,
               height: `${100 / zoom}%`,
               transform: zoom === 1 ? undefined : `scale(${zoom})`,
               transformOrigin: "0 0",
@@ -425,7 +429,7 @@ export function PreviewIframe({ bodyHTML, mobile, phoneRoom, zoom = 1 }: Preview
   // The sizer takes the zoomed size: centred when smaller than the frame, scrolled sideways when larger
   return (
     <div className="overflow-x-auto overflow-y-hidden" style={{ height: "calc(100vh - 10rem)" }}>
-      <div className="relative mx-auto h-full overflow-hidden" style={{ width: `${zoom * 100}%` }}>
+      <div className="relative mx-auto h-full overflow-hidden" style={{ width: `${span * 100}%` }}>
         {iframe}
       </div>
     </div>
