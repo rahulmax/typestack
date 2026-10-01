@@ -1,5 +1,5 @@
 import type { TypographyConfig, TypographyElement, ResolvedElementStyle } from "@/types/typography";
-import { computeScale, computeMobileScale } from "./scale";
+import { computeScale, computeMobileScale, isExported } from "./scale";
 import { HEADING_ELEMENTS, DISPLAY_ELEMENTS } from "@/types/typography";
 import { computeIllustrationPalette, hexToOklch, hexToOklchString } from "./color-utils";
 import { buildFontImports, getFontStack } from "./fonts";
@@ -40,9 +40,9 @@ function collectFontFamilies(config: TypographyConfig, styles: ResolvedElementSt
   return families
 }
 
-export function generateCSS(config: TypographyConfig): string {
-  const desktop = computeScale(config).filter(s => !DISPLAY_ELEMENTS.includes(s.element as TypographyElement));
-  const mobile = computeMobileScale(config).filter(s => !DISPLAY_ELEMENTS.includes(s.element as TypographyElement));
+export function generateCSS(config: TypographyConfig, enabledElements?: Record<string, boolean>): string {
+  const desktop = computeScale(config).filter(s => isExported(s.element, enabledElements));
+  const mobile = computeMobileScale(config).filter(s => isExported(s.element, enabledElements));
 
   const lines: string[] = [];
 
@@ -79,6 +79,22 @@ export function generateCSS(config: TypographyConfig): string {
   lines.push("}");
 
   return lines.join("\n");
+}
+
+/** One element as a standalone rule with literal values, for pasting on its own. */
+export function generateElementCSS(style: ResolvedElementStyle, config: TypographyConfig): string {
+  const family = isHeadingLike(style.element) ? config.headingsGroup.fontFamily : config.bodyGroup.fontFamily;
+  const lines = [
+    `  font-size: ${style.fontSizeRem.toFixed(4)}rem;`,
+    `  font-family: ${getFontStack(family)};`,
+    `  font-weight: ${style.fontWeight};`,
+    `  line-height: ${style.lineHeight};`,
+    `  letter-spacing: ${style.letterSpacing}em;`,
+    `  word-spacing: ${style.wordSpacing}em;`,
+    `  color: ${hexToOklchString(style.color)};`,
+  ];
+  if (style.textTransform !== "none") lines.push(`  text-transform: ${style.textTransform};`);
+  return `${elementSelector(style.element)} {\n${lines.join("\n")}\n}`;
 }
 
 export function generatePreviewCSS(config: TypographyConfig): string {

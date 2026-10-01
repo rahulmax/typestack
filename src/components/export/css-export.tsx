@@ -19,8 +19,8 @@ export function CSSExport() {
         mobile: store.mobile,
         backgroundColor: store.backgroundColor,
         sampleText: store.sampleText,
-      }),
-    [store.baseFontSize, store.scaleRatio, store.scaleRatioPreset, store.headingsGroup, store.bodyGroup, store.overrides, store.mobile, store.backgroundColor, store.sampleText]
+      }, store.enabledElements),
+    [store.baseFontSize, store.scaleRatio, store.scaleRatioPreset, store.headingsGroup, store.bodyGroup, store.overrides, store.mobile, store.backgroundColor, store.sampleText, store.enabledElements]
   );
 
   const handleCopy = () => {

@@ -19,8 +19,8 @@ export function FigmaJSONExport() {
         mobile: store.mobile,
         backgroundColor: store.backgroundColor,
         sampleText: store.sampleText,
-      }),
-    [store.baseFontSize, store.scaleRatio, store.scaleRatioPreset, store.headingsGroup, store.bodyGroup, store.overrides, store.mobile, store.backgroundColor, store.sampleText]
+      }, store.enabledElements),
+    [store.baseFontSize, store.scaleRatio, store.scaleRatioPreset, store.headingsGroup, store.bodyGroup, store.overrides, store.mobile, store.backgroundColor, store.sampleText, store.enabledElements]
   );
 
   const handleCopy = () => {
@@ -33,7 +33,7 @@ export function FigmaJSONExport() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "typestack-tokens.json";
+    a.download = "typestax-tokens.json";
     a.click();
     URL.revokeObjectURL(url);
     toast.success("Tokens file downloaded");

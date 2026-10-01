@@ -49,6 +49,13 @@ describe('generateCSS', () => {
     }
   })
 
+  test('display elements ship when the user has enabled them', () => {
+    const withDisplay = generateCSS(DEFAULT_CONFIG, { 'display-2': true })
+    expect(withDisplay).toContain('--ts-display-2:')
+    expect(withDisplay).toContain('.display-2 {')
+    expect(withDisplay).not.toContain('--ts-display-1:')
+  })
+
   test('class-selector elements use a class', () => {
     expect(css).toContain('.eyebrow {')
   })

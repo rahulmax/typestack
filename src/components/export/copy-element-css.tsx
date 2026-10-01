@@ -1,40 +1,20 @@
 "use client";
 
 import { useComputedScale } from "@/hooks/use-computed-scale";
-import { HEADING_ELEMENTS, OPTIONAL_ELEMENTS } from "@/types/typography";
 import type { ResolvedElementStyle } from "@/types/typography";
-import { hexToOklchString } from "@/lib/color-utils";
+import { generateElementCSS } from "@/lib/css-generator";
+import { isExported } from "@/lib/scale";
 import { useTypographyStore } from "@/store/typography-store";
 import { toast } from "sonner";
-
-function elementToCSS(style: ResolvedElementStyle, headingFont: string, bodyFont: string): string {
-  const family = HEADING_ELEMENTS.includes(style.element) ? headingFont : bodyFont;
-  return `${style.element} {
-  font-size: ${style.fontSizeRem.toFixed(4)}rem;
-  font-family: '${family}', sans-serif;
-  font-weight: ${style.fontWeight};
-  line-height: ${style.lineHeight};
-  letter-spacing: ${style.letterSpacing}em;
-  word-spacing: ${style.wordSpacing}em;
-  color: ${hexToOklchString(style.color)};
-}`;
-}
 
 export function CopyElementCSS() {
   const { desktop, config } = useComputedScale();
   const enabledElements = useTypographyStore((s) => s.enabledElements);
 
-  const visibleStyles = desktop.filter(
-    (s) => !OPTIONAL_ELEMENTS.includes(s.element) || enabledElements[s.element]
-  );
+  const visibleStyles = desktop.filter((s) => isExported(s.element, enabledElements));
 
   const handleCopy = (style: ResolvedElementStyle) => {
-    const css = elementToCSS(
-      style,
-      config.headingsGroup.fontFamily,
-      config.bodyGroup.fontFamily
-    );
-    navigator.clipboard.writeText(css);
+    navigator.clipboard.writeText(generateElementCSS(style, config));
     toast.success(`${style.element} CSS copied`);
   };
 
