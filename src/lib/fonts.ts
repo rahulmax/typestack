@@ -19,6 +19,15 @@ import {
   labelFromSlug,
   loadAdobeKitCSS,
 } from "./adobe-fonts";
+import {
+  FONTSOURCE_OPTIONS,
+  buildFontsourceImports,
+  getFontsourceCssUrls,
+  getFontsourceFamily,
+  isFontsourceFamily,
+  loadFontsourceFull,
+  loadFontsourcePreview,
+} from "./fontsource";
 
 const GOOGLE_CATEGORIES = new Map(POPULAR_FONTS.map((f) => [f.family, f.category]));
 
@@ -34,15 +43,16 @@ function toFontOption(family: string, variants: string[], category: string): Fon
 }
 
 /**
- * Every font the picker can offer. Adobe families lead: they are a deliberate,
- * curated set the user licensed, where the Google list is a catalog to browse.
+ * Every font the picker can offer. The curated sets lead: Adobe families the
+ * user licensed, then the Fontsource families Google doesn't carry, then the
+ * Google list as a catalog to browse.
  */
 export async function fetchFontOptions(): Promise<FontOption[]> {
   const [kit, google] = await Promise.all([fetchAdobeKit(), fetchGoogleFonts()]);
   if (kit) loadAdobeKitCSS();
 
   const googleOptions = google.map((f) => toFontOption(f.family, f.variants, f.category));
-  return kit ? [...kit.families, ...googleOptions] : googleOptions;
+  return [...(kit?.families ?? []), ...FONTSOURCE_OPTIONS, ...googleOptions];
 }
 
 export function filterFontsByCategory(
@@ -70,11 +80,15 @@ function whenSourceKnown(family: string, loadFromGoogle: () => void): void {
   loadFromGoogle();
 }
 
+// Fontsource membership is a fixed list, so those families skip the kit wait.
+
 export function loadFontPreview(family: string): void {
+  if (isFontsourceFamily(family)) return loadFontsourcePreview(family);
   whenSourceKnown(family, () => loadGooglePreview(family));
 }
 
 export function loadFontFull(family: string, weights?: number[]): void {
+  if (isFontsourceFamily(family)) return loadFontsourceFull(family, weights);
   whenSourceKnown(family, () => loadGoogleFull(family, weights));
 }
 
@@ -88,7 +102,11 @@ export function getFontLinkUrls(families: string[], weights: number[]): string[]
   const kitUrl = getKitCssUrl();
   if (kitUrl) urls.add(kitUrl);
   for (const family of families) {
-    if (!isAdobeFamily(family)) urls.add(getGoogleLinkUrl(family, weights));
+    if (isFontsourceFamily(family)) {
+      for (const url of getFontsourceCssUrls(family, weights)) urls.add(url);
+    } else if (!isAdobeFamily(family)) {
+      urls.add(getGoogleLinkUrl(family, weights));
+    }
   }
   return [...urls];
 }
@@ -96,6 +114,8 @@ export function getFontLinkUrls(families: string[], weights: number[]): string[]
 export function getFontCategory(family: string): FontCategory {
   const adobe = getLoadedKit()?.families.find((f) => f.family === family);
   if (adobe) return adobe.category;
+  const fontsource = getFontsourceFamily(family);
+  if (fontsource) return fontsource.category;
   return (GOOGLE_CATEGORIES.get(family) as FontCategory) ?? "sans-serif";
 }
 
@@ -129,7 +149,8 @@ export function canRenderFamily(family: string): boolean {
 
 /** Where a family's files come from, read from its shape so no kit needs to load. */
 export function getFontSource(family: string): FontSource {
-  return isKitSlug(family) ? "adobe" : "google";
+  if (isKitSlug(family)) return "adobe";
+  return isFontsourceFamily(family) ? "fontsource" : "google";
 }
 
 /** Settles once kit membership is known, so `canRenderFamily` answers truthfully. */
@@ -151,7 +172,12 @@ export function buildFontImports(families: Map<string, Set<number>>): string[] {
       hasAdobe = true;
       continue;
     }
-    lines.push(buildGoogleImport(family, [...weights].sort((a, b) => a - b)));
+    const sorted = [...weights].sort((a, b) => a - b);
+    if (isFontsourceFamily(family)) {
+      lines.push(...buildFontsourceImports(family, sorted));
+      continue;
+    }
+    lines.push(buildGoogleImport(family, sorted));
   }
 
   if (hasAdobe) {

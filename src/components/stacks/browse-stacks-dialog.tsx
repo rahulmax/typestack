@@ -44,6 +44,7 @@ const FONT_SOURCE_LABELS: { value: "all" | FontSource; label: string }[] = [
   { value: "all", label: "All fonts" },
   { value: "google", label: "Google" },
   { value: "adobe", label: "Adobe" },
+  { value: "fontsource", label: "Fontsource" },
 ];
 
 function stackFamilies(stack: Stack): string[] {
@@ -52,8 +53,11 @@ function stackFamilies(stack: Stack): string[] {
   );
 }
 
+/** A stack files under its rarest source: Adobe, then Fontsource, then Google. */
 function stackSource(stack: Stack): FontSource {
-  return stackFamilies(stack).some((family) => getFontSource(family) === "adobe") ? "adobe" : "google";
+  const sources = stackFamilies(stack).map(getFontSource);
+  if (sources.includes("adobe")) return "adobe";
+  return sources.includes("fontsource") ? "fontsource" : "google";
 }
 
 const CATEGORIES = [
@@ -118,24 +122,25 @@ export function BrowseStacksDialog({
   const renderableStacks = useMemo(
     () =>
       stacks.filter((s) =>
-        sourcesKnown ? stackFamilies(s).every(canRenderFamily) : stackSource(s) === "google"
+        sourcesKnown ? stackFamilies(s).every(canRenderFamily) : stackSource(s) !== "adobe"
       ),
     [stacks, sourcesKnown]
   );
 
-  const hasKitStacks = useMemo(
-    () => renderableStacks.some((s) => stackSource(s) === "adobe"),
+  const stackSources = useMemo(
+    () => new Set(renderableStacks.map(stackSource)),
     [renderableStacks]
   );
+  const hasOtherSources = [...stackSources].some((source) => source !== "google");
 
   useFontLoader(renderableStacks);
 
   const sourceStacks = useMemo(
     () =>
-      !hasKitStacks || sourceFilter === "all"
+      !hasOtherSources || sourceFilter === "all"
         ? renderableStacks
         : renderableStacks.filter((s) => stackSource(s) === sourceFilter),
-    [renderableStacks, sourceFilter, hasKitStacks]
+    [renderableStacks, sourceFilter, hasOtherSources]
   );
 
   // Derive available categories from the stacks the source switch lets through
@@ -325,10 +330,10 @@ export function BrowseStacksDialog({
                   </button>
                 ))}
               </div>
-              {/* Font source — only once this deployment's kit has stacks to show */}
-              {hasKitStacks && (
+              {/* Font source — only once there are Adobe or Fontsource stacks to show */}
+              {hasOtherSources && (
                 <div className="hw-btn-group flex w-fit" role="group" aria-label="Font source">
-                  {FONT_SOURCE_LABELS.map(({ value, label }) => (
+                  {FONT_SOURCE_LABELS.filter(({ value }) => value === "all" || stackSources.has(value)).map(({ value, label }) => (
                     <button
                       key={value}
                       type="button"
@@ -339,7 +344,7 @@ export function BrowseStacksDialog({
                       style={{ height: 34, padding: '0 16px', fontSize: 13 }}
                     >
                       <span className="inline-flex items-center gap-1.5">
-                        {value === "adobe" && <span className="hw-font-source-led" />}
+                        {value !== "all" && value !== "google" && <span className="hw-font-source-led" />}
                         {label}
                       </span>
                     </button>

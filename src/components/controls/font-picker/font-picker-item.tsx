@@ -2,7 +2,12 @@
 
 import { memo, useCallback } from "react"
 import { CommandItem } from "@/components/ui/command"
-import type { FontOption } from "@/types/fonts"
+import type { FontOption, FontSource } from "@/types/fonts"
+
+const SOURCE_BADGES: Record<Exclude<FontSource, "google">, string> = {
+  adobe: "Adobe",
+  fontsource: "Fontsource",
+}
 
 interface FontPickerItemProps {
   font: FontOption
@@ -34,8 +39,8 @@ export const FontPickerItem = memo(function FontPickerItem({
       <span style={{ fontFamily: `'${font.family}', ${font.category}` }}>
         {font.label}
       </span>
-      {font.source === "adobe" ? (
-        <span className="hw-font-source">Adobe</span>
+      {font.source !== "google" ? (
+        <span className="hw-font-source">{SOURCE_BADGES[font.source]}</span>
       ) : (
         showCategory && (
           <span className="text-[10px] text-muted-foreground/60">{font.category}</span>

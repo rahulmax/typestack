@@ -36,7 +36,9 @@ export function StackCard({
   const fg = cardFg;
   const body = cardBodyColor ?? cardFg;
   const bg = cardBg;
-  const usesKit = getFontSource(headingFont) === "adobe" || getFontSource(bodyFont) === "adobe";
+  // The rarer source names the tag: Adobe over Fontsource, nothing for Google.
+  const sources = [getFontSource(headingFont), getFontSource(bodyFont)];
+  const sourceTag = sources.includes("adobe") ? "Adobe" : sources.includes("fontsource") ? "Fontsource" : null;
 
   return (
     <div
@@ -52,15 +54,15 @@ export function StackCard({
         className="flex h-[280px] flex-col gap-4 overflow-hidden px-5 pb-6 pt-5 transition-colors duration-300"
         style={{ backgroundColor: bg, color: fg }}
       >
-        {usesKit && (
+        {sourceTag && (
           <span className="hw-font-source-tag absolute right-4 top-4">
             <span className="hw-font-source-led" />
-            Adobe
+            {sourceTag}
           </span>
         )}
         <div className="shrink-0">
           <p
-            className={`text-2xl leading-tight ${usesKit ? "pr-12" : ""}`}
+            className={`text-2xl leading-tight ${sourceTag === "Adobe" ? "pr-12" : sourceTag ? "pr-20" : ""}`}
             style={{
               fontFamily: getFontStack(headingFont),
               fontWeight: config.headingsGroup.fontWeight,
