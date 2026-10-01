@@ -1,10 +1,24 @@
 import { getDeviceId } from "./device-id";
 import type { TypographyConfig } from "@/types/typography";
 
+/**
+ * A stack's config as stored. Stacks saved with their color combo say so;
+ * presets and older stacks were saved colorless, and loading one of those
+ * keeps whatever colors are on screen.
+ */
+export type SavedStackConfig = TypographyConfig & { includesColors?: boolean };
+
+export function splitSavedConfig({ includesColors, ...config }: SavedStackConfig): {
+  config: TypographyConfig;
+  colors: boolean;
+} {
+  return { config, colors: !!includesColors };
+}
+
 export interface Stack {
   id: string;
   name: string;
-  config: TypographyConfig;
+  config: SavedStackConfig;
   category: string | null;
   deviceId: string;
   isPublished: boolean;
@@ -43,7 +57,7 @@ export async function fetchStack(id: string): Promise<Stack> {
 
 export async function createStack(
   name: string,
-  config: TypographyConfig
+  config: SavedStackConfig
 ): Promise<Stack> {
   const res = await fetch("/api/stacks", {
     method: "POST",

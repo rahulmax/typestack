@@ -54,6 +54,29 @@ describe('generateTokensStudioJSON', () => {
     expect(h1.value.fontWeight).toContain('{fontWeights.h1}')
   })
 
+  test('letter spacing is a percent of the font size, since Tokens Studio drops em', () => {
+    const tokens = JSON.parse(output)
+    for (const el of EXPORTED) {
+      expect(tokens.letterSpacing[el].value).toMatch(/^-?[\d.]+%$/)
+    }
+    // eyebrow tracks at 0.08em
+    expect(tokens.letterSpacing.eyebrow.value).toBe('8%')
+  })
+
+  test('carries text case into the composite', () => {
+    const tokens = JSON.parse(output)
+    expect(tokens.textCase.eyebrow.value).toBe('uppercase')
+    expect(tokens.textCase.h1.value).toBe('none')
+    expect(tokens.typography.eyebrow.value.textCase).toBe('{textCase.eyebrow}')
+  })
+
+  test('display elements ship only when enabled', () => {
+    expect(JSON.parse(output).fontSizes['display-1']).toBeUndefined()
+    const tokens = JSON.parse(generateTokensStudioJSON(DEFAULT_CONFIG, { 'display-1': true }))
+    expect(tokens.fontSizes['display-1']).toBeDefined()
+    expect(tokens.typography['display-1'].value.fontFamily).toBe('{fontFamilies.heading}')
+  })
+
   test('line heights are percentages', () => {
     const tokens = JSON.parse(output)
     expect(tokens.lineHeights.h1.value).toMatch(/%$/)

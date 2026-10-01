@@ -9,11 +9,17 @@ import {
   hexToOklch,
   hexToRgb,
   isInSrgbGamut,
+  isThreeColor,
+  nextAlexCristacheColorway,
+  nextSoftColorway,
   oklchContrast,
   oklchToHex,
+  swapOrCycleColors,
   type Oklch,
 } from '../color-utils'
 import { ILLUSTRATION_TONES } from '../illustration-packs'
+import { SOFT_COLORWAYS } from '@/data/soft-colors'
+import { ALEX_CRISTACHE_COLORWAYS } from '@/data/alex-cristache-colors'
 
 const HARD_CASES: Record<string, [fg: string, bg: string]> = {
   'app default': ['#2e2e2e', '#f5f5f5'],
@@ -226,5 +232,44 @@ describe('computeIllustrationPalette', () => {
     for (const key of [...ILLUSTRATION_ROLES, ...ILLUSTRATION_TONES.map((t) => t.id)]) {
       expect(palette[key], key).toMatch(/^oklch\(\d\.\d{4} \d\.\d{4} \d+\.\d{2}\)$/)
     }
+  })
+})
+
+describe.each([
+  ['nextSoftColorway', SOFT_COLORWAYS, nextSoftColorway],
+  ['nextAlexCristacheColorway', ALEX_CRISTACHE_COLORWAYS, nextAlexCristacheColorway],
+] as const)('%s', (_, colorways, next) => {
+  test('every colorway reads at 3:1 or better', () => {
+    for (const { bg, heading, body } of colorways) {
+      expect(contrastRatio(hexToRgb(heading), hexToRgb(bg))).toBeGreaterThanOrEqual(3)
+      expect(contrastRatio(hexToRgb(body), hexToRgb(bg))).toBeGreaterThanOrEqual(3)
+    }
+  })
+
+  test('deals every colorway once before repeating', () => {
+    const seen = new Set(Array.from(colorways, () => next()))
+    expect(seen.size).toBe(colorways.length)
+  })
+})
+
+describe('swapOrCycleColors', () => {
+  test('two colors swap foreground and background', () => {
+    expect(swapOrCycleColors({ heading: '#111111', body: '#111111', bg: '#eeeeee' }))
+      .toEqual({ heading: '#eeeeee', body: '#eeeeee', bg: '#111111' })
+  })
+
+  test('three colors rotate, giving each a turn as the background', () => {
+    let c = { heading: '#aa0000', body: '#00aa00', bg: '#0000aa' }
+    const bgs = []
+    for (let i = 0; i < 3; i++) {
+      c = swapOrCycleColors(c)
+      bgs.push(c.bg)
+    }
+    expect(bgs).toEqual(['#00aa00', '#aa0000', '#0000aa'])
+    expect(c).toEqual({ heading: '#aa0000', body: '#00aa00', bg: '#0000aa' })
+  })
+
+  test('heading and body that differ only in case count as one color', () => {
+    expect(isThreeColor('#ABCDEF', '#abcdef')).toBe(false)
   })
 })

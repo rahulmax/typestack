@@ -12,7 +12,7 @@ import { CSSExport } from "./css-export";
 import { TailwindExport } from "./tailwind-export";
 import { CopyElementCSS } from "./copy-element-css";
 import { FigmaJSONExport } from "./figma-json-export";
-import { FigmaAPIExport } from "./figma-api-export";
+import { FigmaVariablesExport } from "./figma-variables-export";
 import { PenExport } from "./pen-export";
 
 interface ExportDialogProps {
@@ -23,8 +23,8 @@ interface ExportDialogProps {
 const TABS = [
   { value: "css", label: "CSS" },
   { value: "tailwind", label: "Tailwind" },
-  { value: "figma-json", label: "Figma JSON" },
-  { value: "figma-api", label: "Figma API" },
+  { value: "figma", label: "Figma" },
+  { value: "tokens-studio", label: "Tokens Studio" },
   { value: "pen", label: "Pencil" },
 ] as const;
 
@@ -38,7 +38,7 @@ export function ExportDialog({ open, onOpenChange }: ExportDialogProps) {
       <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Export Typography</DialogTitle>
-          <DialogDescription>Copy CSS, download Figma tokens, push variables to Figma, or export to Pencil.</DialogDescription>
+          <DialogDescription>Copy CSS or Tailwind, download Figma variables or Tokens Studio JSON, or export to Pencil.</DialogDescription>
         </DialogHeader>
         <div className="hw-btn-group flex">
           {TABS.map((t) => (
@@ -62,8 +62,8 @@ export function ExportDialog({ open, onOpenChange }: ExportDialogProps) {
             </div>
           )}
           {tab === "tailwind" && <TailwindExport />}
-          {tab === "figma-json" && <FigmaJSONExport />}
-          {tab === "figma-api" && <FigmaAPIExport />}
+          {tab === "figma" && <FigmaVariablesExport />}
+          {tab === "tokens-studio" && <FigmaJSONExport />}
           {tab === "pen" && <PenExport />}
         </div>
       </DialogContent>

@@ -53,7 +53,7 @@ interface TypographyStore extends TypographyConfig {
   setFonts: (headingFont: string, headingWeight: number, bodyFont: string, bodyWeight: number) => void;
 
   // Bulk
-  loadConfig: (config: TypographyConfig) => void;
+  loadConfig: (config: TypographyConfig, options?: { colors?: boolean }) => void;
   resetConfig: (dark?: boolean) => void;
 }
 
@@ -146,15 +146,15 @@ export const useTypographyStore = create<TypographyStore>()(
       setAutoBalanceHeadings: (enabled) => set((s) => ({ autoBalanceHeadings: enabled, autoBalance: enabled && s.autoBalanceBody })),
       setAutoBalanceBody: (enabled) => set((s) => ({ autoBalanceBody: enabled, autoBalance: enabled && s.autoBalanceHeadings })),
 
-      loadConfig: (config) =>
+      loadConfig: (config, options) =>
         set((state) => {
           const safe = normalizeConfig(config as unknown as Record<string, unknown>);
+          const autoBalanceOff = { autoBalance: false, autoBalanceHeadings: false, autoBalanceBody: false };
+          if (options?.colors) return { ...safe, ...autoBalanceOff };
           return {
             ...safe,
+            ...autoBalanceOff,
             backgroundColor: state.backgroundColor,
-            autoBalance: false,
-            autoBalanceHeadings: false,
-            autoBalanceBody: false,
             headingsGroup: { ...safe.headingsGroup, color: state.headingsGroup.color },
             bodyGroup: { ...safe.bodyGroup, color: state.bodyGroup.color },
           };

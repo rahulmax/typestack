@@ -1,5 +1,6 @@
 import type { TypographyConfig, TypographyElement } from "@/types/typography";
-import { computeScale } from "./scale";
+import { computeScale, computeMobileScale, isExported } from "./scale";
+import { hexToOklchString } from "./color-utils";
 import { HEADING_ELEMENTS, DISPLAY_ELEMENTS } from "@/types/typography";
 import { buildFontImports, getFontStack } from "./fonts";
 
@@ -22,51 +23,68 @@ function collectFontFamilies(config: TypographyConfig, styles: { element: string
   return families
 }
 
+function elementSelector(element: string): string {
+  if (element.startsWith("display-") || element === "eyebrow") return `.${element}`;
+  return element;
+}
+
 /**
  * Generates a Tailwind v4 CSS theme block with @theme tokens.
- * Compatible with tweakcn and Tailwind CSS v4's native CSS config.
+ * Each `--text-*` token carries its own line-height, tracking and weight, so
+ * `text-h1` is a complete utility; `@layer base` styles the bare elements and
+ * swaps the sizes below the mobile breakpoint. Layered, so utilities still win.
  */
-export function generateTailwindCSS(config: TypographyConfig): string {
-  const desktop = computeScale(config).filter(s => !DISPLAY_ELEMENTS.includes(s.element as TypographyElement));
+export function generateTailwindCSS(config: TypographyConfig, enabledElements?: Record<string, boolean>): string {
+  const desktop = computeScale(config).filter(s => isExported(s.element, enabledElements));
+  const mobile = computeMobileScale(config).filter(s => isExported(s.element, enabledElements));
   const lines: string[] = [];
 
-  lines.push(...buildFontImports(collectFontFamilies(config, desktop)));
-  lines.push("");
+  const imports = buildFontImports(collectFontFamilies(config, desktop));
+  if (imports.length) {
+    lines.push("/* Font imports go above @import \"tailwindcss\". */");
+    lines.push(...imports);
+    lines.push("");
+  }
   lines.push("@theme {");
   lines.push(`  --font-heading: ${getFontStack(config.headingsGroup.fontFamily)};`);
   lines.push(`  --font-body: ${getFontStack(config.bodyGroup.fontFamily)};`);
-  lines.push("");
 
   for (const style of desktop) {
+    lines.push("");
     lines.push(`  --text-${style.element}: ${style.fontSizeRem.toFixed(4)}rem;`);
-  }
-  lines.push("");
-
-  for (const style of desktop) {
-    const lh = style.lineHeight;
-    const ls = style.letterSpacing;
-    lines.push(`  --text-${style.element}--line-height: ${lh};`);
-    lines.push(`  --text-${style.element}--letter-spacing: ${ls}em;`);
+    lines.push(`  --text-${style.element}--line-height: ${style.lineHeight};`);
+    lines.push(`  --text-${style.element}--letter-spacing: ${style.letterSpacing}em;`);
+    lines.push(`  --text-${style.element}--font-weight: ${style.fontWeight};`);
   }
   lines.push("}");
-
   lines.push("");
-  lines.push("/* Utility classes */");
 
+  lines.push("@layer base {");
   for (const style of desktop) {
     const family = isHeadingLike(style.element) ? "heading" : "body";
-    lines.push(`.text-${style.element} {`);
-    lines.push(`  font-size: var(--text-${style.element});`);
-    lines.push(`  line-height: var(--text-${style.element}--line-height);`);
-    lines.push(`  letter-spacing: var(--text-${style.element}--letter-spacing);`);
-    lines.push(`  font-family: var(--font-${family});`);
-    lines.push(`  font-weight: ${style.fontWeight};`);
+    lines.push(`  ${elementSelector(style.element)} {`);
+    lines.push(`    font-family: var(--font-${family});`);
+    lines.push(`    font-size: var(--text-${style.element});`);
+    lines.push(`    font-weight: var(--text-${style.element}--font-weight);`);
+    lines.push(`    line-height: var(--text-${style.element}--line-height);`);
+    lines.push(`    letter-spacing: var(--text-${style.element}--letter-spacing);`);
+    lines.push(`    word-spacing: ${style.wordSpacing}em;`);
+    lines.push(`    color: ${hexToOklchString(style.color)};`);
     if (style.textTransform !== "none") {
-      lines.push(`  text-transform: ${style.textTransform};`);
+      lines.push(`    text-transform: ${style.textTransform};`);
     }
-    lines.push("}");
+    lines.push("  }");
     lines.push("");
   }
+
+  lines.push(`  @media (max-width: ${config.mobile.breakpointWidth - 1}px) {`);
+  lines.push("    :root {");
+  for (const style of mobile) {
+    lines.push(`      --text-${style.element}: ${style.fontSizeRem.toFixed(4)}rem;`);
+  }
+  lines.push("    }");
+  lines.push("  }");
+  lines.push("}");
 
   return lines.join("\n");
 }
@@ -74,8 +92,8 @@ export function generateTailwindCSS(config: TypographyConfig): string {
 /**
  * Generates a Tailwind v3 theme extension object (JS/JSON).
  */
-export function generateTailwindConfig(config: TypographyConfig): string {
-  const desktop = computeScale(config).filter(s => !DISPLAY_ELEMENTS.includes(s.element as TypographyElement));
+export function generateTailwindConfig(config: TypographyConfig, enabledElements?: Record<string, boolean>): string {
+  const desktop = computeScale(config).filter(s => isExported(s.element, enabledElements));
 
   const fontSize: Record<string, [string, Record<string, string>]> = {};
 

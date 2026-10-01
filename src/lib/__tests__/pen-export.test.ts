@@ -1,6 +1,7 @@
 import { describe, test, expect } from 'vitest'
 import { generatePenFile } from '../pen-export'
 import { DEFAULT_CONFIG } from '@/data/default-config'
+import { computeMobileScale } from '../scale'
 
 interface PenNode {
   id: string
@@ -177,5 +178,24 @@ describe('generatePenFile', () => {
     for (const node of nodes) {
       expect(node.width).not.toBe('auto')
     }
+  })
+
+  test('mobile previews set the mobile scale on their instances', () => {
+    const mobileH1 = computeMobileScale(DEFAULT_CONFIG).find((s) => s.element === 'h1')!
+    const byId = (id: string) => refs.find((r) => r.id === id)!
+    const override = (id: string) => (byId(id).descendants as Record<string, PenNode>)['comp-text-h1']
+
+    expect(override('mob-hero-h1').fontSize).toBe(mobileH1.fontSize)
+    expect(override('blog-mob-blog-h1').fontSize).toBe(mobileH1.fontSize)
+    // Desktop instances inherit the component's size, so editing it propagates.
+    expect(override('desk-hero-h1')).not.toHaveProperty('fontSize')
+  })
+
+  test('display elements ship only when enabled', () => {
+    const withDisplay = JSON.parse(generatePenFile(DEFAULT_CONFIG, { 'display-1': true }))
+    const rows = withDisplay.children[0].children.find((c: { id: string }) => c.id === 'rows')
+    expect(rows.children).toHaveLength(10)
+    expect(rows.children[0].id).toBe('row-display-1')
+    expect(withDisplay.children.filter((c: { reusable?: boolean }) => c.reusable)).toHaveLength(10)
   })
 })

@@ -34,11 +34,32 @@ describe('generateTailwindCSS (v4)', () => {
     expect(css).toContain('--text-h1--letter-spacing:')
   })
 
-  test('generates utility classes', () => {
-    expect(css).toContain('.text-h1 {')
-    expect(css).toContain('.text-p {')
+  test('each text token carries its weight, so text-h1 is a complete utility', () => {
+    expect(css).toContain('--text-h1--font-weight:')
+  })
+
+  test('styles bare elements in @layer base, never unlayered classes that beat utilities', () => {
+    expect(css).toContain('@layer base {')
+    expect(css).not.toMatch(/^\.text-/m)
     expect(css).toContain('font-family: var(--font-heading)')
     expect(css).toContain('font-family: var(--font-body)')
+    expect(css).toContain('  .eyebrow {')
+    expect(css).toContain('text-transform: uppercase')
+  })
+
+  test('swaps text sizes below the mobile breakpoint', () => {
+    const media = css.slice(css.indexOf(`@media (max-width: ${DEFAULT_CONFIG.mobile.breakpointWidth - 1}px)`))
+    for (const el of EXPORTED) {
+      expect(media).toContain(`--text-${el}:`)
+    }
+  })
+
+  test('display elements ship only when enabled', () => {
+    expect(css).not.toContain('--text-display-1:')
+    const withDisplay = generateTailwindCSS(DEFAULT_CONFIG, { 'display-1': true })
+    expect(withDisplay).toContain('--text-display-1:')
+    expect(withDisplay).toContain('  .display-1 {')
+    expect(withDisplay).not.toContain('--text-display-2:')
   })
 })
 

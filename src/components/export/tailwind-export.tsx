@@ -25,8 +25,8 @@ export function TailwindExport() {
   );
 
   const output = useMemo(
-    () => (format === "v4" ? generateTailwindCSS(config) : generateTailwindConfig(config)),
-    [config, format]
+    () => (format === "v4" ? generateTailwindCSS(config, store.enabledElements) : generateTailwindConfig(config, store.enabledElements)),
+    [config, format, store.enabledElements]
   );
 
   const handleCopy = () => {

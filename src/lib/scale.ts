@@ -4,7 +4,7 @@ import type {
   ResolvedElementStyle,
   GroupProperties,
 } from "@/types/typography";
-import { SCALE_POSITIONS, ALL_ELEMENTS, HEADING_ELEMENTS, DISPLAY_ELEMENTS } from "@/types/typography";
+import { SCALE_POSITIONS, ALL_ELEMENTS, HEADING_ELEMENTS, DISPLAY_ELEMENTS, OPTIONAL_ELEMENTS } from "@/types/typography";
 import { ELEMENT_DEFAULTS } from "@/data/element-defaults";
 
 function isHeadingOrDisplay(element: TypographyElement): boolean {
@@ -121,4 +121,16 @@ export function computeMobileScale(
   config: TypographyConfig
 ): ResolvedElementStyle[] {
   return ALL_ELEMENTS.map((el) => resolveElementStylesMobile(el, config));
+}
+
+/**
+ * Which elements an export ships. Optional elements (the display sizes) are
+ * switched on in the store, not the config, so exporters take that map
+ * separately; without it they ship the core scale only.
+ */
+export function isExported(
+  element: TypographyElement,
+  enabledElements: Record<string, boolean> = {}
+): boolean {
+  return !OPTIONAL_ELEMENTS.includes(element) || !!enabledElements[element];
 }

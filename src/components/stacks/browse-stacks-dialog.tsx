@@ -19,13 +19,14 @@ import {
   fetchStack,
   toggleLike,
   toggleSave,
+  splitSavedConfig,
   type Stack,
 } from "@/lib/stacks-api";
 import { useTypographyStore } from "@/store/typography-store";
 import { useUIStore } from "@/store/ui-store";
 import { useFontLoader } from "./use-gallery-fonts";
-import { Plus, Shuffle, ArrowLeftRight, X } from "lucide-react";
-import { generateRandomColorPair } from "@/lib/color-utils";
+import { Plus, Shuffle, Palette, Rainbow, ArrowLeftRight, RefreshCw, X } from "lucide-react";
+import { generateRandomColorPair, isThreeColor, nextAlexCristacheColorway, nextSoftColorway, swapOrCycleColors } from "@/lib/color-utils";
 import { useTheme } from "next-themes";
 import { canRenderFamily, getFontSource, resolveFontSources } from "@/lib/fonts";
 import type { FontSource } from "@/types/fonts";
@@ -154,7 +155,8 @@ export function BrowseStacksDialog({
   const handleSelect = async (stack: Stack) => {
     try {
       const full = await fetchStack(stack.id);
-      loadConfig(full.config);
+      const { config, colors } = splitSavedConfig(full.config);
+      loadConfig(config, { colors });
       setCurrentStack(stack.id, stack.name);
       onOpenChange(false);
     } catch {
@@ -196,8 +198,22 @@ export function BrowseStacksDialog({
     rollCopy();
   }
 
-  function handleReverse() {
-    setColors(backgroundColor, backgroundColor, headingColor);
+  function handleSoft() {
+    const { heading, body, bg } = nextSoftColorway();
+    setColors(heading, body, bg);
+    rollCopy();
+  }
+
+  function handleAlex() {
+    const { heading, body, bg } = nextAlexCristacheColorway();
+    setColors(heading, body, bg);
+    rollCopy();
+  }
+
+  const isCycle = isThreeColor(headingColor, bodyColor);
+  function handleSwapOrCycle() {
+    const { heading, body, bg } = swapOrCycleColors({ heading: headingColor, body: bodyColor, bg: backgroundColor });
+    setColors(heading, body, bg);
   }
 
   return (
@@ -240,19 +256,35 @@ export function BrowseStacksDialog({
                 </Tooltip>
                 <Tooltip>
                   <TooltipTrigger asChild>
+                    <button type="button" onClick={handleSoft} className="hw-btn">
+                      <Palette className="size-3.5" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>Soft colors</TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button type="button" onClick={handleAlex} className="hw-btn">
+                      <Rainbow className="size-3.5" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>Medium colors</TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
                     <button type="button" onClick={handleRandom} className="hw-btn">
                       <Shuffle className="size-3.5" />
                     </button>
                   </TooltipTrigger>
-                  <TooltipContent>Random accessible colors</TooltipContent>
+                  <TooltipContent>Hard colors (AA)</TooltipContent>
                 </Tooltip>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <button type="button" onClick={handleReverse} className="hw-btn">
-                      <ArrowLeftRight className="size-3.5" />
+                    <button type="button" onClick={handleSwapOrCycle} className="hw-btn">
+                      {isCycle ? <RefreshCw className="size-3.5" /> : <ArrowLeftRight className="size-3.5" />}
                     </button>
                   </TooltipTrigger>
-                  <TooltipContent>Swap foreground / background</TooltipContent>
+                  <TooltipContent>{isCycle ? "Cycle heading / body / background" : "Swap foreground / background"}</TooltipContent>
                 </Tooltip>
               </div>
             </div>

@@ -1,5 +1,5 @@
 import type { TypographyConfig, TypographyElement } from '@/types/typography'
-import { computeScale } from './scale'
+import { computeScale, computeMobileScale, computeFontSize, isExported } from './scale'
 import { DISPLAY_ELEMENTS, HEADING_ELEMENTS } from '@/types/typography'
 import type { ResolvedElementStyle } from '@/types/typography'
 import { getFontLabel } from './fonts'
@@ -303,7 +303,7 @@ function textNode(
   id: string,
   content: string,
   style: ResolvedElementStyle,
-  _config: TypographyConfig,
+  config: TypographyConfig,
   overrides?: Record<string, unknown>,
 ): PenNode {
   const compId = `comp-${style.element}`
@@ -320,6 +320,12 @@ function textNode(
         textProps[k] = v
       }
     }
+  }
+
+  // Components carry the desktop size; mobile previews resize their instances.
+  const componentSize = computeFontSize(config.baseFontSize, config.scaleRatio, style.element)
+  if (textProps.fontSize === undefined && style.fontSize !== componentSize) {
+    textProps.fontSize = style.fontSize
   }
 
   // Overriding fontSize rescales the em-based tracking the component was built with.
@@ -629,10 +635,9 @@ function buildBlogPreview(
 
 // ── Main export ─────────────────────────────────────────────────
 
-export function generatePenFile(config: TypographyConfig): string {
-  const styles = computeScale(config).filter(
-    (s) => !DISPLAY_ELEMENTS.includes(s.element)
-  )
+export function generatePenFile(config: TypographyConfig, enabledElements?: Record<string, boolean>): string {
+  const styles = computeScale(config).filter((s) => isExported(s.element, enabledElements))
+  const mobileStyles = computeMobileScale(config)
 
   const variables: Record<string, PenVariable> = {
     [FONT_PRIMARY_VAR]: { type: 'string', value: getFontLabel(config.headingsGroup.fontFamily) },
@@ -651,9 +656,9 @@ export function generatePenFile(config: TypographyConfig): string {
 
   const previewFrames = [
     buildWebsitePreview(styles, config, desktopW, 'desk', 'Website — Desktop', typeScaleWidth + gap),
-    buildWebsitePreview(styles, config, mobileW, 'mob', 'Website — Mobile', typeScaleWidth + gap + desktopW + gap),
+    buildWebsitePreview(mobileStyles, config, mobileW, 'mob', 'Website — Mobile', typeScaleWidth + gap + desktopW + gap),
     buildBlogPreview(styles, config, desktopW, 'blog-desk', 'Blog — Desktop', typeScaleWidth + gap + desktopW + gap + mobileW + gap),
-    buildBlogPreview(styles, config, mobileW, 'blog-mob', 'Blog — Mobile', typeScaleWidth + gap + desktopW + gap + mobileW + gap + desktopW + gap),
+    buildBlogPreview(mobileStyles, config, mobileW, 'blog-mob', 'Blog — Mobile', typeScaleWidth + gap + desktopW + gap + mobileW + gap + desktopW + gap),
   ]
 
   return JSON.stringify({

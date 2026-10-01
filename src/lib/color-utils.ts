@@ -1,4 +1,6 @@
 import { ILLUSTRATION_PACKS, ILLUSTRATION_TONES, type IllustrationSourceTone } from "./illustration-packs";
+import { SOFT_COLORWAYS, type SoftColorway } from "@/data/soft-colors";
+import { ALEX_CRISTACHE_COLORWAYS } from "@/data/alex-cristache-colors";
 
 function hslToRgb(h: number, s: number, l: number): [number, number, number] {
   const sNorm = s / 100;
@@ -479,4 +481,44 @@ export function generateRandomColorPair(preferDarkBg = false): { fg: string; bg:
   return preferDarkBg
     ? { fg: "#e8e8f0", bg: "#1a1a2e" }
     : { fg: "#1a1a2e", bg: "#e8e8f0" };
+}
+
+/** Deals colorways in shuffled order, reshuffling once all have been seen. */
+function dealer(colorways: SoftColorway[]): () => SoftColorway {
+  let deck: SoftColorway[] = [];
+  return () => {
+    if (deck.length === 0) {
+      deck = [...colorways];
+      for (let i = deck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [deck[i], deck[j]] = [deck[j], deck[i]];
+      }
+    }
+    return deck.pop()!;
+  };
+}
+
+/** Colorways extracted from the type specimen images. */
+export const nextSoftColorway = dealer(SOFT_COLORWAYS);
+
+/** Colorways extracted from Alex Cristache's palette graphics. */
+export const nextAlexCristacheColorway = dealer(ALEX_CRISTACHE_COLORWAYS);
+
+/** A colorway whose heading and body differ has three colors to rotate, not two to swap. */
+export function isThreeColor(heading: string, body: string): boolean {
+  return heading.toLowerCase() !== body.toLowerCase();
+}
+
+/**
+ * Two colors swap foreground and background. Three rotate through all three
+ * roles, so each color takes its turn as the background.
+ */
+export function swapOrCycleColors({ heading, body, bg }: { heading: string; body: string; bg: string }): {
+  heading: string;
+  body: string;
+  bg: string;
+} {
+  return isThreeColor(heading, body)
+    ? { heading: bg, body: heading, bg: body }
+    : { heading: bg, body: bg, bg: heading };
 }

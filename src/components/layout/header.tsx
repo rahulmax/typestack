@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import {
   Tooltip,
@@ -12,7 +13,7 @@ import { useTypographyStore } from "@/store/typography-store";
 import { useStore } from "zustand";
 import { useTheme } from "next-themes";
 import { Show, UserButton, SignInButton } from "@clerk/nextjs";
-import { fetchStacks, type Stack } from "@/lib/stacks-api";
+import { fetchStacks, splitSavedConfig, type Stack } from "@/lib/stacks-api";
 import { useUIStore } from "@/store/ui-store";
 
 interface HeaderProps {
@@ -51,7 +52,8 @@ export function Header({
       ? (stackIndex + 1) % stacks.length
       : (stackIndex - 1 + stacks.length) % stacks.length;
     const stack = stacks[newIndex];
-    loadConfig(stack.config);
+    const { config, colors } = splitSavedConfig(stack.config);
+    loadConfig(config, { colors });
     setCurrentStack(stack.id, stack.name);
     setStackIndex(newIndex);
   };
@@ -66,7 +68,7 @@ export function Header({
     <header className="relative flex h-14 items-center justify-between border-b bg-background px-2 md:px-4 surface-noise">
       {/* Left: logo + strapline */}
       <div className="relative z-[2] flex items-center gap-2 shrink-0">
-        <span className="text-lg font-bold tracking-tight">TypeStax</span>
+        <Link href="/" className="text-lg font-bold tracking-tight">TypeStax</Link>
         <span className="hidden sm:inline text-xs text-muted-foreground/60 tracking-wide translate-y-px">
           Harmonious Type Stacks{" "}
           <span className="text-muted-foreground/40">•</span>{" "}
