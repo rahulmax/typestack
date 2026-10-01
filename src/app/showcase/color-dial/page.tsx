@@ -5,6 +5,7 @@ import { DrumDial } from '@/components/showcase/color-dial/drum-dial'
 import { PocketDial } from '@/components/showcase/color-dial/pocket-dial'
 import { SlideRuleDial } from '@/components/showcase/color-dial/slide-rule-dial'
 import { BANDS, useTuner, type Station, type Tuner } from '@/components/showcase/color-dial/tuner'
+import { isThreeColor } from '@/lib/color-utils'
 
 interface Variant {
   id: string
@@ -24,7 +25,7 @@ const VARIANTS: Variant[] = [
     idea: 'The reference radio. Three scales stacked under one needle that travels the glass.',
     notes: [
       'Band: piano keys, lamp over the one that is down.',
-      'Tune: knob on the right. Click or drag the glass to jump.',
+      'Tune: thumbwheel under the readout. Click or drag the glass to jump. Scan jumps to a random preset.',
       'Most like the photo. Needs the most width per row, so numbers thin out where presets bunch up.',
     ],
     Dial: SlideRuleDial,
@@ -75,11 +76,15 @@ const VARIANTS: Variant[] = [
 
 /** The picker keys that stay in the Colors module, showing what the dial tuned in. */
 function ColorKeys({ station }: { station: Station }) {
+  // Two colors swap. Three take turns as the background.
+  const turn = isThreeColor(station.heading, station.body)
+    ? { label: 'Cycle', background: `linear-gradient(90deg, ${station.heading} 33.3%, ${station.body} 33.3% 66.6%, ${station.bg} 66.6%)` }
+    : { label: 'Swap', background: `linear-gradient(135deg, ${station.heading} 50%, ${station.bg} 50%)` }
   const keys = [
     { label: 'Head', background: station.heading },
     { label: 'Body', background: station.body },
     { label: 'BG', background: station.bg },
-    { label: 'Swap', background: `linear-gradient(135deg, ${station.heading} 50%, ${station.bg} 50%)` },
+    turn,
   ]
   return (
     <div className="hw-btn-group pointer-events-none flex" aria-hidden>

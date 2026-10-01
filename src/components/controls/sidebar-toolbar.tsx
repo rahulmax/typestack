@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback, useRef, useReducer } from "react"
+import { useState, useCallback, useEffect, useRef, useReducer } from "react"
 import {
   Popover,
   PopoverContent,
@@ -20,7 +20,12 @@ import { HexRgbInput } from "@/components/controls/color-picker/hex-rgb-input"
 import { TailwindPalette } from "@/components/controls/color-picker/tailwind-palette"
 import { useTypographyStore } from "@/store/typography-store"
 import { useUIStore, GRID_PATTERN_TYPES, type GridPatternType } from "@/store/ui-store"
-import { isThreeColor, nextHardColorway, nextMedColorway, nextSoftColorway, swapOrCycleColors } from "@/lib/color-utils"
+import { isThreeColor, swapOrCycleColors } from "@/lib/color-utils"
+import { SlideRuleDial } from "@/components/showcase/color-dial/slide-rule-dial"
+import { useTuner, type Station } from "@/components/showcase/color-dial/tuner"
+
+/** How long the dial rests before its next turn counts as a new undo step */
+const TUNE_SETTLE_MS = 400
 
 function ColorPickerButton({
   color,
@@ -124,29 +129,30 @@ const patternOpacity = useUIStore((s) => s.patternOpacity)
   const patternSpacing = useUIStore((s) => s.patternSpacing)
   const setPatternSpacing = useUIStore((s) => s.setPatternSpacing)
 
-  const [softName, setSoftName] = useState<string | null>(null)
-  const handleSoft = useCallback(() => {
-    const { name, heading, body, bg } = nextSoftColorway()
+  // Turning the dial passes dozens of presets. Only the first is recorded, so
+  // one undo takes back the whole turn instead of one preset at a time.
+  const settle = useRef<ReturnType<typeof setTimeout>>(undefined)
+  const handleTune = useCallback(({ heading, body, bg }: Station) => {
+    const { pause, resume } = useTypographyStore.temporal.getState()
     setColors(heading, body, bg)
-    setSoftName(name)
-    rollCopy()
-  }, [setColors, rollCopy])
+    pause()
+    clearTimeout(settle.current)
+    settle.current = setTimeout(resume, TUNE_SETTLE_MS)
+  }, [setColors])
+  useEffect(() => () => {
+    if (settle.current === undefined) return
+    clearTimeout(settle.current)
+    useTypographyStore.temporal.getState().resume()
+  }, [])
 
-  const [medName, setMedName] = useState<string | null>(null)
-  const handleMed = useCallback(() => {
-    const { name, heading, body, bg } = nextMedColorway()
-    setColors(heading, body, bg)
-    setMedName(name)
+  const tuner = useTuner({
+    colors: { heading: headingColor, body: bodyColor, bg: backgroundColor },
+    onTune: handleTune,
+  })
+  const handleScan = useCallback(() => {
+    tuner.scan()
     rollCopy()
-  }, [setColors, rollCopy])
-
-  const [hardName, setHardName] = useState<string | null>(null)
-  const handleHard = useCallback(() => {
-    const { name, heading, body, bg } = nextHardColorway()
-    setColors(heading, body, bg)
-    setHardName(name)
-    rollCopy()
-  }, [setColors, rollCopy])
+  }, [tuner, rollCopy])
 
   const isCycle = isThreeColor(headingColor, bodyColor)
   const handleSwapOrCycle = useCallback(() => {
@@ -184,48 +190,6 @@ const patternOpacity = useUIStore((s) => s.patternOpacity)
           />
           <Tooltip>
             <TooltipTrigger asChild>
-              <button type="button" onClick={handleSoft} className="hw-btn hw-selector-btn flex-1 flex-col !gap-0.5 justify-end pb-1.5" style={{ height: 52 }}>
-                <span className="flex h-2.5 w-8 overflow-hidden rounded-sm shadow-[inset_0_1px_2px_rgba(0,0,0,0.2)]">
-                  <span className="flex-1 bg-[#c86140]" />
-                  <span className="flex-1 bg-[#d4c865]" />
-                  <span className="flex-1 bg-[#297089]" />
-                  <span className="flex-1 bg-[#f7e8e3]" />
-                </span>
-                <span className="text-[10px] text-muted-foreground">Soft</span>
-              </button>
-            </TooltipTrigger>
-            <TooltipContent>{softName ? `Soft colors: ${softName}` : "Soft colors"}</TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <button type="button" onClick={handleMed} className="hw-btn hw-selector-btn flex-1 flex-col !gap-0.5 justify-end pb-1.5" style={{ height: 52 }}>
-                <span className="flex h-2.5 w-8 overflow-hidden rounded-sm shadow-[inset_0_1px_2px_rgba(0,0,0,0.2)]">
-                  <span className="flex-1 bg-[#4a1106]" />
-                  <span className="flex-1 bg-[#ff6b01]" />
-                  <span className="flex-1 bg-[#ece735]" />
-                  <span className="flex-1 bg-[#0191b3]" />
-                </span>
-                <span className="text-[10px] text-muted-foreground">Medium</span>
-              </button>
-            </TooltipTrigger>
-            <TooltipContent>{medName ? `Medium colors: ${medName}` : "Medium colors"}</TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <button type="button" onClick={handleHard} className="hw-btn hw-selector-btn flex-1 flex-col !gap-0.5 justify-end pb-1.5" style={{ height: 52 }}>
-                <span className="flex h-2.5 w-8 overflow-hidden rounded-sm shadow-[inset_0_1px_2px_rgba(0,0,0,0.2)]">
-                  <span className="flex-1 bg-[#ff5f57]" />
-                  <span className="flex-1 bg-[#febc2e]" />
-                  <span className="flex-1 bg-[#28c840]" />
-                  <span className="flex-1 bg-[#5b9cf6]" />
-                </span>
-                <span className="text-[10px] text-muted-foreground">Hard</span>
-              </button>
-            </TooltipTrigger>
-            <TooltipContent>{hardName ? `Hard colors: ${hardName}` : "Hard colors"}</TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
               <button type="button" onClick={handleSwapOrCycle} className="hw-btn hw-selector-btn flex-1 flex-col !gap-0.5 justify-end pb-1.5" style={{ height: 52 }}>
                 <span
                   className="block h-2.5 w-8 rounded-sm shadow-[inset_0_1px_2px_rgba(0,0,0,0.2)]"
@@ -240,6 +204,10 @@ const patternOpacity = useUIStore((s) => s.patternOpacity)
             </TooltipTrigger>
             <TooltipContent>{isCycle ? "Cycle heading / body / background" : "Swap foreground / background"}</TooltipContent>
           </Tooltip>
+        </div>
+        {/* Preset dial: Soft, Med and Hard as three bands, presets in hue order */}
+        <div className="mt-2">
+          <SlideRuleDial tuner={tuner} onScan={handleScan} />
         </div>
         {/* Contrast Meter */}
         <div className="mt-2">

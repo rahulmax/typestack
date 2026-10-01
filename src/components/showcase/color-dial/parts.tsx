@@ -82,17 +82,21 @@ export function Thumbwheel({
 // ── Readout ─────────────────────────────────────────────────────
 
 export function StationPlate({ tuner, detail, className }: { tuner: Tuner; detail?: boolean; className?: string }) {
-  const { station } = tuner
+  const { station, onAir } = tuner
+  const name = onAir ? station.name : 'Custom'
+  const hue = onAir ? `${Math.round(station.hue)}°` : null
 
   if (detail) {
     return (
-      <div className={cn('hw-display !h-9 min-w-0 !cursor-default !flex-col !items-stretch justify-center gap-1 !px-2.5', className)}>
-        <span className="truncate text-[11px] font-medium leading-none tracking-wide">{station.name}</span>
+      <div className={cn('hw-display !h-9 min-w-0 !cursor-default !flex-col !items-stretch justify-center gap-0.5 !px-2.5', className)}>
+        <span className="truncate text-[11px] font-medium leading-[14px] tracking-wide">{name}</span>
         <span className="flex justify-between text-[9px] leading-none tabular-nums opacity-60">
-          <span>{Math.round(station.hue)}°</span>
-          <span>
-            {tuner.index + 1}/{BANDS[tuner.band].stations.length}
-          </span>
+          <span>{hue ?? 'Off the dial'}</span>
+          {onAir && (
+            <span>
+              {tuner.index + 1}/{BANDS[tuner.band].stations.length}
+            </span>
+          )}
         </span>
       </div>
     )
@@ -100,8 +104,8 @@ export function StationPlate({ tuner, detail, className }: { tuner: Tuner; detai
 
   return (
     <div className={cn('hw-display !h-7 min-w-0 !cursor-default !px-2.5', className)}>
-      <span className="truncate text-[11px] font-medium tracking-wide">{station.name}</span>
-      <span className="ml-auto pl-2 text-[10px] tabular-nums opacity-60">{Math.round(station.hue)}°</span>
+      <span className="truncate text-[11px] font-medium tracking-wide">{name}</span>
+      {hue && <span className="ml-auto pl-2 text-[10px] tabular-nums opacity-60">{hue}</span>}
     </div>
   )
 }
@@ -370,7 +374,11 @@ export function BandScale({ tuner, width, rowHeight, pad, inset, numSize, labelS
           </div>
         )
       })}
-      <div className="radio-needle inset-y-[3px]" style={{ left: `${(toX(tuner.index, tuner.band) / width) * 100}%` }} />
+      <div
+        className="radio-needle inset-y-[3px]"
+        data-on-air={tuner.onAir}
+        style={{ left: `${(toX(tuner.index, tuner.band) / width) * 100}%` }}
+      />
     </div>
   )
 }
