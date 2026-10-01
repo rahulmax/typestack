@@ -1,3 +1,4 @@
+import { ArrowDownToLine, Coffee, Grid3x3, Snowflake, Sunrise, Waves } from 'lucide-react'
 import type { CopySet } from './types'
 
 // A restored open-air swimming pool in a seaside town, run by a friends-of-the-lido society.
@@ -54,12 +55,12 @@ export const aster: CopySet = {
       title: 'Six reasons to get wet',
       body: 'Every visit includes a locker, a warm towel and a cheerful nod from the lifeguard on the high chair.',
       items: [
-        { mark: '50', title: 'Fifty metres', body: 'A long blue length of water, heated by the sun and by sheer enthusiasm.' },
-        { mark: '1', title: 'The dawn lane', body: 'Six o’clock, one lane, and a small crowd of friendly, unhurried early swimmers.' },
-        { mark: '&#9679;', title: 'The tiled mural', body: 'Eleven thousand tiles, forty swimmers and two gulls, restored by volunteers.' },
-        { mark: '10', title: 'The top board', body: 'Ten metres of nerve, saved from demolition by a very persistent petition.' },
-        { mark: '&hearts;', title: 'The Deep End Café', body: 'Cheese toasties, strong tea and cake for those who swam and those who merely meant to.' },
-        { mark: '&deg;C', title: 'Winter dips', body: 'Join the Robins every Saturday for a brisk swim and a hot chocolate.' },
+        { icon: Waves, title: 'Fifty metres', body: 'A long blue length of water, heated by the sun and by sheer enthusiasm.' },
+        { icon: Sunrise, title: 'The dawn lane', body: 'Six o’clock, one lane, and a small crowd of friendly, unhurried early swimmers.' },
+        { icon: Grid3x3, title: 'The tiled mural', body: 'Eleven thousand tiles, forty swimmers and two gulls, restored by volunteers.' },
+        { icon: ArrowDownToLine, title: 'The top board', body: 'Ten metres of nerve, saved from demolition by a very persistent petition.' },
+        { icon: Coffee, title: 'The Deep End Café', body: 'Cheese toasties, strong tea and cake for those who swam and those who merely meant to.' },
+        { icon: Snowflake, title: 'Winter dips', body: 'Join the Robins every Saturday for a brisk swim and a hot chocolate.' },
       ],
     },
     split1: {

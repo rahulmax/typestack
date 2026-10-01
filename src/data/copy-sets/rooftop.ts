@@ -1,3 +1,4 @@
+import { Binoculars, Footprints, Leaf, Mail, NotebookPen, Sprout } from 'lucide-react'
 import type { CopySet } from './types'
 
 // An amateur botanical society in Kessling that catalogues plants growing on rooftops, gutters and fire escapes.
@@ -54,12 +55,12 @@ export const rooftop: CopySet = {
       title: 'Six ways to look up',
       body: 'Every activity is designed for the curious, the patient and anybody who owns a good pair of binoculars.',
       items: [
-        { mark: '01', title: 'Roof surveys', body: 'Monthly outings to record plants on rooftops, with permission and a stepladder.' },
-        { mark: '02', title: 'Specimen cards', body: 'A neat card for every find, with a sketch, a date and a note on the weather.' },
-        { mark: '03', title: 'The herbarium', body: 'Pressed leaves and photographs, filed by street rather than by family.' },
-        { mark: '04', title: 'Fern club', body: 'A small, keen group that meets to argue gently about fronds.' },
-        { mark: '05', title: 'Talks and walks', body: 'Evening talks on lichen, moss and the unexpected charms of a guttering.' },
-        { mark: '06', title: 'The newsletter', body: 'Our members’ letter, sent monthly, with notes, sketches and recipes for seed cake.' },
+        { icon: Binoculars, title: 'Roof surveys', body: 'Monthly outings to record plants on rooftops, with permission and a stepladder.' },
+        { icon: NotebookPen, title: 'Specimen cards', body: 'A neat card for every find, with a sketch, a date and a note on the weather.' },
+        { icon: Leaf, title: 'The herbarium', body: 'Pressed leaves and photographs, filed by street rather than by family.' },
+        { icon: Sprout, title: 'Fern club', body: 'A small, keen group that meets to argue gently about fronds.' },
+        { icon: Footprints, title: 'Talks and walks', body: 'Evening talks on lichen, moss and the unexpected charms of a guttering.' },
+        { icon: Mail, title: 'The newsletter', body: 'Our members’ letter, sent monthly, with notes, sketches and recipes for seed cake.' },
       ],
     },
     split1: {

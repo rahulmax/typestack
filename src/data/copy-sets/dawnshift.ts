@@ -1,3 +1,4 @@
+import { Bike, MoonStar, NotebookPen, Percent, Trophy, Wheat } from 'lucide-react'
 import type { CopySet } from './types'
 
 // A bakers’ cooperative running a 24-hour bakery in a working-class district, with named starters and a ledger of bread owed.
@@ -54,12 +55,12 @@ export const dawnshift: CopySet = {
       title: 'Six things that come out of the oven',
       body: 'Every one of them is shaped by hand, baked before sunrise and delivered while the street is still yawning.',
       items: [
-        { mark: '01', title: 'Sourdough with names', body: 'Three starters, three tempers, and a loaf for every one of them.' },
-        { mark: '24', title: 'Always open', body: 'A warm counter at every hour, staffed by people who like the night.' },
-        { mark: '&frac12;', title: 'Half-price at closing', body: 'Whatever is left at dawn goes for half, or to whoever asks nicely.' },
-        { mark: '5:30', title: 'Bicycle deliveries', body: 'Wicker crates, brass bells, and riders who know your dog’s name, your shift pattern and your usual.' },
-        { mark: '&pound;', title: 'The Tab', body: 'A pencilled ledger of bread owed, never chased and always remembered.' },
-        { mark: '&Oslash;', title: 'The Bake-Off', body: 'A yearly street contest, judged by children and one strict grandmother.' },
+        { icon: Wheat, title: 'Sourdough with names', body: 'Three starters, three tempers, and a loaf for every one of them.' },
+        { icon: MoonStar, title: 'Always open', body: 'A warm counter at every hour, staffed by people who like the night.' },
+        { icon: Percent, title: 'Half-price at closing', body: 'Whatever is left at dawn goes for half, or to whoever asks nicely.' },
+        { icon: Bike, title: 'Bicycle deliveries', body: 'Wicker crates, brass bells, and riders who know your dog’s name, your shift pattern and your usual.' },
+        { icon: NotebookPen, title: 'The Tab', body: 'A pencilled ledger of bread owed, never chased and always remembered.' },
+        { icon: Trophy, title: 'The Bake-Off', body: 'A yearly street contest, judged by children and one strict grandmother.' },
       ],
     },
     split1: {

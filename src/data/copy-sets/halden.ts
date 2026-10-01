@@ -1,3 +1,4 @@
+import { Bird, CloudMoon, DoorOpen, Lamp, Orbit, Telescope } from 'lucide-react'
 import type { CopySet } from './types'
 
 // A small observatory on a windy island, with nicknamed telescopes and a comet only one astronomer believes in.
@@ -54,12 +55,12 @@ export const halden: CopySet = {
       title: 'Six ways to spend a dark evening',
       body: 'Each takes place under the open dome, with a flask of something hot and a volunteer who knows where to look.',
       items: [
-        { mark: '01', title: 'The Goose Refractor', body: 'A century-old refractor with a gentle temper and a taste for cold nights.' },
-        { mark: '12', title: 'Open Nights', body: 'Twice a month we throw open the domes for anyone curious enough to climb.' },
-        { mark: '&#9734;', title: 'Cloud Night Cards', body: 'When the sky closes, the crew plays cards and describes the stars from memory.' },
-        { mark: 'IV', title: 'Little Wren', body: 'A small, quick telescope, borrowed by the island school on Fridays.' },
-        { mark: '&#9788;', title: 'The Lantern House', body: 'Our visitor centre, with maps, cocoa and a very serious guestbook.' },
-        { mark: '&Oslash;', title: 'The Comet Desk', body: 'Where Dr Solvang keeps her charts, her patience and her long-running argument.' },
+        { icon: Telescope, title: 'The Goose Refractor', body: 'A century-old refractor with a gentle temper and a taste for cold nights.' },
+        { icon: DoorOpen, title: 'Open Nights', body: 'Twice a month we throw open the domes for anyone curious enough to climb.' },
+        { icon: CloudMoon, title: 'Cloud Night Cards', body: 'When the sky closes, the crew plays cards and describes the stars from memory.' },
+        { icon: Bird, title: 'Little Wren', body: 'A small, quick telescope, borrowed by the island school on Fridays.' },
+        { icon: Lamp, title: 'The Lantern House', body: 'Our visitor centre, with maps, cocoa and a very serious guestbook.' },
+        { icon: Orbit, title: 'The Comet Desk', body: 'Where Dr Solvang keeps her charts, her patience and her long-running argument.' },
       ],
     },
     split1: {

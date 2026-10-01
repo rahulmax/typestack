@@ -1,3 +1,4 @@
+import { CalendarDays, DoorClosed, Feather, Map, ScrollText, Waves } from 'lucide-react'
 import type { CopySet } from './types'
 
 // A drowned city whose archive records events before they happen.
@@ -54,12 +55,12 @@ export const veyl: CopySet = {
       title: 'Six services, none yet rendered',
       body: 'Each is performed in the interval between two tides, which the Concordance holds to be annulled on alternate Thursdays.',
       items: [
-        { mark: 'I', title: 'The Conditional Tide', body: 'Rises only for those who have already departed, and recedes on their arrival.' },
-        { mark: '41', title: 'Inverse Almanac', body: 'Forty-one entries recorded in the tense that precedes them, consulted before composition.' },
-        { mark: '{&nbsp;}', title: 'Seventh Cartography', body: 'Charts of coasts that resemble their own maps more closely than any coast could.' },
-        { mark: 'VII', title: 'Ledger Recovery', body: 'Reconstruction of the missing accounts of Oriel Taskane from the debts they would have caused.' },
-        { mark: 'XII', title: 'Unlit Audiences', body: 'Private hearings with the Provost, conducted in rooms that decline to be entered.' },
-        { mark: '&Oslash;', title: 'Marginal Correspondence', body: 'Missives answered by their own replies, filed beside the questions they resolve.' },
+        { icon: Waves, title: 'The Conditional Tide', body: 'Rises only for those who have already departed, and recedes on their arrival.' },
+        { icon: CalendarDays, title: 'Inverse Almanac', body: 'Forty-one entries recorded in the tense that precedes them, consulted before composition.' },
+        { icon: Map, title: 'Seventh Cartography', body: 'Charts of coasts that resemble their own maps more closely than any coast could.' },
+        { icon: ScrollText, title: 'Ledger Recovery', body: 'Reconstruction of the missing accounts of Oriel Taskane from the debts they would have caused.' },
+        { icon: DoorClosed, title: 'Unlit Audiences', body: 'Private hearings with the Provost, conducted in rooms that decline to be entered.' },
+        { icon: Feather, title: 'Marginal Correspondence', body: 'Missives answered by their own replies, filed beside the questions they resolve.' },
       ],
     },
     split1: {

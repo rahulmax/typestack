@@ -1,3 +1,4 @@
+import { Archive, Disc3, Headphones, Speaker, Tent, VolumeX } from 'lucide-react'
 import type { CopySet } from './types'
 
 // An independent record label and late-night listening bar in a basement, run around a moody hi-fi.
@@ -54,12 +55,12 @@ export const lowhum: CopySet = {
       title: 'Six things we do after dark',
       body: 'All of it happens below street level, at a volume that lets you hear the person next to you disagree.',
       items: [
-        { mark: '01', title: 'Short pressing runs', body: 'Three hundred copies, hand-numbered, no restock and no apology.' },
-        { mark: '33', title: 'The listening bar', body: 'One record per round, played start to end, with no skipping allowed.' },
-        { mark: 'A', title: 'The Duchess', body: 'A valve amplifier with moods, and a house rule to never hurry her.' },
-        { mark: '78', title: 'The Sleeve Room', body: 'Every cover we have ever printed, filed by a system that only Dot follows, and she will not write it down.' },
-        { mark: 'IV', title: 'Level Four', body: 'Our yearly festival, held on the top deck of a car park, weather permitting.' },
-        { mark: '&Oslash;', title: 'Silent Thursdays', body: 'Masters arrive by post from Pell, who declines to be thanked.' },
+        { icon: Disc3, title: 'Short pressing runs', body: 'Three hundred copies, hand-numbered, no restock and no apology.' },
+        { icon: Headphones, title: 'The listening bar', body: 'One record per round, played start to end, with no skipping allowed.' },
+        { icon: Speaker, title: 'The Duchess', body: 'A valve amplifier with moods, and a house rule to never hurry her.' },
+        { icon: Archive, title: 'The Sleeve Room', body: 'Every cover we have ever printed, filed by a system that only Dot follows, and she will not write it down.' },
+        { icon: Tent, title: 'Level Four', body: 'Our yearly festival, held on the top deck of a car park, weather permitting.' },
+        { icon: VolumeX, title: 'Silent Thursdays', body: 'Masters arrive by post from Pell, who declines to be thanked.' },
       ],
     },
     split1: {

@@ -1,3 +1,4 @@
+import { CloudRain, Moon, Repeat, Route, Wrench, Zap } from 'lucide-react'
 import type { CopySet } from './types'
 
 // A bicycle courier co-operative in a hilly, rainy city, where every parcel is due yesterday.
@@ -54,12 +55,12 @@ export const spoke: CopySet = {
       title: 'Six ways to be early',
       body: 'Every run is dispatched by radio and tracked by hand, which our clients find oddly reassuring.',
       items: [
-        { mark: '1', title: 'Rush runs', body: 'Collected in ten minutes, delivered before you have finished the email.' },
-        { mark: '406', title: 'The Short Book', body: 'Four hundred and six shortcuts, updated every Friday by the riders who use them.' },
-        { mark: '24', title: 'Night shift', body: 'Two riders and a thermos cover the city between midnight and six.' },
-        { mark: '&infin;', title: 'Standing orders', body: 'The same parcel, same door, same rider, every day, without reminding us.' },
-        { mark: 'W', title: 'Wet-weather cover', body: 'Every parcel travels in a dry bag, and every rider travels in whatever they have.' },
-        { mark: '&#9679;', title: 'Bench repairs', body: 'Walk in with a bent wheel and leave with a true one, usually within the hour.' },
+        { icon: Zap, title: 'Rush runs', body: 'Collected in ten minutes, delivered before you have finished the email.' },
+        { icon: Route, title: 'The Short Book', body: 'Four hundred and six shortcuts, updated every Friday by the riders who use them.' },
+        { icon: Moon, title: 'Night shift', body: 'Two riders and a thermos cover the city between midnight and six.' },
+        { icon: Repeat, title: 'Standing orders', body: 'The same parcel, same door, same rider, every day, without reminding us.' },
+        { icon: CloudRain, title: 'Wet-weather cover', body: 'Every parcel travels in a dry bag, and every rider travels in whatever they have.' },
+        { icon: Wrench, title: 'Bench repairs', body: 'Walk in with a bent wheel and leave with a true one, usually within the hour.' },
       ],
     },
     split1: {

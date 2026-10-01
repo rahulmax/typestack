@@ -1,6 +1,19 @@
-import { Globe } from "lucide-react";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import { Globe, type LucideIcon } from "lucide-react";
 import type { PreviewTemplate } from "./types";
 import { illustrationScript } from "./illustration-script";
+
+// The page is an HTML string, so each feature's icon is drawn to markup once and kept
+const drawn = new Map<LucideIcon, string>();
+function iconMarkup(icon: LucideIcon): string {
+  let svg = drawn.get(icon);
+  if (!svg) {
+    svg = renderToStaticMarkup(createElement(icon, { strokeWidth: 1.75, "aria-hidden": true }));
+    drawn.set(icon, svg);
+  }
+  return svg;
+}
 
 // Sets the hero headline in the largest display size the page has room for, falling back to
 // Heading 1. It swaps the class rather than the font size, so the headline is always a real step
@@ -93,8 +106,8 @@ export const websiteTemplate: PreviewTemplate = {
   .ws-feature { display: flex; flex-direction: column; gap: 0.6rem; padding: 2rem 2rem 2.5rem; border-top: 1px solid var(--ws-rule); }
   .ws-feature:not(:nth-child(3n + 1)) { border-left: 1px solid var(--ws-rule); }
   .ws-feature:nth-child(3n + 1) { padding-left: 0; }
-  .ws-mark { display: flex; align-items: center; justify-content: center; min-width: 3rem; height: 3rem; padding: 0 0.75rem; margin-bottom: 1.25rem; align-self: flex-start; border-radius: 999px; background: var(--ws-tint); }
-  .ws-mark h5 { line-height: 1; }
+  .ws-mark { display: flex; align-items: center; justify-content: center; width: 3rem; height: 3rem; margin-bottom: 1.25rem; align-self: flex-start; border-radius: 50%; background: var(--ws-tint); color: var(--tone-base); }
+  .ws-mark svg { width: 1.35rem; height: 1.35rem; }
 
   /* Splits */
   .ws-split { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
@@ -208,7 +221,7 @@ export const websiteTemplate: PreviewTemplate = {
       ${c.features.items
         .map(
           (f) => `<div class="ws-feature">
-        <div class="ws-mark"><h5>${f.mark}</h5></div>
+        <div class="ws-mark">${iconMarkup(f.icon)}</div>
         <h4>${f.title}</h4>
         <p><small>${f.body}</small></p>
       </div>`,

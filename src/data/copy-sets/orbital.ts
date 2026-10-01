@@ -1,3 +1,4 @@
+import { Hospital, Plane, RefreshCw, ShoppingBasket, Ticket, Umbrella } from 'lucide-react'
 import type { CopySet } from './types'
 
 // The night bus network of an invented megacity, where Line 9 runs a loop that never quite closes.
@@ -54,12 +55,12 @@ export const orbital: CopySet = {
       title: 'Six ways to get home after dark',
       body: 'Every route is timed to the minute, checked by a driver, and re-checked by the same driver at 03:00 when nobody else is looking.',
       items: [
-        { mark: '9', title: 'Line 9, the Loop', body: 'A full circle of the city that returns you almost exactly to where you started.' },
-        { mark: '14', title: 'Airport Owl', body: 'A direct service to Saltglass, with luggage racks and a patient driver.' },
-        { mark: '22', title: 'Market Runner', body: 'Runs before dawn to Tallow Market for vendors, bakers and the very early.' },
-        { mark: '31', title: 'Hospital Shuttle', body: 'A quiet, well-lit bus with a friendly driver and a seat for the tired.' },
-        { mark: '5', title: 'Night tickets', body: 'One fare, valid across the network from dusk until the first morning tram.' },
-        { mark: '0', title: 'Lost property', body: 'Everything left behind is logged, labelled and kept until somebody comes to ask.' },
+        { icon: RefreshCw, title: 'Line 9, the Loop', body: 'A full circle of the city that returns you almost exactly to where you started.' },
+        { icon: Plane, title: 'Airport Owl', body: 'A direct service to Saltglass, with luggage racks and a patient driver.' },
+        { icon: ShoppingBasket, title: 'Market Runner', body: 'Runs before dawn to Tallow Market for vendors, bakers and the very early.' },
+        { icon: Hospital, title: 'Hospital Shuttle', body: 'A quiet, well-lit bus with a friendly driver and a seat for the tired.' },
+        { icon: Ticket, title: 'Night tickets', body: 'One fare, valid across the network from dusk until the first morning tram.' },
+        { icon: Umbrella, title: 'Lost property', body: 'Everything left behind is logged, labelled and kept until somebody comes to ask.' },
       ],
     },
     split1: {

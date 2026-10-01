@@ -1,3 +1,4 @@
+import { BedDouble, CableCar, Lightbulb, Martini, Music, PenLine } from 'lucide-react'
 import type { CopySet } from './types'
 
 // A 1920s mountain hotel, reopened by two siblings, with a funicular that keeps its own time.
@@ -54,12 +55,12 @@ export const sorrel: CopySet = {
       title: 'Six reasons to linger',
       body: 'Every room has a view, a radiator with opinions and a small card written by hand by the concierge.',
       items: [
-        { mark: '1', title: 'The Amber Ballroom', body: 'Three hundred guests, one chandelier and a floor that remembers every step.' },
-        { mark: '40', title: 'Forty rooms', body: 'Each restored with brass beds, heavy curtains and a window facing the snow.' },
-        { mark: '&sect;', title: 'The Green Book', body: 'Sign the guest book, and your secret will be kept somewhere very comfortable.' },
-        { mark: 'G', title: 'The Little Goat', body: 'A funicular that climbs when it is ready and never before the second coffee.' },
-        { mark: '19', title: 'The Sorrel Bar', body: 'Nineteen cocktails, all named for guests who insisted they were not the inspiration.' },
-        { mark: '&#9733;', title: 'The rooftop sign', body: 'Six neon letters, lit again at dusk to guide travellers up the valley.' },
+        { icon: Music, title: 'The Amber Ballroom', body: 'Three hundred guests, one chandelier and a floor that remembers every step.' },
+        { icon: BedDouble, title: 'Forty rooms', body: 'Each restored with brass beds, heavy curtains and a window facing the snow.' },
+        { icon: PenLine, title: 'The Green Book', body: 'Sign the guest book, and your secret will be kept somewhere very comfortable.' },
+        { icon: CableCar, title: 'The Little Goat', body: 'A funicular that climbs when it is ready and never before the second coffee.' },
+        { icon: Martini, title: 'The Sorrel Bar', body: 'Nineteen cocktails, all named for guests who insisted they were not the inspiration.' },
+        { icon: Lightbulb, title: 'The rooftop sign', body: 'Six neon letters, lit again at dusk to guide travellers up the valley.' },
       ],
     },
     split1: {

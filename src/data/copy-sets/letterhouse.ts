@@ -1,3 +1,4 @@
+import { Brush, History, Sailboat, Soup, Sparkles, Store } from 'lucide-react'
 import type { CopySet } from './types'
 
 // A hand sign-painting studio on Marrow Street, in a hot, loud port city.
@@ -54,12 +55,12 @@ export const letterhouse: CopySet = {
       title: 'Six kinds of hand-lettering',
       body: 'Every job is drawn full size, approved by you, and painted by someone who can tell you what it cost in brushes.',
       items: [
-        { mark: '01', title: 'Gilded windows', body: 'Real gold leaf laid on the inside of the glass, burnished until it glows.' },
-        { mark: '02', title: 'Shopfront fascias', body: 'Painted boards and timber signs that keep their colour through a coastal summer.' },
-        { mark: '03', title: 'Van and boat lettering', body: 'Names and numbers in enamel, built to take spray, salt and a hosing down.' },
-        { mark: '04', title: 'Menu boards', body: 'Chalk-look and gloss boards, lettered fresh whenever the soup changes.' },
-        { mark: '05', title: 'Restoration', body: 'Faded painted signs traced, matched and brought back, ghosts of old letters included.' },
-        { mark: '06', title: 'Workshops', body: 'Weekend courses in brush control, layout and the fine art of the straight line.' },
+        { icon: Sparkles, title: 'Gilded windows', body: 'Real gold leaf laid on the inside of the glass, burnished until it glows.' },
+        { icon: Store, title: 'Shopfront fascias', body: 'Painted boards and timber signs that keep their colour through a coastal summer.' },
+        { icon: Sailboat, title: 'Van and boat lettering', body: 'Names and numbers in enamel, built to take spray, salt and a hosing down.' },
+        { icon: Soup, title: 'Menu boards', body: 'Chalk-look and gloss boards, lettered fresh whenever the soup changes.' },
+        { icon: History, title: 'Restoration', body: 'Faded painted signs traced, matched and brought back, ghosts of old letters included.' },
+        { icon: Brush, title: 'Workshops', body: 'Weekend courses in brush control, layout and the fine art of the straight line.' },
       ],
     },
     split1: {

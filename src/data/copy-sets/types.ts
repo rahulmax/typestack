@@ -3,6 +3,8 @@
 // as-is, so keep them to trusted copy. In docs fields, `backticks` render as inline code.
 // Specimen strings are rendered by React: plain text, with Unicode characters instead of entities.
 
+import type { LucideIcon } from 'lucide-react'
+
 type Two<T> = [T, T]
 type Three<T> = [T, T, T]
 type Four<T> = [T, T, T, T]
@@ -45,8 +47,8 @@ export interface WebsiteCopy {
   features: {
     title: string
     body: string
-    /** `mark` is a tiny glyph in the icon well: a numeral, 1–3 characters. */
-    items: Six<{ mark: string; title: string; body: string }>
+    /** `icon` is the Lucide icon drawn in the well above the title. */
+    items: Six<{ icon: LucideIcon; title: string; body: string }>
   }
   split1: { eyebrow: string; title: string; body: string; facts: Three<{ title: string; note: string }> }
   split2: { eyebrow: string; title: string; body: string; tags: Three<string> }
