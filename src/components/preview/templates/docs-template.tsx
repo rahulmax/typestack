@@ -33,7 +33,7 @@ export const docsTemplate: PreviewTemplate = {
   .dx-main h4 { margin: 1.5rem 0 0.5rem; }
   .dx-main h5 { margin: 1.25rem 0 0.4rem; }
   .dx-main h6 { margin: 1rem 0 0.35rem; opacity: 0.8; }
-  .dx-callout { display: flex; gap: 0.85rem; margin: 1.25rem 0; padding: 1rem 1.15rem; border: 1px solid var(--dx-line); border-left: 3px solid currentColor; border-radius: 8px; background: var(--dx-tint); }
+  .dx-callout { display: flex; gap: 0.85rem; margin: 1.25rem 0; padding: 1rem 1.15rem; border: 1px solid var(--dx-line); border-radius: 8px; background: var(--dx-tint); }
   .dx-callout > b { flex-shrink: 0; width: 1.5rem; height: 1.5rem; border-radius: 50%; border: 1.5px solid currentColor; display: flex; align-items: center; justify-content: center; }
   .dx-callout h6 { margin: 0 0 0.2rem !important; opacity: 1 !important; }
   .dx-callout p { margin: 0; }

@@ -38,8 +38,8 @@ export const blogTemplate: PreviewTemplate = {
     <h3 style="margin: 2rem 0 0.75rem;">${c.subheading}</h3>
     <p style="margin-bottom: 1.5rem;">${c.section2}</p>
 
-    <blockquote style="border-left: 3px solid currentColor; padding-left: 1.5rem; margin: 2rem 0;">
-      <p style="margin-bottom: 0.5rem;"><em>${c.quote}</em></p>
+    <blockquote style="margin: 2.5rem 0; padding-left: 2rem;">
+      <p style="margin-bottom: 0.5rem;${c.quote.startsWith("“") ? " text-indent: -0.42em;" : ""}"><em>${c.quote}</em></p>
       <small>&mdash; ${c.quoteSource}</small>
     </blockquote>
 

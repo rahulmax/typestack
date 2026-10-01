@@ -26,7 +26,9 @@ export const newsletterTemplate: PreviewTemplate = {
   .nl-item .ill { display: flex; align-items: center; justify-content: center; min-height: 180px; margin: 1.25rem 0; padding: 1.25rem; border-radius: 10px; background: var(--ill-surface); --ill-paper: var(--ill-surface); border: 1px solid var(--nl-line); }
   .nl-btn { display: inline-block; padding: 0.7em 1.6em; border-radius: 8px; background: currentColor; cursor: pointer; }
   .nl-btn small { color: var(--bg-color, #fff); font-weight: 600; }
-  .nl-body blockquote { margin: 1.5rem 0; padding: 0.25rem 0 0.25rem 1.25rem; border-left: 3px solid currentColor; }
+  /* Set in from the measure, with the opening quote hung into the margin, not a side stripe */
+  .nl-body blockquote { margin: 1.75rem 0; padding-left: 1.75rem; }
+  .nl-body blockquote .nl-hang { text-indent: -0.42em; }
   .nl-body blockquote p { margin: 0 0 0.5rem; }
   .nl-links > div { display: grid; grid-template-columns: 1.5rem 1fr; gap: 0.75rem; padding: 0.85rem 0; border-top: 1px solid var(--nl-line); }
   .nl-links h5 { margin: 0 0 0.15rem; }
@@ -72,7 +74,7 @@ export const newsletterTemplate: PreviewTemplate = {
         <span class="eyebrow">${c.second.eyebrow}</span>
         <h3>${c.second.title}</h3>
         <blockquote>
-          <p><em>${c.second.quote}</em></p>
+          <p${c.second.quote.startsWith("“") ? ' class="nl-hang"' : ""}><em>${c.second.quote}</em></p>
           <small>${c.second.quoteSource}</small>
         </blockquote>
         <h4 style="margin: 1.5rem 0 0.5rem;">${c.second.subhead}</h4>
