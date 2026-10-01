@@ -96,3 +96,18 @@ describe('source routing', () => {
     expect(getFontStack('Iosevka Etoile')).toBe("'Iosevka Etoile', serif")
   })
 })
+
+describe('presets', () => {
+  test('use only weights their Fontsource families ship', async () => {
+    const { PRESETS } = await import('@/db/seed-presets')
+    const byFamily = new Map(FONTSOURCE_FONTS.map((f) => [f.family, f]))
+    const fontsource = PRESETS.flatMap((p) => [
+      [p.headingFont, p.headingWeight] as const,
+      [p.bodyFont, p.bodyWeight] as const,
+    ]).filter(([family]) => byFamily.has(family))
+    expect(fontsource.length).toBeGreaterThan(0)
+    for (const [family, weight] of fontsource) {
+      expect(byFamily.get(family)!.weights, family).toContain(weight)
+    }
+  })
+})

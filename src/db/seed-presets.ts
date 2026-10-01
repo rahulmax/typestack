@@ -167,6 +167,26 @@ const PRESETS: PresetDef[] = [
   { name: "Filosofia + Interstate", headingFont: "filosofia", headingWeight: 700, bodyFont: "interstate", bodyWeight: 400, category: "heritage" },
   { name: "Span + Sweet Sans Pro", headingFont: "span", headingWeight: 700, bodyFont: "sweet-sans-pro", bodyWeight: 500, category: "creative" },
   { name: "Roc Grotesk + Mencken Std Text", headingFont: "roc-grotesk", headingWeight: 700, bodyFont: "mencken-std-text", bodyWeight: 400, category: "bold" },
+
+  // ——— Fontsource: families Google doesn't carry, from src/data/fontsource-fonts.ts ———
+  // Weights must be ones the family ships; Bluu Next is 700 only.
+  { name: "Redaction 70 + Uncut Sans", headingFont: "Redaction 70", headingWeight: 700, bodyFont: "Uncut Sans", bodyWeight: 400, category: "editorial" },
+  { name: "Libre Caslon Condensed + Open Sauce Sans", headingFont: "Libre Caslon Condensed", headingWeight: 600, bodyFont: "Open Sauce Sans", bodyWeight: 400, category: "editorial" },
+  { name: "Pitagon Serif + Pitagon Sans Text", headingFont: "Pitagon Serif", headingWeight: 600, bodyFont: "Pitagon Sans Text", bodyWeight: 400, category: "literary" },
+  { name: "Iosevka Etoile + Adwaita Sans", headingFont: "Iosevka Etoile", headingWeight: 600, bodyFont: "Adwaita Sans", bodyWeight: 400, category: "literary" },
+  { name: "Geist Sans + Iosevka Aile", headingFont: "Geist Sans", headingWeight: 600, bodyFont: "Iosevka Aile", bodyWeight: 400, category: "tech" },
+  { name: "Monaspace Xenon + Monaspace Neon", headingFont: "Monaspace Xenon", headingWeight: 500, bodyFont: "Monaspace Neon", bodyWeight: 400, category: "tech" },
+  { name: "Cooper Hewitt + Redaction", headingFont: "Cooper Hewitt", headingWeight: 700, bodyFont: "Redaction", bodyWeight: 400, category: "creative" },
+  { name: "Apfel Grotezk + iA Writer Duo", headingFont: "Apfel Grotezk", headingWeight: 700, bodyFont: "iA Writer Duo", bodyWeight: 400, category: "creative" },
+  { name: "Blackout Midnight + Commit Mono", headingFont: "Blackout Midnight", headingWeight: 400, bodyFont: "Commit Mono", bodyWeight: 400, category: "creative" },
+  { name: "Metropolis + iA Writer Quattro", headingFont: "Metropolis", headingWeight: 800, bodyFont: "iA Writer Quattro", bodyWeight: 400, category: "minimal" },
+  { name: "Junction + Argentum Sans", headingFont: "Junction", headingWeight: 700, bodyFont: "Argentum Sans", bodyWeight: 400, category: "minimal" },
+  { name: "Norwester + DejaVu Serif", headingFont: "Norwester", headingWeight: 400, bodyFont: "DejaVu Serif", bodyWeight: 400, category: "bold" },
+  { name: "Bluu Next + Clear Sans", headingFont: "Bluu Next", headingWeight: 700, bodyFont: "Clear Sans", bodyWeight: 400, category: "heritage" },
+  { name: "Hauora Sans + Nebula Sans", headingFont: "Hauora Sans", headingWeight: 700, bodyFont: "Nebula Sans", bodyWeight: 400, category: "corporate" },
+  { name: "Open Runde + Pretendard", headingFont: "Open Runde", headingWeight: 600, bodyFont: "Pretendard", bodyWeight: 400, category: "warm" },
+  { name: "Bagnard + Bagnard Sans", headingFont: "Bagnard", headingWeight: 400, bodyFont: "Bagnard Sans", bodyWeight: 400, category: "elegant" },
+  { name: "Redaction 35 + Aileron", headingFont: "Redaction 35", headingWeight: 400, bodyFont: "Aileron", bodyWeight: 400, category: "luxury" },
 ];
 
 export function buildPresetConfig(preset: PresetDef): TypographyConfig {
