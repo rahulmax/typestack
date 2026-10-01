@@ -170,7 +170,7 @@ export const aster: CopySet = {
       'Never leave without a hot drink.',
     ],
     noteTitle: 'One more thing',
-    note: 'The café opens at half past six. If you are very quiet on the way in, Faisal will have the kettle on already.',
+    note: 'The café opens at half past six. If you are very quiet on the way in, Bongani will have the kettle on already.',
   },
 
   magazine: {
@@ -364,15 +364,15 @@ export const aster: CopySet = {
     epigraph: 'Nobody has ever been sorry afterwards. That is what the tea is for.',
     epigraphSource: 'Dot Farrow, poolside notice, 1988',
     verso: [
-      'I was the last swimmer into the dawn lane that Tuesday, which was my own fault. The alarm had gone at five and I had switched it off with the calm of somebody making a decision. At the turnstile Faisal looked at the clock, looked at me, and slid a towel across the counter without a word. The water was eleven degrees. I know because he had chalked it on the board and underlined it, twice.',
+      'I was the last swimmer into the dawn lane that Tuesday, which was my own fault. The alarm had gone at five and I had switched it off with the calm of somebody making a decision. At the turnstile Bongani looked at the clock, looked at me, and slid a towel across the counter without a word. The water was eleven degrees. I know because he had chalked it on the board and underlined it, twice.',
       'Dot was in the middle lane, swimming as she always does, as though the pool belonged to somebody who did not mind. She did not turn her head. Four other heads went up and down in their own lanes, and I lowered myself in from the steps an inch at a time, making the noise of somebody being told a price. The gulls on the harbour wall watched, and did not help. One of them stood on a single leg, which I took personally.',
     ],
     recto: [
       'By the fourth length I had stopped feeling my feet, and by the sixth I had stopped minding. That is what nobody tells you. There is a point where the cold turns from an argument into a fact, and you swim on the far side of it with the light coming across the water and the gulls lined up on the wall like a jury that has already decided. Somewhere behind me the funfair was being wound awake.',
-      'At the deep end Dot was waiting, holding the rail, her cap pushed back. She said I was late, and that she had been about to send a search party, which would have been Faisal. I said the alarm had failed. She said alarms did, and that the water never had, and that I should tell Faisal, and hauled herself out in a single movement that I have thought about every morning since, usually while getting in.',
+      'At the deep end Dot was waiting, holding the rail, her cap pushed back. She said I was late, and that she had been about to send a search party, which would have been Bongani. I said the alarm had failed. She said alarms did, and that the water never had, and that I should tell Bongani, and hauled herself out in a single movement that I have thought about every morning since, usually while getting in.',
       'In the café she poured tea from her thermos into the lid and pushed it over. It tasted of metal and sugar. The top board stood in the window above us, roped off, the paint peeling from its rail in long grey curls, and she looked at it for a while as you look at a dog that has been left outside. Then she asked whether I could hold a clipboard, and whether I had a pen, and whether I minded standing at the gate in the wind.',
     ],
-    afterBreak: 'I said I could, and that I had a pen, and a spare. That was in April. By August I had four hundred signatures, a sunburnt neck and a standing appointment at six, and Dot had stopped saying I was late. She said I was early for the next one. Faisal wrote the water temperature on the board every morning, and every morning underlined it. I have never worked out which of them was being kind.',
+    afterBreak: 'I said I could, and that I had a pen, and a spare. That was in April. By August I had four hundred signatures, a sunburnt neck and a standing appointment at six, and Dot had stopped saying I was late. She said I was early for the next one. Bongani wrote the water temperature on the board every morning, and every morning underlined it. I have never worked out which of them was being kind.',
     folios: ['74', '75'],
   },
 
@@ -416,7 +416,7 @@ export const aster: CopySet = {
       { headline: 'Robins to swim all winter again', body: 'The Robins will resume their Saturday swim on the first of October, water temperature permitting. Members are reminded that hats are compulsory, applause is voluntary, and the ladle for the ice remains in the café.' },
       { headline: 'Rowing Club finishes second, happily', body: 'Aster Rowing Club finished second in Saturday’s harbour regatta, a full boat length behind Pell Marsh. The club said it was delighted with the result, and with the cake, which was from the Seagull Bakery and was very good.' },
       { headline: 'Bakery to sell top board buns', body: 'Seagull Bakery will bake a bun in the shape of the top board from next week, with a share of every sale going to the repair fund. A spokeswoman said the bun would be tall, and would not survive being dropped from any height.' },
-      { headline: 'Turnstile to take cards from July', body: 'The lido turnstile will accept cards from July, ending sixty years of coins in a biscuit tin at the gate. Faisal at the café said he would miss the tin, and the sound it made, and had asked to be given it when it was finished.' },
+      { headline: 'Turnstile to take cards from July', body: 'The lido turnstile will accept cards from July, ending sixty years of coins in a biscuit tin at the gate. Bongani at the café said he would miss the tin, and the sound it made, and had asked to be given it when it was finished.' },
     ],
   },
 
@@ -460,7 +460,7 @@ export const aster: CopySet = {
       { title: 'Last Length by Moonlight', time: '6:20' },
     ],
     notes: 'Recorded at the poolside over four dawns in February, with the water at seven degrees and the band in it up to the knees. The percussion is a locker door. The gulls on track six were not invited and are not credited, although one of them has since asked for a share of the royalties.',
-    credits: ['Vocals: Hettie Marlowe', 'Locker door: Faisal Baig', 'Engineer: Marisol Quayle', 'Sleeve: the Friends of the Lido'],
+    credits: ['Vocals: Hettie Marlowe', 'Locker door: Bongani Khumalo', 'Engineer: Marisol Quayle', 'Sleeve: the Friends of the Lido'],
   },
 
   menu: {
@@ -509,7 +509,7 @@ export const aster: CopySet = {
     cast: [
       { role: 'The swimmer', name: 'Dot Farrow' },
       { role: 'The newcomer', name: 'Marisol Quayle' },
-      { role: 'The lifeguard', name: 'Faisal Baig' },
+      { role: 'The lifeguard', name: 'Bongani Khumalo' },
       { role: 'The chair', name: 'Hettie Marlowe' },
       { role: 'The engineer', name: 'Ivo Pratt' },
       { role: 'The gull', name: 'A local gull' },
@@ -541,7 +541,7 @@ export const aster: CopySet = {
       stanzas: [
         [
           'The turnstile ticks like a small cold clock.',
-          'Faisal has chalked the temperature on the board',
+          'Bongani has chalked the temperature on the board',
           'and underlined it, which is his way of saying',
           'that he is sorry, and that he will see me in.',
         ],

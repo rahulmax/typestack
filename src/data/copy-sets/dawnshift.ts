@@ -385,7 +385,7 @@ export const dawnshift: CopySet = {
       kicker: 'Neighbourhood',
       headline: 'Bakery’s debt ledger passes four hundred loaves owed, and nobody minds',
       deck: 'The Dawn Shift Tab stood at 412 loaves on Monday, the co-operative said. It has no plans to collect and some plans to celebrate.',
-      byline: 'By Prakash Hegde, Row Correspondent',
+      byline: 'By Sione Fonua, Row Correspondent',
       place: 'TANNERY ROW',
       body: [
         'The ledger of bread owed at the Dawn Shift bakery on Tannery Row recorded its four hundred and twelfth loaf on Monday, the co-operative confirmed. The book, known on the street as the Tab, has grown by an average of two loaves a week since 2011. The oldest entry is a seeded loaf owed by Mrs Odalys Finch, who was not available for comment because she was on the step, buying another.',
@@ -511,7 +511,7 @@ export const dawnshift: CopySet = {
       { role: 'The Debtor', name: 'Odalys Finch' },
       { role: 'Keeper of the Tab', name: 'Sal Marchetti' },
       { role: 'The Miller', name: 'Hugh Ostrander' },
-      { role: 'The Rider', name: 'Prakash Hegde' },
+      { role: 'The Rider', name: 'Sione Fonua' },
       { role: 'The Starter', name: 'Doris, aged 22' },
     ],
     crew: [
@@ -598,7 +598,7 @@ export const dawnshift: CopySet = {
       eyebrow: '02 &middot; Experiment',
       title: 'Bake a loaf with the lights off',
       quote: '“The best bread is made by someone who is slightly too tired to worry.”',
-      quoteSource: 'Baker Prakash H., replying to issue 49',
+      quoteSource: 'Baker Sione F., replying to issue 49',
       subhead: 'How it rose',
       body: 'On the first night it collapsed. On the third it sort of worked. Conclusion: keep the dark, skip the recipe, and trust the starter.',
     },

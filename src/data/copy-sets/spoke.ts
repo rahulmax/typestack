@@ -87,7 +87,7 @@ export const spoke: CopySet = {
     ],
     testimonial: {
       quote: '“I rang Spoke at ten past nine about a contract due at nine. The rider arrived at five to, soaking wet, and handed it over with a smile. I still do not understand how.”',
-      name: 'Nasrin Ashby',
+      name: 'Lupe Ashby',
       role: 'Partner, Pell & Ashby Solicitors',
     },
     steps: {
@@ -372,7 +372,7 @@ export const spoke: CopySet = {
       'We crossed a church car park, and then a garden, which she said was a car park in spring. A woman hanging out washing watched us go by and remarked, in the tone of somebody confirming a delivery, that we were early. It was twelve minutes past nine. The contract at Pell & Ashby had been due at nine, and I began to understand that early was a matter of opinion. Ximena waved to her, and the woman waved back with a sock.',
       'On Candle Hill the rain stopped so suddenly that the road steamed. Ximena stood on her pedals and I stood on mine, and neither of us said anything for the length of a street. At the top she braked, looked at her watch, and asked whether I still thought the folder was the important thing. I said I did. She said that was the right answer, and the wrong one. Below us Dunmarrow lay wet and shining, and I could not have said which roof was the fish market.',
     ],
-    afterBreak: 'Nasrin Ashby took the folder at the door, dripping onto the marble, and signed for it with a pen from her breast pocket. She did not ask why we were wet. On the pavement Ximena keyed her radio and said “clear”, and Yara answered “copy”, and that was the whole ceremony. Riding back, she said I would write up the passage by the gasworks office for the Friday edition, and that it should be long enough to leave the gate as I found it. I signed nothing. I was, I think, hired.',
+    afterBreak: 'Lupe Ashby took the folder at the door, dripping onto the marble, and signed for it with a pen from her breast pocket. She did not ask why we were wet. On the pavement Ximena keyed her radio and said “clear”, and Yara answered “copy”, and that was the whole ceremony. Riding back, she said I would write up the passage by the gasworks office for the Friday edition, and that it should be long enough to leave the gate as I found it. I signed nothing. I was, I think, hired.',
     folios: ['58', '59'],
   },
 
@@ -510,7 +510,7 @@ export const spoke: CopySet = {
       { role: 'Wet Ximena', name: 'Ximena Quispe' },
       { role: 'Dispatch', name: 'Yara Nassif' },
       { role: 'The new rider', name: 'Agnieszka Wrona' },
-      { role: 'The solicitor', name: 'Nasrin Ashby' },
+      { role: 'The solicitor', name: 'Lupe Ashby' },
       { role: 'The man in the yard', name: 'Odd Larsen' },
       { role: 'The dog by the gate', name: 'Biscuit the Dog' },
     ],

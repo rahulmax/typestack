@@ -147,7 +147,7 @@ export const orbital: CopySet = {
     eyebrow: 'Notes from Line 9',
     title: 'On Riding a Loop That Never Quite Closes',
     dek: 'An essay on the night bus, the driver who knows my stop, and the small mercy of arriving somewhere close to where I started.',
-    author: 'By Harleen Sandhu',
+    author: 'By Carys Pugh',
     date: 'a wet Thursday in November',
     readTime: 'one full loop of the top deck',
     intro: 'I started taking Line 9 because it was the only bus that ran past my sister’s house after midnight. I kept taking it because it was the only place in the city where nobody asked me what I did. On the Loop everyone is simply on their way to somewhere else.',
@@ -178,7 +178,7 @@ export const orbital: CopySet = {
     masthead: 'The Night Ledger',
     nav: ['Routes', 'Drivers', 'Depots', 'The Loop'],
     credits: [
-      { label: 'Words', value: 'Harleen Sandhu' },
+      { label: 'Words', value: 'Carys Pugh' },
       { label: 'Photographs', value: 'Marek Doyle, depot staff' },
       { label: 'Cover story', value: 'Page 10' },
     ],
@@ -224,7 +224,7 @@ export const orbital: CopySet = {
       ],
     },
     contributors: [
-      { name: 'Harleen Sandhu', note: 'Writer and rider, seat 14, upper deck.' },
+      { name: 'Carys Pugh', note: 'Writer and rider, seat 14, upper deck.' },
       { name: 'Marek Doyle', note: 'Depot photographer, tea in the yard.' },
       { name: 'Imre Vasko', note: 'Driver of Line 9, and gentle critic of timetables.' },
     ],
@@ -358,7 +358,7 @@ export const orbital: CopySet = {
 
   book: {
     title: 'Ninety-Four Minutes',
-    author: 'Harleen Sandhu',
+    author: 'Carys Pugh',
     chapter: 'Nine',
     chapterTitle: 'The Seat Behind the Driver',
     epigraph: 'Passengers are reminded that the driver has seen everything and will not mention it.',
@@ -385,7 +385,7 @@ export const orbital: CopySet = {
       kicker: 'Transit',
       headline: 'Authority proposes extending Line 9 sixty metres to close the Loop',
       deck: 'Drivers say the gap is a courtesy. Engineers say it is a rounding matter. Passengers were not consulted, and said so.',
-      byline: 'By Sunil Aris, Transport Correspondent',
+      byline: 'By Nahuel Paz, Transport Correspondent',
       place: 'HALVERN',
       body: [
         'The Halvern Transit Authority proposed on Wednesday to extend Line 9 by sixty metres so that the night bus finally closes its loop at Tallow Yard, ending a shortfall that has stood since the route opened in 1998. A consultation opens on Monday and runs for ninety days. The Authority said the work would cost about two million pounds and take one weekend.',
@@ -505,7 +505,7 @@ export const orbital: CopySet = {
   credits: {
     presenter: 'Depot Four presents',
     title: 'The Warm Seat',
-    byline: 'A film by Harleen Sandhu',
+    byline: 'A film by Carys Pugh',
     cast: [
       { role: 'The driver', name: 'Imre Vasko' },
       { role: 'The rider', name: 'Farida Yusupova' },
@@ -515,7 +515,7 @@ export const orbital: CopySet = {
       { role: 'The seat', name: 'Itself' },
     ],
     crew: [
-      { role: 'Written by', name: 'Harleen Sandhu' },
+      { role: 'Written by', name: 'Carys Pugh' },
       { role: 'Photography', name: 'Marek Doyle' },
       { role: 'Editor', name: 'Sam Tarrant' },
       { role: 'Sound', name: 'The Back Row' },
@@ -536,7 +536,7 @@ export const orbital: CopySet = {
     issue: 'No. 27, Late Autumn',
     first: {
       title: 'Seat Behind the Driver',
-      poet: 'Harleen Sandhu',
+      poet: 'Carys Pugh',
       epigraph: 'for the one seat nobody takes',
       stanzas: [
         [
@@ -575,7 +575,7 @@ export const orbital: CopySet = {
         ],
       ],
     },
-    note: 'Harleen Sandhu rides Line 9 most nights and has never reached the end of it. Marek Doyle has kept the Lost Property Office at Depot Four for nineteen years and can describe your umbrella before you do. This is his first poem, and he says it took one Friday.',
+    note: 'Carys Pugh rides Line 9 most nights and has never reached the end of it. Marek Doyle has kept the Lost Property Office at Depot Four for nineteen years and can describe your umbrella before you do. This is his first poem, and he says it took one Friday.',
     folio: '18',
   },
 
