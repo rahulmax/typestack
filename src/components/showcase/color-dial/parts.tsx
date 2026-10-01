@@ -4,8 +4,8 @@ import { useMemo, useRef, type CSSProperties } from 'react'
 import { cn } from '@/lib/utils'
 import { BANDS, clamp, mod, px, scaleMarks, useTuningGesture, type Tuner } from './tuner'
 
-/** Tick and spectrum color for a hue, bright enough to read as lit print. */
-export const hueTint = (hue: number) => `oklch(0.8 0.14 ${Math.round(hue)})`
+/** Tick and spectrum color for a hue. The glass sets how light it prints: lit on black, inked on cream. */
+export const hueTint = (hue: number) => `oklch(var(--radio-tint) ${Math.round(hue)})`
 
 const FOCUS_RING = 'outline-none focus-visible:ring-2 focus-visible:ring-accent-warm/70'
 

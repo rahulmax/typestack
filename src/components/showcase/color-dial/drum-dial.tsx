@@ -97,7 +97,7 @@ export function DrumDial({ tuner }: { tuner: Tuner }) {
           return (
             <div key={slot} className="radio-drum-row" data-active={offset === 0} style={{ height: ROW, transform: rowTransform(offset) }}>
               <Tape band={band} turns={turns} />
-              <span className="absolute inset-y-0 left-0 flex w-14 items-start bg-gradient-to-r from-[oklch(0.1_0.006_60)] from-55% to-transparent pl-2.5 pt-[7px] text-[7.5px] font-bold uppercase leading-none tracking-[0.16em] text-[color:var(--radio-print)]">
+              <span className="absolute inset-y-0 left-0 flex w-14 items-start bg-gradient-to-r from-[var(--radio-face-low)] from-55% to-transparent pl-2.5 pt-[7px] text-[7.5px] font-bold uppercase leading-none tracking-[0.16em] text-[color:var(--radio-print)]">
                 {band.label}
               </span>
             </div>
