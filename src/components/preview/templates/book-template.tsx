@@ -15,13 +15,40 @@ export const bookTemplate: PreviewTemplate = {
     const rest = words.slice(5).join(" ");
     return `
 <style>
-  .bk { --bk-rule: color-mix(in srgb, currentColor 16%, transparent); max-width: 1240px; margin: 0 auto; padding: 1rem 1rem 3rem; }
+  .bk {
+    --bk-rule: color-mix(in srgb, currentColor 16%, transparent);
+    /* Page edges are drawn solid so overlapping layers don't add up */
+    --bk-edge: color-mix(in srgb, currentColor 20%, var(--bg-color));
+    /* The crease is a shadow, so it darkens on light and dark paper alike */
+    --bk-crease: color-mix(in srgb, black 22%, transparent);
+    --bk-crease-soft: color-mix(in srgb, black 7%, transparent);
+    max-width: 1240px; margin: 0 auto; padding: 1rem 1rem 3rem;
+  }
   .bk h1, .bk h2, .bk h3, .bk h4, .bk h5, .bk h6, .bk p { margin: 0; }
-  .bk-spread { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--bk-rule); box-shadow: 0 1.5rem 3rem -2rem color-mix(in srgb, currentColor 35%, transparent); }
+  .bk-spread { position: relative; isolation: isolate; display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--bk-rule); box-shadow: 0 1.5rem 3rem -2rem color-mix(in srgb, black 45%, transparent); }
+  /* The page block: a few leaves fanning out past each outer edge and along the foot.
+     Each leaf is a paper-filled shadow over an edge-colored one a pixel larger. */
+  .bk-spread::before, .bk-spread::after { content: ""; position: absolute; top: -1px; bottom: -1px; z-index: -1; background: var(--bg-color); }
+  .bk-spread::before {
+    left: -1px; right: 50%;
+    box-shadow:
+      -3px 2px 0 -1px var(--bg-color), -3px 2px 0 0 var(--bk-edge),
+      -6px 4px 0 -1px var(--bg-color), -6px 4px 0 0 var(--bk-edge),
+      -9px 6px 0 -1px var(--bg-color), -9px 6px 0 0 var(--bk-edge),
+      -12px 8px 0 -1px var(--bg-color), -12px 8px 0 0 var(--bk-rule);
+  }
+  .bk-spread::after {
+    left: 50%; right: -1px;
+    box-shadow:
+      3px 2px 0 -1px var(--bg-color), 3px 2px 0 0 var(--bk-edge),
+      6px 4px 0 -1px var(--bg-color), 6px 4px 0 0 var(--bk-edge),
+      9px 6px 0 -1px var(--bg-color), 9px 6px 0 0 var(--bk-edge),
+      12px 8px 0 -1px var(--bg-color), 12px 8px 0 0 var(--bk-rule);
+  }
   .bk-page { display: flex; flex-direction: column; padding: 3.5rem 4rem 2.5rem; }
-  /* The gutter: each page darkens slightly towards the spine */
-  .bk-verso { padding-right: 4.5rem; background: linear-gradient(to left, color-mix(in srgb, currentColor 7%, transparent), transparent 3rem); }
-  .bk-recto { padding-left: 4.5rem; background: linear-gradient(to right, color-mix(in srgb, currentColor 7%, transparent), transparent 3rem); }
+  /* The gutter: each page curves into shadow at the spine, with a hairline where they meet */
+  .bk-verso { padding-right: 4.5rem; background: linear-gradient(to left, var(--bk-crease), var(--bk-crease-soft) 1.25rem, transparent 4rem); }
+  .bk-recto { padding-left: 4.5rem; background: linear-gradient(to right, var(--bk-crease), var(--bk-crease-soft) 1.25rem, transparent 4rem); box-shadow: inset 1px 0 0 color-mix(in srgb, black 40%, transparent); }
   .bk-text p { text-align: justify; hyphens: auto; text-wrap: pretty; }
   .bk-text p + p { text-indent: 1.5em; }
 
@@ -48,7 +75,8 @@ export const bookTemplate: PreviewTemplate = {
   @media (max-width: 800px) {
     .bk { padding: 0.5rem 0 2rem; }
     .bk-spread { grid-template-columns: 1fr; border: none; box-shadow: none; }
-    .bk-page, .bk-verso, .bk-recto { padding: 2rem 1.25rem; background: none; }
+    .bk-spread::before, .bk-spread::after { display: none; }
+    .bk-page, .bk-verso, .bk-recto { padding: 2rem 1.25rem; background: none; box-shadow: none; }
     .bk-recto { border-top: 1px solid var(--bk-rule); }
     .bk-opener { padding-top: 2rem; }
     .bk-epi { max-width: 90%; }
