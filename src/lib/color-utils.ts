@@ -515,16 +515,36 @@ export function isThreeColor(heading: string, body: string): boolean {
   return heading.toLowerCase() !== body.toLowerCase();
 }
 
+type Roles = { heading: string; body: string; bg: string };
+
+/** Text under this ratio against the page is unreadable at any size (WCAG's floor for large text). */
+export const CYCLE_CONTRAST_FLOOR = 3;
+
+/** The weaker of the two text contrasts in an arrangement. */
+function legibility({ heading, body, bg }: Roles): number {
+  const page = hexToRgb(bg);
+  return Math.min(contrastRatio(hexToRgb(heading), page), contrastRatio(hexToRgb(body), page));
+}
+
 /**
  * Two colors swap foreground and background. Three rotate through all three
- * roles, so each color takes its turn as the background.
+ * roles, so each color takes its turn as the background, skipping any turn
+ * that would leave the heading or the body unreadable on the page. When no
+ * other color can carry the page, heading and body trade places instead.
  */
-export function swapOrCycleColors({ heading, body, bg }: { heading: string; body: string; bg: string }): {
-  heading: string;
-  body: string;
-  bg: string;
-} {
-  return isThreeColor(heading, body)
-    ? { heading: bg, body: heading, bg: body }
-    : { heading: bg, body: bg, bg: heading };
+export function swapOrCycleColors({ heading, body, bg }: Roles): Roles {
+  if (!isThreeColor(heading, body)) return { heading: bg, body: bg, bg: heading };
+  // In order of preference: the two rotations, the same two with the inks traded, then only the inks traded
+  const turns: Roles[] = [
+    { heading: bg, body: heading, bg: body },
+    { heading: body, body: bg, bg: heading },
+    { heading, body: bg, bg: body },
+    { heading: bg, body, bg: heading },
+    { heading: body, body: heading, bg },
+  ];
+  return (
+    turns.find((t) => legibility(t) >= CYCLE_CONTRAST_FLOOR) ??
+    // Nothing is readable, so take the least bad
+    turns.reduce((best, t) => (legibility(t) > legibility(best) ? t : best))
+  );
 }

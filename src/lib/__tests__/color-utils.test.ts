@@ -11,6 +11,7 @@ import {
   isInSrgbGamut,
   isThreeColor,
   COLORWAYS,
+  CYCLE_CONTRAST_FLOOR,
   colorwaysIn,
   nextHardColorway,
   nextMedColorway,
@@ -287,14 +288,45 @@ describe('swapOrCycleColors', () => {
   })
 
   test('three colors rotate, giving each a turn as the background', () => {
-    let c = { heading: '#aa0000', body: '#00aa00', bg: '#0000aa' }
+    // Every pair clears the floor, so no turn is skipped
+    let c = { heading: '#000000', body: '#ffffff', bg: '#c00000' }
     const bgs = []
     for (let i = 0; i < 3; i++) {
       c = swapOrCycleColors(c)
       bgs.push(c.bg)
     }
-    expect(bgs).toEqual(['#00aa00', '#aa0000', '#0000aa'])
-    expect(c).toEqual({ heading: '#aa0000', body: '#00aa00', bg: '#0000aa' })
+    expect(bgs).toEqual(['#ffffff', '#000000', '#c00000'])
+    expect(c).toEqual({ heading: '#000000', body: '#ffffff', bg: '#c00000' })
+  })
+
+  test('two inks that only read on the page trade places instead of rotating', () => {
+    // Navy on charcoal, or charcoal on navy, is unreadable: neither can be the background
+    const start = { heading: '#14213d', body: '#2b2b2b', bg: '#f5f1e8' }
+    const next = swapOrCycleColors(start)
+    expect(next).toEqual({ heading: '#2b2b2b', body: '#14213d', bg: '#f5f1e8' })
+    expect(swapOrCycleColors(next)).toEqual(start)
+  })
+
+  test('a turn that would bury the text is skipped', () => {
+    // Yellow can carry the page with black, but white on yellow cannot be read
+    const next = swapOrCycleColors({ heading: '#ffd400', body: '#ffffff', bg: '#000000' })
+    const ratio = (fg: string) => contrastRatio(hexToRgb(fg), hexToRgb(next.bg))
+    expect(ratio(next.heading)).toBeGreaterThanOrEqual(CYCLE_CONTRAST_FLOOR)
+    expect(ratio(next.body)).toBeGreaterThanOrEqual(CYCLE_CONTRAST_FLOOR)
+    expect(next).not.toEqual({ heading: '#000000', body: '#ffd400', bg: '#ffffff' })
+  })
+
+  test('every curated colorway stays readable through a full run of cycles', () => {
+    for (const colorway of COLORWAYS) {
+      let c = { heading: colorway.heading, body: colorway.body, bg: colorway.bg }
+      for (let i = 0; i < 6; i++) {
+        c = swapOrCycleColors(c)
+        const page = hexToRgb(c.bg)
+        expect(Math.min(contrastRatio(hexToRgb(c.heading), page), contrastRatio(hexToRgb(c.body), page))).toBeGreaterThanOrEqual(
+          CYCLE_CONTRAST_FLOOR
+        )
+      }
+    }
   })
 
   test('heading and body that differ only in case count as one color', () => {
