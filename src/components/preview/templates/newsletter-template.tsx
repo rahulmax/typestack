@@ -11,8 +11,9 @@ export const newsletterTemplate: PreviewTemplate = {
     return `
 <style>
   .nl { --nl-line: color-mix(in srgb, currentColor 16%, transparent); --nl-tint: color-mix(in srgb, currentColor 5%, transparent); max-width: 640px; margin: 0 auto; padding: 0.5rem 0 2rem; }
-  .nl-pre { display: flex; justify-content: space-between; gap: 1rem; padding: 0.5rem 0.25rem 1rem; opacity: 0.7; }
-  .nl-card { border: 1px solid var(--nl-line); border-radius: 14px; background: color-mix(in srgb, currentColor 3%, transparent); overflow: hidden; }
+  .nl-pre { display: flex; justify-content: space-between; gap: 1rem; padding: 0.5rem 0.25rem 1rem; color: var(--desk-ink); }
+  .nl-pre small { color: inherit; }
+  .nl-card { border: 1px solid var(--nl-line); border-radius: 14px; background: var(--bg-color); overflow: hidden; box-shadow: 0 1rem 2.5rem -1.5rem oklch(0 0 0 / 35%); }
   .nl-head { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 2rem; border-bottom: 1px solid var(--nl-line); }
   .nl-head h6 { margin: 0; }
   .nl-body { padding: 2.25rem 2rem; }
@@ -48,7 +49,7 @@ export const newsletterTemplate: PreviewTemplate = {
   }
 </style>
 
-<div class="nl">
+<div class="nl" data-desk>
   <div class="nl-pre"><small>${c.preheader[0]}</small><small>${c.preheader[1]}</small></div>
   <div class="nl-card">
     <div class="nl-head"><h6>${c.name}</h6><small>${c.date}</small></div>

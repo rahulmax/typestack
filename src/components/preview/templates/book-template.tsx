@@ -25,7 +25,7 @@ export const bookTemplate: PreviewTemplate = {
     max-width: 1240px; margin: 0 auto; padding: 1rem 1rem 3rem;
   }
   .bk h1, .bk h2, .bk h3, .bk h4, .bk h5, .bk h6, .bk p { margin: 0; }
-  .bk-spread { position: relative; isolation: isolate; display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--bk-rule); box-shadow: 0 1.5rem 3rem -2rem color-mix(in srgb, black 45%, transparent); }
+  .bk-spread { position: relative; isolation: isolate; background: var(--bg-color); display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--bk-rule); box-shadow: 0 1.5rem 3rem -2rem color-mix(in srgb, black 45%, transparent); }
   /* The page block: a few leaves fanning out past each outer edge and along the foot.
      Each leaf is a paper-filled shadow over an edge-colored one a pixel larger. */
   .bk-spread::before, .bk-spread::after { content: ""; position: absolute; top: -1px; bottom: -1px; z-index: -1; background: var(--bg-color); }
@@ -83,7 +83,7 @@ export const bookTemplate: PreviewTemplate = {
   }
 </style>
 
-<div class="bk" lang="en">
+<div class="bk" lang="en" data-desk>
   <div class="bk-spread">
     <article class="bk-page bk-verso">
       <header class="bk-opener">

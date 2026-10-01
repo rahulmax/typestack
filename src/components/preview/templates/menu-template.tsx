@@ -28,7 +28,7 @@ export const menuTemplate: PreviewTemplate = {
 <style>
   .mn { max-width: 980px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
   .mn h1, .mn h2, .mn h3, .mn h4, .mn h5, .mn h6, .mn p { margin: 0; }
-  .mn-card { position: relative; padding: 3.5rem 3.5rem 2.5rem; border: 1px solid currentColor; }
+  .mn-card { position: relative; padding: 3.5rem 3.5rem 2.5rem; border: 1px solid currentColor; background: var(--bg-color); box-shadow: 0 1.5rem 3rem -2rem oklch(0 0 0 / 45%); }
   .mn-card::before { content: ""; position: absolute; inset: 6px; border: 1px solid color-mix(in srgb, currentColor 35%, transparent); pointer-events: none; }
   .mn-caps { text-transform: uppercase; letter-spacing: 0.16em; }
 
@@ -63,7 +63,7 @@ export const menuTemplate: PreviewTemplate = {
   }
 </style>
 
-<div class="mn">
+<div class="mn" data-desk>
   <div class="mn-card">
     <header class="mn-head">
       <span class="eyebrow">${c.hours}</span>

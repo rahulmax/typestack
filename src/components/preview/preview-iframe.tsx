@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useMemo, useCallback } from "react";
+import { useTheme } from "next-themes";
 import { usePreviewStyles } from "@/hooks/use-preview-styles";
 import { useTypographyStore } from "@/store/typography-store";
 import { useUIStore } from "@/store/ui-store";
@@ -199,6 +200,22 @@ function applyPhoneRoom(doc: Document, room: number | null | undefined) {
   }
 }
 
+/**
+ * Templates that show an object (a newsletter, a record sleeve, a menu) mark
+ * their root with data-desk. The object carries the user's background; the
+ * page around it is a neutral gray that follows the app's light or dark mode,
+ * so the object reads as a thing on a surface rather than melting into it.
+ */
+const DESK_STYLE = `
+  :root { --desk: oklch(0.93 0 0); --desk-ink: oklch(0.45 0 0); }
+  :root[data-mode="dark"] { --desk: oklch(0.21 0 0); --desk-ink: oklch(0.68 0 0); }
+  html body:has([data-desk]) { background: var(--desk); }
+`;
+
+function applyMode(doc: Document, mode: string | undefined) {
+  doc.documentElement.dataset.mode = mode === "dark" ? "dark" : "light";
+}
+
 function buildDoc(css: string, bodyHTML: string, fontLinks: string[], mobile?: boolean): string {
   const linkTags = fontLinks
     .map((url) => `<link rel="stylesheet" href="${url}" />`)
@@ -215,6 +232,7 @@ function buildDoc(css: string, bodyHTML: string, fontLinks: string[], mobile?: b
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   ${linkTags}
   <style>${mobileStyle}</style>
+  <style>${DESK_STYLE}</style>
   <style id="typestack-styles">${css}</style>
 </head>
 <body>${bodyHTML}</body>
@@ -229,6 +247,9 @@ export function PreviewIframe({ bodyHTML, mobile, phoneRoom, zoom = 1 }: Preview
   const foregroundColor = useTypographyStore((s) => s.bodyGroup.color);
   const backgroundColor = useTypographyStore((s) => s.backgroundColor);
   const setExpandedElement = useUIStore((s) => s.setExpandedElement);
+  const { resolvedTheme } = useTheme();
+  const modeRef = useRef(resolvedTheme);
+  modeRef.current = resolvedTheme;
   const colorsRef = useRef<ColorRef>({ fg: foregroundColor, bg: backgroundColor });
   colorsRef.current = { fg: foregroundColor, bg: backgroundColor };
   const handleElementFocus = useCallback((element: TypographyElement | null) => {
@@ -264,6 +285,11 @@ export function PreviewIframe({ bodyHTML, mobile, phoneRoom, zoom = 1 }: Preview
     const doc = iframeRef.current?.contentDocument;
     if (doc) applyPhoneRoom(doc, phoneRoom);
   }, [phoneRoom]);
+
+  useEffect(() => {
+    const doc = iframeRef.current?.contentDocument;
+    if (doc) applyMode(doc, resolvedTheme);
+  }, [resolvedTheme]);
 
   // Incremental CSS update (no iframe reload)
   useEffect(() => {
@@ -322,6 +348,7 @@ export function PreviewIframe({ bodyHTML, mobile, phoneRoom, zoom = 1 }: Preview
     if (styleEl) styleEl.textContent = cssRef.current;
     if (bodyRef.current !== built.body) applyBody(doc, bodyRef.current);
     applyPhoneRoom(doc, phoneRoomRef.current);
+    applyMode(doc, modeRef.current);
     makeEditable(doc);
     setupEditableListeners(doc, colorsRef, handleElementFocus);
   };

@@ -34,7 +34,8 @@ export const sleeveTemplate: PreviewTemplate = {
       radial-gradient(circle, var(--tone-base) 0 16%, transparent 16.3%),
       repeating-radial-gradient(circle, oklch(0.2 0 0) 0 1.2px, oklch(0.26 0 0) 1.2px 2.4px);
     box-shadow: 0 1rem 2rem -1rem oklch(0 0 0 / 60%); }
-  .sl-disc::after { content: ""; position: absolute; inset: 49%; border-radius: 50%; background: var(--bg-color); }
+  /* The spindle hole shows the desk through it */
+  .sl-disc::after { content: ""; position: absolute; inset: 49%; border-radius: 50%; background: var(--desk, var(--bg-color)); }
   .sl-cover { position: relative; aspect-ratio: 1; container-type: inline-size; overflow: hidden; background: var(--fg-color); box-shadow: 0 1.5rem 3rem -1.5rem oklch(0 0 0 / 55%); }
   .sl .sl-cover h1, .sl .sl-cover small { color: var(--bg-color); }
   .sl-cover-top { position: absolute; top: 7cqi; left: 7cqi; right: 7cqi; display: flex; justify-content: space-between; padding-bottom: 2.5cqi; border-bottom: 1px solid color-mix(in srgb, var(--bg-color) 45%, transparent); }
@@ -43,7 +44,7 @@ export const sleeveTemplate: PreviewTemplate = {
   .sl .sl-artist { position: absolute; left: 7cqi; bottom: 7cqi; font-size: 3.6cqi; }
 
   /* Back: track lists, notes and credits */
-  .sl-back { aspect-ratio: 1; display: flex; flex-direction: column; gap: 1.25rem; padding: 1.75rem 1.75rem 1.5rem; border: 1px solid var(--sl-rule); background: color-mix(in srgb, currentColor 3%, transparent); }
+  .sl-back { aspect-ratio: 1; display: flex; flex-direction: column; gap: 1.25rem; padding: 1.75rem 1.75rem 1.5rem; border: 1px solid var(--sl-rule); background: var(--bg-color); box-shadow: 0 1.5rem 3rem -1.5rem oklch(0 0 0 / 40%); }
   .sl-back-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid currentColor; }
   .sl-back-head h5 { flex-shrink: 0; white-space: nowrap; }
   .sl-back-head small { min-width: 0; white-space: nowrap; overflow-x: clip; }
@@ -71,7 +72,7 @@ export const sleeveTemplate: PreviewTemplate = {
   }
 </style>
 
-<div class="sl" lang="en">
+<div class="sl" lang="en" data-desk>
   <div class="sl-row">
     <div class="sl-front">
       <div class="sl-disc"></div>

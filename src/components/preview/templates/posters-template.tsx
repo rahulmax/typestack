@@ -17,7 +17,7 @@ export const postersTemplate: PreviewTemplate = {
   .ps { max-width: 1240px; margin: 0 auto; padding: 1rem 1rem 3rem; }
   .ps h1, .ps h2, .ps h3, .ps h4, .ps h5, .ps h6, .ps p { margin: 0; }
   .ps-wall { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; align-items: start; }
-  .ps-sheet { position: relative; aspect-ratio: 3 / 4; overflow: hidden; container-type: inline-size; box-shadow: 0 1.25rem 2.5rem -1.5rem color-mix(in srgb, currentColor 45%, transparent); }
+  .ps-sheet { position: relative; aspect-ratio: 3 / 4; overflow: hidden; container-type: inline-size; background: var(--bg-color); box-shadow: 0 1.25rem 2.5rem -1.5rem oklch(0 0 0 / 45%); }
   .ps .ps-caps { text-transform: uppercase; letter-spacing: 0.16em; }
 
   /* A: centred, classical, inside a hairline frame */
@@ -62,7 +62,7 @@ export const postersTemplate: PreviewTemplate = {
   }
 </style>
 
-<div class="ps">
+<div class="ps" data-desk>
   <div class="ps-wall">
     <article class="ps-sheet ps-a">
       <small class="ps-a-top ps-caps">${a.top}</small>
