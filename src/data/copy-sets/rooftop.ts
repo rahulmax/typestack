@@ -111,6 +111,37 @@ export const rooftop: CopySet = {
     },
   },
 
+  personal: {
+    name: ['Ada', 'Pell'],
+    kicker: 'Amateur botanist, Kessling',
+    title: 'Looking up at what nobody planted',
+    lead: 'Every roof in Kessling grows something, and nobody asked it to. I want to know what it is, where it lives and who saw it first. Curious, but I do not pick.',
+    about: {
+      label: 'A short introduction',
+      statement: 'I am Ada, founder of the Rooftop Flora Society and first observer of the fern. I have been asked to leave a number of roofs.',
+    },
+    principles: [
+      { title: 'Leave it where it is', body: 'I photograph, measure and write it down. The plant stays exactly where it decided to be, and so does the gutter.' },
+      { title: 'An address for everything', body: 'A weed is a plant whose address has not been recorded. A good card says what grew, where it grew and who was there.' },
+      { title: 'Knock before the stair', body: 'Most roofs belong to somebody. I knock, explain the fern and offer tea, in that order. It works about half the time.' },
+    ],
+    writing: {
+      label: 'Field notes',
+      statement: 'When enough of these exist to suggest a theme, a heading will grow here. I have been told to give it a season.',
+      articles: [
+        { kicker: 'A rare fern, a Sunday, the wrong roof', title: 'The Fern in the Drainpipe', tags: ['Ferns', 'Trespass'], meta: '9 min' },
+        { kicker: 'Forty chimneys surveyed on foot', title: 'What the Moss Report Found', tags: ['Moss', 'Surveys'], meta: '7 min' },
+        { kicker: 'A poppy that took a hint from the wind', title: 'Notes from the Fire Escape', tags: ['Poppies', 'Method'], meta: '5 min' },
+      ],
+    },
+    contact: {
+      prompt: 'Seen something growing where it should not?',
+      email: 'ada@rooftop.flora',
+      links: ['Herbarium', 'Survey rota'],
+    },
+    footer: '&copy; 2026 Ada Pell',
+  },
+
   blog: {
     eyebrow: 'Notes from the Roofs',
     title: 'On the Patient Business of Looking Up',

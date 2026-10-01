@@ -111,6 +111,37 @@ export const sorrel: CopySet = {
     },
   },
 
+  personal: {
+    name: ['Aurel', 'Quill'],
+    kicker: 'Concierge, by appointment',
+    title: 'Remembering your name, and your hat',
+    lead: 'Guests come up for a weekend and the hotel keeps them rather longer. I want to know what makes a person feel expected. Attentive, but never curious.',
+    about: {
+      label: 'A brief introduction',
+      statement: 'I am Aurel, concierge of the Grand Hotel Sorrel since the winter of 1958. In that time I have left the front desk twice.',
+    },
+    principles: [
+      { title: 'The name, then the key', body: 'A guest is greeted before they are processed. I learn the name on the stairs, so that the key is only a formality.' },
+      { title: 'Keep it comfortable', body: 'We do not keep secrets at the Sorrel. We keep them somewhere very comfortable, in green ink, in a drawer that I alone can find.' },
+      { title: 'Let the funicular be late', body: 'It leaves at ten, or when it is ready. I have stopped apologising for it and started serving coffee on the platform.' },
+    ],
+    writing: {
+      label: 'From the guest book',
+      statement: 'When enough pages are filled, a title will be embossed here. The binder has been waiting, patiently, since 1927.',
+      articles: [
+        { kicker: 'A century of arrivals', title: 'The Hotel at the End of the Road', tags: ['Arrivals', 'History'], meta: '10 min' },
+        { kicker: 'What a concierge may write down', title: 'Secrets Kept in Green Ink', tags: ['Discretion', 'The desk'], meta: '6 min' },
+        { kicker: 'Three hundred seats, never quiet', title: 'A Short Defence of the Ballroom', tags: ['Ballroom', 'Dancing'], meta: '8 min' },
+      ],
+    },
+    contact: {
+      prompt: 'Shall we expect you?',
+      email: 'quill@frontdesk.sorrel',
+      links: ['Guest book', 'The Little Goat'],
+    },
+    footer: '&copy; 2026 Aurel Quill',
+  },
+
   blog: {
     eyebrow: 'Notes from the front desk',
     title: 'On Inheriting a Hotel You Have Only Met Twice',

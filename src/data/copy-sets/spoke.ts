@@ -111,6 +111,37 @@ export const spoke: CopySet = {
     },
   },
 
+  personal: {
+    name: ['Juno', 'Kessler'],
+    kicker: 'Courier, Dunmarrow hills',
+    title: 'Getting it there before the rain does',
+    lead: 'Every street in Dunmarrow runs uphill from the river, and every parcel was due yesterday. I want to know the quickest line through a wet city. Fast, but never reckless.',
+    about: {
+      label: 'About the rider',
+      statement: 'I am Juno, a bicycle courier with Spoke Collective. I have never owned waterproofs, and I answer to Big Ines on the radio.',
+    },
+    principles: [
+      { title: 'Know two ways out', body: 'A yard with one exit is a trap. I learn the gates, ginnels and stairways before I need them, and the good ones go in the Short Book.' },
+      { title: 'Cadence over speed', body: 'Nobody gets up Candle Hill fast. You hold a pace you can keep, and you arrive before the weather changes its mind.' },
+      { title: 'Radio, then pedals', body: 'When dispatch calls I answer before I move. A run that starts with the wrong address ends at the top of the wrong hill.' },
+    ],
+    writing: {
+      label: 'From the saddle',
+      statement: 'When there are enough of these to bind, they will get a title. For now they are loose pages in a wet bag.',
+      articles: [
+        { kicker: 'Nine flights, one parcel, heavy rain', title: 'The Gasworks Steps in the Wet', tags: ['Routes', 'Rain'], meta: '6 min' },
+        { kicker: 'Four hundred shortcuts, ridden twice', title: 'What the Short Book Leaves Out', tags: ['Shortcuts', 'Dispatch'], meta: '9 min' },
+        { kicker: 'A workshop guide for tired wheels', title: 'Truing a Wheel at Midnight', tags: ['Workshop', 'Wheels'], meta: '7 min' },
+      ],
+    },
+    contact: {
+      prompt: 'Need something up a hill?',
+      email: 'juno@collective.spoke',
+      links: ['Radio log', 'Workshop'],
+    },
+    footer: '&copy; 2026 Juno Kessler',
+  },
+
   blog: {
     eyebrow: 'Notes from the saddle',
     title: 'Why I Still Carry the Short Book in My Head',

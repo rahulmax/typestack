@@ -111,6 +111,37 @@ export const dawnshift: CopySet = {
     },
   },
 
+  personal: {
+    name: ['Bernadette', 'Kowalczyk'],
+    kicker: 'Head baker, night crew',
+    title: 'Bread first, and the bill whenever',
+    lead: 'Tannery Row eats before it pays, and has done for years. I want to know how far a bakery can run on trust and a pencil. Generous, but I can count.',
+    about: {
+      label: 'About me, in short',
+      statement: 'I am Bernie, a baker by trade with twenty-two years of nights. I run the ovens at Dawn Shift and feed a starter called Doris.',
+    },
+    principles: [
+      { title: 'Feed Doris first', body: 'The starter gets her flour before anyone gets a cup of tea. She has outlived three ovens and one landlord, so she has earned it.' },
+      { title: 'Write it in pencil', body: 'Every loaf owed goes in the ledger, and pencil rubs out. A debt for bread should be easy to forgive and hard to forget.' },
+      { title: 'Out by six', body: 'Two hundred loaves are shaped before the street wakes. If the bicycles leave late, somebody starts a shift with no breakfast.' },
+    ],
+    writing: {
+      label: 'From the bench',
+      statement: 'Once there is enough here to slice, a heading will go on top. Until then these are in the order they came out of the oven.',
+      articles: [
+        { kicker: 'A midnight feed and a missing line', title: 'The Starter That Ate the Note', tags: ['Sourdough', 'Doris'], meta: '6 min' },
+        { kicker: 'Forty years of the Tab', title: 'Bread on Credit, Always', tags: ['The ledger', 'Co-op'], meta: '9 min' },
+        { kicker: 'What the night crew knows', title: 'Tannery Row at Four', tags: ['Night shift', 'The Row'], meta: '5 min' },
+      ],
+    },
+    contact: {
+      prompt: 'Need a loaf, or a shift?',
+      email: 'bernie@dawnshift.example',
+      links: ['The Tab', 'Bake-Off'],
+    },
+    footer: '&copy; 2026 Bernadette Kowalczyk',
+  },
+
   blog: {
     eyebrow: 'Notes from the Night Shift',
     title: 'What Doris Taught Me About Patience and Flour',

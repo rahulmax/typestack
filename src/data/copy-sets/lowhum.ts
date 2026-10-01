@@ -111,6 +111,37 @@ export const lowhum: CopySet = {
     },
   },
 
+  personal: {
+    name: ['Nell', 'Adeyemi-Gray'],
+    kicker: 'Sleeve notes and late nights',
+    title: 'Records for people who hear the run-out',
+    lead: 'We press three hundred copies and play them on one moody amplifier. I want to work out why a room of strangers nods at the same bar. Devoted, but not to volume.',
+    about: {
+      label: 'About me, quietly',
+      statement: 'I am Nell. I write the sleeve notes at Low Hum, tend the mailing list and live upstairs, directly over the bass.',
+    },
+    principles: [
+      { title: 'Three hundred, no more', body: 'A short run means every copy goes to someone who wanted it. We have never had to store a record we were not proud of.' },
+      { title: 'Turn it down', body: 'The bar plays at a volume you can talk under. People stop talking anyway, and that tells me more than a review does.' },
+      { title: 'Trust the Duchess', body: 'The amplifier only plays what she respects. When she sulks I check the record before I check the valves.' },
+    ],
+    writing: {
+      label: 'Sleeve notes',
+      statement: 'When there are enough notes to fill a side, they will get a proper title. Until then, play them in any order.',
+      articles: [
+        { kicker: 'One night, one take, no playback', title: 'The Record Pell Refused to Hear', tags: ['Pressings', 'Pell'], meta: '8 min' },
+        { kicker: 'Wet Tuesdays and warm valves', title: 'Why the Duchess Sulks', tags: ['Hi-fi', 'The bar'], meta: '6 min' },
+        { kicker: 'Every cover we printed, and a few we did not', title: 'Inside the Sleeve Room', tags: ['Archive', 'Print'], meta: '10 min' },
+      ],
+    },
+    contact: {
+      prompt: 'Want to hear the next run first?',
+      email: 'nell@lowhum.example',
+      links: ['Mailing list', 'Archive'],
+    },
+    footer: '&copy; 2026 Nell Adeyemi-Gray',
+  },
+
   blog: {
     eyebrow: 'Notes from the Basement',
     title: 'Why the Amplifier Gets to Choose the Record',

@@ -111,6 +111,37 @@ export const halden: CopySet = {
     },
   },
 
+  personal: {
+    name: ['Maren', 'Solvang'],
+    kicker: 'Astronomer, Skarra Island',
+    title: 'Watching for a comet nobody else sees',
+    lead: 'I saw it on a Tuesday and spent a week checking I had not imagined it. I want to know what is up there and what is only hope. Stubborn, but I show my working.',
+    about: {
+      label: 'About me, briefly',
+      statement: 'I am Maren, senior astronomer at Halden Observatory. I live in the north dome and have followed one faint comet for four winters.',
+    },
+    principles: [
+      { title: 'Count every clear night', body: 'There are fewer than you think. I log each one, cloud included, so that nobody later mistakes bad weather for an empty sky.' },
+      { title: 'A gentle hand', body: 'The old refractor is called the Goose and she likes the cold. Most faults at the eyepiece are impatience, and the cure is cocoa.' },
+      { title: 'Share the eyepiece', body: 'Any child on the island who can stay up past nine gets a turn. A sky that only five people look at is poorly observed.' },
+    ],
+    writing: {
+      label: 'Observing notes',
+      statement: 'When there are enough of these to make a constellation, it will be named here. So far they are only close together.',
+      articles: [
+        { kicker: 'Four winters and one loyal smudge', title: 'The Comet Nobody Believes', tags: ['Comets', 'Doubt'], meta: '12 min' },
+        { kicker: 'What to do when the sky is shut', title: 'Cocoa on a Cloudy Night', tags: ['Weather', 'Volunteers'], meta: '5 min' },
+        { kicker: 'On domes that hum a note', title: 'The Wind Above Skarra', tags: ['Telescopes', 'The island'], meta: '8 min' },
+      ],
+    },
+    contact: {
+      prompt: 'Seen something you cannot explain?',
+      email: 'maren@halden.example',
+      links: ['Open nights', 'Night log'],
+    },
+    footer: '&copy; 2026 Maren Solvang',
+  },
+
   blog: {
     eyebrow: 'Notes from the Dome',
     title: 'What the Goose Taught Me About Waiting for Clear Skies',

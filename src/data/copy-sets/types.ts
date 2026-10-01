@@ -57,6 +57,37 @@ export interface WebsiteCopy {
   footer: { tagline: string; links: Four<string>; legal: string; legalLinks: Two<string> }
 }
 
+/**
+ * One person's own site, nearly empty: a name, a large claim, three principles and a short list of
+ * writing. First person, plain and a little dry. No inline HTML except in `footer`.
+ */
+export interface PersonalCopy {
+  /** First name, then surname, stacked in the header. */
+  name: Two<string>
+  /** What they do, 3–5 words. The template adds a trailing slash. */
+  kicker: string
+  /** The claim, set huge. 5–8 words, no full stop. */
+  title: string
+  /** Three short sentences, about 170–220 characters: the situation, what they want to find out, and a two-part self-description. */
+  lead: string
+  /** `label` is 2–4 words. `statement` is set large: two sentences, 110–150 characters, starting 'I am …'. */
+  about: { label: string; statement: string }
+  /** Titles 2–5 words; bodies about 120–170 characters. */
+  principles: Three<{ title: string; body: string }>
+  writing: {
+    /** 2–4 words. */
+    label: string
+    /** Set large: a placeholder for a heading that will exist once there is enough writing. 110–150 characters. */
+    statement: string
+    /** `kicker` is a subtitle under 45 characters (the template adds a trailing slash); `title` 3–7 words; `tags` 1–2 words each; `meta` a reading time, e.g. '8 min'. */
+    articles: Three<{ kicker: string; title: string; tags: Two<string>; meta: string }>
+  }
+  /** `prompt` is one short question. `email` is set large and uses an invented domain, under 26 characters. `links` are 1–3 words. */
+  contact: { prompt: string; email: string; links: Two<string> }
+  /** A copyright line, e.g. '&copy; 2026 Ada Pell'. */
+  footer: string
+}
+
 export interface BlogCopy {
   eyebrow: string
   title: string
@@ -367,6 +398,7 @@ export interface CopySet {
   name: string
   specimen: SpecimenCopy
   website: WebsiteCopy
+  personal: PersonalCopy
   blog: BlogCopy
   magazine: MagazineCopy
   docs: DocsCopy

@@ -111,6 +111,37 @@ export const aster: CopySet = {
     },
   },
 
+  personal: {
+    name: ['Dot', 'Farrow'],
+    kicker: 'Swimmer, dawn lane',
+    title: 'One cold length before the town wakes',
+    lead: 'The pool opens at six and I am usually standing at the gate. I want to know why one cold length fixes most mornings. Keen, but I will not race you.',
+    about: {
+      label: 'About me, briefly',
+      statement: 'I am Dot, a Friend of the Lido. I have swum the first length at Port Aster every morning since 1971, in all weathers.',
+    },
+    principles: [
+      { title: 'Get in first', body: 'The water is colder than you hoped and warmer than you feared. Standing on the side only proves the first half.' },
+      { title: 'Count lengths, not minutes', body: 'Fifty metres is fifty metres, whoever swims it. I do twenty, slowly, and the fast lane is welcome to the rest.' },
+      { title: 'Save the board', body: 'A lido without a diving board is a large bath. I have written to the council fourteen times, and I own more stamps.' },
+    ],
+    writing: {
+      label: 'From the logbook',
+      statement: 'When there are enough entries to fill a season, they will get a heading. Until then they are filed by water temperature.',
+      articles: [
+        { kicker: 'Fifty years of six o’clock starts', title: 'The Dawn Lane, Explained', tags: ['Mornings', 'Cold water'], meta: '7 min' },
+        { kicker: 'Two gulls and one enthusiastic dog', title: 'Forty Swimmers in Tile', tags: ['The mural', 'History'], meta: '5 min' },
+        { kicker: 'Fourteen letters to the council', title: 'In Defence of the Top Board', tags: ['The board', 'Letters'], meta: '9 min' },
+      ],
+    },
+    contact: {
+      prompt: 'Fancy a length, or a stamp?',
+      email: 'dot@dawnlane.aster',
+      links: ['The Friends', 'Season notes'],
+    },
+    footer: '&copy; 2026 Dot Farrow',
+  },
+
   blog: {
     eyebrow: 'Notes from the shallow end',
     title: 'Why I Swim at Six in the Morning',

@@ -2,6 +2,7 @@ import type { PreviewTemplate } from "./types";
 import type { PreviewTab } from "@/store/ui-store";
 import type { CopySet } from "@/data/copy-sets";
 import { websiteTemplate } from "./website-template";
+import { personalTemplate } from "./personal-template";
 import { blogTemplate } from "./blog-template";
 import { magazineTemplate } from "./magazine-template";
 import { docsTemplate } from "./docs-template";
@@ -18,6 +19,7 @@ import { poemTemplate } from "./poem-template";
 // Display order of the browser tabs: web pages, then long-form writing, then print
 export const templateList: (PreviewTemplate & { id: PreviewTab })[] = [
   { ...websiteTemplate, id: "website" },
+  { ...personalTemplate, id: "personal" },
   { ...docsTemplate, id: "docs" },
   { ...blogTemplate, id: "blog" },
   { ...newsletterTemplate, id: "newsletter" },

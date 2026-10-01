@@ -111,6 +111,37 @@ export const letterhouse: CopySet = {
     },
   },
 
+  personal: {
+    name: ['Odile', 'Marrow'],
+    kicker: 'Sign painter, gilder, arguer',
+    title: 'Letters you can read from across the road',
+    lead: 'Everyone on Marrow Street wants a sign by Friday. I want to know which ones will still look right in thirty years. Fast when the paint allows, but never before.',
+    about: {
+      label: 'About me, briefly',
+      statement: 'I am Odile, a sign painter by trade with thirty-eight years on the ladder. I run Letterhouse from the top floor of Marrow Street.',
+    },
+    principles: [
+      { title: 'Pencil first', body: 'The pencil finds the letter and the brush agrees with it. I sketch once, at full size, on the glass, and then I stop sketching.' },
+      { title: 'One word of paint', body: 'A brush holds about one word. That is a good reason to cut a sign down until every word on it has earned the trip up the ladder.' },
+      { title: 'Read it from the road', body: 'Before the gold goes on I cross the street and look. If I cannot read it from the far kerb, the serifs were never the problem.' },
+    ],
+    writing: {
+      label: 'Written down',
+      statement: 'When there are enough of these to show a pattern, a proper heading goes here. For now they are in the order I wrote them.',
+      articles: [
+        { kicker: 'Gold leaf on a wet Tuesday', title: 'The Window That Paid the Rent', tags: ['Gilding', 'Glass'], meta: '7 min' },
+        { kicker: 'What an apprentice learns first', title: 'The Letter S and Why It Leans', tags: ['Lettering', 'Apprentices'], meta: '5 min' },
+        { kicker: 'Thirty-eight years of shopfronts', title: 'Notes from the Ladder', tags: ['Shopfronts', 'Enamel'], meta: '11 min' },
+      ],
+    },
+    contact: {
+      prompt: 'Got a window that needs a name?',
+      email: 'odile@marrow.street',
+      links: ['Signfest', 'Postcards'],
+    },
+    footer: '&copy; 2026 Odile Marrow',
+  },
+
   blog: {
     eyebrow: 'Notes from the Studio',
     title: 'What a Ladder Teaches You About Serifs',

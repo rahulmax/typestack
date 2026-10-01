@@ -111,6 +111,37 @@ export const veyl: CopySet = {
     },
   },
 
+  personal: {
+    name: ['Ilse', 'Varrow'],
+    kicker: 'Adept of the Hollow Concordance',
+    title: 'Filing the tide before it rises',
+    lead: 'The high shelves of the Concordance hold the records of things that have not happened yet. I want to know what the archive is owed, and by whom. Diligent, but never early without cause.',
+    about: {
+      label: 'Briefly, in advance',
+      statement: 'I am Ilse, a tidal grammarian by training, with nine floors of wet stone below me. At present I keep the Fourth Almanac in Veyl.',
+    },
+    principles: [
+      { title: 'The entry comes first', body: 'I consult the record, then supply the event it presupposes. Where the two disagree the entry prevails, and the event is asked to reconsider its date.' },
+      { title: 'Lamps by request', body: 'Most of what I read does not need light. I have learned to tell the shelves that want a lamp from the ones that only want company.' },
+      { title: 'Leave the boat alone', body: 'Every ledger holds one line that nobody should read aloud. I find it early, mark the page and go round it, out of courtesy.' },
+    ],
+    writing: {
+      label: 'Already written',
+      statement: 'A heading will stand here once the essays agree on what they were about, which the Almanac expects by spring.',
+      articles: [
+        { kicker: 'On debts dated before their cause', title: 'The Ledger Nobody Lost', tags: ['Ledgers', 'Arrears'], meta: '9 tides' },
+        { kicker: 'Notes from the ninth stair', title: 'How to Read Without a Lamp', tags: ['Method', 'Unlit rooms'], meta: '6 tides' },
+        { kicker: 'A chart of the coast, due in spring', title: 'The Island That Is Not There Yet', tags: ['Cartography', 'Tides'], meta: '4 tides' },
+      ],
+    },
+    contact: {
+      prompt: 'A question you have not thought of yet?',
+      email: 'ilse@concordance.veyl',
+      links: ['The Annex', 'Marginalia'],
+    },
+    footer: '&copy; 1207 Ilse Varrow',
+  },
+
   blog: {
     eyebrow: 'Field Notes from Veyl',
     title: 'On the Grammar of Tides That Have Not Come',

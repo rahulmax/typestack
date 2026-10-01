@@ -8,6 +8,7 @@ export type PreviewTab =
   | "scale"
   | "specimen"
   | "website"
+  | "personal"
   | "blog"
   | "magazine"
   | "docs"

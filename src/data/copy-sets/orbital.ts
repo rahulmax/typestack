@@ -111,6 +111,37 @@ export const orbital: CopySet = {
     },
   },
 
+  personal: {
+    name: ['Imre', 'Vasko'],
+    kicker: 'Night driver, Line 9',
+    title: 'Arriving slightly early, every single night',
+    lead: 'Halvern runs thirty-one night routes, and I drive the one that never quite closes. I want to know where the missing minute goes. Punctual, but not about that.',
+    about: {
+      label: 'About the driver',
+      statement: 'I am Imre, a bus driver by trade with twenty-two years of nights. I take Line 9 out of Tallow Yard at 00:41.',
+    },
+    principles: [
+      { title: 'Call the stop early', body: 'I announce the next stop before it appears. People wake up gently that way, and nobody has to run down the stairs.' },
+      { title: 'One bus at a time', body: 'Forty thousand people cross the city every night. I carry the sixty on my bus and leave the rest to the timetable.' },
+      { title: 'The road, then the clock', body: 'The Authority prints the schedule twice. I read the street first and the grey box second, and so far the street has been right.' },
+    ],
+    writing: {
+      label: 'Written at the terminus',
+      statement: 'Once there are enough of these, a headline will go here. It is expected a minute before the last one is finished.',
+      articles: [
+        { kicker: 'A year of logging the gap', title: 'Where the Missing Minute Goes', tags: ['Line 9', 'Timetables'], meta: '8 min' },
+        { kicker: 'Regulars, seats and habits', title: 'The Back Row After Two', tags: ['Passengers', 'Nights'], meta: '6 min' },
+        { kicker: 'Third shelf, lost property', title: 'Forty Umbrellas and One Trombone', tags: ['Lost & Found', 'Depot Four'], meta: '4 min' },
+      ],
+    },
+    contact: {
+      prompt: 'Left something on the upper deck?',
+      email: 'imre@orbital.line',
+      links: ['Depot noticeboard', 'Route map'],
+    },
+    footer: '&copy; 2026 Imre Vasko',
+  },
+
   blog: {
     eyebrow: 'Notes from Line 9',
     title: 'On Riding a Loop That Never Quite Closes',
