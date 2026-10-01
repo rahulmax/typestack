@@ -9,7 +9,7 @@ export function SlideRuleDial({ tuner, onScan = tuner.scan }: { tuner: Tuner; on
   return (
     <div className="flex flex-col gap-2.5">
       <div className="radio-glass">
-        <BandScale tuner={tuner} width={326} rowHeight={27} pad={7} inset={[46, 44]} numSize={9} labelSize={7.5} tick={6} />
+        <BandScale tuner={tuner} width={326} rowHeight={27} pad={7} inset={[46, 44]} numSize={9} labelSize={7.5} tick={6} spectrum />
       </div>
       {/* Left column picks a place, right column reads it out and fine-tunes */}
       <div className="grid grid-cols-[auto_1fr] items-center gap-x-2.5 gap-y-2">
