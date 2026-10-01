@@ -23,6 +23,25 @@ function getTypographyElement(el: HTMLElement): TypographyElement | null {
   return TAG_TO_ELEMENT[el.tagName.toLowerCase()] ?? null;
 }
 
+const SCALE_SELECTOR = "h1,h2,h3,h4,h5,h6,p,small,.eyebrow,.display-1,.display-2,.display-3";
+
+/**
+ * The scale elements a page is set in: those that own some text. A paragraph that only wraps a
+ * <small> sets nothing in the paragraph style, so it doesn't count; a heading wearing a display
+ * class counts as that display size.
+ */
+function scanElements(doc: Document): TypographyElement[] {
+  const found = new Set<TypographyElement>();
+  const walker = doc.createTreeWalker(doc.body, NodeFilter.SHOW_TEXT);
+  for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+    if (!node.nodeValue?.trim()) continue;
+    const owner = node.parentElement?.closest<HTMLElement>(SCALE_SELECTOR);
+    const element = owner && getTypographyElement(owner);
+    if (element) found.add(element);
+  }
+  return [...found].sort();
+}
+
 function makeEditable(doc: Document) {
   doc.querySelectorAll(EDITABLE_SELECTOR).forEach((el) => {
     if (!el.querySelector("input,select,textarea,button,svg")) {
@@ -247,6 +266,8 @@ export function PreviewIframe({ bodyHTML, mobile, phoneRoom, zoom = 1 }: Preview
   const foregroundColor = useTypographyStore((s) => s.bodyGroup.color);
   const backgroundColor = useTypographyStore((s) => s.backgroundColor);
   const setExpandedElement = useUIStore((s) => s.setExpandedElement);
+  const setPageElements = useUIStore((s) => s.setPageElements);
+  const elementWatchRef = useRef<MutationObserver | null>(null);
   const { resolvedTheme } = useTheme();
   const modeRef = useRef(resolvedTheme);
   modeRef.current = resolvedTheme;
@@ -341,6 +362,31 @@ export function PreviewIframe({ bodyHTML, mobile, phoneRoom, zoom = 1 }: Preview
     });
   }, [foregroundColor, backgroundColor]);
 
+  // The sidebar locks out controls for elements the page doesn't have. The page is watched, not read
+  // once: a tab switch swaps the body, and a template may change a heading's class after layout.
+  const watchElements = useCallback((doc: Document) => {
+    elementWatchRef.current?.disconnect();
+    const view = doc.defaultView;
+    if (!view) return;
+    let frame = 0;
+    const report = () => setPageElements(scanElements(doc));
+    const watch = new view.MutationObserver(() => {
+      view.cancelAnimationFrame(frame);
+      frame = view.requestAnimationFrame(report);
+    });
+    watch.observe(doc.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["class"] });
+    elementWatchRef.current = watch;
+    report();
+  }, [setPageElements]);
+
+  useEffect(() => {
+    if (mobile) return;
+    return () => {
+      elementWatchRef.current?.disconnect();
+      setPageElements(null);
+    };
+  }, [mobile, setPageElements]);
+
   const handleLoad = () => {
     const doc = iframeRef.current?.contentDocument;
     if (!doc) return;
@@ -351,6 +397,7 @@ export function PreviewIframe({ bodyHTML, mobile, phoneRoom, zoom = 1 }: Preview
     applyMode(doc, modeRef.current);
     makeEditable(doc);
     setupEditableListeners(doc, colorsRef, handleElementFocus);
+    if (!mobile) watchElements(doc);
   };
 
   const iframe = (

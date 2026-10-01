@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { RotateCcw } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useTypographyStore, isHeadingElement } from "@/store/typography-store";
 import { useUIStore } from "@/store/ui-store";
 import { SidebarOverflowContext } from "@/components/layout/sidebar";
@@ -338,9 +339,14 @@ export function ElementOverridePanel() {
   const expandedElement = useUIStore((s) => s.expandedElement);
   const setExpandedElement = useUIStore((s) => s.setExpandedElement);
   const overrides = useTypographyStore((s) => s.overrides);
-  const activeEl = ALL_OVERRIDE_ELEMENTS.includes(expandedElement as TypographyElement)
-    ? expandedElement
-    : null;
+  const pageElements = useUIStore((s) => s.pageElements);
+  // A key is locked out while the page on show has nothing set in its element: turning its dials
+  // would change nothing you can see. The override itself is kept, and so is its lamp.
+  const isAbsent = (el: TypographyElement) => pageElements !== null && !pageElements.includes(el);
+  const activeEl =
+    ALL_OVERRIDE_ELEMENTS.includes(expandedElement as TypographyElement) && !isAbsent(expandedElement as TypographyElement)
+      ? expandedElement
+      : null;
 
   const capsAnchorRef = useRef<HTMLDivElement>(null);
 
@@ -351,13 +357,15 @@ export function ElementOverridePanel() {
         {ALL_OVERRIDE_ELEMENTS.map((el, i) => {
           const isActive = activeEl === el;
           const hasOverride = isHandSet(overrides[el]);
-          return (
+          const absent = isAbsent(el);
+          const key = (
             <button
               key={el}
               type="button"
-              onClick={() => setExpandedElement(isActive ? null : el)}
+              onClick={() => !absent && setExpandedElement(isActive ? null : el)}
               className="hw-btn hw-selector-btn flex-1 flex-col !items-stretch !justify-end !gap-0"
               data-active={isActive}
+              aria-disabled={absent || undefined}
               style={BUTTON_STYLES[i]}
             >
               <div className="flex justify-center">
@@ -373,6 +381,13 @@ export function ElementOverridePanel() {
               </div>
               <span className="relative mt-auto text-[11px]">{SHORT_LABELS[el] || el}</span>
             </button>
+          );
+          if (!absent) return key;
+          return (
+            <Tooltip key={el}>
+              <TooltipTrigger asChild>{key}</TooltipTrigger>
+              <TooltipContent>Not on this page</TooltipContent>
+            </Tooltip>
           );
         })}
       </div>

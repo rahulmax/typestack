@@ -296,6 +296,27 @@
   pointer-events: none;
 }
 
+/* Locked out: the page on show has nothing for this key to act on. The cap sits flush with the
+   panel and does not travel, and its legend and lamp go dim. It still takes the pointer, so it
+   can say why. */
+.hw-btn[aria-disabled="true"],
+.hw-btn[aria-disabled="true"]:hover,
+.hw-btn[aria-disabled="true"]:active {
+  background: oklch(0.9 0.003 80);
+  box-shadow: inset 0 1px 2px oklch(0 0 0 / 6%);
+  cursor: not-allowed;
+}
+.hw-btn[aria-disabled="true"] > * {
+  opacity: 0.3;
+}
+.dark .hw-btn[aria-disabled="true"],
+.dark .hw-btn[aria-disabled="true"]:hover,
+.dark .hw-btn[aria-disabled="true"]:active {
+  background: oklch(0.25 0.005 60);
+  box-shadow: inset 0 1px 2px oklch(0 0 0 / 30%);
+  color: oklch(0.78 0.003 80);
+}
+
 .dark .hw-btn {
   background: linear-gradient(180deg, oklch(0.33 0.005 60) 0%, oklch(0.27 0.005 60) 100%);
   border: 1px solid oklch(0.18 0.005 60);

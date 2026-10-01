@@ -2,6 +2,7 @@
 
 import { create } from "zustand";
 import { pickCopyIndex } from "@/data/copy-sets";
+import type { TypographyElement } from "@/types/typography";
 
 // The first two tabs are rendered by React; the rest are HTML pages in an iframe.
 export type PreviewTab =
@@ -35,6 +36,8 @@ interface UIStore {
   /** Magnification of the page tabs; the page keeps its layout width */
   zoom: number;
   expandedElement: string | null;
+  /** The scale elements the page tab on show is set in; null on the React tabs, which show them all */
+  pageElements: TypographyElement[] | null;
   currentStackId: string | null;
   currentStackName: string | null;
   isDirty: boolean;
@@ -52,6 +55,7 @@ interface UIStore {
   resetZoom: () => void;
   setActiveTab: (tab: PreviewTab) => void;
   setExpandedElement: (element: string | null) => void;
+  setPageElements: (elements: TypographyElement[] | null) => void;
   setCurrentStack: (id: string | null, name: string | null) => void;
   setDirty: (dirty: boolean) => void;
   setScalePanelCollapsed: (collapsed: boolean) => void;
@@ -69,6 +73,7 @@ export const useUIStore = create<UIStore>()((set) => ({
   phone: false,
   zoom: 1,
   expandedElement: null,
+  pageElements: null,
   currentStackId: null,
   currentStackName: null,
   isDirty: false,
@@ -90,6 +95,9 @@ export const useUIStore = create<UIStore>()((set) => ({
   resetZoom: () => set({ zoom: 1 }),
   setActiveTab: (tab) => set({ activeTab: tab }),
   setExpandedElement: (element) => set({ expandedElement: element }),
+  // Reported on every change to the page, so an unchanged list keeps the old array and nothing re-renders
+  setPageElements: (elements) =>
+    set((state) => (state.pageElements?.join() === elements?.join() ? state : { pageElements: elements })),
   setCurrentStack: (id, name) => set({ currentStackId: id, currentStackName: name, isDirty: false }),
   setDirty: (dirty) => set({ isDirty: dirty }),
   setScalePanelCollapsed: (collapsed) => set({ scalePanelCollapsed: collapsed }),
