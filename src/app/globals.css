@@ -928,8 +928,9 @@
     inset 0 0 4px color-mix(in oklch, var(--lit) 14%, transparent);
   transition: opacity 0.4s ease-out;
 }
+/* Held at 40%: at full strength the rim reads as a selection outline, not a lamp */
 .hw-btn-lit[data-active="true"]::after {
-  opacity: 1;
+  opacity: 0.4;
   transition-duration: 0.12s;
 }
 .hw-btn-lit > svg {
@@ -938,8 +939,8 @@
 .hw-btn-lit[data-active="true"] > svg {
   color: var(--lit-glyph);
   filter:
-    drop-shadow(0 0 2px color-mix(in oklch, var(--lit) 70%, transparent))
-    drop-shadow(0 0 5px color-mix(in oklch, var(--lit) 30%, transparent));
+    drop-shadow(0 0 2px color-mix(in oklch, var(--lit) 28%, transparent))
+    drop-shadow(0 0 5px color-mix(in oklch, var(--lit) 12%, transparent));
   transition-duration: 0.12s;
 }
 
@@ -951,6 +952,9 @@
     0 0 32px color-mix(in oklch, var(--lit) 18%, transparent),
     0 0 48px color-mix(in oklch, var(--lit) 8%, transparent),
     inset 0 0 6px color-mix(in oklch, var(--lit) 25%, transparent);
+}
+.hw-btn-lit-bloom[data-active="true"]::after {
+  opacity: 1;
 }
 .hw-btn-lit-bloom[data-active="true"] > svg {
   filter:
