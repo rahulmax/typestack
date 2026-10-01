@@ -51,7 +51,7 @@ export const sleeveTemplate: PreviewTemplate = {
   .sl-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem; }
   .sl-side { min-width: 0; }
   .sl-side h6 { margin-bottom: 0.35rem; }
-  .sl-track { display: flex; align-items: baseline; gap: 0.45rem; padding: 0.3rem 0; border-bottom: 1px solid var(--sl-rule); }
+  .sl-track { display: flex; align-items: baseline; gap: 0.45rem; padding: 0.3rem 0; }
   .sl-no { width: 1.6rem; flex-shrink: 0; opacity: 0.6; font-variant-numeric: tabular-nums; }
   .sl-title { min-width: 0; white-space: nowrap; overflow-x: clip; }
   .sl-leader { flex: 1; min-width: 0.75rem; border-bottom: 1px dotted currentColor; opacity: 0.4; }

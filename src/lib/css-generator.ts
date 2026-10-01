@@ -130,6 +130,10 @@ export function generatePreviewCSS(config: TypographyConfig): string {
   // Each element's size as a var, so a template can cap a heading to its layout or measure in the text's own em
   const sizeVars = (styles: ResolvedElementStyle[]) => styles.map((s) => `--size-${s.element}: ${s.fontSizeRem.toFixed(4)}rem;`).join(" ");
   lines.push(`:root { ${sizeVars(desktop)} }`);
+  // The body text's leading and word space too, so a template can set a column tighter than the
+  // page without cutting it loose from the dials
+  const para = desktop.find((s) => s.element === "p");
+  if (para) lines.push(`:root { --leading-p: ${para.lineHeight}; --word-space-p: ${para.wordSpacing}em; }`);
   lines.push(`:root { --bg-color: ${hexToOklchString(config.backgroundColor)}; --fg-color: ${hexToOklchString(config.bodyGroup.color)}; --tone-base: ${hexToOklchString(hc)}; --font-heading: ${getFontStack(config.headingsGroup.fontFamily)}; --font-body: ${getFontStack(config.bodyGroup.fontFamily)}; --weight-heading: ${config.headingsGroup.fontWeight}; ${illVars} }`);
   lines.push("");
 

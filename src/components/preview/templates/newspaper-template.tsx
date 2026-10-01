@@ -3,7 +3,7 @@ import type { PreviewTemplate } from "./types";
 import { fitScript } from "./fit-script";
 
 // A broadsheet front page, all type: the masthead fitted to the full width, a lead story in
-// three justified columns, a rail with a second story and the index, and briefs across the foot.
+// three ragged columns set tight, a rail with a second story and the index, and briefs across the foot.
 export const newspaperTemplate: PreviewTemplate = {
   id: "newspaper",
   name: "Newspaper",
@@ -23,7 +23,7 @@ export const newspaperTemplate: PreviewTemplate = {
   .np .np-mast { white-space: nowrap; text-align: center; line-height: 1; padding: 0.25rem 0 0.6rem; overflow-x: clip; }
   /* Room under the line for descenders, so a "y" doesn't cut the rule */
   .np-mast span { display: inline-block; line-height: 1.12; }
-  .np-date { display: flex; justify-content: space-between; gap: 1rem; padding: 0.45rem 0; border-top: 3px double currentColor; border-bottom: 1px solid currentColor; }
+  .np-date { display: flex; justify-content: space-between; gap: 1rem; padding: 0.45rem 0; border-top: 1px solid currentColor; border-bottom: 1px solid currentColor; }
 
   .np-front { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 1.5rem; padding-top: 1.5rem; }
   .np-lead { grid-column: 1 / 10; }
@@ -31,7 +31,9 @@ export const newspaperTemplate: PreviewTemplate = {
   .np-lead h4 { font-weight: 400; margin-bottom: 0.9rem; max-width: 40em; }
   .np-by { display: block; padding-bottom: 0.9rem; margin-bottom: 1.1rem; border-bottom: 1px solid var(--np-rule); }
   .np-cols { column-count: 3; column-gap: 1.5rem; column-rule: 1px solid var(--np-rule); }
-  .np-cols p { text-align: justify; hyphens: auto; }
+  /* News columns are set tighter than the page: closer lines and closer words, both still led by
+     the body dials. Ragged, so no line is stretched to fill the measure; only long words break. */
+  .np .np-cols p { line-height: calc(var(--leading-p, 1.5) * 0.86); word-spacing: calc(var(--word-space-p, 0em) - 0.04em); hyphens: auto; hyphenate-limit-chars: 8 3 4; text-wrap: pretty; }
   .np-cols p + p { text-indent: 1.2em; }
   .np-place { font-weight: 700; letter-spacing: 0.06em; }
   .np-quote { break-inside: avoid; margin: 0.9rem 0; padding: 0.8rem 0; border-top: 2px solid currentColor; border-bottom: 1px solid currentColor; }
@@ -50,7 +52,7 @@ export const newspaperTemplate: PreviewTemplate = {
   .np-leader { flex: 1; min-width: 1rem; border-bottom: 1px dotted currentColor; opacity: 0.5; }
   .np-row small:last-child { font-variant-numeric: tabular-nums; font-weight: 700; }
 
-  .np-briefs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 2rem; border-top: 3px double currentColor; }
+  .np-briefs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 2rem; border-top: 1px solid currentColor; }
   .np-brief { padding: 1rem 1.25rem 0; }
   .np-brief:first-child { padding-left: 0; }
   .np-brief:last-child { padding-right: 0; }
