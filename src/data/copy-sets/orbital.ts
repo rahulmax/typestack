@@ -147,7 +147,7 @@ export const orbital: CopySet = {
     eyebrow: 'Notes from Line 9',
     title: 'On Riding a Loop That Never Quite Closes',
     dek: 'An essay on the night bus, the driver who knows my stop, and the small mercy of arriving somewhere close to where I started.',
-    author: 'By Priya Halloran',
+    author: 'By Harleen Sandhu',
     date: 'a wet Thursday in November',
     readTime: 'one full loop of the top deck',
     intro: 'I started taking Line 9 because it was the only bus that ran past my sister’s house after midnight. I kept taking it because it was the only place in the city where nobody asked me what I did. On the Loop everyone is simply on their way to somewhere else.',
@@ -178,7 +178,7 @@ export const orbital: CopySet = {
     masthead: 'The Night Ledger',
     nav: ['Routes', 'Drivers', 'Depots', 'The Loop'],
     credits: [
-      { label: 'Words', value: 'Priya Halloran' },
+      { label: 'Words', value: 'Harleen Sandhu' },
       { label: 'Photographs', value: 'Marek Doyle, depot staff' },
       { label: 'Cover story', value: 'Page 10' },
     ],
@@ -224,7 +224,7 @@ export const orbital: CopySet = {
       ],
     },
     contributors: [
-      { name: 'Priya Halloran', note: 'Writer and rider, seat 14, upper deck.' },
+      { name: 'Harleen Sandhu', note: 'Writer and rider, seat 14, upper deck.' },
       { name: 'Marek Doyle', note: 'Depot photographer, tea in the yard.' },
       { name: 'Imre Vasko', note: 'Driver of Line 9, and gentle critic of timetables.' },
     ],
@@ -358,7 +358,7 @@ export const orbital: CopySet = {
 
   book: {
     title: 'Ninety-Four Minutes',
-    author: 'Priya Halloran',
+    author: 'Harleen Sandhu',
     chapter: 'Nine',
     chapterTitle: 'The Seat Behind the Driver',
     epigraph: 'Passengers are reminded that the driver has seen everything and will not mention it.',
@@ -390,7 +390,7 @@ export const orbital: CopySet = {
       body: [
         'The Halvern Transit Authority proposed on Wednesday to extend Line 9 by sixty metres so that the night bus finally closes its loop at Tallow Yard, ending a shortfall that has stood since the route opened in 1998. A consultation opens on Monday and runs for ninety days. The Authority said the work would cost about two million pounds and take one weekend.',
         'Drivers were unenthusiastic. Imre Vasko, who has driven the Loop for twenty-two years, said the gap was part of the route. “You get off a street from home, and you walk the last bit, and the city lets you down gently,” he said. Vasko said he would drive the extended line if asked, and would say good evening to it as usual. He added that the bus had not been consulted either.',
-        'A spokeswoman for the Authority, Ines Corvane, said engineers had long described the shortfall as drift and treated it as a rounding matter. She said the plan was not driven by complaints. “Nobody has ever complained about the gap,” Corvane said. “That is the difficulty. We have been unable to find anyone who minds.” Asked whether the plan could still change, she said the Authority would consider all views before proceeding.',
+        'A spokeswoman for the Authority, Phuong Dang, said engineers had long described the shortfall as drift and treated it as a rounding matter. She said the plan was not driven by complaints. “Nobody has ever complained about the gap,” Dang said. “That is the difficulty. We have been unable to find anyone who minds.” Asked whether the plan could still change, she said the Authority would consider all views before proceeding.',
         'Riders were divided. Dolores Kwan, a night nurse at Kestrel Hospital, said she had used Line 9 for fifteen years and would miss the walk. Two students at Ninth Bridge said they had not noticed a gap in nine months of riding. The Authority said the consultation would be held in the Depot Four canteen, between the late shift and the early one, and tea would be served.',
       ],
     },
@@ -505,17 +505,17 @@ export const orbital: CopySet = {
   credits: {
     presenter: 'Depot Four presents',
     title: 'The Warm Seat',
-    byline: 'A film by Priya Halloran',
+    byline: 'A film by Harleen Sandhu',
     cast: [
       { role: 'The driver', name: 'Imre Vasko' },
-      { role: 'The rider', name: 'Nadia Voss' },
+      { role: 'The rider', name: 'Farida Yusupova' },
       { role: 'The nurse', name: 'Dolores Kwan' },
       { role: 'The baker', name: 'Petra Lund' },
       { role: 'The clerk', name: 'Marek Doyle' },
       { role: 'The seat', name: 'Itself' },
     ],
     crew: [
-      { role: 'Written by', name: 'Priya Halloran' },
+      { role: 'Written by', name: 'Harleen Sandhu' },
       { role: 'Photography', name: 'Marek Doyle' },
       { role: 'Editor', name: 'Sam Tarrant' },
       { role: 'Sound', name: 'The Back Row' },
@@ -536,7 +536,7 @@ export const orbital: CopySet = {
     issue: 'No. 27, Late Autumn',
     first: {
       title: 'Seat Behind the Driver',
-      poet: 'Priya Halloran',
+      poet: 'Harleen Sandhu',
       epigraph: 'for the one seat nobody takes',
       stanzas: [
         [
@@ -575,7 +575,7 @@ export const orbital: CopySet = {
         ],
       ],
     },
-    note: 'Priya Halloran rides Line 9 most nights and has never reached the end of it. Marek Doyle has kept the Lost Property Office at Depot Four for nineteen years and can describe your umbrella before you do. This is his first poem, and he says it took one Friday.',
+    note: 'Harleen Sandhu rides Line 9 most nights and has never reached the end of it. Marek Doyle has kept the Lost Property Office at Depot Four for nineteen years and can describe your umbrella before you do. This is his first poem, and he says it took one Friday.',
     folio: '18',
   },
 

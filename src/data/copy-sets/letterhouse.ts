@@ -87,7 +87,7 @@ export const letterhouse: CopySet = {
     ],
     testimonial: {
       quote: '“I asked for my name on the door. I got a piece of the street’s history, and three neighbours asked who did it. The vinyl place opposite has not looked at my shop since.”',
-      name: 'Marguerite Fane',
+      name: 'Wanjiru Fane',
       role: 'Owner, Harbour Bakery',
     },
     steps: {
@@ -385,7 +385,7 @@ export const letterhouse: CopySet = {
       kicker: 'Signfest',
       headline: 'Sixty windows to be painted in public as Signfest returns',
       deck: 'The fourth Signfest opens on Thursday with gold leaf, a long-stroke contest and a rope to keep people off the wet parts.',
-      byline: 'By Nell Sturgis, Street Correspondent',
+      byline: 'By Chiyo Morimoto, Street Correspondent',
       place: 'MARROW STREET',
       body: [
         'Marrow Street will close to traffic from Thursday for the fourth Signfest, four days in which sixty shop windows will be lettered by hand in front of anyone who cares to watch. Organisers said the programme is the longest yet, with eleven windows to be gilded on the first morning alone. The street council approved the closure on Tuesday by four votes to one.',
@@ -399,7 +399,7 @@ export const letterhouse: CopySet = {
     second: {
       kicker: 'Harbour',
       headline: 'Gulls confirmed as judges of the Long Stroke',
-      byline: 'By Ines Calloway',
+      byline: 'By Tuva Berglund',
       body: [
         'The harbour council has confirmed that the gulls of Marrow Street will again judge the Long Stroke contest. The birds will assess each entry from the roof of the Nine Lamps Hotel, and their verdicts, the council said, will be treated as final, as they always are.',
         'Entrants have been warned that a gull cannot be swayed by charm. Last year’s panel gave its top mark to a board it had already stood on. Anyone wishing to appeal should apply in writing, and stand well back.',
@@ -507,7 +507,7 @@ export const letterhouse: CopySet = {
     title: 'The Second D',
     byline: 'A film by Joss Bellamy',
     cast: [
-      { role: 'Odile, aged nineteen', name: 'Nell Sturgis' },
+      { role: 'Odile, aged nineteen', name: 'Chiyo Morimoto' },
       { role: 'Bertil Osk', name: 'Aldo Pryce' },
       { role: 'The chandler', name: 'Hugh Tolliver' },
       { role: 'The ice boy', name: 'Sami Fane' },
@@ -520,7 +520,7 @@ export const letterhouse: CopySet = {
       { role: 'Editor', name: 'Joss Bellamy' },
       { role: 'Lettering', name: 'Letterhouse Studio' },
       { role: 'Sound', name: 'The Wet Paint Trio' },
-      { role: 'Ladder wrangler', name: 'Marguerite Fane' },
+      { role: 'Ladder wrangler', name: 'Wanjiru Fane' },
     ],
     music: [
       { title: 'Haddock Blues', credit: 'The Wet Paint Trio, Pounce Recordings' },

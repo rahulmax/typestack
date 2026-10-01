@@ -598,7 +598,7 @@ export const veyl: CopySet = {
       eyebrow: '02 &middot; Doctrine',
       title: 'Attend a tide before it has risen',
       quote: '“The swiftest witness is the one who has not yet been summoned.”',
-      quoteSource: 'Petitioner Malik R., replying to issue 39',
+      quoteSource: 'Petitioner Dariush F., replying to issue 39',
       subhead: 'How it proceeded',
       body: 'On the fifth day I stopped expecting the water. On the seventh I missed its absence. Conclusion: keep the wall, decline the water, and file the interval.',
     },

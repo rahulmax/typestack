@@ -507,7 +507,7 @@ export const rooftop: CopySet = {
     title: 'The Wrong Roof',
     byline: 'A film by Wilf Aston',
     cast: [
-      { role: 'Ada', name: 'Maren Coyle' },
+      { role: 'Ada', name: 'Sorcha Keane' },
       { role: 'Lionel', name: 'Desmond Hale' },
       { role: 'The landlord', name: 'Hugh Tarrant' },
       { role: 'The tenant', name: 'Poppy Ellis' },
@@ -517,7 +517,7 @@ export const rooftop: CopySet = {
     crew: [
       { role: 'Written by', name: 'Ada Pell' },
       { role: 'Photography', name: 'Wilf Aston' },
-      { role: 'Editor', name: 'Nell Rowntree' },
+      { role: 'Editor', name: 'Tala Faleolo' },
       { role: 'Sound', name: 'Bram Otley' },
       { role: 'Botanical adviser', name: 'Lionel Hask' },
       { role: 'Stepladder', name: 'Society property' },
@@ -598,7 +598,7 @@ export const rooftop: CopySet = {
       eyebrow: '02 &middot; Field notes',
       title: 'Spot a fern from the tram',
       quote: '“The sharpest eye in the Society belongs to whoever has the best seat.”',
-      quoteSource: 'Member Nell R., replying to issue 54',
+      quoteSource: 'Member Tala F., replying to issue 54',
       subhead: 'How it went',
       body: 'On the first day I saw nothing. On the third I saw three. By the fifth I could not stop, and now the whole city is a little greener.',
     },

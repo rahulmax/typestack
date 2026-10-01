@@ -9,7 +9,7 @@ export const halden: CopySet = {
   specimen: {
     hero: 'Halden, after dark',
     rampWord: 'Nebula',
-    lead: 'Dr Solvang spotted the comet on Tuesday and spent a week checking she was not imagining it.',
+    lead: 'Dr Macrae spotted the comet on Tuesday and spent a week checking she was not imagining it.',
     paragraph: 'Every clear night on Skarra is counted, every cloudy one is met with cocoa, and the wind keeps the domes humming a note no one can tune.',
     quote: '“The sky has been patient with us for a very long time, and we should return the favour.”',
     scaleShort: 'The patient sky',
@@ -20,11 +20,11 @@ export const halden: CopySet = {
     pairingBody: 'The observatory watches when it can, waits when it must, and shares the view with every child on the island who can stay awake past nine.',
     article: {
       eyebrow: 'Observing log',
-      title: 'On the comet of Dr Maren Solvang',
-      standfirst: 'Nobody else has seen it, yet Maren has tracked the same faint smudge for four winters and given it a name she keeps to herself.',
+      title: 'On the comet of Dr Eilidh Macrae',
+      standfirst: 'Nobody else has seen it, yet Eilidh has tracked the same faint smudge for four winters and given it a name she keeps to herself.',
       paragraphs: [
         'The staff of Halden Observatory arrive at dusk, in scarves that have learned the island’s weather, and greet the telescopes by name before checking the forecast. The Goose gets a pat first, then Little Wren, and the large reflector is left until last, out of respect for its dignity.',
-        'Maren has photographed the comet on forty-one clear nights, and on each one it appears a little to the left of where the catalogues say it should be. The professionals have been kind about it. They have also, quietly, stopped replying to her emails.',
+        'Eilidh has photographed the comet on forty-one clear nights, and on each one it appears a little to the left of where the catalogues say it should be. The professionals have been kind about it. They have also, quietly, stopped replying to her emails.',
         'Ask the volunteers whether they believe her and you will get a careful pause. Angus, who runs the night kettle, says he has seen something, though he would not swear to it in court, and would prefer that the court not be asked.',
       ],
       notes: [
@@ -60,7 +60,7 @@ export const halden: CopySet = {
         { icon: CloudMoon, title: 'Cloud Night Cards', body: 'When the sky closes, the crew plays cards and describes the stars from memory.' },
         { icon: Bird, title: 'Little Wren', body: 'A small, quick telescope, borrowed by the island school on Fridays.' },
         { icon: Lamp, title: 'The Lantern House', body: 'Our visitor centre, with maps, cocoa and a very serious guestbook.' },
-        { icon: Orbit, title: 'The Comet Desk', body: 'Where Dr Solvang keeps her charts, her patience and her long-running argument.' },
+        { icon: Orbit, title: 'The Comet Desk', body: 'Where Dr Macrae keeps her charts, her patience and her long-running argument.' },
       ],
     },
     split1: {
@@ -76,7 +76,7 @@ export const halden: CopySet = {
     split2: {
       eyebrow: 'The comet',
       title: 'A faint smudge with a loyal supporter',
-      body: 'Dr Solvang has followed one small comet for four winters, and she reports it faithfully each spring. The catalogues are unmoved, but the volunteers have started bringing binoculars.',
+      body: 'Dr Macrae has followed one small comet for four winters, and she reports it faithfully each spring. The catalogues are unmoved, but the volunteers have started bringing binoculars.',
       tags: ['Sighting I', 'Sighting II', 'Sighting III'],
     },
     stats: [
@@ -87,7 +87,7 @@ export const halden: CopySet = {
     ],
     testimonial: {
       quote: '“I brought my class for an hour and we stayed for three. Someone let a nine-year-old look at Saturn, and I have not been able to get her to talk about anything else since.”',
-      name: 'Mrs Isla Drummond',
+      name: 'Mrs Maricel Abad',
       role: 'Teacher, Skarra Primary School',
     },
     steps: {
@@ -113,13 +113,13 @@ export const halden: CopySet = {
   },
 
   personal: {
-    name: ['Maren', 'Solvang'],
+    name: ['Eilidh', 'Macrae'],
     kicker: 'Astronomer, Skarra Island',
     title: 'Watching for a comet nobody else sees',
     lead: 'I saw it on a Tuesday and spent a week checking I had not imagined it. I want to know what is up there and what is only hope. Stubborn, but I show my working.',
     about: {
       label: 'About me, briefly',
-      statement: 'I am Maren, senior astronomer at Halden Observatory. I live in the north dome and have followed one faint comet for four winters.',
+      statement: 'I am Eilidh, senior astronomer at Halden Observatory. I live in the north dome and have followed one faint comet for four winters.',
     },
     principles: [
       { title: 'Count every clear night', body: 'There are fewer than you think. I log each one, cloud included, so that nobody later mistakes bad weather for an empty sky.' },
@@ -137,17 +137,17 @@ export const halden: CopySet = {
     },
     contact: {
       prompt: 'Seen something you cannot explain?',
-      email: 'maren@halden.example',
+      email: 'eilidh@halden.example',
       links: ['Open nights', 'Night log'],
     },
-    footer: '&copy; 2026 Maren Solvang',
+    footer: '&copy; 2026 Eilidh Macrae',
   },
 
   blog: {
     eyebrow: 'Notes from the Dome',
     title: 'What the Goose Taught Me About Waiting for Clear Skies',
     dek: 'An essay about a very old telescope, a comet nobody else believes in, and the odd comfort of a sky that refuses to cooperate.',
-    author: 'By Maren Solvang',
+    author: 'By Eilidh Macrae',
     date: 'a windy night in November',
     readTime: 'one flask of cocoa',
     intro: 'Every observatory has a story about the night it almost saw something, and ours has several. The Goose came to Skarra in 1926 in a crate marked fragile, and she has since become the most respected member of staff, with firm opinions about frost.',
@@ -178,12 +178,12 @@ export const halden: CopySet = {
     masthead: 'The Halden Almanac',
     nav: ['The Sky', 'The Crew', 'The Comet', 'The Island'],
     credits: [
-      { label: 'Words', value: 'Maren Solvang' },
+      { label: 'Words', value: 'Eilidh Macrae' },
       { label: 'Photographs', value: 'Ewan Tarbert' },
       { label: 'Cover story', value: 'Page 12' },
     ],
     title: 'The Astronomer Who Believes in the Comet',
-    dek: 'Every clear night Maren sets up the same shot, adjusts the same dial, and waits for a smudge that the rest of the world says is not there.',
+    dek: 'Every clear night Eilidh sets up the same shot, adjusts the same dial, and waits for a smudge that the rest of the world says is not there.',
     plateCaption: ['Plate I. The island at the hour when only observers and gulls are awake.', 'Halden archive, plate 5'],
     toc: [
       { page: '12', title: 'The Astronomer Who Believes in the Comet', note: 'Four winters, forty-one nights and one loyal smudge.' },
@@ -201,7 +201,7 @@ export const halden: CopySet = {
       ],
     },
     quote: '“A discovery is only patience, given a very good view.”',
-    quoteSource: 'Maren, to a visiting student',
+    quoteSource: 'Eilidh, to a visiting student',
     portrait: {
       caption: ['Plate II. A volunteer, laughing at a joke told to the whole dome.', 'Caught between two clear hours'],
       eyebrow: 'The Volunteer',
@@ -220,11 +220,11 @@ export const halden: CopySet = {
       subhead: 'On waiting',
       after: [
         'To wait is a form of attention. Every clear night on the island is a gift that someone has earned by sitting through the dull ones.',
-        'When asked whether she will ever stop, Maren says the comet has not finished, and puts the kettle on.',
+        'When asked whether she will ever stop, Eilidh says the comet has not finished, and puts the kettle on.',
       ],
     },
     contributors: [
-      { name: 'Maren Solvang', note: 'Senior astronomer, keeper of the comet, resident of the north dome.' },
+      { name: 'Eilidh Macrae', note: 'Senior astronomer, keeper of the comet, resident of the north dome.' },
       { name: 'Ewan Tarbert', note: 'Photographer of the plates, and a very poor sleeper.' },
       { name: 'Angus Reid', note: 'Keeper of the night kettle, in pencil and without regrets.' },
     ],
@@ -287,7 +287,7 @@ export const halden: CopySet = {
         note: 'Opening night',
         lead: 'Forty-one frames of one faint comet',
         credits: [
-          'Curated by: Dr Maren Solvang',
+          'Curated by: Dr Eilidh Macrae',
           'Kettle: Angus, by the dome',
           'Frames: hung in the order taken',
           'Telescope: the Goose, patted first',
@@ -311,14 +311,14 @@ export const halden: CopySet = {
         note: 'North Dome',
         lead: 'The comet is announced, tentatively',
         credits: [
-          'Reading: Dr Maren Solvang',
+          'Reading: Dr Eilidh Macrae',
           'Witness: Angus, not on oath',
           'Observers: forty volunteers',
           'Admission: by curiosity',
         ],
       },
     ],
-    vertical: 'Maren Solvang',
+    vertical: 'Eilidh Macrae',
     chain: [
       'The Comet',
       'The Comet Without a Catalogue',
@@ -338,27 +338,27 @@ export const halden: CopySet = {
       {
         year: '2021',
         label: 'The smudge sighted',
-        body: 'Dr Maren Solvang photographed a faint light a little to the left of where the catalogues place it, and spent a week checking that she was not imagining it. She has since photographed it on forty-one clear nights and named it privately.',
+        body: 'Dr Eilidh Macrae photographed a faint light a little to the left of where the catalogues place it, and spent a week checking that she was not imagining it. She has since photographed it on forty-one clear nights and named it privately.',
         intro: 'Noticed on a Tuesday, and checked for a week.',
-        name: 'Maren Solvang',
+        name: 'Eilidh Macrae',
       },
     ],
     essay: {
       title: 'The smudge problem',
       dek: 'What the frames show is a light in the wrong place, watched patiently by one believer.',
       columns: [
-        'Dr Solvang began the photographs as a private hobby on clear nights. They grew into a record of everything she saw and everything the professionals declined to look at. Each frame is hung in the order it was taken, so the wall can be read as a comet slowly refusing to go away.',
+        'Dr Macrae began the photographs as a private hobby on clear nights. They grew into a record of everything she saw and everything the professionals declined to look at. Each frame is hung in the order it was taken, so the wall can be read as a comet slowly refusing to go away.',
         'Angus reads the frames as evidence; the catalogue office reads them as an interesting error. The exhibition takes no side between them, and offers instead forty-one photographs, a kettle and a gentle suggestion to bring binoculars.',
       ],
     },
     quote: 'A smudge, properly watched, is the beginning of most discoveries. The sky has been patient with us for a very long time, and we should return the favour.',
-    quoteSource: 'Dr Maren Solvang',
+    quoteSource: 'Dr Eilidh Macrae',
     footer: ['Halden Observatory, Skarra', 'Night 12 / clear skies'],
   },
 
   book: {
     title: 'The Fourth Winter',
-    author: 'Maren Solvang',
+    author: 'Eilidh Macrae',
     chapter: 'Nine',
     chapterTitle: 'A Thumbprint on the Sky',
     epigraph: 'If you are certain, look again. If you are still certain, tell someone kind.',
@@ -384,25 +384,25 @@ export const halden: CopySet = {
     lead: {
       kicker: 'Science',
       headline: 'Halden astronomer logs forty-second sighting of comet the catalogues omit',
-      deck: 'Dr Maren Solvang says the smudge is back, a little left of where it should be. The catalogue office has asked her to check the lens.',
+      deck: 'Dr Eilidh Macrae says the smudge is back, a little left of where it should be. The catalogue office has asked her to check the lens.',
       byline: 'By Ingrid Moll, Island Correspondent',
       place: 'SKARRA',
       body: [
-        'Dr Maren Solvang, senior astronomer at Halden Observatory, recorded her forty-second sighting of a small comet on Thursday night, the observatory said. The object appeared in the north dome at 21.15 under a break in the cloud, a little to the left of the position given in the standard catalogues, which do not list it. Solvang has followed it through four winters and has declined to name it in public.',
+        'Dr Eilidh Macrae, senior astronomer at Halden Observatory, recorded her forty-second sighting of a small comet on Thursday night, the observatory said. The object appeared in the north dome at 21.15 under a break in the cloud, a little to the left of the position given in the standard catalogues, which do not list it. Macrae has followed it through four winters and has declined to name it in public.',
         'A visiting professor, Hugo Lindqvist of the University of Bergen, attended the observation on the invitation of the observatory. Lindqvist told the Courier he had seen “something” and could not yet say what. “Belief is not a method,” he said. He added that he intended to return in the spring, and that the cocoa had been better than he expected, and the wind worse.',
-        'Solvang said she was not troubled by the caution. “You do not prove a comet to the whole world at once,” she said. “You prove it to one person, and then you make more cocoa.” The observatory logged eleven observers on the night, including Angus Reid, who runs the night kettle and who said he would not swear to the sighting in court and would prefer that no court be asked.',
-        'The catalogue office in Bergen has received Solvang’s latest coordinates and said it would review them in due course, though it did not say which course. A spokeswoman said the office had received forty-one previous submissions from the same address and had replied to each one in writing, with care. Solvang said she had kept the letters, and that most of them had been kind, and several had included recipes.',
+        'Macrae said she was not troubled by the caution. “You do not prove a comet to the whole world at once,” she said. “You prove it to one person, and then you make more cocoa.” The observatory logged eleven observers on the night, including Angus Reid, who runs the night kettle and who said he would not swear to the sighting in court and would prefer that no court be asked.',
+        'The catalogue office in Bergen has received Macrae’s latest coordinates and said it would review them in due course, though it did not say which course. A spokeswoman said the office had received forty-one previous submissions from the same address and had replied to each one in writing, with care. Macrae said she had kept the letters, and that most of them had been kind, and several had included recipes.',
       ],
     },
     quote: 'You do not prove a comet to the whole world at once. You prove it to one person, and then you make more cocoa',
-    quoteSource: 'Dr Maren Solvang',
+    quoteSource: 'Dr Eilidh Macrae',
     second: {
       kicker: 'Education',
       headline: 'Skarra Primary wins loan of Little Wren for the winter term',
       byline: 'By Callum Bray',
       body: [
-        'Skarra Primary School has been granted the loan of Little Wren, the observatory’s small quick telescope, from Friday until the end of term. Headteacher Isla Drummond said pupils would use her on the school field on clear evenings.',
-        'The telescope will be returned in March. Drummond said the school had promised not to change her name, which was chosen by vote in 1971 and defended in the courts, briefly, in 1988.',
+        'Skarra Primary School has been granted the loan of Little Wren, the observatory’s small quick telescope, from Friday until the end of term. Headteacher Maricel Abad said pupils would use her on the school field on clear evenings.',
+        'The telescope will be returned in March. Abad said the school had promised not to change her name, which was chosen by vote in 1971 and defended in the courts, briefly, in 1988.',
       ],
     },
     index: [
@@ -436,7 +436,7 @@ export const halden: CopySet = {
       numeral: '41',
       unit: 'nights',
       title: 'A smudge, properly watched',
-      body: 'Dr Solvang has photographed one small comet on forty-one clear nights and the catalogues have not noticed. Come and look for it yourself. Bring binoculars and patience.',
+      body: 'Dr Macrae has photographed one small comet on forty-one clear nights and the catalogues have not noticed. Come and look for it yourself. Bring binoculars and patience.',
       corners: ['North Dome, Skarra', 'Whenever it clears'],
     },
   },
@@ -459,8 +459,8 @@ export const halden: CopySet = {
       { title: 'Seagull in the Log Book', time: '3:20' },
       { title: 'Look Up, Then Again', time: '4:44' },
     ],
-    notes: 'Recorded in the Lantern House on a night when the cloud came down to the hill and stayed. Nineteen children sang in coats, standing on the visitors’ benches, conducted by Mrs Drummond with a wooden spoon. The wind in the background of side two is real. It could not be asked to leave, and, to be fair, did not sing flat.',
-    credits: ['Conductor: Isla Drummond', 'Piano: Angus Reid', 'Recorded by: Ewan Tarbert', 'Wind: Skarra, uncredited'],
+    notes: 'Recorded in the Lantern House on a night when the cloud came down to the hill and stayed. Nineteen children sang in coats, standing on the visitors’ benches, conducted by Mrs Abad with a wooden spoon. The wind in the background of side two is real. It could not be asked to leave, and, to be fair, did not sing flat.',
+    credits: ['Conductor: Maricel Abad', 'Piano: Angus Reid', 'Recorded by: Ewan Tarbert', 'Wind: Skarra, uncredited'],
   },
 
   menu: {
@@ -507,15 +507,15 @@ export const halden: CopySet = {
     title: 'A Smudge to the Left',
     byline: 'A film by Ewan Tarbert',
     cast: [
-      { role: 'The Astronomer', name: 'Maren Solvang' },
+      { role: 'The Astronomer', name: 'Eilidh Macrae' },
       { role: 'The Kettle Keeper', name: 'Angus Reid' },
-      { role: 'The Teacher', name: 'Isla Drummond' },
+      { role: 'The Teacher', name: 'Maricel Abad' },
       { role: 'The Professor', name: 'Hugo Lindqvist' },
-      { role: 'The Nine-Year-Old', name: 'Freya Drummond' },
+      { role: 'The Nine-Year-Old', name: 'Katerina Abad' },
       { role: 'The Lighthouse Keeper', name: 'Torvald Skene' },
     ],
     crew: [
-      { role: 'Written by', name: 'Maren Solvang' },
+      { role: 'Written by', name: 'Eilidh Macrae' },
       { role: 'Photography', name: 'Ewan Tarbert' },
       { role: 'Editor', name: 'Signe Halvorsen' },
       { role: 'Sound', name: 'Callum Bray' },
@@ -524,7 +524,7 @@ export const halden: CopySet = {
     ],
     music: [
       { title: 'The Cloud Night Rule', credit: 'Skarra Primary Choir, Lantern House Records' },
-      { title: 'Forty-One Frames', credit: 'Words by Isla Drummond, sung in the dark' },
+      { title: 'Forty-One Frames', credit: 'Words by Maricel Abad, sung in the dark' },
     ],
     thanks: ['The volunteers of Skarra', 'The Lighthouse Board', 'The night ferry crew', 'Whoever left the kettle on'],
     closing: 'Look up again',
@@ -536,7 +536,7 @@ export const halden: CopySet = {
     issue: 'No. 7, Autumn',
     first: {
       title: 'Forty-One',
-      poet: 'Maren Solvang',
+      poet: 'Eilidh Macrae',
       epigraph: 'north dome, a little to the left of nothing',
       stanzas: [
         [
@@ -575,7 +575,7 @@ export const halden: CopySet = {
         ],
       ],
     },
-    note: 'Maren Solvang is senior astronomer at Halden Observatory and has tracked one comet for four winters. Angus Reid runs the night kettle in the Lantern House and has agreed to a first appearance in print, on condition that it is described as accidental.',
+    note: 'Eilidh Macrae is senior astronomer at Halden Observatory and has tracked one comet for four winters. Angus Reid runs the night kettle in the Lantern House and has agreed to a first appearance in print, on condition that it is described as accidental.',
     folio: '27',
   },
 
@@ -598,7 +598,7 @@ export const halden: CopySet = {
       eyebrow: '02 &middot; Experiment',
       title: 'Look at a star with the torch off',
       quote: '“The best view comes just after you stop expecting one.”',
-      quoteSource: 'Visitor Anika S., replying to issue 28',
+      quoteSource: 'Visitor Xiaoyan L., replying to issue 28',
       subhead: 'How it went',
       body: 'On the first night we squinted. On the third we stopped noticing our own breath. Conclusion: keep the dark, skip the small talk, and let your eyes adjust.',
     },

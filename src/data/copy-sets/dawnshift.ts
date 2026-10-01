@@ -25,7 +25,7 @@ export const dawnshift: CopySet = {
       paragraphs: [
         'The four a.m. crew arrives in the dark, in aprons that remember them, and greets the starters by name before saying good morning to each other. Doris gets a kind word first, then Big Kevin, and Lady Grey is left until last, out of respect for her moods.',
         'Mrs Finch has paid for the seeded loaf in poems, in a knitted oven glove, and once in a very old accordion. The ledger records each payment carefully, and then quietly carries the balance forward, because the loaf has become a tradition.',
-        'Ask the crew how the ledger is kept and you will be shown a battered notebook with a jam stain on the cover. Every entry is written in pencil, since, as Tunde likes to say, forgiveness needs to be easy to rub out.',
+        'Ask the crew how the ledger is kept and you will be shown a battered notebook with a jam stain on the cover. Every entry is written in pencil, since, as Caetano likes to say, forgiveness needs to be easy to rub out.',
       ],
       notes: [
         'The first loaf out of the ovens each morning goes to whoever is waiting outside, whether or not they have money, and the crew keeps a running score of the funniest excuses.',
@@ -179,7 +179,7 @@ export const dawnshift: CopySet = {
     nav: ['The Bread', 'The Crew', 'The Tab', 'The Bake-Off'],
     credits: [
       { label: 'Words', value: 'Bernadette Kowalczyk' },
-      { label: 'Photographs', value: 'Tunde Adebayo' },
+      { label: 'Photographs', value: 'Caetano Freitas' },
       { label: 'Cover story', value: 'Page 12' },
     ],
     title: 'The Woman Who Feeds Doris at Midnight',
@@ -197,7 +197,7 @@ export const dawnshift: CopySet = {
       paragraphs: [
         'There is a woman on Tannery Row who has fed the same sourdough starter every midnight for twenty-two years, and who is quite certain the starter has been feeding her right back. The bakery, being asked, agrees; it says only that its best loaves have always come on nights when she was in a good mood.',
         'The co-operative lists her as a founding member, a title she accepted on the condition that nobody made a speech. She keeps a small chalkboard of the starters’ moods, a thermos of very strong tea, and a habit of humming songs that nobody else in the kitchen has ever heard.',
-        'To visit her at that hour is to be handed an apron. Tunde, who arrived for a quick photograph in January, reports that he was shaping rolls within ten minutes, and that he has not yet been allowed to leave the rota.',
+        'To visit her at that hour is to be handed an apron. Caetano, who arrived for a quick photograph in January, reports that he was shaping rolls within ten minutes, and that he has not yet been allowed to leave the rota.',
       ],
     },
     quote: '“A good loaf is only kindness, given time to rise.”',
@@ -225,7 +225,7 @@ export const dawnshift: CopySet = {
     },
     contributors: [
       { name: 'Bernadette Kowalczyk', note: 'Head baker, keeper of Doris, resident of the top floor.' },
-      { name: 'Tunde Adebayo', note: 'Photographer of the plates, and a very poor sleeper.' },
+      { name: 'Caetano Freitas', note: 'Photographer of the plates, and a very poor sleeper.' },
       { name: 'Old Sal', note: 'Author of the Tab, in pencil and without regrets.' },
     ],
     footer: ['&copy; The Dawn Shift Gazette', 'Printed warm on Tannery Row'],
@@ -289,7 +289,7 @@ export const dawnshift: CopySet = {
         credits: [
           'Feeder: Bernie Kowalczyk',
           'Starters: Doris, Big Kevin',
-          'Camera: Tunde Adebayo',
+          'Camera: Caetano Freitas',
           'Gossip: the whole crew',
         ],
       },
@@ -365,10 +365,10 @@ export const dawnshift: CopySet = {
     epigraphSource: 'Old Sal, inside cover of the Tab',
     verso: [
       'At midnight I fed Doris, as I had every night for twenty-two years, and left the ledger open on the shelf beside her crock. Old Sal had asked me to copy one line into it before dawn: a name, a loaf, a date. I wrote it on a torn corner of flour sack and propped it against the jar to remember. I turned to fetch the scale. When I turned back the note was leaning in, and then it was in.',
-      'It went in slowly, the way a sleeper sinks into a good mattress, and the starter closed over it without a sound. I stood there with my sleeves rolled and a wooden spoon in my hand. Doris bubbled once, thoughtfully, like someone clearing her throat before an answer. Behind me the oven ticked as it heated, and Tunde’s bicycle bell rang somewhere out on the Row, and I said, aloud and quite calmly, that she owed me a name and a loaf and a date.',
+      'It went in slowly, the way a sleeper sinks into a good mattress, and the starter closed over it without a sound. I stood there with my sleeves rolled and a wooden spoon in my hand. Doris bubbled once, thoughtfully, like someone clearing her throat before an answer. Behind me the oven ticked as it heated, and Caetano’s bicycle bell rang somewhere out on the Row, and I said, aloud and quite calmly, that she owed me a name and a loaf and a date.',
     ],
     recto: [
-      'Tunde came in at half past twelve to photograph the proving racks and found me elbow-deep in the crock. I explained. He said he had seen most things in that kitchen, but never a woman interrogating a jar. I told him to hold the torch. We fished up nothing but flour and a faint smell of pencil, and the note, when it finally came up between my fingers, was a grey pulp with one letter still standing. It was an F.',
+      'Caetano came in at half past twelve to photograph the proving racks and found me elbow-deep in the crock. I explained. He said he had seen most things in that kitchen, but never a woman interrogating a jar. I told him to hold the torch. We fished up nothing but flour and a faint smell of pencil, and the note, when it finally came up between my fingers, was a grey pulp with one letter still standing. It was an F.',
       'There were four hundred and twelve loaves in the Tab, and I began at the top of the page and read my way down by the light of the oven door. Mrs Finch was there, of course, with the seeded loaf that had been carried forward since 2011. So were the man who paid in tomatoes, the twins who owed for a birthday cake, and a dentist who insisted his debt was a misunderstanding and kept adding to it.',
       'Sal came down at four with her own mug and stood behind me reading over my shoulder, which she has never once done. She said the F was Finch, obviously, and the loaf was seeded, and the date was whichever day I liked, since nobody in the district had ever asked her for one. I said that was not how a ledger worked. She said it was exactly how this one worked, and that I should sit down before I fell into something.',
     ],
@@ -385,7 +385,7 @@ export const dawnshift: CopySet = {
       kicker: 'Neighbourhood',
       headline: 'Bakery’s debt ledger passes four hundred loaves owed, and nobody minds',
       deck: 'The Dawn Shift Tab stood at 412 loaves on Monday, the co-operative said. It has no plans to collect and some plans to celebrate.',
-      byline: 'By Kofi Mensah, Row Correspondent',
+      byline: 'By Prakash Hegde, Row Correspondent',
       place: 'TANNERY ROW',
       body: [
         'The ledger of bread owed at the Dawn Shift bakery on Tannery Row recorded its four hundred and twelfth loaf on Monday, the co-operative confirmed. The book, known on the street as the Tab, has grown by an average of two loaves a week since 2011. The oldest entry is a seeded loaf owed by Mrs Odalys Finch, who was not available for comment because she was on the step, buying another.',
@@ -399,7 +399,7 @@ export const dawnshift: CopySet = {
     second: {
       kicker: 'Transport',
       headline: 'Bicycle riders ask council for a bell lane on Tannery Row',
-      byline: 'By Femi Adebayo',
+      byline: 'By Daichi Freitas',
       body: [
         'The delivery riders of Dawn Shift have written to the council asking for a marked bell lane along the length of Tannery Row, between the bakery and the canal bridge. They say the road is used at 05.30 mostly by them and by cats.',
         'A council officer said the request would be considered in the spring. Riders said they would keep ringing until then, and that the cats had been consulted and did not object.',
@@ -460,7 +460,7 @@ export const dawnshift: CopySet = {
       { title: 'Pencil', time: '3:31' },
     ],
     notes: 'Recorded in the bakery between the four o’clock bake and the first delivery, with the ovens on for warmth. The drums are two bread boards and a bench. The accordion belongs to Mrs Finch and is played on side two with her permission, and with some apprehension. Everyone sings the last chorus, including the starters.',
-    credits: ['Vocals: Bernie Kowalczyk', 'Accordion: Odalys Finch', 'Recorded by: Tunde Adebayo', 'Percussion: dough, bench, hand'],
+    credits: ['Vocals: Bernie Kowalczyk', 'Accordion: Odalys Finch', 'Recorded by: Caetano Freitas', 'Percussion: dough, bench, hand'],
   },
 
   menu: {
@@ -505,20 +505,20 @@ export const dawnshift: CopySet = {
   credits: {
     presenter: 'Dawn Shift Co-operative presents',
     title: 'The Seeded Loaf',
-    byline: 'A film by Tunde Adebayo',
+    byline: 'A film by Caetano Freitas',
     cast: [
       { role: 'The Baker', name: 'Bernie Kowalczyk' },
       { role: 'The Debtor', name: 'Odalys Finch' },
       { role: 'Keeper of the Tab', name: 'Sal Marchetti' },
       { role: 'The Miller', name: 'Hugh Ostrander' },
-      { role: 'The Rider', name: 'Kofi Mensah' },
+      { role: 'The Rider', name: 'Prakash Hegde' },
       { role: 'The Starter', name: 'Doris, aged 22' },
     ],
     crew: [
       { role: 'Written by', name: 'Bernie Kowalczyk' },
-      { role: 'Photography', name: 'Tunde Adebayo' },
-      { role: 'Editor', name: 'Ama Boateng' },
-      { role: 'Sound', name: 'Femi Adebayo' },
+      { role: 'Photography', name: 'Caetano Freitas' },
+      { role: 'Editor', name: 'Sigrid Aune' },
+      { role: 'Sound', name: 'Daichi Freitas' },
       { role: 'Ledger by', name: 'Sal Marchetti' },
       { role: 'Ovens', name: 'Marrow and Sons' },
     ],
@@ -598,7 +598,7 @@ export const dawnshift: CopySet = {
       eyebrow: '02 &middot; Experiment',
       title: 'Bake a loaf with the lights off',
       quote: '“The best bread is made by someone who is slightly too tired to worry.”',
-      quoteSource: 'Baker Kofi M., replying to issue 49',
+      quoteSource: 'Baker Prakash H., replying to issue 49',
       subhead: 'How it rose',
       body: 'On the first night it collapsed. On the third it sort of worked. Conclusion: keep the dark, skip the recipe, and trust the starter.',
     },

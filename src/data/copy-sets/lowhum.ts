@@ -87,7 +87,7 @@ export const lowhum: CopySet = {
     ],
     testimonial: {
       quote: '“I came in for one drink and stayed for the whole of a Pell record. The amplifier sulked through side two, and it was the best forty minutes I have spent in a chair this year.”',
-      name: 'Marcus Ede',
+      name: 'Mihai Ardelean',
       role: 'Regular, end stool since 2018',
     },
     steps: {
@@ -113,13 +113,13 @@ export const lowhum: CopySet = {
   },
 
   personal: {
-    name: ['Nell', 'Adeyemi-Gray'],
+    name: ['Nour', 'Haddad'],
     kicker: 'Sleeve notes and late nights',
     title: 'Records for people who hear the run-out',
     lead: 'We press three hundred copies and play them on one moody amplifier. I want to work out why a room of strangers nods at the same bar. Devoted, but not to volume.',
     about: {
       label: 'About me, quietly',
-      statement: 'I am Nell. I write the sleeve notes at Low Hum, tend the mailing list and live upstairs, directly over the bass.',
+      statement: 'I am Nour. I write the sleeve notes at Low Hum, tend the mailing list and live upstairs, directly over the bass.',
     },
     principles: [
       { title: 'Three hundred, no more', body: 'A short run means every copy goes to someone who wanted it. We have never had to store a record we were not proud of.' },
@@ -137,17 +137,17 @@ export const lowhum: CopySet = {
     },
     contact: {
       prompt: 'Want to hear the next run first?',
-      email: 'nell@lowhum.example',
+      email: 'nour@lowhum.example',
       links: ['Mailing list', 'Archive'],
     },
-    footer: '&copy; 2026 Nell Adeyemi-Gray',
+    footer: '&copy; 2026 Nour Haddad',
   },
 
   blog: {
     eyebrow: 'Notes from the Basement',
     title: 'Why the Amplifier Gets to Choose the Record',
     dek: 'An essay about the Duchess, the regulars who defer to her, and what happens when a hi-fi has better taste than the people who own it.',
-    author: 'By Nell Adeyemi-Gray',
+    author: 'By Nour Haddad',
     date: 'a wet Tuesday in October',
     readTime: 'one side of vinyl',
     intro: 'Every bar has a jukebox and a policy, and ours has an amplifier with opinions. The Duchess arrived in 2014 as a bargain and has since become the most senior member of staff, with a reputation for sulking that the regulars regard as a form of taste.',
@@ -157,7 +157,7 @@ export const lowhum: CopySet = {
       'We used to think this was a defect. Now we schedule the night around it: the first forty minutes belong to quiet records, the sort you can talk over, and the loud ones wait until she is ready to be blamed for them.',
     ],
     subheading: 'The Wet Tuesday Problem',
-    section2: 'On damp evenings the Duchess loses her top end and gains a slight bloom in the bass. Marcus swears it improves anything with a cello. Nobody has proved him wrong, though the electrician who came to look at her left with a long face and a very generous tip.',
+    section2: 'On damp evenings the Duchess loses her top end and gains a slight bloom in the bass. Mihai swears it improves anything with a cello. Nobody has proved him wrong, though the electrician who came to look at her left with a long face and a very generous tip.',
     quote: '“You do not tell a good amplifier what to play. You wait, and you find out what she will forgive.”',
     quoteSource: 'Dot, behind the bar, to a first-time visitor',
     heading2: 'The Sleeve Room Argument',
@@ -170,7 +170,7 @@ export const lowhum: CopySet = {
       'Whatever Pell sends on a Thursday gets played first.',
     ],
     noteTitle: 'Further Listening',
-    note: 'See the Sleeve Room wall, the third row down, and the recorded arguments of Dot and Marcus about the Duchess’s better years.',
+    note: 'See the Sleeve Room wall, the third row down, and the recorded arguments of Dot and Mihai about the Duchess’s better years.',
   },
 
   magazine: {
@@ -178,7 +178,7 @@ export const lowhum: CopySet = {
     masthead: 'The Low Hum Review',
     nav: ['Records', 'Regulars', 'The Archive', 'Level Four'],
     credits: [
-      { label: 'Words', value: 'Nell Adeyemi-Gray' },
+      { label: 'Words', value: 'Nour Haddad' },
       { label: 'Photographs', value: 'Dot Pemberton' },
       { label: 'Cover story', value: 'Page 12' },
     ],
@@ -224,7 +224,7 @@ export const lowhum: CopySet = {
       ],
     },
     contributors: [
-      { name: 'Nell Adeyemi-Gray', note: 'Writes the notes, tends the mailing list, lives upstairs.' },
+      { name: 'Nour Haddad', note: 'Writes the notes, tends the mailing list, lives upstairs.' },
       { name: 'Dot Pemberton', note: 'Photographer of the plates, by candle and bar light.' },
       { name: 'Pell', note: 'Producer of the house records, by post and in absentia.' },
     ],
@@ -301,7 +301,7 @@ export const lowhum: CopySet = {
         credits: [
           'Producer: Pell, in absentia',
           'Envelope: tea-stained',
-          'Host: Nell Adeyemi-Gray',
+          'Host: Nour Haddad',
           'Stool: reserved, empty',
         ],
       },
@@ -358,7 +358,7 @@ export const lowhum: CopySet = {
 
   book: {
     title: 'The Quiet Pressing',
-    author: 'Nell Adeyemi-Gray',
+    author: 'Nour Haddad',
     chapter: 'Six',
     chapterTitle: 'A Stool by the Speaker',
     epigraph: 'A room is only quiet once everyone in it has stopped waiting for the next song.',
@@ -368,8 +368,8 @@ export const lowhum: CopySet = {
       'By the time the timer rang I had reached the second shelf and found a stool wedged behind the left stack, a low wooden one with a cracked leather top. I pulled it out to clean under it, and a folded receipt from 2017 dropped out of the split in the leather. Dot crossed the room faster than I had seen her move all evening, took the receipt, put the stool back exactly where it had been, and did not explain. I did not ask, and I finished the shelf.',
     ],
     recto: [
-      'The regulars came in from eight. There was a man called Marcus who took the end stool and unwrapped a sandwich from greaseproof paper, and a woman who never gave her name and ordered a soda water with a slice of lemon, cut lengthways. Nobody spoke above a murmur. Dot lowered the needle with two fingers, stepped back, and watched their faces, and I understood that she was not listening to the record at all.',
-      'The Duchess sulked through the first side. She was thin at the top and slow in the bass, and every few minutes a small wet click came from inside her, like a knuckle. Marcus lifted his glass a fraction each time it happened, the way you might acknowledge a colleague across a meeting. When the side ended nobody clapped. Somebody let out a breath, and the whole room seemed to lean an inch to the left.',
+      'The regulars came in from eight. There was a man called Mihai who took the end stool and unwrapped a sandwich from greaseproof paper, and a woman who never gave her name and ordered a soda water with a slice of lemon, cut lengthways. Nobody spoke above a murmur. Dot lowered the needle with two fingers, stepped back, and watched their faces, and I understood that she was not listening to the record at all.',
+      'The Duchess sulked through the first side. She was thin at the top and slow in the bass, and every few minutes a small wet click came from inside her, like a knuckle. Mihai lifted his glass a fraction each time it happened, the way you might acknowledge a colleague across a meeting. When the side ended nobody clapped. Somebody let out a breath, and the whole room seemed to lean an inch to the left.',
       'At closing I asked Dot about the stool. She said it belonged to whoever made the records, and that he had been posting masters from a room above a fishmonger for three years and had never once come down to sit on it. I said that seemed a waste of a good stool. She said that was the point of keeping it empty, and that I should mind the cloth, because I had left it on the amplifier.',
     ],
     afterBreak: 'On Thursday an envelope came, stained brown at one corner, and inside it was a quarter-inch reel and a note about the hiss. Dot read the note twice and pinned it above the till, next to eleven others, all in the same careful hand. Then she put the reel on the machine and told me to fetch the egg timer, because we were going to hear it start to finish, and nobody, she said, was going to talk.',
@@ -385,12 +385,12 @@ export const lowhum: CopySet = {
       kicker: 'Nightlife',
       headline: 'Basement bar’s valve amplifier the Duchess falls silent for repairs',
       deck: 'The 2014 amplifier failed midway through a record on a wet Tuesday. The bar stayed open, and the regulars are talking.',
-      byline: 'By Nell Adeyemi-Gray, Arts Correspondent',
+      byline: 'By Nour Haddad, Arts Correspondent',
       place: 'LEVEL FOUR',
       body: [
         'The Duchess, the valve amplifier at the centre of the Low Hum listening bar, stopped working at 21.40 on Tuesday, halfway through the second side of a record by Pell. Staff said the room was full, with twenty-six people present on a night the forecast had called unfit for travel. The needle was still moving when the sound ended, they said, and for four minutes nobody spoke.',
         'Dot Pemberton, who has kept the amplifier since 2014, said the Duchess had shown signs for a week. “She was quieter than usual on Thursday and I put it down to the damp,” Pemberton said. “You cannot hurry a valve amplifier, and you cannot tell her what she missed.” An electrician who called on Wednesday said two valves and a transformer would need replacing.',
-        'The bar has stayed open. Records are being played on a portable turntable borrowed from the Sleeve Room and a pair of speakers brought from home by Marcus Ede, a regular since 2018. Ede said the arrangement was adequate and that he expected to be forgiven for saying so. Attendance on Wednesday was thirty-one, five more than on the night of the failure.',
+        'The bar has stayed open. Records are being played on a portable turntable borrowed from the Sleeve Room and a pair of speakers brought from home by Mihai Ardelean, a regular since 2018. Ardelean said the arrangement was adequate and that he expected to be forgiven for saying so. Attendance on Wednesday was thirty-one, five more than on the night of the failure.',
         'The label said no release would be delayed, and the next master from Pell is due by post on Thursday. Pemberton said the amplifier would be switched on again only when she was ready, which she expected to take until the end of the month, and possibly beyond it, depending on the valves. Organisers of the Level Four festival said the event would go ahead in spring, with or without her.',
       ],
     },
@@ -505,20 +505,20 @@ export const lowhum: CopySet = {
   credits: {
     presenter: 'Low Hum Records presents',
     title: 'Run-Out',
-    byline: 'A film by Nell Adeyemi-Gray',
+    byline: 'A film by Nour Haddad',
     cast: [
       { role: 'The Keeper', name: 'Dot Pemberton' },
-      { role: 'The Regular', name: 'Marcus Ede' },
-      { role: 'The New Hire', name: 'Priya Kaur' },
+      { role: 'The Regular', name: 'Mihai Ardelean' },
+      { role: 'The New Hire', name: 'Catalina Rojas' },
       { role: 'The Electrician', name: 'Osric Bell' },
       { role: 'The Producer', name: 'Pell, by post' },
       { role: 'The Amplifier', name: 'The Duchess' },
     ],
     crew: [
-      { role: 'Written by', name: 'Nell Adeyemi-Gray' },
+      { role: 'Written by', name: 'Nour Haddad' },
       { role: 'Photography', name: 'Ivo Marsh' },
-      { role: 'Editor', name: 'Sunita Rao' },
-      { role: 'Sound', name: 'Wren Halloran' },
+      { role: 'Editor', name: 'Itzel Morales' },
+      { role: 'Sound', name: 'Bence Kovacs' },
       { role: 'Cut by', name: 'Dot Pemberton' },
       { role: 'Lighting', name: 'Low, by request' },
     ],
@@ -536,7 +536,7 @@ export const lowhum: CopySet = {
     issue: 'No. 9, Winter',
     first: {
       title: 'Warm-Up',
-      poet: 'Nell Adeyemi-Gray',
+      poet: 'Nour Haddad',
       epigraph: 'after forty minutes, a valve amplifier, and a stool',
       stanzas: [
         [
@@ -554,7 +554,7 @@ export const lowhum: CopySet = {
         [
           'When the bell goes, the first note comes up thin,',
           'then thickens, as a street does when it rains.',
-          'Marcus lifts his glass a finger’s width.',
+          'Mihai lifts his glass a finger’s width.',
           'Somewhere a valve glows orange, taking its time.',
         ],
       ],
@@ -575,7 +575,7 @@ export const lowhum: CopySet = {
         ],
       ],
     },
-    note: 'Nell Adeyemi-Gray writes the liner notes for Low Hum Records and keeps the mailing list. Dot Pemberton runs the bar, cuts the plates by hand, and has never before agreed to have a poem printed anywhere.',
+    note: 'Nour Haddad writes the liner notes for Low Hum Records and keeps the mailing list. Dot Pemberton runs the bar, cuts the plates by hand, and has never before agreed to have a poem printed anywhere.',
     folio: '31',
   },
 
@@ -598,7 +598,7 @@ export const lowhum: CopySet = {
       eyebrow: '02 &middot; Experiment',
       title: 'Play a record with the lights off',
       quote: '“The best sound in the room is the second before someone breathes in.”',
-      quoteSource: 'Listener Priya K., replying to issue 35',
+      quoteSource: 'Listener Catalina R., replying to issue 35',
       subhead: 'How it went',
       body: 'On the first night we blinked at each other. On the third we stopped noticing. Conclusion: keep the dark, drop the small talk, and let the side finish.',
     },

@@ -598,7 +598,7 @@ export const sorrel: CopySet = {
       eyebrow: '02 &middot; Restoration',
       title: 'Light the letters before the snow',
       quote: '“The brightest sign is the one you have almost given up on.”',
-      quoteSource: 'Guest Marguerite L., replying to issue 24',
+      quoteSource: 'Guest Hoa P., replying to issue 24',
       subhead: 'How it went',
       body: 'On the first night we lit the S. On the third we lit the O. Conclusion: keep the ladder, keep the glassblower and never promise the valley a date.',
     },
