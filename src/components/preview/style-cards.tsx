@@ -322,6 +322,8 @@ export function StyleCards({ mobile = false }: { mobile?: boolean }) {
     fontFamily: getFontStack(bodyFont),
     fontWeight: styles.p?.fontWeight ?? bodyGroup.fontWeight,
     lineHeight: styles.p?.lineHeight ?? bodyGroup.lineHeight,
+    letterSpacing: `${styles.p?.letterSpacing ?? bodyGroup.letterSpacing}em`,
+    wordSpacing: `${styles.p?.wordSpacing ?? bodyGroup.wordSpacing}em`,
     color: bodyColor,
   }
   const headingStyle = (style: ResolvedElementStyle | undefined, maxRem: number, fallbackRem: number) => ({
@@ -330,6 +332,7 @@ export function StyleCards({ mobile = false }: { mobile?: boolean }) {
     fontSize: `${Math.min(style?.fontSizeRem ?? fallbackRem, maxRem)}rem`,
     lineHeight: style?.lineHeight ?? headingsGroup.lineHeight,
     letterSpacing: `${style?.letterSpacing ?? headingsGroup.letterSpacing}em`,
+    wordSpacing: `${style?.wordSpacing ?? headingsGroup.wordSpacing}em`,
     color: headingColor,
   })
 
@@ -437,6 +440,7 @@ export function StyleCards({ mobile = false }: { mobile?: boolean }) {
                       fontSize: `${style.fontSizeRem * scaleK}rem`,
                       lineHeight: style.lineHeight,
                       letterSpacing: `${style.letterSpacing}em`,
+                      wordSpacing: `${style.wordSpacing}em`,
                       textTransform: style.textTransform as React.CSSProperties['textTransform'],
                       color,
                     }}
