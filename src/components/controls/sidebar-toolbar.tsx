@@ -20,7 +20,7 @@ import { HexRgbInput } from "@/components/controls/color-picker/hex-rgb-input"
 import { TailwindPalette } from "@/components/controls/color-picker/tailwind-palette"
 import { useTypographyStore } from "@/store/typography-store"
 import { useUIStore, GRID_PATTERN_TYPES, type GridPatternType } from "@/store/ui-store"
-import { isThreeColor, swapOrCycleColors } from "@/lib/color-utils"
+import { cycleColors, cyclePalette, isThreeColor } from "@/lib/color-utils"
 import { SlideRuleDial } from "@/components/showcase/color-dial/slide-rule-dial"
 import { useTuner, type Station } from "@/components/showcase/color-dial/tuner"
 
@@ -154,12 +154,17 @@ const patternOpacity = useUIStore((s) => s.patternOpacity)
     rollCopy()
   }, [tuner, rollCopy])
 
-  const isCycle = isThreeColor(headingColor, bodyColor)
+  // A turn of the cycle may hold a weak ink back, so the button shows the three it is turning through
+  const cycleMemory = useUIStore((s) => s.cycleMemory)
+  const setCycleMemory = useUIStore((s) => s.setCycleMemory)
+  const palette = cyclePalette({ heading: headingColor, body: bodyColor, bg: backgroundColor }, cycleMemory)
+  const isCycle = isThreeColor(palette.heading, palette.body)
   const handleSwapOrCycle = useCallback(() => {
-    const { heading, body, bg } = swapOrCycleColors({ heading: headingColor, body: bodyColor, bg: backgroundColor })
-    setColors(heading, body, bg)
+    const next = cycleColors({ heading: headingColor, body: bodyColor, bg: backgroundColor }, cycleMemory)
+    setColors(next.roles.heading, next.roles.body, next.roles.bg)
+    setCycleMemory(next.memory)
     bump()
-  }, [backgroundColor, headingColor, bodyColor, setColors])
+  }, [backgroundColor, headingColor, bodyColor, cycleMemory, setColors, setCycleMemory])
 
   return (
     <div className="flex flex-col gap-4">
@@ -195,7 +200,7 @@ const patternOpacity = useUIStore((s) => s.patternOpacity)
                   className="block h-2.5 w-8 rounded-sm shadow-[inset_0_1px_2px_rgba(0,0,0,0.2)]"
                   style={{
                     background: isCycle
-                      ? `linear-gradient(90deg, ${headingColor} 33.3%, ${bodyColor} 33.3% 66.6%, ${backgroundColor} 66.6%)`
+                      ? `linear-gradient(90deg, ${palette.heading} 33.3%, ${palette.body} 33.3% 66.6%, ${palette.bg} 66.6%)`
                       : `linear-gradient(135deg, ${headingColor} 50%, ${backgroundColor} 50%)`,
                   }}
                 />

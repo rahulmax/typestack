@@ -515,36 +515,55 @@ export function isThreeColor(heading: string, body: string): boolean {
   return heading.toLowerCase() !== body.toLowerCase();
 }
 
-type Roles = { heading: string; body: string; bg: string };
+export type ColorRoles = { heading: string; body: string; bg: string };
 
-/** Text under this ratio against the page is unreadable at any size (WCAG's floor for large text). */
-export const CYCLE_CONTRAST_FLOOR = 3;
+/**
+ * An ink under this ratio against the page cannot be made out, so it is kept off that page.
+ * Deliberately low: it only stops near-twins (off-white on white), not pairs that are merely
+ * short of an accessibility grade. Two strong hues at 2.3:1 still read, and still get their turn.
+ */
+export const CYCLE_CONTRAST_FLOOR = 2;
 
-/** The weaker of the two text contrasts in an arrangement. */
-function legibility({ heading, body, bg }: Roles): number {
+/**
+ * What a turn of the cycle leaves behind when it had to hold an ink back: the full rotation, and
+ * what was shown in its place. The next turn picks up from `full`, so the held ink is not lost.
+ */
+export type CycleMemory = { full: ColorRoles; shown: ColorRoles };
+
+function sameRoles(a: ColorRoles, b: ColorRoles): boolean {
+  return (["heading", "body", "bg"] as const).every((k) => a[k].toLowerCase() === b[k].toLowerCase());
+}
+
+/** An ink that cannot be read on the page gives way to the other ink, when that one reads better. */
+function holdBackWeakInks({ heading, body, bg }: ColorRoles): ColorRoles {
   const page = hexToRgb(bg);
-  return Math.min(contrastRatio(hexToRgb(heading), page), contrastRatio(hexToRgb(body), page));
+  const h = contrastRatio(hexToRgb(heading), page);
+  const b = contrastRatio(hexToRgb(body), page);
+  return {
+    heading: h < CYCLE_CONTRAST_FLOOR && b > h ? body : heading,
+    body: b < CYCLE_CONTRAST_FLOOR && h > b ? heading : body,
+    bg,
+  };
 }
 
 /**
- * Two colors swap foreground and background. Three rotate through all three
- * roles, so each color takes its turn as the background, skipping any turn
- * that would leave the heading or the body unreadable on the page. When no
- * other color can carry the page, heading and body trade places instead.
+ * The colors the cycle is turning through. Usually the ones on show; after a turn that held an
+ * ink back, the full three, for as long as the colors on show are still the ones that turn dealt.
  */
-export function swapOrCycleColors({ heading, body, bg }: Roles): Roles {
-  if (!isThreeColor(heading, body)) return { heading: bg, body: bg, bg: heading };
-  // In order of preference: the two rotations, the same two with the inks traded, then only the inks traded
-  const turns: Roles[] = [
-    { heading: bg, body: heading, bg: body },
-    { heading: body, body: bg, bg: heading },
-    { heading, body: bg, bg: body },
-    { heading: bg, body, bg: heading },
-    { heading: body, body: heading, bg },
-  ];
-  return (
-    turns.find((t) => legibility(t) >= CYCLE_CONTRAST_FLOOR) ??
-    // Nothing is readable, so take the least bad
-    turns.reduce((best, t) => (legibility(t) > legibility(best) ? t : best))
-  );
+export function cyclePalette(current: ColorRoles, memory: CycleMemory | null): ColorRoles {
+  return memory && sameRoles(memory.shown, current) ? memory.full : current;
+}
+
+/**
+ * Two colors swap foreground and background. Three rotate through all three roles, so every
+ * color takes its turn as the background, whatever the other two are. Only then are the inks
+ * checked: one that cannot be read on the new page is held back for that turn, and the other
+ * ink sets both heading and body. It comes back on the next turn.
+ */
+export function cycleColors(current: ColorRoles, memory: CycleMemory | null): { roles: ColorRoles; memory: CycleMemory | null } {
+  const { heading, body, bg } = cyclePalette(current, memory);
+  if (!isThreeColor(heading, body)) return { roles: { heading: bg, body: bg, bg: heading }, memory: null };
+  const full = { heading: bg, body: heading, bg: body };
+  const shown = holdBackWeakInks(full);
+  return { roles: shown, memory: sameRoles(full, shown) ? null : { full, shown } };
 }

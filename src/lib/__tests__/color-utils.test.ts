@@ -18,7 +18,10 @@ import {
   nextSoftColorway,
   oklchContrast,
   oklchToHex,
-  swapOrCycleColors,
+  cycleColors,
+  cyclePalette,
+  type ColorRoles,
+  type CycleMemory,
   type Oklch,
 } from '../color-utils'
 import { ILLUSTRATION_TONES } from '../illustration-packs'
@@ -281,50 +284,94 @@ describe.each([
   })
 })
 
-describe('swapOrCycleColors', () => {
+describe('cycleColors', () => {
+  const ratio = (fg: string, bg: string) => contrastRatio(hexToRgb(fg), hexToRgb(bg))
+
+  /** Presses the button `times` times, carrying the memory along as the app does. */
+  function press(start: ColorRoles, times: number): ColorRoles[] {
+    const seen: ColorRoles[] = []
+    let roles = start
+    let memory: CycleMemory | null = null
+    for (let i = 0; i < times; i++) {
+      ;({ roles, memory } = cycleColors(roles, memory))
+      seen.push(roles)
+    }
+    return seen
+  }
+
   test('two colors swap foreground and background', () => {
-    expect(swapOrCycleColors({ heading: '#111111', body: '#111111', bg: '#eeeeee' }))
+    expect(cycleColors({ heading: '#111111', body: '#111111', bg: '#eeeeee' }, null).roles)
       .toEqual({ heading: '#eeeeee', body: '#eeeeee', bg: '#111111' })
   })
 
   test('three colors rotate, giving each a turn as the background', () => {
-    // Every pair clears the floor, so no turn is skipped
-    let c = { heading: '#000000', body: '#ffffff', bg: '#c00000' }
-    const bgs = []
-    for (let i = 0; i < 3; i++) {
-      c = swapOrCycleColors(c)
-      bgs.push(c.bg)
-    }
-    expect(bgs).toEqual(['#ffffff', '#000000', '#c00000'])
-    expect(c).toEqual({ heading: '#000000', body: '#ffffff', bg: '#c00000' })
+    const start = { heading: '#000000', body: '#ffffff', bg: '#c00000' }
+    const turns = press(start, 3)
+    expect(turns.map((t) => t.bg)).toEqual(['#ffffff', '#000000', '#c00000'])
+    expect(turns[2]).toEqual(start)
   })
 
-  test('two inks that only read on the page trade places instead of rotating', () => {
-    // Navy on charcoal, or charcoal on navy, is unreadable: neither can be the background
-    const start = { heading: '#14213d', body: '#2b2b2b', bg: '#f5f1e8' }
-    const next = swapOrCycleColors(start)
-    expect(next).toEqual({ heading: '#2b2b2b', body: '#14213d', bg: '#f5f1e8' })
-    expect(swapOrCycleColors(next)).toEqual(start)
+  test('two strong hues short of an accessibility grade still take their turns', () => {
+    // Forest & Terracotta on Paper 2: orange on green is 2.3:1, under AA but plainly readable
+    const start = { heading: '#ee6612', body: '#17633c', bg: '#f7f8f2' }
+    expect(ratio('#ee6612', '#17633c')).toBeLessThan(3)
+    expect(press(start, 3)).toEqual([
+      { heading: '#f7f8f2', body: '#ee6612', bg: '#17633c' },
+      { heading: '#17633c', body: '#f7f8f2', bg: '#ee6612' },
+      start,
+    ])
   })
 
-  test('a turn that would bury the text is skipped', () => {
-    // Yellow can carry the page with black, but white on yellow cannot be read
-    const next = swapOrCycleColors({ heading: '#ffd400', body: '#ffffff', bg: '#000000' })
-    const ratio = (fg: string) => contrastRatio(hexToRgb(fg), hexToRgb(next.bg))
-    expect(ratio(next.heading)).toBeGreaterThanOrEqual(CYCLE_CONTRAST_FLOOR)
-    expect(ratio(next.body)).toBeGreaterThanOrEqual(CYCLE_CONTRAST_FLOOR)
-    expect(next).not.toEqual({ heading: '#000000', body: '#ffd400', bg: '#ffffff' })
+  test('a near-twin of the page is held back, and the page still turns', () => {
+    // Off-white cannot be read on white, nor white on off-white, but each still gets to be the page
+    const start = { heading: '#e8e0dc', body: '#ffffff', bg: '#6b4433' }
+    expect(press(start, 3)).toEqual([
+      { heading: '#6b4433', body: '#6b4433', bg: '#ffffff' },
+      { heading: '#6b4433', body: '#6b4433', bg: '#e8e0dc' },
+      start,
+    ])
   })
 
-  test('every curated colorway stays readable through a full run of cycles', () => {
+  test('a held ink is still shown as part of the cycle', () => {
+    const start = { heading: '#e8e0dc', body: '#ffffff', bg: '#6b4433' }
+    const { roles, memory } = cycleColors(start, null)
+    expect(isThreeColor(roles.heading, roles.body)).toBe(false)
+    const palette = cyclePalette(roles, memory)
+    expect([palette.heading, palette.body, palette.bg].sort()).toEqual(['#6b4433', '#e8e0dc', '#ffffff'])
+  })
+
+  test('changing a color by hand drops the held ink', () => {
+    const { memory } = cycleColors({ heading: '#e8e0dc', body: '#ffffff', bg: '#6b4433' }, null)
+    const edited = { heading: '#102030', body: '#102030', bg: '#ffffff' }
+    expect(cyclePalette(edited, memory)).toEqual(edited)
+    expect(cycleColors(edited, memory).roles).toEqual({ heading: '#ffffff', body: '#ffffff', bg: '#102030' })
+  })
+
+  test('every curated colorway gives each color the page and comes back whole', () => {
     for (const colorway of COLORWAYS) {
-      let c = { heading: colorway.heading, body: colorway.body, bg: colorway.bg }
-      for (let i = 0; i < 6; i++) {
-        c = swapOrCycleColors(c)
-        const page = hexToRgb(c.bg)
-        expect(Math.min(contrastRatio(hexToRgb(c.heading), page), contrastRatio(hexToRgb(c.body), page))).toBeGreaterThanOrEqual(
-          CYCLE_CONTRAST_FLOOR
-        )
+      const start = { heading: colorway.heading, body: colorway.body, bg: colorway.bg }
+      const three = isThreeColor(start.heading, start.body)
+      const turns = press(start, three ? 3 : 2)
+      expect(turns[turns.length - 1], colorway.name).toEqual(start)
+      expect(new Set(turns.map((t) => t.bg.toLowerCase())).size, colorway.name).toBe(
+        new Set([start.heading, start.body, start.bg].map((c) => c.toLowerCase())).size
+      )
+    }
+  })
+
+  test('no ink is left on a page it cannot be read on while a better one is at hand', () => {
+    for (const colorway of COLORWAYS) {
+      let roles: ColorRoles = { heading: colorway.heading, body: colorway.body, bg: colorway.bg }
+      let memory: CycleMemory | null = null
+      // The curated arrangement itself is left alone; only the turns the cycle deals are checked
+      for (let i = 0; i < 2; i++) {
+        ;({ roles, memory } = cycleColors(roles, memory))
+        const { heading, body, bg } = cyclePalette(roles, memory)
+        const best = Math.max(ratio(heading, bg), ratio(body, bg))
+        for (const ink of [roles.heading, roles.body]) {
+          const r = ratio(ink, roles.bg)
+          expect(r >= CYCLE_CONTRAST_FLOOR || r === best, `${colorway.name}: ${ink} on ${roles.bg}`).toBe(true)
+        }
       }
     }
   })

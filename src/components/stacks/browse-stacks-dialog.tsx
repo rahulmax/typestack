@@ -26,7 +26,7 @@ import { useTypographyStore } from "@/store/typography-store";
 import { useUIStore } from "@/store/ui-store";
 import { useFontLoader } from "./use-gallery-fonts";
 import { Plus, Shuffle, Palette, Rainbow, ArrowLeftRight, RefreshCw, X } from "lucide-react";
-import { isThreeColor, nextHardColorway, nextMedColorway, nextSoftColorway, swapOrCycleColors } from "@/lib/color-utils";
+import { cycleColors, cyclePalette, isThreeColor, nextHardColorway, nextMedColorway, nextSoftColorway } from "@/lib/color-utils";
 import { useTheme } from "next-themes";
 import { canRenderFamily, getFontSource, resolveFontSources } from "@/lib/fonts";
 import type { FontSource } from "@/types/fonts";
@@ -215,10 +215,16 @@ export function BrowseStacksDialog({
     rollCopy();
   }
 
-  const isCycle = isThreeColor(headingColor, bodyColor);
+  // A turn of the cycle may hold a weak ink back, so the button follows the three it is turning through
+  const cycleMemory = useUIStore((s) => s.cycleMemory);
+  const setCycleMemory = useUIStore((s) => s.setCycleMemory);
+  const colors = { heading: headingColor, body: bodyColor, bg: backgroundColor };
+  const palette = cyclePalette(colors, cycleMemory);
+  const isCycle = isThreeColor(palette.heading, palette.body);
   function handleSwapOrCycle() {
-    const { heading, body, bg } = swapOrCycleColors({ heading: headingColor, body: bodyColor, bg: backgroundColor });
-    setColors(heading, body, bg);
+    const next = cycleColors(colors, cycleMemory);
+    setColors(next.roles.heading, next.roles.body, next.roles.bg);
+    setCycleMemory(next.memory);
   }
 
   return (

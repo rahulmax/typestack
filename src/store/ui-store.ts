@@ -2,6 +2,7 @@
 
 import { create } from "zustand";
 import { pickCopyIndex } from "@/data/copy-sets";
+import type { CycleMemory } from "@/lib/color-utils";
 import type { TypographyElement } from "@/types/typography";
 
 // The first two tabs are rendered by React; the rest are HTML pages in an iframe.
@@ -49,7 +50,10 @@ interface UIStore {
   patternSpacing: number;
   /** Which copy set the previews are written in; rerolled with colours and stacks. */
   copyIndex: number;
+  /** The ink the colour cycle is holding back, if its last turn had to; see cycleColors */
+  cycleMemory: CycleMemory | null;
 
+  setCycleMemory: (memory: CycleMemory | null) => void;
   togglePhone: () => void;
   stepZoom: (dir: 1 | -1) => void;
   resetZoom: () => void;
@@ -84,7 +88,9 @@ export const useUIStore = create<UIStore>()((set) => ({
   patternOpacity: 100,
   patternSpacing: 0,
   copyIndex: 0,
+  cycleMemory: null,
 
+  setCycleMemory: (memory) => set({ cycleMemory: memory }),
   togglePhone: () => set((state) => ({ phone: !state.phone })),
   stepZoom: (dir) =>
     set((state) => {
