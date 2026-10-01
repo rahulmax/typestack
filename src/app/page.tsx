@@ -151,7 +151,7 @@ export default function Home() {
               <BaseSettings />
             </div>
             <div className="module-groove" />
-            <div className="relative z-[2] flex flex-col gap-2 px-4 py-3">
+            <div className="relative z-[2] flex flex-col gap-4 px-4 py-4">
               <GroupControls
                 title="Headings"
                 group={headingsGroup}
