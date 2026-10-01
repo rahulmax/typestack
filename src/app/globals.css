@@ -1262,3 +1262,171 @@
   right: -8px;
   background: radial-gradient(circle at 100% 0, transparent 8px, var(--pv-tab-bg, var(--background)) 8.5px);
 }
+
+/* Radio dial — the tuning glass for color presets. The glass stays black in
+   both themes, like a dial window set into a silver chassis. */
+.radio-glass {
+  --radio-print: oklch(0.9 0.035 85);
+  --radio-needle: oklch(0.68 0.21 38);
+  --radio-lamp: oklch(0.72 0.12 65);
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  background: linear-gradient(180deg, oklch(0.12 0.006 60) 0%, oklch(0.09 0.006 60) 100%);
+  border: 1px solid oklch(0.08 0.005 60);
+  box-shadow:
+    inset 0 2px 8px oklch(0 0 0 / 50%),
+    inset 0 1px 2px oklch(0 0 0 / 40%),
+    0 1px 0 oklch(1 0 0 / 6%);
+  touch-action: none;
+  user-select: none;
+}
+/* Glass glare */
+.radio-glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(
+    115deg,
+    oklch(1 0 0 / 0%) 0%,
+    oklch(1 0 0 / 5%) 32%,
+    oklch(1 0 0 / 1.5%) 48%,
+    oklch(1 0 0 / 0%) 62%
+  );
+}
+
+/* One band of print. Unlit bands sit dark behind the glass; the lit one glows.
+   A lamp comes up faster than it dies. */
+.radio-band {
+  opacity: 0.26;
+  transition: opacity 0.4s ease-out, filter 0.4s ease-out;
+}
+.radio-band[data-active="true"] {
+  opacity: 1;
+  filter: drop-shadow(0 0 2.5px oklch(0.8 0.1 70 / 50%));
+  transition-duration: 0.14s;
+}
+.radio-band text {
+  fill: var(--radio-print);
+  font-family: var(--font-host-grotesk), system-ui, sans-serif;
+}
+.radio-band line,
+.radio-band path {
+  stroke: var(--radio-print);
+  fill: none;
+}
+
+/* Amber lamp behind a lit band */
+.radio-backlight {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(ellipse 60% 90% at 50% 50%, oklch(0.72 0.12 65 / 20%) 0%, oklch(0.72 0.12 65 / 7%) 60%, transparent 100%);
+  transition: opacity 0.4s ease-out;
+}
+.radio-backlight[data-active="true"] {
+  opacity: 1;
+  transition-duration: 0.14s;
+}
+
+.radio-needle {
+  position: absolute;
+  z-index: 2;
+  width: 1px;
+  pointer-events: none;
+  background: var(--radio-needle);
+  box-shadow:
+    0 0 3px oklch(0.68 0.21 38 / 90%),
+    0 0 9px oklch(0.68 0.21 38 / 45%);
+  transition: left 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.radio-needle-arm {
+  transform-origin: var(--pivot);
+  transition: transform 0.24s cubic-bezier(0.3, 1.3, 0.5, 1);
+}
+
+/* Drum rows roll past the window; the ones curving away are squashed and dim */
+.radio-drum-row {
+  position: absolute;
+  inset: 0 0 auto 0;
+  opacity: 0.3;
+  transition: transform 0.42s cubic-bezier(0.3, 0.9, 0.3, 1), opacity 0.42s ease-out;
+}
+.radio-drum-row[data-active="true"] {
+  opacity: 1;
+}
+
+/* Knurled edge of a round tuning knob */
+.radio-knurl {
+  background: repeating-conic-gradient(
+    oklch(0 0 0 / 40%) 0deg 1.5deg,
+    oklch(1 0 0 / 12%) 1.5deg 3deg,
+    transparent 3deg 6deg
+  );
+  mask: radial-gradient(circle, transparent calc(70.7% - 6px), black calc(70.7% - 5px));
+}
+
+/* Thumbwheel seen edge-on: ridges roll under a cylinder shadow */
+.radio-thumbwheel {
+  --ridge: 5px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 3px;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  background-color: oklch(0.34 0.005 60);
+  background-image: repeating-linear-gradient(
+    90deg,
+    oklch(0 0 0 / 50%) 0 1px,
+    oklch(1 0 0 / 16%) 1px 2px,
+    transparent 2px var(--ridge)
+  );
+  background-position: var(--roll, 0px) 0;
+  box-shadow:
+    0 0 0 1px oklch(0.1 0.005 60),
+    0 1px 0 1px oklch(1 0 0 / 6%);
+  transition: background-position 0.15s ease-out;
+}
+.radio-thumbwheel:active {
+  cursor: grabbing;
+}
+.radio-thumbwheel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    oklch(0 0 0 / 75%) 0%,
+    oklch(0 0 0 / 0%) 28%,
+    oklch(1 0 0 / 10%) 50%,
+    oklch(0 0 0 / 0%) 72%,
+    oklch(0 0 0 / 75%) 100%
+  );
+}
+.radio-thumbwheel[data-axis="y"] {
+  background-image: repeating-linear-gradient(
+    0deg,
+    oklch(0 0 0 / 50%) 0 1px,
+    oklch(1 0 0 / 16%) 1px 2px,
+    transparent 2px var(--ridge)
+  );
+  background-position: 0 var(--roll, 0px);
+}
+.radio-thumbwheel[data-axis="y"]::after {
+  background: linear-gradient(
+    180deg,
+    oklch(0 0 0 / 75%) 0%,
+    oklch(0 0 0 / 0%) 28%,
+    oklch(1 0 0 / 10%) 50%,
+    oklch(0 0 0 / 0%) 72%,
+    oklch(0 0 0 / 75%) 100%
+  );
+}
+.radio-thumbwheel[data-tint="orange"] {
+  background-color: oklch(0.66 0.17 48);
+}
