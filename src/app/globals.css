@@ -903,6 +903,84 @@
   }
 }
 
+/* Latched key lamp — a mode that stays on lights the rim and the glyph.
+   The randomizer's lamp, amber in both themes, held instead of pulsed.
+   A lamp comes up faster than it dies. */
+.hw-btn-lit {
+  --lit: oklch(0.7 0.2 65);
+  --lit-glyph: oklch(0.56 0.16 55);
+}
+.dark .hw-btn-lit {
+  --lit: oklch(0.76 0.17 65);
+  --lit-glyph: oklch(0.87 0.13 72);
+}
+.hw-btn-lit::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  pointer-events: none;
+  border: 1px solid var(--lit);
+  border-radius: inherit;
+  opacity: 0;
+  box-shadow:
+    0 0 6px color-mix(in oklch, var(--lit) 55%, transparent),
+    0 0 16px color-mix(in oklch, var(--lit) 35%, transparent),
+    0 0 32px color-mix(in oklch, var(--lit) 18%, transparent),
+    0 0 48px color-mix(in oklch, var(--lit) 8%, transparent),
+    inset 0 0 6px color-mix(in oklch, var(--lit) 25%, transparent);
+  transition: opacity 0.4s ease-out;
+}
+.hw-btn-lit[data-active="true"]::after {
+  opacity: 1;
+  transition-duration: 0.12s;
+}
+.hw-btn-lit > svg {
+  transition: color 0.4s ease-out, filter 0.4s ease-out;
+}
+.hw-btn-lit[data-active="true"] > svg {
+  color: var(--lit-glyph);
+  filter:
+    drop-shadow(0 0 2px color-mix(in oklch, var(--lit) 90%, transparent))
+    drop-shadow(0 0 6px color-mix(in oklch, var(--lit) 45%, transparent));
+  transition-duration: 0.12s;
+}
+
+/* Tight halo — the same lamp behind a smaller bloom */
+.hw-btn-lit-tight::after {
+  box-shadow:
+    0 0 4px color-mix(in oklch, var(--lit) 60%, transparent),
+    0 0 10px color-mix(in oklch, var(--lit) 28%, transparent),
+    inset 0 0 5px color-mix(in oklch, var(--lit) 22%, transparent);
+}
+
+/* Breathe — the randomizer's pulse, slowed to a resting pace */
+.hw-btn-lit-breathe[data-active="true"]::after {
+  animation: hw-lit-breathe 3.2s ease-in-out infinite;
+}
+@keyframes hw-lit-breathe {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+/* Strike — catches like a lamp on switch-on, then holds */
+.hw-btn-lit-strike[data-active="true"]::after {
+  animation: hw-lit-strike 0.7s ease-out;
+}
+@keyframes hw-lit-strike {
+  0% { opacity: 0; }
+  8% { opacity: 1; filter: brightness(1.5); }
+  18% { opacity: 0.3; }
+  34% { opacity: 1; filter: brightness(1.7); }
+  100% { opacity: 1; filter: brightness(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hw-btn-lit-breathe[data-active="true"]::after,
+  .hw-btn-lit-strike[data-active="true"]::after {
+    animation: none;
+  }
+}
+
 /* Cassette slot — button recesses on press, snaps back */
 .cassette-eject-trigger:active {
   box-shadow:

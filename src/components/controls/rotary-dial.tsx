@@ -105,7 +105,7 @@ const RollingDigit = memo(function RollingDigit({ digit }: { digit: number }) {
   )
 })
 
-const MechanicalCounter = memo(function MechanicalCounter({ value }: { value: number }) {
+export const MechanicalCounter = memo(function MechanicalCounter({ value }: { value: number }) {
   const str = value.toFixed(3)
   const chars = str.split("")
 
