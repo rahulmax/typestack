@@ -5,7 +5,15 @@ import { useComputedScale } from '@/hooks/use-computed-scale'
 import { useTypographyStore } from '@/store/typography-store'
 import { useUIStore } from '@/store/ui-store'
 import { COPY_SETS } from '@/data/copy-sets'
-import { fetchFontOptions, getFontLabel, getFontStack } from '@/lib/fonts'
+import { ArrowUpRight } from 'lucide-react'
+import {
+  FONT_SOURCE_NAMES,
+  fetchFontOptions,
+  getFontLabel,
+  getFontPageUrl,
+  getFontSource,
+  getFontStack,
+} from '@/lib/fonts'
 import { BODY_ELEMENTS } from '@/types/typography'
 import type { ResolvedElementStyle, TypographyElement } from '@/types/typography'
 
@@ -88,6 +96,22 @@ function Label({ children, color }: { children: React.ReactNode; color: string }
     >
       {children}
     </span>
+  )
+}
+
+/** The family's source, set as a colophon line that leads to its page there. */
+function SourceLink({ fontFamily, color }: { fontFamily: string; color: string }) {
+  return (
+    <a
+      href={getFontPageUrl(fontFamily)}
+      target="_blank"
+      rel="noreferrer"
+      className="mt-1 inline-flex items-center gap-1 self-start text-[10px] font-medium uppercase tracking-[0.14em] opacity-55 transition-opacity hover:opacity-100"
+      style={{ color, fontFamily: MONO }}
+    >
+      {FONT_SOURCE_NAMES[getFontSource(fontFamily)]}
+      <ArrowUpRight className="size-3" />
+    </a>
   )
 }
 
@@ -191,6 +215,7 @@ function Family({
           <Label color={color}>
             {weights.length} {weights.length === 1 ? 'weight' : 'weights'} shown / set in {weight}
           </Label>
+          <SourceLink fontFamily={fontFamily} color={color} />
         </div>
       </div>
       <WeightStack fontFamily={fontFamily} weights={weights} word={word} color={color} columns={solo} />

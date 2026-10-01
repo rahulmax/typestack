@@ -1235,6 +1235,35 @@
   color: oklch(0.78 0.16 65);
   text-shadow: 0 0 6px oklch(0.78 0.16 65 / 35%);
 }
+/* Way out to a family's page at its source: dark until its row is highlighted,
+   amber under the pointer. */
+.hw-font-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  margin: -4px -4px -4px 0;
+  border-radius: 3px;
+  color: oklch(0.45 0.01 60);
+  opacity: 0;
+  transition: opacity 120ms ease-out, color 120ms ease-out;
+}
+.dark .hw-font-link {
+  color: oklch(0.78 0.01 80);
+}
+[data-selected="true"] > * > .hw-font-link,
+.hw-font-link:focus-visible {
+  opacity: 0.7;
+}
+.hw-font-link:hover {
+  color: oklch(0.62 0.11 65);
+  opacity: 1;
+}
+.dark .hw-font-link:hover {
+  color: oklch(0.78 0.16 65);
+  filter: drop-shadow(0 0 4px oklch(0.78 0.16 65 / 45%));
+}
 /* Amber LED dot for the Adobe source: dark until its selector is engaged */
 .hw-font-source-led {
   width: 5px;

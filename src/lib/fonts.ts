@@ -6,11 +6,13 @@ import {
   loadFontPreview as loadGooglePreview,
   loadFontFull as loadGoogleFull,
   getFontLinkUrl as getGoogleLinkUrl,
+  getGoogleFontPageUrl,
   buildGoogleImport,
 } from "./google-fonts";
 import {
   ADOBE_KIT_PLACEHOLDER,
   fetchAdobeKit,
+  getAdobeFontPageUrl,
   getKitCssUrl,
   getLoadedKit,
   isAdobeFamily,
@@ -24,6 +26,7 @@ import {
   buildFontsourceImports,
   getFontsourceCssUrls,
   getFontsourceFamily,
+  getFontsourcePageUrl,
   isFontsourceFamily,
   loadFontsourceFull,
   loadFontsourcePreview,
@@ -151,6 +154,18 @@ export function canRenderFamily(family: string): boolean {
 export function getFontSource(family: string): FontSource {
   if (isKitSlug(family)) return "adobe";
   return isFontsourceFamily(family) ? "fontsource" : "google";
+}
+
+export const FONT_SOURCE_NAMES: Record<FontSource, string> = {
+  google: "Google Fonts",
+  adobe: "Adobe Fonts",
+  fontsource: "Fontsource",
+};
+
+/** The family's own page at the source that serves it: where a designer goes to get the font. */
+export function getFontPageUrl(family: string): string {
+  if (isKitSlug(family)) return getAdobeFontPageUrl(family);
+  return getFontsourcePageUrl(family) ?? getGoogleFontPageUrl(family);
 }
 
 /** Settles once kit membership is known, so `canRenderFamily` answers truthfully. */

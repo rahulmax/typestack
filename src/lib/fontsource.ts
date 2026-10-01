@@ -21,6 +21,12 @@ export function getFontsourceFamily(family: string): FontsourceFamily | undefine
   return BY_FAMILY.get(family);
 }
 
+/** A family's page on Fontsource, with its downloads and install notes. */
+export function getFontsourcePageUrl(family: string): string | undefined {
+  const font = BY_FAMILY.get(family);
+  return font && `https://fontsource.org/fonts/${font.id}`;
+}
+
 export const FONTSOURCE_OPTIONS: FontOption[] = FONTSOURCE_FONTS.map((f) => ({
   family: f.family,
   label: f.family,

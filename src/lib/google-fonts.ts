@@ -59,6 +59,11 @@ export function getFontLinkUrl(family: string, weights: number[] = [400, 700]): 
   return `https://fonts.googleapis.com/css2?family=${encodeURIComponent(family)}:ital,wght@${weightStr}&display=swap`;
 }
 
+/** A family's specimen page on Google Fonts, where it can be downloaded. */
+export function getGoogleFontPageUrl(family: string): string {
+  return `https://fonts.google.com/specimen/${encodeURIComponent(family).replace(/%20/g, "+")}`;
+}
+
 export function buildGoogleImport(family: string, weights: number[]): string {
   const wghtList = weights.map((w) => `0,${w};1,${w}`).join(";")
   return `@import url('https://fonts.googleapis.com/css2?family=${encodeURIComponent(family)}:ital,wght@${wghtList}&display=swap');`

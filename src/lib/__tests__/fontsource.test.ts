@@ -2,7 +2,14 @@ import { describe, test, expect } from 'vitest'
 import { FONTSOURCE_FONTS } from '@/data/fontsource-fonts'
 import { POPULAR_FONTS } from '@/data/popular-fonts'
 import { buildFontsourceImports, getFontsourceCssUrls, matchWeight } from '../fontsource'
-import { buildFontImports, getFontCategory, getFontLinkUrls, getFontSource, getFontStack } from '../fonts'
+import {
+  buildFontImports,
+  getFontCategory,
+  getFontLinkUrls,
+  getFontPageUrl,
+  getFontSource,
+  getFontStack,
+} from '../fonts'
 import { isKitSlug } from '../adobe-fonts'
 
 describe('curated list', () => {
@@ -94,6 +101,18 @@ describe('source routing', () => {
   test('uses the curated category, overrides included', () => {
     expect(getFontCategory('Monaspace Radon')).toBe('monospace')
     expect(getFontStack('Iosevka Etoile')).toBe("'Iosevka Etoile', serif")
+  })
+})
+
+describe('getFontPageUrl', () => {
+  test('sends each family to its page at its own source', () => {
+    expect(getFontPageUrl('Redaction 35')).toBe('https://fontsource.org/fonts/redaction-35')
+    expect(getFontPageUrl('Open Sans')).toBe('https://fonts.google.com/specimen/Open+Sans')
+    expect(getFontPageUrl('proxima-nova')).toBe('https://fonts.adobe.com/fonts/proxima-nova')
+  })
+
+  test('corrects the kit slugs Adobe does not redirect', () => {
+    expect(getFontPageUrl('lemonde-journal')).toBe('https://fonts.adobe.com/fonts/le-monde-journal')
   })
 })
 

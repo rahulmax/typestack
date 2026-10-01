@@ -57,6 +57,30 @@ export function labelFromSlug(slug: string): string {
     .join(" ");
 }
 
+const ADOBE_SITE = "https://fonts.adobe.com";
+
+/**
+ * Kit slugs whose family page Adobe doesn't redirect to. Berthold Baskerville
+ * has no page left, so a search is the closest thing to one.
+ */
+const PAGE_PATHS: Record<string, string> = {
+  "area-normal": "/fonts/area",
+  "berthold-baskerville-pro": "/search?query=Berthold+Baskerville",
+  "ff-meta-serif-web-pro": "/fonts/ff-meta-serif",
+  "lemonde-journal": "/fonts/le-monde-journal",
+  "lemonde-sans": "/fonts/le-monde-sans",
+  orpheuspro: "/fonts/orpheus",
+};
+
+/**
+ * A family's page on Adobe Fonts, where it can be activated. Adobe redirects
+ * most CSS slugs to the family they belong to ("freight-text-pro" lands on
+ * "freight-text"), so the slug is the path unless it is listed above.
+ */
+export function getAdobeFontPageUrl(slug: string): string {
+  return `${ADOBE_SITE}${PAGE_PATHS[slug] ?? `/fonts/${slug}`}`;
+}
+
 /** Maps a CSS generic family, which is all the kit tells us, onto our categories. */
 function categoryFromGeneric(generic: string): FontCategory {
   switch (generic) {
