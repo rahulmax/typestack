@@ -200,8 +200,6 @@ export const rooftop: CopySet = {
         'Visitors expect a solemn discipline. Ada prefers to talk about weather, gutters and her ongoing argument with Lionel Hask. The secret of good field work, she says, is to look at the small things first, and to be pleasantly surprised.',
       ],
     },
-    quote: '“A roof is only a garden that has not yet been introduced.”',
-    quoteSource: 'Ada Pell, from the top of the stair',
     portrait: {
       caption: ['Plate II. A member, quite delighted, has just been shown a new moss.', 'Photographed at a survey'],
       eyebrow: 'The rival',

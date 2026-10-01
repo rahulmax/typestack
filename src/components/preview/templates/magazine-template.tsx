@@ -4,8 +4,8 @@ import { photoScript } from "./photo-script";
 
 // An open magazine: the contents page on the left, the feature on the right, lying on the desk.
 // The spread keeps a real page width instead of squeezing to the frame, so its tab opens zoomed
-// out (TAB_ZOOM in the UI store) to show both pages; at full size it scrolls sideways. The inside
-// margins are the widest, so the two text blocks stand clear of the fold.
+// out (TAB_ZOOM in the UI store) to show both pages; at full size it scrolls sideways. There is no
+// gutter: the pages share one sheet and a hairline marks where one ends and the next begins.
 export const magazineTemplate: PreviewTemplate = {
   id: "magazine",
   name: "Magazine",
@@ -16,23 +16,17 @@ export const magazineTemplate: PreviewTemplate = {
 <style>
   .mg {
     --mg-line: color-mix(in srgb, currentColor 28%, transparent);
-    /* The fold is a shadow, so it darkens on light and dark paper alike */
-    --mg-fold: color-mix(in srgb, black 20%, transparent);
-    --mg-fold-soft: color-mix(in srgb, black 6%, transparent);
     /* Two pages wide at the least. The 16px keeps clear of a scrollbar. */
     --mg-w: clamp(1640px, 100vw - 4rem - 16px, 2400px);
-    /* Margins are a share of the spread, within limits; the gutter is the inside pair */
-    --mg-in: clamp(4rem, 5cqi, 6.5rem);
-    --mg-out: clamp(2.75rem, 3.6cqi, 4.75rem);
+    /* Margins are a share of the spread, within limits, and the same on all four sides of a page */
+    --mg-pad: clamp(2.75rem, 3.6cqi, 4.75rem);
     container: mg / inline-size;
     width: var(--mg-w); margin: 0 auto; padding: 0.5rem 0 3rem;
   }
   .mg hr { border: none; border-top: 1px solid var(--mg-line); margin: 0; }
   .mg-sheet { display: grid; grid-template-columns: 1fr 1fr; background: var(--bg-color); box-shadow: 0 0 0 1px color-mix(in srgb, currentColor 14%, transparent), 0 1.75rem 3.5rem -2rem color-mix(in srgb, black 50%, transparent); }
-  .mg-page { display: flex; flex-direction: column; justify-content: space-between; row-gap: 3.25rem; min-width: 0; padding: 2.25rem var(--mg-out) 2rem; }
-  /* Each page curves into shadow at the fold, with a hairline where the two meet */
-  .mg-verso { padding-right: var(--mg-in); background: linear-gradient(to left, var(--mg-fold), var(--mg-fold-soft) calc(var(--mg-in) * 0.3), transparent calc(var(--mg-in) * 0.85)); }
-  .mg-recto { padding-left: var(--mg-in); background: linear-gradient(to right, var(--mg-fold), var(--mg-fold-soft) calc(var(--mg-in) * 0.3), transparent calc(var(--mg-in) * 0.85)); box-shadow: inset 1px 0 0 color-mix(in srgb, black 35%, transparent); }
+  .mg-page { display: flex; flex-direction: column; justify-content: space-between; row-gap: 3.25rem; min-width: 0; padding: 2.25rem var(--mg-pad) 2rem; }
+  .mg-recto { box-shadow: inset 1px 0 0 var(--mg-line); }
 
   .mg-strap { display: flex; justify-content: space-between; gap: 1rem; padding-bottom: 0.9rem; }
   .mg-strap small, .mg-nav small, .mg-run small, .mg-folio small { text-transform: uppercase; letter-spacing: 0.16em; }
@@ -65,11 +59,6 @@ export const magazineTemplate: PreviewTemplate = {
   .mg-cols h4 { margin: 1.5rem 0 0.75rem; break-after: avoid; }
   .mg-story .mg-cols > p:first-of-type::first-letter { float: left; font-size: 5em; line-height: 0.8; font-weight: 400; padding: 0.08em 0.1em 0 0; }
 
-  .mg-quote { text-align: center; }
-  .mg-quote blockquote { max-width: 46rem; margin: 0 auto; }
-  .mg-quote blockquote p { margin: 0 0 1.25rem; text-wrap: balance; }
-  .mg-quote small { text-transform: uppercase; letter-spacing: 0.16em; }
-
   .mg-asym { display: grid; grid-template-columns: 4fr 5fr; column-gap: 3rem; align-items: center; }
   .mg-asym .photo { aspect-ratio: 4 / 5; }
   .mg-asym .mg-cap { flex-direction: column; gap: 0.15rem; }
@@ -84,7 +73,6 @@ export const magazineTemplate: PreviewTemplate = {
      at the edge, poster style, with no ellipsis. */
   .mg-strap small, .mg-nav small, .mg-run small, .mg-folio small, .mg-end h6 { white-space: nowrap; overflow-x: clip; text-overflow: clip; }
   .mg-cover h1 { overflow-x: clip; clip-path: inset(-0.5em -0.5em -0.35em); max-height: 4lh; }
-  .mg .mg-quote .display-3 { overflow-x: clip; clip-path: inset(-0.5em -0.5em -0.35em); max-height: 4lh; }
   .mg-story h2, .mg-asym h3, .mg-piece h3 { overflow-x: clip; clip-path: inset(-0.5em -0.5em -0.35em); max-height: 3lh; }
   .mg .mg-name, .mg-toc-row h5 { overflow-x: clip; clip-path: inset(-0.5em -0.5em -0.35em); max-height: 2lh; }
   .mg-strap small, .mg-nav small, .mg-run small, .mg-folio small { min-width: 0; }
@@ -97,7 +85,7 @@ export const magazineTemplate: PreviewTemplate = {
   @media (max-width: 800px) {
     .mg { width: auto; padding: 0 0 2rem; }
     .mg-sheet { grid-template-columns: minmax(0, 1fr); box-shadow: none; }
-    .mg-page, .mg-verso, .mg-recto { row-gap: 2.5rem; padding: 1.5rem 1.25rem; background: none; box-shadow: none; }
+    .mg-page, .mg-recto { row-gap: 2.5rem; padding: 1.5rem 1.25rem; box-shadow: none; }
     .mg-recto { border-top: 1px solid var(--mg-line); }
     .mg-nav { gap: 1.5rem; }
     .mg-asym { column-gap: 2rem; }
@@ -116,7 +104,7 @@ export const magazineTemplate: PreviewTemplate = {
     .mg-cap { flex-direction: column; gap: 0.15rem; }
   }
   @media (max-width: 480px) {
-    .mg-page, .mg-verso, .mg-recto { padding: 1.25rem 0.75rem; }
+    .mg-page { padding: 1.25rem 0.75rem; }
   }
 </style>
 
@@ -152,13 +140,6 @@ export const magazineTemplate: PreviewTemplate = {
         </div>
       </section>
 
-      <section class="mg-end">
-        <span class="eyebrow">Contributors</span>
-        <div class="mg-end-list">
-          ${c.contributors.map((p) => `<div><h6>${p.name}</h6><p><small>${p.note}</small></p></div>`).join("\n          ")}
-        </div>
-      </section>
-
       <div class="mg-folio"><small>2</small><small>${c.footer[0]}</small></div>
     </article>
 
@@ -172,13 +153,6 @@ export const magazineTemplate: PreviewTemplate = {
           ${c.story.paragraphs.map((p) => `<p>${p}</p>`).join("\n          ")}
         </div>
       </section>
-
-      <div class="mg-quote">
-        <blockquote>
-          <p class="display-3"><em>${c.quote}</em></p>
-          <small>${c.quoteSource}</small>
-        </blockquote>
-      </div>
 
       <section class="mg-asym">
         <figure>
@@ -198,6 +172,13 @@ export const magazineTemplate: PreviewTemplate = {
           ${c.spread.paragraphs.map((p) => `<p>${p}</p>`).join("\n          ")}
           <h4>${c.spread.subhead}</h4>
           ${c.spread.after.map((p) => `<p>${p}</p>`).join("\n          ")}
+        </div>
+      </section>
+
+      <section class="mg-end">
+        <span class="eyebrow">Contributors</span>
+        <div class="mg-end-list">
+          ${c.contributors.map((p) => `<div><h6>${p.name}</h6><p><small>${p.note}</small></p></div>`).join("\n          ")}
         </div>
       </section>
 

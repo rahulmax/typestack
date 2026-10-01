@@ -200,8 +200,6 @@ export const orbital: CopySet = {
         'Over the years he has carried a bride, a goat, a full brass band and a very quiet man who paid in coins and got off at every stop. Imre remembers all of them. It is, he says, the only part of the job that cannot be timetabled.',
       ],
     },
-    quote: '“A bus is a small room that moves. You had better be polite in it.”',
-    quoteSource: 'Imre Vasko, at the depot gate',
     portrait: {
       caption: ['Plate II. A regular, in good spirits, at the usual stop.', 'Photographed on the top deck'],
       eyebrow: 'The regular',

@@ -200,8 +200,6 @@ export const letterhouse: CopySet = {
         'Visitors expect a grand story of art. Odile prefers to talk about weather, lorries and how to keep a straight line when the whole street is honking. The secret, she says, is to stop listening and start breathing out.',
       ],
     },
-    quote: '“A sign is only a very polite shout, painted so that it stays polite in the rain.”',
-    quoteSource: 'Odile Marrow, at the shop door',
     portrait: {
       caption: ['Plate II. Toby, delighted, has just been told the paint is dry.', 'Photographed between coats'],
       eyebrow: 'The apprentice',

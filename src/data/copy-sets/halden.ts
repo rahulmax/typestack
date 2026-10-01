@@ -200,8 +200,6 @@ export const halden: CopySet = {
         'To visit her is to be handed a blanket. Ewan, who arrived for a quick photograph in December, reports that he was holding a star chart within ten minutes, and that he has not been allowed to leave the rota since.',
       ],
     },
-    quote: '“A discovery is only patience, given a very good view.”',
-    quoteSource: 'Eilidh, to a visiting student',
     portrait: {
       caption: ['Plate II. A volunteer, laughing at a joke told to the whole dome.', 'Caught between two clear hours'],
       eyebrow: 'The Volunteer',

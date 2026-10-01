@@ -200,8 +200,6 @@ export const spoke: CopySet = {
         'To ride with her is to be led. Agnieszka Wrona, who did the loop in November, reports that the route took in two car parks, a bakery yard and a shortcut that was, strictly speaking, a garden. Ximena waved to everyone. Everyone waved back.',
       ],
     },
-    quote: '“A shortcut is only a road you have learned to trust.”',
-    quoteSource: 'Wet Ximena, to a new recruit',
     portrait: {
       caption: ['Plate II. A rider at the base, still laughing at the last call.', 'Taken between two runs'],
       eyebrow: 'The rider',

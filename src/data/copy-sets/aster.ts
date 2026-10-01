@@ -200,8 +200,6 @@ export const aster: CopySet = {
         'To swim beside her is to be encouraged. Marisol Quayle, who joined the dawn lane in the spring, reports that the first length was slow, the second was a joy and the third was accompanied by a running commentary on the gulls.',
       ],
     },
-    quote: '“A cold swim is just a warm day that has not happened yet.”',
-    quoteSource: 'Dot Farrow, to the new lifeguard',
     portrait: {
       caption: ['Plate II. A swimmer on the steps, still laughing after the plunge.', 'Taken just after the first length'],
       eyebrow: 'The swimmer',

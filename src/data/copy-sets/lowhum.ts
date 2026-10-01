@@ -200,8 +200,6 @@ export const lowhum: CopySet = {
         'To watch her at work is to see patience treated as a craft. She lowers the needle with the tips of two fingers, steps back, and studies the room’s faces for the moment they stop being polite and start listening.',
       ],
     },
-    quote: '“A good room is one where nobody reaches for their phone until the side is over.”',
-    quoteSource: 'Dot, at closing time',
     portrait: {
       caption: ['Plate II. A regular, mid-laugh, halfway through a record she has heard twice.', 'Photographed between tracks'],
       eyebrow: 'The Regular',

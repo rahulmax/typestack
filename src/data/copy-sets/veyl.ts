@@ -200,8 +200,6 @@ export const veyl: CopySet = {
         'To visit her is to be expected. Adept Varrow, who made the crossing in the ebb of Thaw, reports that tea had already been poured, and that it was cold in a way that suggested it would be hot in an hour she had not yet reached.',
       ],
     },
-    quote: '“A vigil is only a promise that the evening will be introduced.”',
-    quoteSource: 'The Keeper, to the Provost',
     portrait: {
       caption: ['Plate II. The Keeper, laughing at a question she has already answered.', 'Exposed from memory, in advance'],
       eyebrow: 'The Keeper',

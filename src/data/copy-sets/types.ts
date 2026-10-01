@@ -124,8 +124,6 @@ export interface MagazineCopy {
   plateCaption: Two<string>
   toc: Four<{ page: string; title: string; note: string }>
   story: { eyebrow: string; title: string; paragraphs: Three<string> }
-  quote: string
-  quoteSource: string
   /** The tall photo is a candid portrait of a smiling person. Caption: [caption, credit]. */
   portrait: { caption: Two<string>; eyebrow: string; title: string; paragraphs: Two<string> }
   spread: { title: string; paragraphs: Two<string>; subhead: string; after: Two<string> }

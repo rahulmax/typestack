@@ -200,8 +200,6 @@ export const sorrel: CopySet = {
         'To arrive is to be greeted. Odile Brandt, who joined the hotel last spring, reports that a cup of cocoa was already waiting on her first evening, and that it was warm in the peculiar way that suggested he had heard her on the stairs.',
       ],
     },
-    quote: '“A good hotel is a place where you are known before you have introduced yourself.”',
-    quoteSource: 'Aurel Quill, to a very new guest',
     portrait: {
       caption: ['Plate II. A guest, caught laughing in the ballroom doorway.', 'Photographed between dances'],
       eyebrow: 'The guest',

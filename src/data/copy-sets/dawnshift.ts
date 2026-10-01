@@ -200,8 +200,6 @@ export const dawnshift: CopySet = {
         'To visit her at that hour is to be handed an apron. Caetano, who arrived for a quick photograph in January, reports that he was shaping rolls within ten minutes, and that he has not yet been allowed to leave the rota.',
       ],
     },
-    quote: '“A good loaf is only kindness, given time to rise.”',
-    quoteSource: 'Bernie, to the new starter',
     portrait: {
       caption: ['Plate II. A neighbour, laughing at a joke she has heard every morning for years.', 'Snapped on the way to the counter'],
       eyebrow: 'The Neighbour',
